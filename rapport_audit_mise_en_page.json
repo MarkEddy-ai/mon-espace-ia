@@ -1,0 +1,25 @@
+{
+  "score_typographique": 100,
+  "total_anomalies_detectees": 0,
+  "audit_manuscrit_md": {
+    "doublons_numerotation": [],
+    "titres_consecutifs_doubles": [],
+    "markdown_brut_dans_callout": [],
+    "separateurs_orphelins_avant_chapitre": [],
+    "lignes_vides_dans_callouts": 0
+  },
+  "audit_html_print": {
+    "balises_h3_doubles": 0,
+    "syntaxe_markdown_fuite": [],
+    "cesures_tableau_actives": false,
+    "paragraphes_vides": 0,
+    "blockquotes_vides": 0
+  },
+  "audit_pdf_print": {
+    "total_pages": 128,
+    "pages_quasi_vides": [],
+    "pages_avec_doublon_titre": [],
+    "pages_avec_syntaxe_brute": [],
+    "cesures_suspectes": []
+  }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@600;700;800&display=swap');
+
+  /* GÉOMÉTRIE KDP BROCHÉ 6x9 POUCES */
+  @page {
+    size: 6in 9in;
+    margin-top: 0.85in;
+    margin-bottom: 0.80in;
+  }
+
+  /* Page paire (gauche / Verso) : gouttière à droite */
+  @page :left {
+    margin-left: 0.70in;
+    margin-right: 0.90in;
+    @top-left {
+      content: counter(page);
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 8pt;
+      color: #64748b;
+    }
+    @top-center {
+      content: "{{TITRE_LIVRE}}";
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 7.5pt;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #64748b;
+    }
+  }
+
+  /* Page impaire (droite / Recto) : gouttière à gauche */
+  @page :right {
+    margin-left: 0.90in;
+    margin-right: 0.70in;
+    @top-right {
+      content: counter(page);
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 8pt;
+      color: #64748b;
+    }
+    @top-center {
+      content: string(chapitre_courant);
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 7.5pt;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #64748b;
+    }
+  }
+
+  /* SUPPRESSION RADICALE DE L'ENCOCHE / EN-TÊTE SUR LA PREMIÈRE PAGE */
+  @page :first {
+    margin-top: 0.85in;
+    @top-left { content: none !important; }
+    @top-center { content: none !important; }
+    @top-right { content: none !important; }
+  }
+
+  body {
+    font-family: 'EB Garamond', Georgia, serif;

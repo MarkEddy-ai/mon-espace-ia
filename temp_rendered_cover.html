@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @page {
+      size: 12.7635in 9.2500in;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 12.7635in;
+      height: 9.2500in;
+      overflow: hidden;
+      background-color: #1a0f0a;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #ffffff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .cover-canvas {
+      width: 12.7635in;
+      height: 9.2500in;
+      display: flex;
+      flex-direction: row;
+      position: relative;
+    }
+
+    .bg-shading-layer {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 75% 32%, rgba(229, 184, 105, 0.22) 0%, transparent 48%), radial-gradient(circle at 25% 65%, rgba(180, 83, 9, 0.15) 0%, transparent 45%), radial-gradient(circle at 50% 50%, #291811 0%, #0f0704 100%);
+      z-index: 2;
+    }
+
+    .grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(229, 184, 105, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(229, 184, 105, 0.05) 1px, transparent 1px);
+      background-size: 0.35in 0.35in;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .panel {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+    }
+
+    /* 4ÈME DE COUVERTURE */
+    .back-cover {
+      width: 6.1250in;
+      padding: 0.85in 0.85in 0.65in 0.85in;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .back-tag {
+      font-size: 0.12in;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      color: #e5b869;
+      text-transform: uppercase;
+      margin-bottom: 0.18in;
+      display: flex;
+      align-items: center;
+      gap: 0.1in;
+    }
+
+    .back-tag::before {
+      content: '';
+      width: 0.25in;
+      height: 2px;
+      background: #e5b869;
+    }
+
+    .back-title {
+      font-family: Georgia, serif;
+      font-size: 0.28in;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #f8fafc;
+      margin-bottom: 0.22in;
+    }
+
+    .back-pitch {
+      font-size: 0.165in;
+      line-height: 1.8;
+      color: #cbd5e1;
+      font-weight: 300;
+      margin-bottom: 0.3in;
+    }
+
+    .back-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.18in;
+    }
+
+    .back-points li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.14in;
+      font-size: 0.16in;
+      color: #f1f5f9;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .bullet {
+      width: 0.08in;
+      height: 0.08in;
+      border-radius: 50%;
+      background: #e5b869;
+      box-shadow: 0 0 8px #e5b869;
+      flex-shrink: 0;
+      margin-top: 0.06in;
+    }
+
+    .barcode-box {
+      width: 2.0in;
+      height: 1.2in;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      align-self: flex-end;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      font-size: 0.11in;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    /* TRANCHE */
+    .spine {
+      width: 0.5135in;
+      background: rgba(0, 0, 0, 0.45);
+      border-left: 1px solid rgba(212, 175, 55, 0.35);
+      border-right: 1px solid rgba(212, 175, 55, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spine-text {
+      transform: rotate(90deg);
+      white-space: nowrap;
+      font-family: Georgia, serif;
+      font-size: 0.180in;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      color: #f8fafc;
+      text-transform: uppercase;
+    }
+
+    .spine-text span {
+      color: #e5b869;
+    }
+
+    /* 1ÈRE DE COUVERTURE */
+    .front-cover {
+      width: 6.1250in;
+      padding: 0.85in 0.8in 0.65in 0.8in;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+    }
+
+    .front-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .badge-luxe {
+      display: inline-block;
+      padding: 0.06in 0.22in;
+      border-radius: 50px;
+      background: rgba(229, 184, 105, 0.15);
+      border: 1px solid rgba(229, 184, 105, 0.5);
+      color: #fef08a;
+      font-size: 0.11in;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      margin-bottom: 0.22in;
+    }
+
+    .hero-title-3d {
+      font-family: Georgia, serif;
+      font-size: 0.44in;
+      font-weight: 900;
+      line-height: 1.22;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, #ffffff 0%, #fff4be 35%, #d4af37 65%, #aa7c11 90%, #684803 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: 
+        drop-shadow(1px 1px 0px #b8860b)
+        drop-shadow(2px 2px 0px #996515)
+        drop-shadow(0px 15px 25px rgba(0, 0, 0, 0.95));
+      max-width: 95%;
+    }
+
+    .title-separator {
+      width: 1.3in;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #e5b869, transparent);
+      margin-top: 0.18in;
+    }
+
+    .subtitle-text {
+      font-size: 0.165in;
+      line-height: 1.6;
+      font-weight: 400;
+      color: #e2e8f0;
+      max-width: 88%;
+      margin-top: 0.18in;
+      letter-spacing: 0.02em;
+    }
+
+    .artwork-stage {
+      position: relative;
+      width: 100%;
+      height: 2.2in;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0.15in 0;
+    }
+
+    .artwork-stage::before {
+      content: '';
+      position: absolute;
+      width: 2.2in;
+      height: 2.2in;
+      background: radial-gradient(circle, rgba(229, 184, 105, 0.25) 0%, transparent 70%);
+      filter: blur(25px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .brand-emblem-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .emblem-outer-ring {
+      width: 1.5in;
+      height: 1.5in;
+      border-radius: 50%;
+      border: 2px solid #e5b869;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 30px rgba(229, 184, 105, 0.35);
+      background: radial-gradient(circle, rgba(15, 23, 42, 0.8) 0%, rgba(2, 6, 14, 0.95) 100%);
+    }
+
+    .emblem-inner-ring {
+      width: 1.25in;
+      height: 1.25in;
+      border-radius: 50%;
+      border: 1px dashed rgba(243, 229, 171, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .emblem-monogram {
+      font-family: Georgia, serif;
+      font-size: 0.8in;
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, #ffffff 0%, #fff4be 40%, #d4af37 75%, #8f6507 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .front-footer {
+      width: 100%;
+      border-top: 1px solid rgba(229, 184, 105, 0.4);
+      padding-top: 0.16in;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .author-name {
+      font-family: Georgia, serif;
+      font-size: 0.22in;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .edition-tag {
+      font-size: 0.11in;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: #e5b869;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="cover-canvas">
+    <div class="bg-shading-layer"></div>
+    <div class="grid-lines"></div>
+
+    <!-- 4ÈME DE COUVERTURE -->
+    <div class="panel back-cover">
+      <div>
+        <div class="back-tag">Édition Masterclass</div>
+        <h2 class="back-title">BÂTIR UNE AUTONOMIE<br>FINANCIÈRE DURABLE</h2>
+        <p class="back-pitch">Une approche méthodique, structurée et chiffrée pour maîtriser, allouer et valoriser votre capital. Conçu pour éliminer l'incertitude et appliquer des protocoles d'investissement rigoureux.</p>
+        <ul class="back-points">
+          <li><div class="bullet"></div> Architecture d'allocation d'actifs optimisée</li>
+          <li><div class="bullet"></div> Maîtrise des flux de trésorerie et gestion du risque</li>
+          <li><div class="bullet"></div> Tableaux de bord décisionnels immédiatement actionnables</li>
+        </ul>
+      </div>
+
+      <div class="barcode-box">
+        <span>ZONE CODE-BARRES</span>
+        <span style="font-size: 0.09in; color: #64748b; font-weight: 400; margin-top: 4px;">KDP 2" x 1.2"</span>
+      </div>
+    </div>
+
+    <!-- TRANCHE -->
+    <div class="panel spine">
+      <div class="spine-text">MAÎTRISER SES FINANCES PERSONNELLES &nbsp; <span>◆</span> &nbsp; MARKEDDY</div>
+    </div>
+
+    <!-- 1ÈRE DE COUVERTURE -->
+    <div class="panel front-cover">
+      <div class="front-top">
+        <div class="badge-luxe">Édition Masterclass</div>
+        <h1 class="hero-title-3d">MAÎTRISER SES<br>FINANCES<br>PERSONNELLES</h1>
+        <div class="title-separator"></div>
+        <p class="subtitle-text">Méthode académique, stratégies d'investissement<br>et tableau de bord complet</p>
+      </div>
+
+      <div class="artwork-stage">
+        <div class="brand-emblem-container">
+          <div class="emblem-outer-ring">
+            <div class="emblem-inner-ring">
+              <div class="emblem-monogram">M</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="front-footer">
+        <div class="author-name">MarkEddy</div>
+        <div class="edition-tag">Référence Officielle</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

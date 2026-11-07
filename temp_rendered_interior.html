@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@600;700;800&display=swap');
+
+  /* GÉOMÉTRIE KDP 6x9 POUCES - GOUTTIÈRE ET MARGES ASYMÉTRIQUES */
+  @page {
+    size: 6in 9in;
+    margin-top: 0.85in;
+    margin-bottom: 0.80in;
+  }
+
+  /* Page de GAUCHE (Verso) */
+  @page :left {
+    margin-left: 0.70in;   /* Marge extérieure */
+    margin-right: 0.90in;  /* Marge intérieure / Gouttière reliure */
+    @top-left {
+      content: counter(page);
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 8pt;
+      color: #64748b;
+    }
+    @top-center {
+      content: "Maîtriser ses Finances Personnelles";
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 7.5pt;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #64748b;
+    }
+  }
+
+  /* Page de DROITE (Recto) */
+  @page :right {
+    margin-left: 0.90in;   /* Marge intérieure / Gouttière reliure */
+    margin-right: 0.70in;  /* Marge extérieure */
+    @top-right {
+      content: counter(page);
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 8pt;
+      color: #64748b;
+    }
+    @top-center {
+      content: string(chapitre_courant);
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 7.5pt;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #64748b;
+    }
+  }
+
+  /* LA PREMIÈRE PAGE (OUVERTURE) NE DOIT JAMAIS AVOIR D'EN-TÊTE */
+  @page :first {
+    @top-left { content: normal; }
+    @top-center { content: normal; }
+    @top-right { content: normal; }
+  }
+
+  body {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 10.5pt;
+    line-height: 1.52;
+    color: #111827;
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    widows: 2;
+    orphans: 2;
+    margin: 0;
+  }
+
+  /* SAUTS DE CHAPITRE SUR BELLE PAGE */
+  .chapitre {
+    break-before: right;
+    padding-top: 0.8in;
+  }
+
+  .chapitre-num {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 9pt;
+    letter-spacing: 0.25em;
+    color: #854d0e;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 0.15in;
+  }
+
+  h1 {
+    string-set: chapitre_courant content();
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 25pt;
+    font-weight: 700;
+    line-height: 1.15;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #0f172a;
+    margin-top: 0;
+    margin-bottom: 0.50in;
+  }
+
+  h2 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 10.5pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1e293b;
+    margin-top: 0.40in;
+    margin-bottom: 0.18in;
+    break-after: avoid;
+  }
+
+  p {
+    margin: 0;
+    text-indent: 0.25in;
+    margin-bottom: 0.08in;
+  }
+
+  h1 + p, h2 + p, .lead-paragraph {
+    text-indent: 0;
+  }
+
+  .lead-paragraph::first-letter {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 3.6em;
+    float: left;
+    line-height: 0.78;
+    margin-right: 0.12in;
+    margin-top: 0.06in;
+    color: #854d0e;
+  }
+
+  /* TABLEAUX ÉDITORIAUX AVEC LARGEURS VERROUILLÉES */
+  .table-box {
+    margin: 0.35in 0;
+    break-inside: avoid;
+    width: 100%;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed; /* Empêche les retours à la ligne désordonnés */
+    border-collapse: collapse;
+    font-size: 9pt;
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+  }
+
+  th {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 7.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-top: 1.5pt solid #1e293b;
+    border-bottom: 0.75pt solid #1e293b;
+    padding: 8pt 6pt;
+    text-align: left;
+    color: #0f172a;
+  }
+
+  /* Répartition équilibrée des colonnes */
+  th:nth-child(1), td:nth-child(1) { width: 32%; }
+  th:nth-child(2), td:nth-child(2) { width: 18%; }
+  th:nth-child(3), td:nth-child(3) { width: 18%; }
+  th:nth-child(4), td:nth-child(4) { width: 32%; }
+
+  td {
+    padding: 7pt 6pt;
+    border-bottom: 0.5pt solid #e2e8f0;
+    color: #334155;
+    vertical-align: top;
+  }
+
+  tr:last-child td {
+    border-bottom: 1.5pt solid #1e293b;
+  }
+
+  /* ENCADRÉ PROTOCOLE HAUT DE GAMME */
+  .callout-box {
+    margin: 0.35in 0;
+    padding: 0.18in 0.25in;
+    background: #f8fafc;
+    border-left: 2.5pt solid #854d0e;
+    font-style: italic;
+    font-size: 10pt;
+    line-height: 1.5;
+    break-inside: avoid;
+    color: #334155;
+  }
+</style>
+</head>
+<body>
+  <section class="chapitre">
+    <div class="chapitre-num">Chapitre Premier</div>
+    <h1>L'Architecture du Risque</h1>
+
+    <p class="lead-paragraph">Toute stratégie financière qui ne prend pas en considération l'asymétrie structurelle des marchés financiers est vouée à une dépréciation constante. L'allocation méthodique des ressources suppose d'éliminer le bruit quotidien au profit de protocoles documentés et réplicables.</p>
+
+    <p>La pérennité patrimoniale n'est pas le produit d'une anticipation fortuite, mais l'exécution mécanique d'une matrice décisionnelle chiffrée. Dès lors que l'investisseur substitue l'émotion par des métriques strictes, la probabilité d'erreur critique converge vers zéro.</p>
+
+    <h2>Matrice d'Allocation Stratégique</h2>
+    <p>Le tableau suivant illustre la répartition typographique des flux de trésorerie selon les paliers de volatilité observés :</p>
+
+    <div class="table-box">
+      <table>
+        <thead>
+          <tr>
+            <th>Classe d'Actif</th>
+            <th>Pondération</th>
+            <th>Volatilité</th>
+            <th>Rôle Systémique</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Trésorerie & Monétaire</td>
+            <td>15.00 %</td>
+            <td>0.50 %</td>
+            <td>Liquidité de réserve</td>
+          </tr>
+          <tr>
+            <td>Obligations Souveraines</td>
+            <td>25.00 %</td>
+            <td>4.20 %</td>
+            <td>Stabilisation collatéral</td>
+          </tr>
+          <tr>
+            <td>Actions Internationales</td>
+            <td>45.00 %</td>
+            <td>16.80 %</td>
+            <td>Moteur de performance</td>
+          </tr>
+          <tr>
+            <td>Métaux Précieux & Or</td>
+            <td>15.00 %</td>
+            <td>12.10 %</td>
+            <td>Couverture monétaire</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout-box">
+      « L'excellence opérationnelle ne réside pas dans l'intensité de l'effort, mais dans l'invariance des standards appliqués chaque jour sans exception. »
+    </div>
+
+    <p>Ce protocole garantit une synchronisation parfaite des rendements, indépendamment des cycles de taux directeurs ou des fluctuations macroéconomiques.</p>
+  </section>
+</body>
+</html>

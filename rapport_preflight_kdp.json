@@ -1,0 +1,14 @@
+{
+  "audit_manuscrit": {
+    "status": "SUCCÈS",
+    "total_mots": 41782,
+    "pages_estimees": 167,
+    "anomalies": []
+  },
+  "audit_couverture": {
+    "status": "SUCCÈS",
+    "largeur_pouces": 12.637,
+    "hauteur_pouces": 9.25,
+    "hauteur_conforme_kdp_9_25in": true
+  }
+}
