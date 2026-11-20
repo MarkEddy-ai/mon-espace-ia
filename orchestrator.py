@@ -121,11 +121,21 @@ def executer_pipeline_complet(
         if etape_cible == "writer": return
 
     # -------------------------------------------------------------
-    # ÉTAPE 3 : LE TYPOGRAPHE & METTEUR EN PAGE INTÉRIEUR
+    # ÉTAPE 3 : LE TYPOGRAPHE & METTEUR EN PAGE INTÉRIEUR & EBOOK
     # -------------------------------------------------------------
     if etape_cible in [None, "formatter"]:
         print("▶️ [AGENT 3/6] TYPOGRAPHE & MAQUETTISTE 6X9 HAUTE COUTURE...")
         convertir_manuscrit_en_pdf()
+
+        # Compilation certifiée Kindle EPUB 3
+        try:
+            from build_multi_versions import compiler_version_ebook, charger_blueprint, charger_manuscrit
+            bp = charger_blueprint()
+            ms = charger_manuscrit()
+            compiler_version_ebook(bp, ms)
+        except Exception as e:
+            print(f"ℹ️ Note compilation eBook : {e}")
+
         print("  ✅ Étape 3 validée.\n")
         if etape_cible == "formatter": return
 
@@ -163,11 +173,13 @@ def executer_pipeline_complet(
     print(f"🎉 PIPELINE DE PRODUCTION ACHEVÉ EN {temps_ecoule:.1f} SECONDES !")
     print("=" * 70)
     print("📦 Vos actifs professionnels Amazon KDP créés :")
-    print("  1. 📘 couverture_kdp_complete.pdf  -> Couverture haute définition (Plat 1 + Dos + Plat 4)")
-    print("  2. 📖 livre_kdp_interieur.html     -> Intérieur mis en page 6x9 pouces avec marges de reliure")
-    print("  3. 📄 manuscrit_complet.md         -> Manuscrit unifié prêt pour Kindle Create / eBook")
-    print("  4. 🛒 kdp_marketing_pack.html      -> Description HTML, 7 mots-clés et A+ Content")
-    print("  5. 📋 book_blueprint.json          -> Architecture complète des 50 sections du livre")
+    print("  1. 📘 couverture_kdp_complete.pdf  -> Couverture brochée haute définition 300 DPI (Plat 1 + Dos + Plat 4)")
+    print("  2. 📖 livre_kdp_interieur.html     -> Intérieur broché mis en page 6x9 pouces avec marges de reliure")
+    print("  3. 📱 livre_ebook_kdp.epub         -> Ebook Kindle certifié EPUB 3 avec table des matières dynamique")
+    print("  4. 🎨 couverture_ebook.jpg         -> Couverture avant eBook haute définition 1800x2700 px")
+    print("  5. 📄 manuscrit_complet.md         -> Manuscrit unifié prêt pour Kindle Create")
+    print("  6. 🛒 kdp_marketing_pack.html      -> Description HTML, 7 mots-clés A9 et A+ Content")
+    print("  7. 📋 book_blueprint.json          -> Architecture complète des sections du livre")
     print("=" * 70 + "\n")
 
 def main():

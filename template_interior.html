@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<title>{{TITRE_LIVRE}}</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@600;700;800&display=swap');
 
@@ -10,12 +11,18 @@
     size: 6in 9in;
     margin-top: 0.85in;
     margin-bottom: 0.80in;
+    @bottom-center {
+      content: counter(page);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 9pt;
+      color: #64748b;
+    }
   }
 
   /* Page paire (gauche / Verso) : gouttière à droite */
   @page :left {
-    margin-left: 0.70in;
-    margin-right: 0.90in;
+    margin-left: 0.55in;
+    margin-right: 0.85in;
     @top-left {
       content: counter(page);
       font-family: 'Cinzel', Georgia, serif;
@@ -34,8 +41,8 @@
 
   /* Page impaire (droite / Recto) : gouttière à gauche */
   @page :right {
-    margin-left: 0.90in;
-    margin-right: 0.70in;
+    margin-left: 0.85in;
+    margin-right: 0.55in;
     @top-right {
       content: counter(page);
       font-family: 'Cinzel', Georgia, serif;
@@ -52,13 +59,199 @@
     }
   }
 
-  /* SUPPRESSION RADICALE DE L'ENCOCHE / EN-TÊTE SUR LA PREMIÈRE PAGE */
+  /* SUPPRESSION DES EN-TÊTES ET PIEDS SUR PAGES DE GARDE */
   @page :first {
     margin-top: 0.85in;
     @top-left { content: none !important; }
     @top-center { content: none !important; }
     @top-right { content: none !important; }
+    @bottom-center { content: none !important; }
   }
 
   body {
-    font-family: 'EB Garamond', Georgia, serif;
+    font-family: 'EB Garamond', 'Garamond', Georgia, serif;
+    font-size: 10.5pt;
+    line-height: 1.45;
+    color: #0f172a;
+    text-align: justify;
+    hyphens: auto;
+    orphans: 3;
+    widows: 3;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Anti-césure sauvage sur titres et blocs */
+  h1, h2, h3, h4, th, td, .callout-box, .action-box, .lettrine::first-letter {
+    hyphens: none !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+  }
+
+  /* Page de titre intérieur */
+  .title-page {
+    page-break-before: always;
+    page-break-after: always;
+    padding-top: 2.2in;
+    text-align: center;
+  }
+
+  .title-page h1.main-title {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 24pt;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #0f172a;
+    margin-bottom: 0.3in;
+    page-break-before: avoid;
+  }
+
+  .title-page p.main-subtitle {
+    font-size: 12pt;
+    font-style: italic;
+    color: #475569;
+    margin-bottom: 2.0in;
+    line-height: 1.5;
+  }
+
+  .title-page p.main-author {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11pt;
+    letter-spacing: 2px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #1e293b;
+  }
+
+  /* Page Copyright */
+  .copyright-page {
+    page-break-before: always;
+    page-break-after: always;
+    padding-top: 4.5in;
+    font-size: 8.5pt;
+    line-height: 1.45;
+    color: #475569;
+  }
+
+  /* Chapitres */
+  h1 {
+    page-break-before: always;
+    string-set: chapitre_courant content();
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 18pt;
+    font-weight: 700;
+    text-align: center;
+    color: #0f172a;
+    margin-top: 1.5in;
+    margin-bottom: 0.8in;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  h2 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 13pt;
+    font-weight: 600;
+    color: #0f172a;
+    margin-top: 1.2in;
+    margin-bottom: 0.4in;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: 11pt;
+    font-weight: 600;
+    color: #1e293b;
+    margin-top: 0.6in;
+    margin-bottom: 0.25in;
+    border-bottom: 0.5pt solid #cbd5e1;
+    padding-bottom: 3px;
+    page-break-after: avoid;
+  }
+
+  p {
+    margin: 0;
+    margin-bottom: 0.35em;
+    text-indent: 1.2em;
+  }
+
+  h1 + p, h2 + p, h3 + p, hr + p, blockquote + p, .no-indent {
+    text-indent: 0;
+  }
+
+  p.lettrine::first-letter {
+    font-family: 'Cinzel', Georgia, serif;
+    float: left;
+    font-size: 3.2em;
+    line-height: 0.8;
+    margin-top: 0.1em;
+    margin-right: 0.15em;
+    color: #0f172a;
+    font-weight: bold;
+  }
+
+  blockquote, .callout-box {
+    page-break-inside: avoid;
+    margin: 1.4em 0.6em;
+    padding: 1.0em 1.2em;
+    background: #f8fafc;
+    border-left: 3pt solid #d97706;
+    font-size: 9.8pt;
+    line-height: 1.5;
+  }
+
+  .action-box {
+    page-break-inside: avoid;
+    margin: 1.5em 0;
+    padding: 1.2em;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-left: 4pt solid #16a34a;
+    border-radius: 4px;
+    font-size: 9.8pt;
+  }
+
+  ul, ol {
+    margin: 0.6em 0 0.8em 1.5em;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 0.3em;
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background: #cbd5e1;
+    margin: 1.5in 0;
+    page-break-after: avoid;
+  }
+</style>
+</head>
+<body>
+
+  <!-- PAGE DE TITRE -->
+  <div class="title-page">
+    <h1 class="main-title">{{TITRE_LIVRE}}</h1>
+    <p class="main-subtitle">{{SOUS_TITRE}}</p>
+    <p class="main-author">{{AUTEUR}}</p>
+  </div>
+
+  <!-- PAGE COPYRIGHT -->
+  <div class="copyright-page">
+    <p><strong>{{TITRE_LIVRE}}</strong></p>
+    <p>{{SOUS_TITRE}}</p>
+    <p>Auteur : {{AUTEUR}}</p>
+    <p>Édition Académique KDP — Tous droits réservés © 2026</p>
+    <p>Format broché 6 × 9 pouces (15,24 × 22,86 cm) — Papier crème/blanc standard</p>
+    <p style="margin-top: 1em;"><em>Aucune partie de cet ouvrage ne peut être reproduite ou transmise sans accord écrit préalable de l'auteur.</em></p>
+  </div>
+
+  <!-- CONTENU DU LIVRE -->
+  {{CONTENU_LIVRE}}
+
+</body>
+</html>

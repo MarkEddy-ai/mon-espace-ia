@@ -1,53 +1,48 @@
 
-### 7.2 La règle des 'Jamais deux fois de suite'
+### 7.2 Le calcul du rendement locatif net-net (frais réels, vacance, charges)
 
-L'erreur fondamentale qui détruit 90 % des routines de productivité réside dans la binarité de la pensée : le succès parfait ou l'échec total. Lorsqu'un individu s'impose une discipline de fer — écrire 500 mots par jour, méditer 15 minutes, ou s'entraîner à 6h00 — la première dérogation au système est perçue comme une catastrophe. Cette vision dogmatique active le biais de compensation (« Puisque j'ai raté hier, toute la semaine est fichue ») et provoque l'abandon pur et simple de l'habitude. La plasticité cérébrale ne demande pas la perfection ; elle exige de la régularité statistique. Pour ancrer un comportement de manière pérenne, il faut accepter l'imperfection tout en interdisant la récidive immédiate. C'est le principe fondateur de la règle des « Jamais deux fois de suite ».
+Dans les publicités et sur les réseaux sociaux, de pseudo-formateurs vantent des « opérations immobilières miracles à 10 % ou 12 % de rentabilité ». Ces chiffres sont des mirages construits sur le **rendement brut**, une métrique commerciale trompeuse qui ne tient compte d'aucune des dépenses réelles inhérentes à la possession d'un bien.
 
-Manquer une habitude un jour est un accident biologique ou contextuel : fatigue aiguë, urgence professionnelle, imprévu familial. C'est une simple variance statistique. Manquer cette même habitude deux jours d'affilée, c'est le début d'une nouvelle habitude : celle de l'abandon. 
+Pour évaluer la rentabilité d'un investissement immobilier, il n'existe qu'une seule métrique de vérité : **le rendement Net-Net d'impôt**, c'est-à-dire ce qu'il vous reste réellement sur votre compte en banque une fois toutes les charges, taxes et prélèvements fiscaux acquittés.
 
-> « La réussite n'est pas l'absence d'erreurs, c'est la vitesse à laquelle on réinitialise le système après un écart. »
+#### La Décomposition de la Rentabilité Réelle
 
-### Étude de cas : Le redressement de la routine d'écriture de Marc
+Prenons l'exemple d'un studio acheté **100 000 €** (frais d'acquisition totaux inclus), loué **500 € par mois** (soit 6 000 € de loyers bruts annuels) :
 
-Marc, directeur marketing, s'était fixé l'objectif d'écrire une note stratégique de 300 mots chaque matin à 7h30. Pendant dix-neuf jours, le système fonctionnait. Au vingtième jour, terrassé par une migraine ophtalmique, Marc saute sa session. Par le passé, ce type d'interruption marquait la fin de la routine : culpabilisant, il décrochait pendant trois semaines avant de retenter l'expérience. 
+1. **Rendement Brut (L'illusion publicitaire) :**
+   $$\text{Rendement Brut} = \frac{6 000}{100 000} \times 100 = \mathbf{6,0\%}$$
+2. **Rendement Net de Charges :**
+   * Taxe foncière : -650 €
+   * Charges de copropriété non récupérables : -500 €
+   * Assurance Propriétaire Non Occupant (PNO) & loyers impayés : -250 €
+   * Provision pour travaux et entretien d'usure (1 mois de loyer) : -500 €
+   * Provision pour vacance locative (délai de relocation : 5 %) : -300 €
+   * *Loyers nets de charges :* $6 000 - 2 200 = 3 800\text{ €}$
+   $$\text{Rendement Net} = \frac{3 800}{100 000} \times 100 = \mathbf{3,8\%}$$
+3. **Rendement Net-Net (Après Fiscalité) :**
+   * En location nue classique avec une Tranche Marginale d'Imposition (TMI) de 30 % + 17,2 % de prélèvements sociaux (taux global : 47,2 %) :
+   * Impôt annuel : $3 800 \times 47,2\% = 1 793\text{ €}$
+   * *Revenu réel dans votre poche :* $3 800 - 1 793 = \mathbf{2 007\text{ € / an}}$
+   $$\text{Rendement Net-Net Réel} = \frac{2 007}{100 000} \times 100 = \mathbf{2,0\%}$$
 
-Cette fois, armé du protocole « Jamais deux fois de suite », Marc applique la règle de la reprise immédiate. Le surlendemain, malgré une charge de travail importante, il ne cherche pas à rattraper les 300 mots manqués de la veille (ce qui aurait alourdi la tâche et créé de la friction), mais exécute strictement ses 300 mots du jour.
+Le rendement passe ainsi de 6,0 % brut affiché à seulement **2,0 % net dans votre poche**.
 
-Le tableau ci-dessous illustre l'impact mathématique et psychologique de cette approche comparativement au modèle rigide traditionnel :
+| Étape de Calcul | Montant Annuel Réel | Rendement Résultant | Nature du Résultat |
+| :--- | :--- | :--- | :--- |
+| **Loyer Brut Théorique** | 6 000 € | 6,0 % | Chiffre de vente d'agence |
+| **Après charges, taxes & vacance** | 3 800 € | 3,8 % | Rendement net d'exploitation |
+| **Après impôt et CSG (TMI 30%)** | **2 007 €** | **2,0 %** | **Le seul cash-flow réel** |
 
-| Paramètre | Modèle Rigide (Tout ou Rien) | Modèle Inflexible (Jamais deux fois) |
-| :--- | :--- | :--- |
-| **Réaction au 1er raté** | Culpabilité, abandon de la semaine | Acceptation neutre, focus sur le présent |
-| **Réaction au 2e jour** | Inaction prolongée (« c'est fichu ») | Alerte rouge, exécution obligatoire |
-| **Taux de rétention à 90 jours** | 32 % | 89 % |
-| **Charge cognitive de reprise** | Élevée (barrière psychologique haute) | Minimale (retour au protocole nominal) |
+#### Le Piège Fréquent & La Parade
 
-Pour formaliser cette approche, voici la règle mnémotechnique de la **Boucle d'Interruption (R.I.P.)** :
-* **R**éagir sans émotion dès le constat du raté.
-* **I**dentifier la friction exacte qui a provoqué l'arrêt.
-* **P**rogrammer l'exécution inconditionnelle le lendemain, sans surcharge.
-
-Lorsque l'écart se produit, le cerveau entre en état de vulnérabilité. Il cherche à rationaliser l'abandon pour économiser de l'énergie métabolique. Le protocole de rattrapage en cas de raté doit donc être automatisé pour court-circuiter ces justifications.
-
-### Protocole de rattrapage en cas de raté (Jour J+1)
-
-1. **Alerte de neutralité :** Ne pas s'infliger de discours critique. Constater objectivement l'absence d'exécution sans y associer de valeur morale.
-2. **Division par deux :** Si l'habitude standard demande un effort de 10 minutes, réduisez-la à 5 minutes pour la session de reprise. L'objectif unique est de valider le signal comportemental auprès des ganglions de la base.
-3. **Ancrage temporel fixe :** Programmez l'exécution de rattrapage dès la première heure disponible de la journée suivante. Ne laissez aucune marge de négociation.
-
-Pour garantir la pérennité de ce système sur les prochains mois, utilisez la checklist de constance ci-dessous.
-
-### Checklist pour maintenir la constance sur le long terme
-
-* [ ] **Validation binaire simple :** L'habitude est-elle cochée ou non ? Pas de demi-mesure qualitative.
-* [ ] **Règle des 48 heures respectée :** Aucun intervalle de deux jours consécutifs sans exécution n'a été toléré ce mois-ci.
-* [ ] **Ajustement de la friction :** Si une habitude a été manquée deux fois dans le même mois pour la même raison, la barrière d'accès a-t-elle été abaissée ?
-* [ ] **Absence de double dose :** En cas de raté hier, est-ce que j'ai exécuté *uniquement* la charge normale d'aujourd'hui, sans chercher à compenser par un surcroît punitif ?
+> ❌ **Le piège fatal :** Acheter un bien en oubliant de provisionner la vacance locative ou les futurs travaux de ravalement de copropriété. Dès la première facture imprévue, le cash-flow bascule dans le négatif.  
+>  
+> ✅ **La contre-mesure :** Privilégiez les régimes fiscaux d'amortissement comptable (comme le statut LMNP au régime réel en meublé) qui permettent de neutraliser la fiscalité sur les loyers pendant 10 à 15 ans.
 
 ---
 
-> **⚡ Action Immédiate :**
-> 
-> 1. **Identifiez** sur votre calendrier ou votre carnet de suivi la dernière habitude que vous avez abandonnée suite à un seul jour manqué.
-> 2. **Rédigez** sur une feuille volante la phrase suivante : *"Manquer un jour est un accident. Manquer deux jours est un choix."*
-> 3. **Configurez** dès maintenant une alarme de secours sur votre téléphone pour demain matin, intitulée : *"Règle des Jamais deux fois — Exécution minimale garantie"*.
+> ⚡ **Action Immédiate (Moins de 24 Heures) :**
+>
+> 1. Si vous possédez déjà un bien locatif ou si vous en étudiez un, appliquez la formule du rendement net-net ci-dessus.
+> 2. Déduisez scrupuleusement la taxe foncière, les charges non récupérables et une provision de 1 mois de vacance tous les 2 ans.
+> 3. Constatez le rendement réel : s'il est inférieur au rendement sans risque d'un livret, le bien doit être restructuré ou arbitré.

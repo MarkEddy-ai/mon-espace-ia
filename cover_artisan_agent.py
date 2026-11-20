@@ -54,19 +54,20 @@ PALETTES = {
 
 
 def fabriquer(
-    pdf_interieur="livre_ultra_moderne.pdf",
-    thematique="FINANCE",
-    titre="MAÎTRISER SES\nFINANCES\nPERSONNELLES",
-    sous_titre="Méthode académique, stratégies d'investissement\net tableau de bord complet",
-    titre_arriere="BÂTIR UNE AUTONOMIE<br>FINANCIÈRE DURABLE",
-    pitch_arriere="Une approche méthodique, structurée et chiffrée pour maîtriser, allouer et valoriser votre capital. Conçu pour éliminer l'incertitude et appliquer des protocoles d'investissement rigoureux."
+    pdf_interieur="interieurs_finaux/Interieur_6.0x9.0.pdf",
+    thematique="MINDSET",
+    titre="NEURO-FOCUS :\nLE POUVOIR DES\nMICRO-HABITUDES",
+    sous_titre="Reprogrammer son cerveau en 66 jours :\nla méthode pas-à-pas pour éliminer la procrastination",
+    titre_arriere="REPRENDRE LE CONTRÔLE<br>DE SON ATTENTION",
+    pitch_arriere="Une méthode scientifique et opérationnelle pour neutraliser les distractions, reprogrammer vos circuits dopaminergiques et ancrer des routines de haute productivité.",
+    fichier_sortie=None
 ):
     pdf_path = Path(pdf_interieur)
     if not pdf_path.exists():
         print(f"❌ Intérieur introuvable : {pdf_interieur}")
-        return
+        return None
 
-    # 1. Analyse automatique du PDF
+    # 1. Analyse automatique du PDF intérieur
     reader = PdfReader(pdf_path)
     nb_pages = len(reader.pages)
     box = reader.pages[0].mediabox
@@ -108,13 +109,20 @@ def fabriquer(
     with open(temp_file, "w", encoding="utf-8") as f:
         f.write(html)
 
-    sortie_pdf = DOSSIER_SORTIE / f"Couverture_{thematique.upper()}_{largeur_po}x{hauteur_po}_{nb_pages}p.pdf"
+    if fichier_sortie:
+        sortie_pdf = Path(fichier_sortie)
+        sortie_pdf.parent.mkdir(parents=True, exist_ok=True)
+    else:
+        sortie_pdf = DOSSIER_SORTIE / "Couverture_OFFICIELLE_KDP.pdf"
 
     vw = int(round(largeur_totale_po * 120))
     vh = int(round(hauteur_totale_po * 120))
 
     with sync_playwright() as p:
-        browser = p.chromium.launch()
+        try:
+            browser = p.chromium.launch()
+        except Exception:
+            browser = p.chromium.launch(channel="msedge")
         page = browser.new_page(viewport={"width": vw, "height": vh})
         page.goto(temp_file.resolve().as_uri(), wait_until="load")
         page.wait_for_selector(".hero-title-3d")
@@ -130,13 +138,13 @@ def fabriquer(
         )
         browser.close()
 
-    print(f"✅ Couverture {thematique.upper()} générée : {sortie_pdf.resolve()}")
+    print(f"✅ Couverture KDP générée : {sortie_pdf.resolve()} (Tranche: {largeur_tranche_po:.4f} po, {nb_pages} pages)")
+    return sortie_pdf
 
 
 if __name__ == "__main__":
-    # Changez simplement la thématique ici pour tester :
-    # "FINANCE", "TECH_IA", "MINDSET", "SANTE", "IMMOBILIER", "PHILOSOPHIE"
     fabriquer(
-        pdf_interieur="livre_ultra_moderne.pdf",
-        thematique="FINANCE"
+        pdf_interieur="interieurs_finaux/Interieur_6.0x9.0.pdf",
+        thematique="MINDSET",
+        fichier_sortie=DOSSIER_SORTIE / "Couverture_OFFICIELLE_KDP.pdf"
     )

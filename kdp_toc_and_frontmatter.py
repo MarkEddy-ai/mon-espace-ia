@@ -14,21 +14,93 @@ MANUSCRIT_SECTIONS_DIR = Path("livre_sections")
 MANUSCRIT_FINAL = Path("manuscrit_complet.md")
 
 
+def _detecter_domaine_livre(titre: str, blueprint: dict = None) -> str:
+    """Détecte la typologie thématique du livre pour adapter avec précision les pages liminaires."""
+    t_complet = (titre + " " + (blueprint.get("sous_titre", "") if blueprint else "")).lower()
+    if any(k in t_complet for k in ["neuro", "focus", "habitude", "dopamine", "discipline", "procrastin", "attention"]):
+        return "neuro"
+    elif any(k in t_complet for k in ["financ", "argent", "budget", "investi", "bourse", "patrimoine", "epargne", "dette", "enrichir"]):
+        return "finance"
+    elif any(k in t_complet for k in ["sant", "jeune", "nutrition", "aliment", "sport", "sommeil", "longevite", "regime", "corps"]):
+        return "sante"
+    return "general"
+
 def generer_front_matter_mark_eddy(blueprint: dict) -> str:
     """Génère les pages liminaires conformes KDP : faux-titre, grand titre, copyright légal, dédicace, sommaire."""
     annee_actuelle = datetime.now().year
-    titre = blueprint.get("titre", "MAÎTRISER SES FINANCES PERSONNELLES : LE GUIDE PRATIQUE")
-    sous_titre = blueprint.get("sous_titre", "De l'endettement à l'indépendance financière sans jargon")
-    auteur = blueprint.get("auteur", "MarkEddy")
+    titre = blueprint.get("titre", "LIVRE PROFESSIONNEL AMAZON KDP")
+    sous_titre = blueprint.get("sous_titre", "Le guide pas-à-pas d'autorité")
+    auteur = blueprint.get("auteur_suggere", blueprint.get("auteur", "MarkEddy"))
     chapitres = blueprint.get("chapitres", [])
 
-    is_neuro = any(k in titre.lower() for k in ["neuro", "focus", "habitude", "dopamine", "discipline", "procrastin"])
-    titre_avant_propos = "Le Manifeste du Neuro-Focus et de la Souveraineté de l'Attention" if is_neuro else "Le Manifeste de l'Indépendance Financière"
-    sous_titre_ap1 = "Pourquoi 90 % des résolutions échouent" if is_neuro else "Pourquoi 90 % des résolutions financières échouent"
-    sous_titre_ap2 = f"La méthode en {len(chapitres)} piliers majeurs"
-    titre_concl = "De la Maîtrise des Micro-Habitudes à la Souveraineté du Temps" if is_neuro else "De l'Ingénierie Financière à la Souveraineté du Temps"
-    bilan_concl = "Le bilan du maître de son attention" if is_neuro else "Le bilan du bâtisseur de patrimoine"
-    lois_concl = "Les 3 lois inviolables de la discipline selon MarkEddy" if is_neuro else "Les 3 lois inviolables de la richesse selon MarkEddy"
+    domaine = _detecter_domaine_livre(titre, blueprint)
+
+    if domaine == "neuro":
+        titre_avant_propos = "Le Manifeste du Neuro-Focus et de la Souveraineté de l'Attention"
+        sous_titre_ap1 = "Pourquoi 90 % des résolutions échouent"
+        titre_concl = "De la Maîtrise des Micro-Habitudes à la Souveraineté du Temps"
+        bilan_concl = "Le bilan du maître de son attention"
+        lois_concl = "Les 3 lois inviolables de la discipline selon MarkEddy"
+        disclaimer_texte = (
+            "> **Avertissement de non-responsabilité méthodologique et comportementale :**  \n"
+            "> Ce livre a été conçu dans un but exclusivement éducatif, méthodologique et informatif. L'auteur, **MarkEddy**, "
+            "ainsi que l'éditeur ne dispensent aucun avis médical, psychiatrique ou thérapeutique personnalisé. "
+            "Les protocoles comportementaux et neurobiologiques présentés s'adressent à des adultes autonomes en bonne santé."
+        )
+        dedicace_texte = (
+            "*À tous ceux qui refusent la tyrannie des distractions numériques et l'illusion du multitâche stérile.*\n\n"
+            "*À ceux qui ont le courage de reconquérir la pleine souveraineté de leur attention et de bâtir, jour après jour, leur excellence.*"
+        )
+    elif domaine == "finance":
+        titre_avant_propos = "Le Manifeste de l'Indépendance Financière"
+        sous_titre_ap1 = "Pourquoi 90 % des résolutions financières échouent"
+        titre_concl = "De l'Ingénierie Financière à la Souveraineté du Temps"
+        bilan_concl = "Le bilan du bâtisseur de patrimoine"
+        lois_concl = "Les 3 lois inviolables de la richesse selon MarkEddy"
+        disclaimer_texte = (
+            "> **Avertissement de non-responsabilité financière, fiscale et juridique :**  \n"
+            "> Ce livre a été conçu dans un but exclusivement éducatif, méthodologique et informatif. L'auteur, **MarkEddy**, "
+            "ainsi que l'éditeur ne sont ni conseillers en investissements financiers (CIF), ni gestionnaires de patrimoine agréés, "
+            "ni experts-comptables assermentés. Les calculs et exemples ne constituent en aucun cas des incitations d'investissement personnalisées. "
+            "Tout investissement comporte un risque inhérent de perte en capital."
+        )
+        dedicace_texte = (
+            "*À tous ceux qui refusent la fatalité du découvert bancaire et l'illusion de la fausse richesse d'apparence.*\n\n"
+            "*À ceux qui ont le courage d'affronter la réalité de leurs chiffres et la volonté inébranlable de bâtir leur indépendance.*"
+        )
+    elif domaine == "sante":
+        titre_avant_propos = f"Le Manifeste de la Vitalité & de la Longévité Durable"
+        sous_titre_ap1 = "Pourquoi 90 % des régimes et protocoles de santé échouent"
+        titre_concl = "De la Transformation Corporelle à la Vitalité Pérenne"
+        bilan_concl = "Le bilan du pratiquant rigoureux"
+        lois_concl = "Les 3 lois inviolables de la vitalité selon MarkEddy"
+        disclaimer_texte = (
+            "> **Avertissement de non-responsabilité médicale et nutritionnelle :**  \n"
+            "> Ce livre est un guide éducatif et méthodologique. L'auteur, **MarkEddy**, et l'éditeur ne sont pas médecins. "
+            "Les conseils présentés ne se substituent en aucun cas à un avis médical professionnel ou à un traitement prescrit."
+        )
+        dedicace_texte = (
+            "*À tous ceux qui refusent la passivité face à leur santé et choisissent la rigueur de la vitalité durable.*\n\n"
+            "*Ce livre est votre protocole d'action.*"
+        )
+    else:
+        titre_avant_propos = f"Le Manifeste de la Maîtrise & de l'Exécution Chirurgicale"
+        sous_titre_ap1 = "Pourquoi 90 % des approches conventionnelles échouent"
+        titre_concl = f"De la Méthode à la Maîtrise Durable"
+        bilan_concl = "Le bilan du praticien d'excellence"
+        lois_concl = "Les 3 lois inviolables de l'exécution selon MarkEddy"
+        disclaimer_texte = (
+            "> **Avertissement légal et méthodologique :**  \n"
+            "> Cet ouvrage a été conçu dans un objectif exclusivement pédagogique, informatif et pratique. "
+            "L'auteur, **MarkEddy**, et l'éditeur partagent des principes d'efficacité rationnelle et de méthodologie appliquée. "
+            "Il appartient au lecteur d'adapter ces enseignements à son contexte propre."
+        )
+        dedicace_texte = (
+            f"*À tous les praticiens exigeants qui troquent le doute contre l'action concrète.*\n\n"
+            f"*À ceux qui bâtissent patiemment leur expertise dans {titre}. Ce livre est votre plan de route.*"
+        )
+
+    sous_titre_ap2 = f"La méthode pas-à-pas en {len(chapitres)} piliers majeurs"
 
     # Sommaire détaillé de tous les chapitres et sections
     lignes_sommaire = [
@@ -52,9 +124,9 @@ def generer_front_matter_mark_eddy(blueprint: dict) -> str:
         f"**Conclusion Générale : {titre_concl}**",
         f"- *{bilan_concl}*",
         f"- *{lois_concl}*",
-        "- *Le rituel annuel de liberté*\n",
+        "- *Le plan de pérennité sur le long terme*\n",
         "**Votre Avis Compte : Soutenir l'Édition Indépendante**\n",
-        "**À Propos de l'Auteur : MarkEddy**\n",
+        f"**À Propos de l'Auteur : {auteur}**\n",
         "**Remerciements & Notes d'Édition**\n"
     ])
 
@@ -71,7 +143,7 @@ def generer_front_matter_mark_eddy(blueprint: dict) -> str:
 
 <br>
 
-**Par MarkEddy**
+**Par {auteur}**
 
 ---
 
@@ -89,20 +161,17 @@ def generer_front_matter_mark_eddy(blueprint: dict) -> str:
 
 Aucune partie de cette publication ne peut être reproduite, stockée dans un système d'extraction ou transmise sous quelque forme ou par quelque procédé que ce soit — électronique, mécanique, photocopie, enregistrement audio ou autre — sans l'autorisation écrite préalable et expresse de l'auteur et de l'éditeur, à l'exception de courtes citations insérées dans une revue critique.
 
-> **Avertissement de non-responsabilité financière, fiscale et juridique :**  
-> Ce livre a été conçu dans un but exclusivement éducatif, méthodologique et informatif. L'auteur, **MarkEddy**, ainsi que l'éditeur ne sont ni conseillers en investissements financiers (CIF), ni gestionnaires de patrimoine agréés, ni experts-comptables assermentés. Les exemples, études de cas, calculs mathématiques et stratégies présentés dans cet ouvrage reflètent des principes généraux de gestion rationnelle et ne constituent en aucun cas des recommandations d'investissement personnalisées, des incitations à l'achat ou à la vente d'actifs financiers, ni des conseils juridiques ou fiscaux. Tout investissement (actions, ETF, obligations, immobilier, cryptomonnaies) comporte un risque inhérent de perte totale ou partielle du capital investi. Il appartient au lecteur de faire ses propres vérifications et de solliciter un professionnel habilité avant toute décision financière.
+{disclaimer_texte}
 
 ---
 
 # Dédicace
 
-*À tous ceux qui refusent la fatalité du découvert bancaire et l'illusion de la fausse richesse d'apparence.*  
-
-*À ceux qui ont le courage d'affronter la réalité de leurs chiffres et la volonté inébranlable de bâtir, jour après jour, leur souveraineté temporelle.*  
+{dedicace_texte}
 
 *Ce livre est votre feuille de route.*  
 
-— **MarkEddy**
+— **{auteur}**
 
 ---
 
@@ -116,7 +185,8 @@ Aucune partie de cette publication ne peut être reproduite, stockée dans un sy
 def generer_introduction_mark_eddy(blueprint: dict = None) -> str:
     """Rédige l'introduction et l'avant-propos d'autorité par MarkEddy (anti-fluff, 1200+ mots)."""
     titre = (blueprint.get("titre", "") if blueprint else "").lower()
-    if any(k in titre for k in ["neuro", "focus", "habitude", "dopamine", "discipline", "procrastin"]):
+    domaine = _detecter_domaine_livre(titre, blueprint)
+    if domaine == "neuro":
         return """# Avant-propos : Le Manifeste du Neuro-Focus et de la Souveraineté de l'Attention
 
 ### Pourquoi 90 % des résolutions et des méthodes de productivité échouent
@@ -158,7 +228,8 @@ Bienvenue dans l'ère de votre concentration absolue.
 *Auteur & Stratège en Ingénierie Personnelle*
 """
 
-    return """# Avant-propos : Le Manifeste de l'Indépendance Financière
+    if domaine == "finance":
+        return """# Avant-propos : Le Manifeste de l'Indépendance Financière
 
 ### Pourquoi 90 % des méthodes financières traditionnelles échouent
 
@@ -178,7 +249,7 @@ Ce que vous tenez entre les mains n'est pas un recueil de recettes miracles pour
 
 Ce guide repose sur un principe immuable : **l'ingénierie financière personnelle**. Tout comme un ingénieur conçoit un pont en respectant les lois rigoureuses de la physique et de la résistance des matériaux, vous devez structurer votre patrimoine selon des règles mathématiques éprouvées et une psychologie comportementale blindée.
 
-La méthode que j'ai modélisée s'articule autour de 10 piliers indissociables, subdivisés en 50 leviers d'action concrets :
+La méthode que j'ai modélisée s'articule autour de piliers indissociables :
 
 1. **La reprogrammation psychologique :** Vaincre la gratification instantanée et le mimétisme social pour adopter la posture mentale du bâtisseur de capital.
 2. **L'audit chirurgical des flux :** Mesurer votre patrimoine net au centime près et neutraliser les fuites de trésorerie invisibles.
@@ -195,11 +266,11 @@ La méthode que j'ai modélisée s'articule autour de 10 piliers indissociables,
 
 Un livre de finances personnelles ne vaut que par les actions qu'il déclenche. Lire ces pages en spectateur passif n'augmentera pas votre compte bancaire d'un seul euro. 
 
-C'est pourquoi j'ai instauré une règle non négociable dans cet ouvrage : à la fin de chacune des 50 sections, vous trouverez un encadré **« Action Immédiate »**. Ces actions ont été calibrées pour être réalisées en moins de 24 heures avec un carnet, un tableur ou votre smartphone.
+C'est pourquoi j'ai instauré une règle non négociable dans cet ouvrage : à la fin de chacune des sections, vous trouverez un encadré **« Action Immédiate »**. Ces actions ont été calibrées pour être réalisées en moins de 24 heures avec un carnet, un tableur ou votre smartphone.
 
 Faites ce pacte avec vous-même dès aujourd'hui : n'entamez pas un nouveau chapitre tant que vous n'avez pas validé l'action pratique de la section en cours. 
 
-Prenez un carnet de notes dédié, un stylo et une calculatrice. Oubliez vos erreurs passées. Peu importe d'où vous partez : que vous soyez enlisé dans un découvert bancaire récurrent ou que vous disposiez déjà de liquidités qui dorment sur des comptes non rémunérés, ce guide vous donne le protocole exact pour reprendre le contrôle total.
+Prenez un carnet de notes dédié, un stylo et une calculatrice. Oubliez vos erreurs passées. Peu importe d'où vous partez : ce guide vous donne le protocole exact pour reprendre le contrôle total.
 
 Bienvenue dans votre nouvelle réalité financière.
 
@@ -207,11 +278,65 @@ Bienvenue dans votre nouvelle réalité financière.
 *Entrepreneur & Investisseur Indépendant*
 """
 
+    # Cas général : s'adapte précisément à n'importe quelle thématique
+    import re
+    titre_propre = blueprint.get("titre", "Ce Guide") if blueprint else "Ce Guide"
+    promesse = blueprint.get("promesse_client", "Une transformation concrète et mesurable.") if blueprint else ""
+    auteur = blueprint.get("auteur_suggere", blueprint.get("auteur", "MarkEddy")) if blueprint else "MarkEddy"
+    chapitres = blueprint.get("chapitres", []) if blueprint else []
+
+    liste_chaps_txt = []
+    for ch in chapitres[:10]:
+        num = ch.get("numero", 1)
+        tit = re.sub(r"^(?:Chapitre\s*\d+\s*:\s*)", "", ch.get("titre", "")).strip()
+        obj = ch.get("objectif", "")
+        liste_chaps_txt.append(f"{num}. **{tit} :** {obj}")
+    piliers_bloc = "\n".join(liste_chaps_txt) if liste_chaps_txt else "1. **Les Fondations Méthodologiques**\n2. **L'Ingénierie de Précision**\n3. **L'Exécution Durable**"
+
+    return f"""# Avant-propos : Le Manifeste de l'Exécution et de la Maîtrise Pragmatique
+
+### Pourquoi 90 % des approches conventionnelles échouent
+
+Dans notre époque saturée d'informations superficielles et de théories déconnectées du terrain, le véritable défi n'est plus d'accéder au savoir, mais de savoir comment le transformer en résultats tangibles. La plupart des méthodes traditionnelles échouent pour une raison fondamentale : elles noient le lecteur sous un jargon abstrait sans jamais lui donner la clé d'une exécution directe.
+
+Le résultat est un sentiment persistant de dispersion : on lit, on prend des notes, mais sur le terrain, rien ne change véritablement. On reste prisonnier des mêmes frictions et de la même inertie.
+
+La véritable souveraineté ne consiste pas à accumuler passivement des connaissances théoriques. La véritable maîtrise réside dans **l'ingénierie chirurgicale de ses actions et l'élimination sans pitié de tout ce qui ne produit pas de valeur**.
+
+Ce livre a été écrit pour combler ce fossé et vous apporter un protocole d'application directe.
+
+### La Méthode d'Ingénierie Appliquée
+
+Ce guide repose sur un principe clair : vous délivrer une promesse concrète :
+> *« {promesse} »*
+
+La méthode s'articule autour de {len(chapitres)} piliers majeurs, conçus pour vous accompagner pas-à-pas vers l'autonomie complète :
+
+{piliers_bloc}
+
+### Le Contrat Moral d'Exécution : La Règle des 24 Heures
+
+Un guide d'action ne vaut que par les transformations qu'il déclenche dans votre quotidien. Lire ces pages en simple spectateur ne produira aucun résultat tangible.
+
+C'est pourquoi chaque sous-section de cet ouvrage s'achève par un encadré **« Action Immédiate »**. Ces protocoles ont été calibrés pour être exécutés immédiatement, en moins de 24 heures, dans votre contexte réel.
+
+Faites ce pacte avec vous-même dès aujourd'hui : n'entamez aucun nouveau chapitre tant que l'action pratique de la section en cours n'a pas été concrètement appliquée.
+
+Prenez des notes, appliquez sur le terrain et mesurez vos progrès.
+
+Bienvenue dans votre nouvelle réalité opérationnelle.
+
+— **{auteur}**  
+*Auteur & Stratège en Ingénierie Opérationnelle*
+"""
+
 
 def generer_conclusion_et_backmatter_mark_eddy(blueprint: dict = None) -> str:
     """Génère la conclusion générale, l'épilogue, l'appel aux avis, la bio d'auteur et les remerciements."""
     titre = (blueprint.get("titre", "") if blueprint else "").lower()
-    if any(k in titre for k in ["neuro", "focus", "habitude", "dopamine", "discipline", "procrastin"]):
+    domaine = _detecter_domaine_livre(titre, blueprint)
+
+    if domaine == "neuro":
         return """---
 
 # Conclusion Générale : De la Maîtrise des Micro-Habitudes à la Souveraineté du Temps
@@ -283,7 +408,8 @@ Merci également aux lecteurs et testeurs de la première heure dont les retours
 **Impression :** Réalisée par les centres de distribution Amazon KDP.
 """
 
-    return """---
+    if domaine == "finance":
+        return """---
 
 # Conclusion Générale : De l'Ingénierie Financière à la Souveraineté du Temps
 
@@ -351,6 +477,74 @@ Sa doctrine tient en une phrase :
 La rédaction et la publication de cet ouvrage d'élite n'auraient pas été possibles sans l'apport inestimable de mentors, de chercheurs en finance comportementale et d'investisseurs de légende dont les travaux ont façonné notre époque : Benjamin Graham, John Bogle, Charlie Munger, Daniel Kahneman et Morgan Housel.
 
 Merci à toute la communauté de lecteurs pionniers qui ont relu les premières ébauches de ces protocoles et dont les retours d'expérience sur le terrain ont permis de raffiner chaque encadré d'action immédiate.
+
+**Format d'édition :** Broché 6 × 9 pouces (152,4 × 228,6 mm) conforme aux spécifications techniques d'impression industrielle Amazon KDP.  
+**Typographie :** Garamond / Georgia pour le corps de texte (10.5 pt, interligne 1.45) et Cinzel pour les titrages.  
+**Impression :** Réalisée par les centres de distribution Amazon KDP.
+"""
+
+    # Conclusion générale pour tout autre sujet
+    promesse = blueprint.get("promesse_client", "Vous avez franchi une étape décisive vers la maîtrise.") if blueprint else ""
+    auteur = blueprint.get("auteur_suggere", blueprint.get("auteur", "MarkEddy")) if blueprint else "MarkEddy"
+
+    return f"""---
+
+# Conclusion Générale : De la Méthode à la Souveraineté Pratique
+
+### Le Bilan de Votre Transformation
+
+Si vous avez lu cet ouvrage avec rigueur et si vous avez mis en œuvre les protocoles des encadrés d'action immédiate, votre niveau de maîtrise a changé d'échelle.
+
+{promesse}
+
+Vous avez conquis ce que la majorité des observateurs passifs ne réaliseront jamais : vous avez transformé des concepts en automatismes et des protocoles en résultats concrets.
+
+### Les 3 Lois Inviolables de l'Exécution selon {auteur}
+
+Pour que cette transformation demeure pérenne au fil des mois, ancrez ces trois principes cardinaux au cœur de vos décisions quotidiennes :
+
+1. **La loi de la régularité sans compromis :** L'intensité ponctuelle ne rivalisera jamais avec la constance chirurgicale. Une action concrète répétée chaque jour bâtit des avantages cumulés inexpugnables.
+2. **La loi de la suppression de la friction :** Ne comptez jamais sur votre seule volonté brute face à un environnement inadapté. Concevez vos systèmes et vos protocoles pour que l'excellence devienne le chemin de moindre résistance.
+3. **La loi de l'alignement sur le temps long :** Les résultats durables se construisent avec patience et discipline. Ignorez le bruit ambiant et les raccourcis illusoires : restez fidèle à votre feuille de route méthodique.
+
+---
+
+# Votre Avis Compte
+
+### Chère lectrice, cher lecteur,
+
+Les auteurs indépendants mènent un combat exigeant face aux grands conglomérats d'édition traditionnels. Sur Amazon, l'algorithme ne juge ni la notoriété de l'auteur, ni le budget publicitaire : il se base exclusivement sur la satisfaction authentique des lecteurs.
+
+Si ce livre vous a apporté de la clarté, s'il vous a fait gagner du temps ou permis d'atteindre vos objectifs, **je vous demande une faveur personnelle :**
+
+> **Prenez 60 secondes pour laisser une évaluation et un commentaire sur Amazon.**
+
+Votre avis sincère permettra à d'autres lecteurs, en quête de solutions concrètes et éprouvées, de découvrir cet ouvrage et de transformer à leur tour leurs résultats.
+
+Du fond du cœur, merci pour votre confiance et pour votre soutien indéfectible.
+
+— **{auteur}**
+
+---
+
+# À Propos de l'Auteur : {auteur}
+
+<br>
+
+**{auteur}** est auteur, praticien et concepteur de protocoles d'efficacité opérationnelle et de performance pragmatique.
+
+À travers ses écrits et ses méthodologies, il accompagne les esprits exigeants qui refusent le bruit ambiant et choisissent l'excellence calme de la maîtrise personnelle.
+
+Sa doctrine tient en une phrase :  
+> *« La véritable excellence ne réside pas dans la complexité théorique, mais dans la clarté implacable d'une exécution quotidienne. »*
+
+---
+
+# Remerciements & Notes d'Édition
+
+La rédaction et la publication de cet ouvrage doivent une dette intellectuelle immense aux pionniers, chercheurs et praticiens de terrain qui font progresser la discipline jour après jour.
+
+Merci à toute la communauté de lecteurs pionniers dont les retours d'expérience ont permis d'affûter chaque exercice pratique sous 24h.
 
 **Format d'édition :** Broché 6 × 9 pouces (152,4 × 228,6 mm) conforme aux spécifications techniques d'impression industrielle Amazon KDP.  
 **Typographie :** Garamond / Georgia pour le corps de texte (10.5 pt, interligne 1.45) et Cinzel pour les titrages.  

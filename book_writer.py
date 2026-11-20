@@ -87,11 +87,18 @@ def assembler_livre():
         c_titre = chap.get("titre", f"Chapitre {c_num}")
         sections = chap.get("sections", [])
 
-        print(f"\n--- [CHAPITRE {c_num}/10] : {c_titre} ---")
+        print(f"\n--- [CHAPITRE {c_num}/{len(chapitres)}] : {c_titre} ---")
 
         for s_idx, sec in enumerate(sections, start=1):
             s_titre = sec.get("titre", f"Section {s_idx}")
             points = sec.get("points_cles", [])
+            if not points:
+                points = [
+                    f"Concept fondamental de {s_titre}",
+                    "Étude de cas concrète et chiffrée",
+                    "Piège classique à éviter absolument",
+                    "Protocole d'action immédiate sous 24h"
+                ]
 
             nom_fichier = OUTPUT_DIR / f"chapitre_{c_num:02d}_section_{s_idx:02d}.md"
 

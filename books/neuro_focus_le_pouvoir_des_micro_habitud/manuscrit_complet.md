@@ -27,16 +27,16 @@
 
 Aucune partie de cette publication ne peut être reproduite, stockée dans un système d'extraction ou transmise sous quelque forme ou par quelque procédé que ce soit — électronique, mécanique, photocopie, enregistrement audio ou autre — sans l'autorisation écrite préalable et expresse de l'auteur et de l'éditeur, à l'exception de courtes citations insérées dans une revue critique.
 
-> **Avertissement de non-responsabilité financière, fiscale et juridique :**  
-> Ce livre a été conçu dans un but exclusivement éducatif, méthodologique et informatif. L'auteur, **MarkEddy**, ainsi que l'éditeur ne sont ni conseillers en investissements financiers (CIF), ni gestionnaires de patrimoine agréés, ni experts-comptables assermentés. Les exemples, études de cas, calculs mathématiques et stratégies présentés dans cet ouvrage reflètent des principes généraux de gestion rationnelle et ne constituent en aucun cas des recommandations d'investissement personnalisées, des incitations à l'achat ou à la vente d'actifs financiers, ni des conseils juridiques ou fiscaux. Tout investissement (actions, ETF, obligations, immobilier, cryptomonnaies) comporte un risque inhérent de perte totale ou partielle du capital investi. Il appartient au lecteur de faire ses propres vérifications et de solliciter un professionnel habilité avant toute décision financière.
+> **Avertissement de non-responsabilité méthodologique et comportementale :**  
+> Ce livre a été conçu dans un but exclusivement éducatif, méthodologique et informatif. L'auteur, **MarkEddy**, ainsi que l'éditeur ne dispensent aucun avis médical, psychiatrique ou thérapeutique personnalisé. Les protocoles comportementaux et neurobiologiques présentés s'adressent à des adultes autonomes en bonne santé.
 
 ---
 
 # Dédicace
 
-*À tous ceux qui refusent la fatalité du découvert bancaire et l'illusion de la fausse richesse d'apparence.*  
+*À tous ceux qui refusent la tyrannie des distractions numériques et l'illusion du multitâche stérile.*
 
-*À ceux qui ont le courage d'affronter la réalité de leurs chiffres et la volonté inébranlable de bâtir, jour après jour, leur souveraineté temporelle.*  
+*À ceux qui ont le courage de reconquérir la pleine souveraineté de leur attention et de bâtir, jour après jour, leur excellence.*
 
 *Ce livre est votre feuille de route.*  
 
@@ -48,7 +48,7 @@ Aucune partie de cette publication ne peut être reproduite, stockée dans un sy
 
 **Avant-propos : Le Manifeste du Neuro-Focus et de la Souveraineté de l'Attention**
 - *Pourquoi 90 % des résolutions échouent*
-- *La méthode en 8 piliers majeurs*
+- *La méthode pas-à-pas en 8 piliers majeurs*
 - *Le contrat d'action immédiate sous 24h*
 
 **Chapitre 1 : L'Anatomie du Désordre Mental et la Crise de la Dopamine**
@@ -110,13 +110,16 @@ Aucune partie de cette publication ne peut être reproduite, stockée dans un sy
 **Conclusion Générale : De la Maîtrise des Micro-Habitudes à la Souveraineté du Temps**
 - *Le bilan du maître de son attention*
 - *Les 3 lois inviolables de la discipline selon MarkEddy*
-- *Le rituel annuel de liberté*
+- *Le plan de pérennité sur le long terme*
 
 **Votre Avis Compte : Soutenir l'Édition Indépendante**
 
 **À Propos de l'Auteur : MarkEddy**
 
 **Remerciements & Notes d'Édition**
+
+
+---
 
 # Avant-propos : Le Manifeste du Neuro-Focus et de la Souveraineté de l'Attention
 
@@ -252,6 +255,7 @@ Pour cartographier vos zones de vulnérabilité où la fatigue décisionnelle pr
 > 1. **Éliminez deux micro-décisions de votre réveil :** Décidez dès ce soir de la tenue exacte que vous porterez demain et formalisez par écrit la première tâche professionnelle ou personnelle que vous accomplirez, sans transition, dès votre installation à votre poste.
 > 2. **Verrouillez l'environnement :** Placez votre terminal numérique hors de portée visuelle et tactile pour la première heure de votre journée de travail, interdisant ainsi au cerveau fatigué de céder à la facilité de la notification.
 > 3. **Appliquez la règle du « Un seul choix par bloc » :** Ne planifiez jamais plus d'une tâche majeure par plage de 90 minutes. Réduisez la charge cognitive pour forcer le passage vers l'action fluide.
+
 ### 1.3 Le coût caché du multitasking
 
 Le mythe du multitâche est l'assassin silencieux de la performance cognitive. Contrairement à l'intuition populaire, le cerveau humain ne traite pas deux tâches complexes en parallèle ; il exécute un basculement rapide et inefficace entre les stimuli, un processus que les neurosciences nomment le *switch cost*. Chaque transition forcée entre un e-mail professionnel, un onglet de navigateur ouvert et un rapport à rédiger déclenche une cascade biochimique épuisante. Le cortex préfrontal doit littéralement décharger le contexte de la tâche A pour recharger les paramètres de la tâche B, un exercice d'une gourmandise énergétique extrême pour le glucose cérébral.
@@ -604,6 +608,7 @@ Si votre objectif est d'améliorer votre clarté stratégique, ne cherchez pas �
 > > 1. **Identifiez** une seule habitude majeure que vous avez échoué à maintenir par le passé en raison de son ampleur (ex: faire du sport, méditer, écrire, prospecter).
 > > 2. **Décomposez** cette habitude en sa plus petite expression possible, réalisable en moins de 120 secondes (ex: enfiler ses chaussures de sport, respirer en conscience pendant 60 secondes, formuler une seule phrase).
 > > 3. **Fixez** le déclencheur contextuel exact qui validera l'exécution de cette micro-étape chaque jour sans exception pour les 14 prochains jours.
+
 ### 3.2 La règle des 2 minutes : vaincre l'inertie instantanément
 
 L'obstacle majeur qui paralyse le passage à l'action n'est ni le manque de motivation ni l'absence de vision, mais la friction psychologique générée par la taille perçue de la tâche. Le cerveau humain, programmé pour économiser l'énergie métabolique, évalue systématiquement l'effort requis avant d'autoriser l'engagement. Face à une montagne — comme rédiger un rapport de dix pages ou courir dix kilomètres —, le cortex préfrontal anticipe la dépense calorique et déclenche une réponse de résistance ou d'évitement. 
@@ -889,6 +894,7 @@ La mise en place de ce protocole exige un formalisme précis. Il ne s'agit pas d
 > > * **Ma disponibilité :** Je serai pleinement à votre écoute et disponible pour toutes vos questions de [Heure] à [Heure]. Regroupez vos points d'interrogation sur cette plage pour que nous les réglions en une seule fois."*
 >
 > Copiez ce texte, ajustez les horaires à votre réalité biologique et professionnelle, et envoyez-le à votre équipe ou manager dès aujourd'hui. Votre environnement social cesse d'être une menace subie dès l'instant où vous en devenez le programmateur.
+
 ### 4.5 Maintenir un écosystème sain sur le long terme
 
 L'architecture comportementale n'est pas un événement unique, c'est une maintenance continue. Un espace de travail ou de vie optimisé aujourd'hui subit inexorablement l'entropie : le désordre s'installe, les notifications s'accumulent, les objets superflus reviennent coloniser le bureau, et les limites sociales s'étiolent. Sans un protocole de réinitialisation régulier, la friction initiale reprend le dessus, épuisant les ressources du cortex préfrontal. Maintenir un écosystème sain exige de systématiser l'audit environnemental pour transformer la discipline en automatisme organisationnel.
@@ -918,6 +924,9 @@ La pérennité d'un système de performance ne repose pas sur la volonté inépu
 > 3. **Calibrage social :** Envoyez un rappel synthétique de vos plages de concentration à votre équipe si les frontières ont glissé. 
 >
 > Votre environnement ne doit plus jamais être subit ; il redevient à chaque audit le gardien silencieux de votre attention.
+
+
+
 # Chapitre 5 : Le Protocole Deep Work : Dompter le Temps et l'Attention
 
 
@@ -948,6 +957,7 @@ Pour basculer du piège de l'agitation stérile à la maîtrise stratégique, il
 > 2. **Notation :** Attribuez à chaque tâche une note de 1 à 10 concernant son impact direct sur vos objectifs fondamentaux (revenus, création d'actifs, innovations majeures).
 > 3. **Isolation :** Silexez les 80 % de tâches ayant récolté les notes les plus basses. Identifiez les 2 ou 3 activités uniques qui concentrent la véritable valeur de votre métier.
 > 4. **Verrouillage :** Planifiez dès demain matin, dans votre calendrier, un bloc inviolable de 90 minutes entièrement dédié à l'une de ces tâches à fort impact, avant toute consultation de messagerie.
+
 ### 5.2 La méthode des blocs de temps incompressibles
 
 La sanctuarisation d’un créneau horaire de 90 minutes, telle qu’esquissée précédemment, ne suffit pas à garantir l’efficacité cognitive. Sans une architecture rigoureuse, ce laps de temps se fragmente sous la pression des urgences, des notifications et de la résistance psychologique naturelle du cerveau face à l'effort profond. Pour maintenir un état de performance maximale, il est impératif d'appliquer la méthode des blocs de temps incompressibles (les *Deep Work Blocks*), calés sur les rythmes ultradiens de l'organisme.
@@ -1253,6 +1263,7 @@ Pour opérer cette transition, vous devez cesser de vous demander ce que vous *a
 > 1. **Identifiez votre point de friction actuel :** Repérez dans votre journée de demain une tâche importante que vous repoussez systématiquement sous prétexte que vous "manquez d'énergie" ou "d'inspiration".
 > 2. **Rédigez votre clause professionnelle :** Sur un post-it, écrivez cette phrase exacte : *"Je n'ai pas besoin d'avoir envie pour le faire."* Collez-le à l'endroit précis où vous réalisez cette tâche.
 > 3. **Appliquez la règle des 120 secondes :** Dès que l'heure prévue arrive, lancez un chronomètre de deux minutes et commencez à exécuter la tâche au ralenti, sans chercher la perfection, uniquement pour briser l'inertie de l'attente.
+
 ### 7.2 La règle des 'Jamais deux fois de suite'
 
 L'erreur fondamentale qui détruit 90 % des routines de productivité réside dans la binarité de la pensée : le succès parfait ou l'échec total. Lorsqu'un individu s'impose une discipline de fer — écrire 500 mots par jour, méditer 15 minutes, ou s'entraîner à 6h00 — la première dérogation au système est perçue comme une catastrophe. Cette vision dogmatique active le biais de compensation (« Puisque j'ai raté hier, toute la semaine est fichue ») et provoque l'abandon pur et simple de l'habitude. La plasticité cérébrale ne demande pas la perfection ; elle exige de la régularité statistique. Pour ancrer un comportement de manière pérenne, il faut accepter l'imperfection tout en interdisant la récidive immédiate. C'est le principe fondateur de la règle des « Jamais deux fois de suite ».
@@ -1592,6 +1603,9 @@ Le moment est venu. Les concepts s'effacent, la réalité reprend ses droits. Vo
 
 > **⚡ Action Immédiate :**
 > Ne lisez pas un mot de plus. Fermez physiquement ce livre, posez-le face contre table, levez-vous de votre siège, et réalisez dès maintenant, dans les cent vingt secondes qui viennent, la toute première micro-tâche de votre liste. Votre nouvelle vie cognitive commence à cet instant précis.
+
+---
+
 # Conclusion Générale : De la Maîtrise des Micro-Habitudes à la Souveraineté du Temps
 
 ### Le Bilan du Maître de son Attention

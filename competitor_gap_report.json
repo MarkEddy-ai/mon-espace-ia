@@ -1,0 +1,58 @@
+{
+  "niche": "Stoicisme Moderne",
+  "cible": "Lecteurs exigeants cherchant des résultats concrets",
+  "marketplace": "fr",
+  "generated_at": "2026-11-20T15:40:54.199399+00:00",
+  "trend_score": 72,
+  "google_signals": [
+    "stoicisme moderne livre",
+    "stoïcisme moderne",
+    "stoicien moderne"
+  ],
+  "amazon_kdp_keywords_live": [
+    "stoicisme moderne"
+  ],
+  "bestseller_weaknesses": [
+    {
+      "categorie": "Fond",
+      "faiblesse_concurrents": "Contenu trop théorique et répétitif sans protocole concret.",
+      "contre_attaque_markeddy": "Chaque chapitre se termine par un protocole chiffré et une checklist exécutable."
+    },
+    {
+      "categorie": "Pratique",
+      "faiblesse_concurrents": "Absence d'exemples récents et de modèles réutilisables.",
+      "contre_attaque_markeddy": "Intégration d'études de cas modernes et de grilles prêtes à remplir."
+    },
+    {
+      "categorie": "Mise en page",
+      "faiblesse_concurrents": "Blocs de texte compacts fatigants à lire.",
+      "contre_attaque_markeddy": "Hiérarchie visuelle haute couture : encadrés, tableaux et résumés visuels."
+    },
+    {
+      "categorie": "Design",
+      "faiblesse_concurrents": "Couvertures génériques illisibles en miniature Amazon.",
+      "contre_attaque_markeddy": "Couverture 300 DPI à contraste fort optimisée pour le CTR."
+    }
+  ],
+  "superior_angle": "Transformer 'Stoicisme Moderne' en un système exécutable en 30 jours avec feuilles de route chiffrées, cas réels et checklists.",
+  "recommended_title": "LA MÉTHODE COMPLÈTE : STOICISME MODERNE",
+  "recommended_subtitle_seo": "Le guide pratique pas-à-pas pour maîtriser Stoicisme Moderne avec plans d'action et études de cas",
+  "backend_keywords_7": [
+    "stoicisme moderne",
+    "stoicisme moderne livre",
+    "stoïcisme moderne",
+    "stoicien moderne"
+  ],
+  "must_have_assets": [
+    "Tableaux de diagnostic chiffrés en fin de chaque chapitre",
+    "Plan d'action opérationnel sur 30 jours",
+    "Études de cas détaillées avant/après",
+    "Checklists anti-erreurs récapitulatives"
+  ],
+  "design_directives": {
+    "palette": "Obsidienne profond (#0A0F1D), Or éditorial (#D4AF37) et Blanc cassé (#F8FAFC)",
+    "typographie": "Titres Serif haute autorité + corps Sans-Serif aéré (interligne 1.45)",
+    "concept_couverture": "Minimalisme exécutif à fort contraste lisible en vignette 120px sur Amazon",
+    "mise_en_page_interieure": "Encadrés d'action, tableaux synthétiques et marges respirantes KDP"
+  }
+}

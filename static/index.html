@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MarkEddy KDP Studio — Machine SaaS Multi-Utilisateurs Amazon KDP</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Cinzel & EB Garamond & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: {
+              950: '#060A13',
+              900: '#0A0F1D',
+              850: '#0F172A',
+              800: '#151F38',
+              700: '#1E293B',
+              600: '#334155'
+            },
+            gold: {
+              300: '#FDE047',
+              400: '#EAB308',
+              500: '#D4AF37', // Or Impérial KDP
+              600: '#CA8A04',
+              700: '#A16207'
+            }
+          },
+          fontFamily: {
+            title: ['Cinzel', 'Georgia', 'serif'],
+            serif: ['EB Garamond', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0A0F1D;
+      color: #F8FAFC;
+      font-family: 'Inter', sans-serif;
+    }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FDE047 0%, #D4AF37 50%, #CA8A04 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gold-border-glow {
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+      border-color: rgba(212, 175, 55, 0.35);
+    }
+    .gold-border-glow:hover {
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+      border-color: #D4AF37;
+    }
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0A0F1D;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D4AF37;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-obsidian-900 text-slate-100">
+
+  <!-- TOP NAVIGATION HEADER -->
+  <header class="border-b border-obsidian-700 bg-obsidian-950/90 backdrop-blur sticky top-0 z-40 px-4 sm:px-6 py-3">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo & Title -->
+      <div class="flex items-center space-x-3 sm:space-x-4">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400 via-gold-500 to-gold-700 flex items-center justify-center text-obsidian-950 font-black text-xl shadow-lg shadow-gold-500/20 font-title flex-shrink-0">
+          M
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-lg sm:text-xl font-bold tracking-wide font-title gold-gradient-text">MarkEddy KDP Studio</h1>
+            <span class="text-[11px] px-2 py-0.5 rounded-full bg-gold-500/10 text-gold-400 border border-gold-500/30 font-medium hidden sm:inline-block">SaaS Pro</span>
+          </div>
+          <p class="text-[11px] sm:text-xs text-slate-400">Machine Haute Couture de Création & Publication Amazon KDP</p>
+        </div>
+      </div>
+
+      <!-- User Account & Credits Section -->
+      <div class="flex items-center space-x-2.5 sm:space-x-3">
+
+        <!-- Bouton Canva Connect -->
+        
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <div>
+          <label for="kdp-thematique-rapide" style="display:block;color:#cbd5e1;margin-bottom:3px;">Thématique Rapide (ou libre ci-dessus)</label>
+          <select id="kdp-thematique-rapide" onchange="syncThematiqueKdp()" style="width:100%;padding:7px 8px;border-radius:8px;background:#090d16;color:#f8fafc;border:1px solid #334155;">
+            <option value="">-- Garder ma niche saisie --</option>
+            <option value="Liberté Financière &amp; Budget Zéro Stress">Liberté Financière &amp; Budget Zéro Stress</option>
+            <option value="Stoïcisme Pratique au Quotidien">Stoïcisme Pratique au Quotidien</option>
+            <option value="Systèmes IA &amp; Agents Autonomes">Systèmes IA &amp; Agents Autonomes</option>
+            <option value="Mandalas &amp; Géométrie Sacrée">Mandalas &amp; Géométrie Sacrée</option>
+            <option value="Flore Botanique &amp; Jardin Zen">Flore Botanique &amp; Jardin Zen</option>
+            <option value="Animaux Totems &amp; Faune Sauvage">Animaux Totems &amp; Faune Sauvage</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="kdp-public-langue" style="display:block;color:#cbd5e1;margin-bottom:3px;">Public Cible &amp; Langue</label>
+          <div style="display:flex;gap:4px;">
+            <select id="kdp-public" style="flex:1;padding:7px 6px;border-radius:8px;background:#090d16;color:#f8fafc;border:1px solid #334155;">
+              <option value="Adultes">Adultes</option>
+              <option value="Débutants">Débutants</option>
+              <option value="Professionnels">Professionnels</option>
+              <option value="Ados &amp; Étudiants">Ados &amp; Étudiants</option>
+              <option value="Enfants">Enfants</option>
+            </select>
+            <select id="kdp-langue" style="width:74px;padding:7px 6px;border-radius:8px;background:#090d16;color:#f8fafc;border:1px solid #334155;">
+              <option value="FR" selected>FR</option>
+              <option value="EN">EN</option>
+              <option value="AR">AR</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <div>
+          <label for="kdp-mise-en-forme" style="display:block;color:#cbd5e1;margin-bottom:3px;">Mise en Forme Intérieure</label>
+          <select id="kdp-mise-en-forme" style="width:100%;padding:7px 8px;border-radius:8px;background:#090d16;color:#f8fafc;border:1px solid #334155;">
+            <option value="Aéré + Encadrés d'Action &amp; Checklists">Aéré + Encadrés d'Action &amp; Checklists</option>
+            <option value="Tableaux Synthétiques &amp; Études de Cas">Tableaux Synthétiques &amp; Études de Cas</option>
+            <option value="Éditorial Classique Haute Lisibilité">Éditorial Classique Haute Lisibilité</option>
+            <option value="Grand Format Coloriage 300 DPI">Grand Format Coloriage 300 DPI</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="kdp-bleed-mode" style="display:block;color:#cbd5e1;margin-bottom:3px;">Fond Perdu (Bleed) &amp; Marges</label>
+          <select id="kdp-bleed-mode" style="width:100%;padding:7px 8px;border-radius:8px;background:#090d16;color:#f8fafc;border:1px solid #334155;">
+            <option value="bleed">Avec fond perdu (Bleed 0.125 po)</option>
+            <option value="no_bleed">Sans fond perdu (Marges standard)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center;margin-top:6px;">
+        <button type="button" onclick="lancerAgent0()" style="flex:1;padding:8px 10px;border-radius:8px;border:1px solid #d4af37;background:rgba(212,175,55,0.14);color:#f3d27a;font-weight:600;cursor:pointer;">
+          🔍 Agent 0 : Tendances &amp; Faiblesses Best-Sellers
+        </button>
+        <button type="button" onclick="sauvegarderProfilKdp()" style="padding:8px 10px;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;cursor:pointer;">
+          💾 Mémoriser
+        </button>
+      </div>
+      
+      <div style="margin-top:8px;">
+        <label for="kdp-description-detaillee" style="display:block;color:#cbd5e1;margin-bottom:3px;">
+          📝 Description Détaillée / Prompt Complet (Thématique, Topic, Pages &amp; Règles Visuelles)
+        </label>
+        <textarea id="kdp-description-detaillee" rows="5" placeholder="Collez ici votre prompt complet : nombre de pages, thématique, scènes détaillées, épaisseur des traits, recto/verso blanc, police..." style="width:100%;padding:8px 10px;border-radius:8px;background:#090d16;color:#f8fafc;border:1px solid #334155;font-size:12px;line-height:1.45;resize:vertical;"></textarea>
+      </div>
+      <div id="agent0-panel" style="display:none;margin-top:8px;padding:10px;border-radius:8px;background:#090d16;border:1px solid #26334d;line-height:1.45;"></div>
+    </div>
+    <button 
+          onclick="ouvrirCanvaConnect()" 
+          class="text-xs px-2.5 py-1.5 rounded-lg bg-obsidian-850 hover:bg-obsidian-750 text-sky-400 hover:text-sky-300 border border-sky-500/30 transition flex items-center space-x-1.5" 
+          title="Connecter Canva Connect API"
+        >
+          <span>🎨</span>
+          <span class="hidden md:inline">Canva Connect</span>
+        </button>
+        
+        <!-- Authenticated State -->
+        <div id="user-logged-in" class="hidden flex items-center space-x-2 sm:space-x-3">
+          
+          <!-- Credits Pill Badge -->
+          <div id="badge-credits-container" class="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-gold-500/15 border border-gold-500/40 text-gold-400 shadow-sm" title="Solde de crédits restants">
+            <span class="text-sm">✨</span>
+            <span id="user-credits" class="font-bold text-xs sm:text-sm text-gold-300">3</span>
+            <span class="text-[11px] font-medium hidden sm:inline">crédits</span>
+          </div>
+
+          <!-- User Email & Plan -->
+          <div class="text-right hidden md:block">
+            <div id="user-email-display" class="text-xs font-semibold text-slate-200 truncate max-w-[160px]">user@example.com</div>
+            <div id="user-plan-badge" class="text-[10px] text-slate-400 uppercase tracking-wider font-mono">Plan Gratuit</div>
+          </div>
+
+          <!-- Logout Button -->
+          <button onclick="handleLogout()" class="text-xs px-2.5 py-1.5 rounded-lg bg-obsidian-800 hover:bg-obsidian-700 text-slate-300 hover:text-rose-400 border border-obsidian-700 transition flex items-center space-x-1" title="Déconnexion">
+            <span>🚪</span>
+            <span class="hidden sm:inline">Déconnexion</span>
+          </button>
+        </div>
+
+        <!-- Unauthenticated State -->
+        <div id="user-logged-out" class="flex items-center space-x-2">
+          <button onclick="ouvrirAuthModal('login')" class="text-xs px-3.5 py-1.5 rounded-xl bg-obsidian-800 text-slate-200 hover:text-gold-400 border border-obsidian-700 hover:border-gold-500/50 transition font-semibold">
+            Connexion
+          </button>
+          <button onclick="ouvrirAuthModal('register')" class="text-xs px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 text-obsidian-950 font-bold hover:brightness-110 shadow-md shadow-gold-500/20 transition">
+            Essai Gratuit
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- LEFT PANEL: NOUVEAU LIVRE KDP (4 cols) -->
+    <aside class="lg:col-span-4 space-y-6">
+      
+      <!-- Card Création -->
+      <div class="bg-obsidian-850/90 rounded-2xl border border-obsidian-700/80 p-5 shadow-xl gold-border-glow transition-all">
+        <div class="flex items-center justify-between mb-3 border-b border-obsidian-700/60 pb-3">
+          <div class="flex items-center space-x-2">
+            <span class="text-xl">✨</span>
+            <h2 class="text-base font-bold text-slate-100 font-title tracking-wide">Créateur de Livre KDP</h2>
+          </div>
+          <span class="text-xs px-2 py-0.5 rounded bg-gold-500/20 text-gold-400 border border-gold-500/40 font-mono">1 Crédit</span>
+        </div>
+
+        <!-- SÉLECTEUR DE TYPE DE LIVRE (MODE 1 vs MODE 2) -->
+        <div class="grid grid-cols-2 gap-1.5 mb-4 p-1 bg-obsidian-950 rounded-xl border border-obsidian-700/80">
+          <button 
+            type="button" 
+            id="tab-mode-nonfiction" 
+            onclick="switchProjectMode('non-fiction')" 
+            class="py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gold-500 text-obsidian-950 shadow-sm"
+          >
+            <span>📖</span>
+            <span>Non-Fiction</span>
+          </button>
+          <button 
+            type="button" 
+            id="tab-mode-coloriage" 
+            onclick="switchProjectMode('coloriage')" 
+            class="py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200"
+          >
+            <span>🎨</span>
+            <span>Livre Coloriage</span>
+          </button>
+        </div>
+
+        <form id="form-create-book" onsubmit="handleCreateBook(event)" class="space-y-4">
+          
+          <!-- ================= MODE 1 : NON-FICTION ================= -->
+          <div id="section-nonfiction" class="space-y-3.5">
+            <!-- Thématique / Niche -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                Niche / Thématique Best-Seller <span class="text-gold-400">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="input-niche" 
+                placeholder="Ex: Psychologie de l'argent, Stoïcisme..." 
+                class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition-colors"
+              >
+          <div style="margin-top:8px;">
+            <button type="button" id="btn-agent0" onclick="lancerAgent0()" style="width:100%;padding:9px 12px;border-radius:10px;border:1px solid #d4af37;background:rgba(212,175,55,0.12);color:#f3d27a;font-weight:600;cursor:pointer;font-size:13px;">
+              🔍 Analyser Tendances &amp; Faiblesses Best-Sellers (Agent 0)
+            </button>
+            <div id="agent0-panel" style="display:none;margin-top:10px;padding:12px;border-radius:10px;background:#0d1424;border:1px solid #26334d;font-size:12px;line-height:1.5;color:#dbe4f3;"></div>
+          </div>
+              <!-- Suggestions rapides -->
+              <div class="flex flex-wrap gap-1.5 mt-2">
+                <button type="button" onclick="setNiche('Finances Personnelles')" class="text-[11px] px-2 py-0.5 rounded-full bg-obsidian-800 text-slate-400 hover:text-gold-400 border border-obsidian-700 hover:border-gold-500/50 transition">💡 Finances</button>
+                <button type="button" onclick="setNiche('Micro-Habitudes & Focus')" class="text-[11px] px-2 py-0.5 rounded-full bg-obsidian-800 text-slate-400 hover:text-gold-400 border border-obsidian-700 hover:border-gold-500/50 transition">🧠 Focus</button>
+                <button type="button" onclick="setNiche('Stoïcisme & Sérénité')" class="text-[11px] px-2 py-0.5 rounded-full bg-obsidian-800 text-slate-400 hover:text-gold-400 border border-obsidian-700 hover:border-gold-500/50 transition">🏛️ Stoïcisme</button>
+                <button type="button" onclick="setNiche('Intelligence Artificielle')" class="text-[11px] px-2 py-0.5 rounded-full bg-obsidian-800 text-slate-400 hover:text-gold-400 border border-obsidian-700 hover:border-gold-500/50 transition">⚡ IA Pro</button>
+              </div>
+            </div>
+
+            <!-- Titre Personnalisé (Optionnel) -->
+            <div>
+              <div class="flex justify-between items-center mb-1.5">
+                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                  Titre Principal
+                </label>
+                <span class="text-[11px] text-slate-400">Optionnel (Auto si vide)</span>
+              </div>
+              <input 
+                type="text" 
+                id="input-titre" 
+                placeholder="Laisser vide pour titre automatique..." 
+                class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition-colors"
+              >
+            </div>
+
+            <!-- Sous-titre SEO (Optionnel) -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                Sous-titre SEO A9
+              </label>
+              <input 
+                type="text" 
+                id="input-sous-titre" 
+                placeholder="Ex: La méthode pas-à-pas en 10 étapes..." 
+                class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition-colors"
+              >
+            </div>
+
+            <!-- Options : Format & Chapitres -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                  Format KDP
+                </label>
+                <select id="select-format" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
+                  <option value="6x9" selected>Broché 6" × 9" (Standard)</option>
+                  <option value="5x8">5" × 8"</option>
+                  <option value="5.06x7.81">5.06" × 7.81"</option>
+                  <option value="5.25x8">5.25" × 8"</option>
+                  <option value="5.5x8.5">Roman 5.5" × 8.5"</option>
+                  <option value="6.14x9.21">6.14" × 9.21"</option>
+                  <option value="6.69x9.61">6.69" × 9.61"</option>
+                  <option value="7x10">7" × 10"</option>
+                  <option value="7.44x9.69">7.44" × 9.69"</option>
+                  <option value="7.5x9.25">7.5" × 9.25"</option>
+                  <option value="8x10">8" × 10"</option>
+                  <option value="8.25x6">8.25" × 6" (Paysage)</option>
+                  <option value="8.25x8.25">8.25" × 8.25"</option>
+                  <option value="8.5x8.5">8.5" × 8.5"</option>
+                  <option value="8.5x11">8.5" × 11" (Grand Format)</option>
+                  <option value="8.27x11.69">8.27" × 11.69" (A4)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                  Chapitres
+                </label>
+                <select id="select-chapitres" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
+                  <option value="5">5 chapitres (Rapide)</option>
+                  <option value="10" selected>10 chapitres (Élite KDP)</option>
+                  <option value="12">12 chapitres (Volume fort)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= MODE 2 : COLORIAGE KDP ================= -->
+          <div id="section-coloriage" class="space-y-3.5 hidden">
+            <!-- Thème de coloriage -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                Thème des Illustrations <span class="text-gold-400">*</span>
+              </label>
+              <select id="select-coloriage-theme" onchange="autoSuggestColoringTitle()" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
+                <option value="mandalas" selected>🔯 Mandalas Sacrés & Géométrie (Méditation)</option>
+                <option value="botanique">🌿 Flore Botanique & Jardins Zen (Détente)</option>
+                <option value="animaux">🦁 Animaux Totems & Faune Sacrée (Force & Calme)</option>
+                <option value="architecture">⛩️ Architecture Japonaise & Vagues Zen</option>
+              </select>
+            </div>
+
+            <!-- Titre du livre de coloriage -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                Titre de l'Album
+              </label>
+              <input 
+                type="text" 
+                id="input-titre-coloriage" 
+                placeholder="Ex: Mandalas Sacrés & Sérénité Absolue..." 
+                class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition-colors"
+              >
+            </div>
+
+            <!-- Sous-titre Coloriage -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                Sous-titre Amazon A9
+              </label>
+              <input 
+                type="text" 
+                id="input-sous-titre-coloriage" 
+                placeholder="Ex: 50 illustrations grand format pour apaiser l'esprit..." 
+                class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition-colors"
+              >
+            </div>
+
+            <!-- Options Coloriage : Nb planches & Format -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                  Nb de Planches
+                </label>
+                <select id="select-coloriage-planches" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
+                  <option value="15">15 planches (~35 p.)</option>
+                  <option value="25">25 planches (~55 p.)</option>
+                  <option value="30" selected>30 planches (~65 p.)</option>
+                  <option value="50">50 planches (~105 p.)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                  Format KDP
+                </label>
+                <select id="select-format-coloriage" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
+                  <option value="8.5x11" selected>8.5" × 11" (Grand Format)</option>
+                  <option value="5x8">5" × 8"</option>
+                  <option value="5.06x7.81">5.06" × 7.81"</option>
+                  <option value="5.25x8">5.25" × 8"</option>
+                  <option value="5.5x8.5">5.5" × 8.5"</option>
+                  <option value="6x9">6" × 9"</option>
+                  <option value="6.14x9.21">6.14" × 9.21"</option>
+                  <option value="6.69x9.61">6.69" × 9.61"</option>
+                  <option value="7x10">7" × 10"</option>
+                  <option value="7.44x9.69">7.44" × 9.69"</option>
+                  <option value="7.5x9.25">7.5" × 9.25"</option>
+                  <option value="8x10">8" × 10"</option>
+                  <option value="8.25x6">8.25" × 6" (Paysage)</option>
+                  <option value="8.25x8.25">8.25" × 8.25"</option>
+                  <option value="8.5x8.5">8.5" × 8.5"</option>
+                  <option value="8.27x11.69">8.27" × 11.69" (A4)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Option Recto Uniquement (Single-Sided) -->
+            <div class="p-3 rounded-xl bg-obsidian-900/80 border border-obsidian-700/60 flex items-start space-x-2.5">
+              <input type="checkbox" id="check-recto-uniquement" checked class="mt-1 rounded bg-obsidian-800 border-obsidian-600 text-gold-500 focus:ring-gold-500">
+              <label for="check-recto-uniquement" class="text-xs text-slate-300 cursor-pointer">
+                <span class="font-bold text-slate-100">Pages Recto Uniquement (Anti-bavure)</span><br>
+                <span class="text-[11px] text-slate-400">Insère une page de protection au verso pour empêcher les feutres et marqueurs de traverser.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- ================= BLOC DÉPLIABLE : VISUEL COUVERTURE (UNSPLASH / PIXABAY) ================= -->
+          <details id="block-visuel-couverture" class="pt-2 border-t border-obsidian-700/60 group" open>
+            <summary class="flex items-center justify-between cursor-pointer list-none select-none">
+              <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                Visuel Couverture (Unsplash / Pixabay)
+              </label>
+              <span class="text-[11px] text-gold-400 font-medium flex items-center space-x-1">
+                <span>Stock Pro 300 DPI</span>
+                <span class="text-slate-500 group-open:rotate-180 transition-transform">▾</span>
+              </span>
+            </summary>
+
+            <div class="mt-2 space-y-2">
+              <!-- Bouton Sélecteur Stock -->
+              <button 
+                type="button" 
+                onclick="ouvrirStockModal()" 
+                class="w-full py-2 px-3 rounded-xl bg-obsidian-900 hover:bg-obsidian-800 border border-obsidian-700 hover:border-gold-500/50 text-xs text-slate-200 transition flex items-center justify-center space-x-2"
+              >
+                <span>🖼️</span>
+                <span>Choisir une Image Stock (Unsplash / Pixabay)</span>
+              </button>
+
+              <!-- Badge Image Sélectionnée (Caché au départ) -->
+              <div id="selected-stock-preview" class="hidden p-2 rounded-xl bg-obsidian-900 border border-gold-500/40 flex items-center justify-between">
+                <div class="flex items-center space-x-2.5 min-w-0">
+                  <img id="selected-stock-thumb" src="" alt="Thumbnail" class="w-10 h-10 rounded-lg object-cover border border-gold-500/30 flex-shrink-0">
+                  <div class="min-w-0">
+                    <div id="selected-stock-title" class="text-xs font-semibold text-slate-200 truncate">Image sélectionnée</div>
+                    <div id="selected-stock-source" class="text-[10px] text-gold-400">300 DPI Prepress Ready</div>
+                  </div>
+                </div>
+                <button type="button" onclick="retirerStockImage()" class="text-slate-400 hover:text-rose-400 p-1 text-sm" title="Retirer l'image">✕</button>
+              </div>
+
+              <!-- Connexion Canva -->
+              <button 
+                type="button" 
+                onclick="ouvrirCanvaConnect()" 
+                class="w-full py-2 px-3 rounded-xl bg-obsidian-900 hover:bg-obsidian-800 border border-obsidian-700 hover:border-fuchsia-500/50 text-xs text-slate-200 transition flex items-center justify-center space-x-2"
+              >
+                <span>🎨</span>
+                <span>Connecter mon compte Canva</span>
+              </button>
+            </div>
+          </details>
+
+          <!-- Notice Normes & Quota -->
+          <div class="p-3 rounded-xl bg-obsidian-900/60 border border-obsidian-700/50 text-[11px] text-slate-400 space-y-1">
+            <div class="flex items-center space-x-1.5 text-gold-400 font-semibold">
+              <span>🛡️</span>
+              <span>Garanties SaaS & Impression Industrielle :</span>
+            </div>
+            <div>• Débit : 1 crédit par livre (remboursé en cas d'erreur)</div>
+            <div>• Formatage intérieur conforme KDP avec marges de reliure</div>
+            <div>• Couverture complète 300 DPI avec dos calculé au micron</div>
+          </div>
+
+          <!-- Submit Button -->
+          <div id="kdp-advanced-panel" style="margin-top:12px;margin-bottom:14px;padding:14px;border-radius:12px;background:#0d1424;border:1px solid #26334d;color:#e2e8f0;font-size:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <span style="font-weight:700;color:#f3d27a;font-size:13px;">⚙️ Définitions Amazon KDP, Modèles &amp; Mise en Forme</span>
+        <span style="color:#94a3b8;font-size:11px;">Synchronisé automatiquement</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+        <div>
+          <label for="kdp-categorie" style="display:block;color:#cbd5e1;margin-bottom:3px;">Catégorie KDP</label>
+          <select id="kdp-categorie" onchange="appliquerPresetCategorieKdp()" style="width:100%;padding:7px 8px;border-radius:8px;background:#090d16;color:#f8fafc;border:1px solid #334155;">
+            <option value="Business &amp; Finance Personnelle">Business &amp; Finance Personnelle</option>
+            <option value="Développement Personnel &amp; Stoïcisme">Développement Personnel &amp; Stoïcisme</option>
+            <option value="Santé, Sommeil &amp; Longévité">Santé, Sommeil &amp; Longévité</option>
+            <option value="IA, Automatisation &amp; Productivité">IA, Automatisation &amp; Productivité</option>
+            <option value="Éducation, Méthodes &amp; Études">Éducation, Méthodes &amp; Études</option>
+            <option value="Coloriage Anti-Stress &amp; Créatif">Coloriage Anti-Stress &amp; Créatif</option>
+            <option value="Planner, Journal &amp; Workbook">Planner, Journal &amp; Workbook</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="kdp-modele" style="display:block;color:#cbd5e1;margin-bottom:3px;">Modèle / Template Éditorial</label>
+          <select id="kdp-modele" onchange="appliquerModeleEditorialKdp()" style="width:100%;padding:7px 8px;border-radius:8px;background:#090d16;color:#f8fafc;border:1px solid #334155;">
+            <option value="Guide Pratique 30 Jours">Guide Pratique 30 Jours</option>
+            <option value="Méthode Pas-à-Pas &amp; Études de Cas">Méthode Pas-à-Pas &amp; Études de Cas</option>
+            <option value="Workbook &amp; Cahier d'Exercices">Workbook &amp; Cahier d'Exercices</option>
+            <option value="Essai / Manuel Synthétique">Essai / Manuel Synthétique</option>
+            <option value="Album Coloriage Recto Anti-Bavure">Album Coloriage Recto Anti-Bavure</option>
+          </select>
+        </div>
+      </div>
+
+      
+          <button 
+            type="submit" 
+            id="btn-submit"
+            class="w-full py-3 px-4 rounded-xl font-bold text-sm tracking-wide bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-obsidian-950 hover:brightness-110 shadow-lg shadow-gold-500/25 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 cursor-pointer"
+          >
+            <span>🚀</span>
+            <span id="btn-submit-text">Lancer la Production (1 Crédit)</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Card Signature Auteur -->
+      <div class="bg-obsidian-850/60 rounded-2xl border border-obsidian-700/50 p-4 text-xs text-slate-400">
+        <div class="font-bold text-slate-200 mb-1 flex items-center space-x-2">
+          <span>👑</span>
+          <span class="font-title">Auteur Officiel : MarkEddy</span>
+        </div>
+        <p>Tous les manuscrits, mentions légales, dépôts légaux et formats d'impression sont générés selon les règles de publication professionnelle Amazon KDP.</p>
+      </div>
+
+    </aside>
+
+    <!-- RIGHT/CENTRAL PANEL: BIBLIOTHÈQUE & DIRECT MONITORING (8 cols) -->
+    <section class="lg:col-span-8 space-y-6">
+      
+      <!-- Stats Summary Banner -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="bg-obsidian-850 border border-obsidian-700 rounded-xl p-3.5">
+          <div class="text-xs text-slate-400">Mes Livres</div>
+          <div id="stat-total" class="text-xl font-bold text-slate-100 font-title mt-0.5">0</div>
+        </div>
+        <div class="bg-obsidian-850 border border-obsidian-700 rounded-xl p-3.5">
+          <div class="text-xs text-slate-400">Prêts KDP 100%</div>
+          <div id="stat-termines" class="text-xl font-bold text-emerald-400 font-title mt-0.5">0</div>
+        </div>
+        <div class="bg-obsidian-850 border border-obsidian-700 rounded-xl p-3.5">
+          <div class="text-xs text-slate-400">En Production</div>
+          <div id="stat-encours" class="text-xl font-bold text-gold-400 font-title mt-0.5">0</div>
+        </div>
+        <div class="bg-obsidian-850 border border-obsidian-700 rounded-xl p-3.5">
+          <div class="text-xs text-slate-400">Crédits Disponibles</div>
+          <div id="stat-credits" class="text-xl font-bold text-gold-400 font-title mt-0.5">3</div>
+        </div>
+      </div>
+
+      <!-- Header Bibliothèque -->
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-bold text-slate-100 font-title tracking-wide">Ma Bibliothèque Privée</h2>
+          <p class="text-xs text-slate-400">Actualisation en temps réel toutes les 2 secondes</p>
+        </div>
+        <button onclick="chargerLivres()" class="text-xs px-3 py-1.5 rounded-lg bg-obsidian-800 text-slate-300 hover:text-gold-400 border border-obsidian-700 flex items-center space-x-1.5 transition">
+          <span>🔄</span>
+          <span>Actualiser</span>
+        </button>
+      </div>
+
+      <!-- Liste des Livres (Container dynamique) -->
+      <div id="books-container" class="space-y-4">
+        <div class="p-8 text-center text-slate-400 bg-obsidian-850 rounded-2xl border border-obsidian-700">
+          Chargement de votre bibliothèque sécurisée...
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ============================================================================== -->
+  <!-- MODAL AUTHENTIFICATION (CONNEXION & INSCRIPTION SAAS) -->
+  <!-- ============================================================================== -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-obsidian-900 border border-gold-500/50 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden gold-border-glow">
+      
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-obsidian-700/80 bg-obsidian-950 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-obsidian-950 font-black flex items-center justify-center text-lg font-title">
+            M
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-100 font-title tracking-wide">Espace Membre KDP Studio</h3>
+            <p class="text-xs text-slate-400">Plateforme SaaS Haute Couture</p>
+          </div>
+        </div>
+        <button id="btn-close-auth-modal" onclick="fermerAuthModal()" class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-obsidian-800 transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- Tabs Bar -->
+      <div class="flex border-b border-obsidian-700 bg-obsidian-850">
+        <button onclick="switchAuthTab('login')" id="tab-auth-login" class="flex-1 py-3 text-xs font-bold border-b-2 border-gold-500 text-gold-400 text-center transition">
+          Se Connecter
+        </button>
+        <button onclick="switchAuthTab('register')" id="tab-auth-register" class="flex-1 py-3 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 text-center transition">
+          Créer un Compte (+3 Crédits)
+        </button>
+      </div>
+
+      <!-- Modal Body Form -->
+      <div class="p-6 space-y-4">
+        
+        <!-- Error Banner -->
+        <div id="auth-error-banner" class="hidden p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-xs">
+          Message d'erreur
+        </div>
+
+        <!-- Success Banner -->
+        <div id="auth-success-banner" class="hidden p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs">
+          Message de succès
+        </div>
+
+        <!-- Formulaire de Connexion -->
+        <form id="form-login" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Email</label>
+            <input 
+              type="email" 
+              id="login-email" 
+              required 
+              placeholder="votre@email.com" 
+              class="w-full bg-obsidian-950 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition"
+            >
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Mot de passe</label>
+            <input 
+              type="password" 
+              id="login-password" 
+              required 
+              placeholder="••••••••" 
+              class="w-full bg-obsidian-950 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition"
+            >
+          </div>
+          <button 
+            type="submit" 
+            id="btn-login-submit"
+            class="w-full py-3 px-4 rounded-xl font-bold text-sm tracking-wide bg-gradient-to-r from-gold-500 to-gold-600 text-obsidian-950 hover:brightness-110 shadow-lg shadow-gold-500/20 active:scale-[0.98] transition cursor-pointer"
+          >
+            Se Connecter
+          </button>
+          <div class="text-center pt-2">
+            <span class="text-xs text-slate-400">Compte démo admin :</span>
+            <span class="text-xs text-gold-400 font-mono font-semibold cursor-pointer underline ml-1" onclick="remplirIdentifiantsDemo()">admin@markeddy.com / Admin123!</span>
+          </div>
+        </form>
+
+        <!-- Formulaire d'Inscription -->
+        <form id="form-register" onsubmit="handleRegisterSubmit(event)" class="space-y-4 hidden">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Votre Adresse Email</label>
+            <input 
+              type="email" 
+              id="reg-email" 
+              required 
+              placeholder="votre@email.com" 
+              class="w-full bg-obsidian-950 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition"
+            >
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Mot de passe (6 caractères min.)</label>
+            <input 
+              type="password" 
+              id="reg-password" 
+              required 
+              minlength="6"
+              placeholder="••••••••" 
+              class="w-full bg-obsidian-950 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition"
+            >
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Confirmer le mot de passe</label>
+            <input 
+              type="password" 
+              id="reg-password-confirm" 
+              required 
+              minlength="6"
+              placeholder="••••••••" 
+              class="w-full bg-obsidian-950 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition"
+            >
+          </div>
+          <div class="p-2.5 rounded-xl bg-gold-500/10 border border-gold-500/30 text-[11px] text-gold-400 flex items-center space-x-2">
+            <span>🎁</span>
+            <span>Bonus de bienvenue : <strong>3 crédits offerts</strong> pour publier 3 livres complets !</span>
+          </div>
+          <button 
+            type="submit" 
+            id="btn-reg-submit"
+            class="w-full py-3 px-4 rounded-xl font-bold text-sm tracking-wide bg-gradient-to-r from-gold-500 to-gold-600 text-obsidian-950 hover:brightness-110 shadow-lg shadow-gold-500/20 active:scale-[0.98] transition cursor-pointer"
+          >
+            Créer mon Compte (+3 Crédits)
+          </button>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================================== -->
+  <!-- MODAL SÉLECTEUR DE PHOTOS STOCK (PEXELS / UNSPLASH / CURATED) -->
+  <!-- ============================================================================== -->
+  <div id="stock-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-obsidian-900 border border-gold-500/50 rounded-2xl w-full max-w-4xl h-[85vh] flex flex-col shadow-2xl overflow-hidden gold-border-glow">
+      
+      <!-- Modal Header -->
+      <div class="p-4 border-b border-obsidian-700 bg-obsidian-950 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-obsidian-950 font-bold flex items-center justify-center text-base">
+            🖼️
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-slate-100 font-title">Galerie Stock Haute Définition (300 DPI)</h3>
+            <p class="text-xs text-slate-400">Recherche d'images libres de droits Unsplash & Pixabay pour fond de couverture KDP</p>
+          </div>
+        </div>
+        <button onclick="fermerStockModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-obsidian-800 transition text-lg">
+          ✕
+        </button>
+      </div>
+
+      <!-- Search & Source Filters -->
+      <div class="p-4 border-b border-obsidian-700 bg-obsidian-850 flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <div class="flex items-center space-x-2 w-full sm:w-auto flex-1">
+          <input 
+            type="text" 
+            id="input-stock-search" 
+            placeholder="Rechercher (ex: mandala, gold luxury, stoic, botanical, architecture)..." 
+            class="flex-1 bg-obsidian-950 border border-obsidian-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500"
+            onkeydown="if(event.key==='Enter') executerRechercheStock()"
+          >
+          <button onclick="executerRechercheStock()" class="px-4 py-2 rounded-xl bg-gold-500 text-obsidian-950 font-bold text-xs hover:brightness-110 transition">
+            Rechercher
+          </button>
+        </div>
+
+        <div class="flex items-center space-x-1.5 self-end sm:self-auto">
+          <button onclick="changerSourceStock('all')" id="btn-source-all" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gold-500 text-obsidian-950">Tous</button>
+          <button onclick="changerSourceStock('unsplash')" id="btn-source-unsplash" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-obsidian-800 text-slate-300 hover:text-gold-400">Unsplash</button>
+          <button onclick="changerSourceStock('pixabay')" id="btn-source-pixabay" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-obsidian-800 text-slate-300 hover:text-gold-400">Pixabay</button>
+        </div>
+      </div>
+
+      <!-- Stock Images Grid Container -->
+      <div id="stock-images-grid" class="flex-1 p-4 overflow-y-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 bg-obsidian-950">
+        <!-- Rempli par JavaScript -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================================== -->
+  <!-- MODAL VISIONNEUSE / PREVIEW -->
+  <!-- ============================================================================== -->
+  <div id="preview-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-obsidian-900 border border-gold-500/40 rounded-2xl w-full max-w-5xl h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="p-4 border-b border-obsidian-700 flex items-center justify-between bg-obsidian-950">
+        <div class="flex items-center space-x-3 overflow-hidden">
+          <div class="w-8 h-8 rounded-lg bg-gold-500 text-obsidian-950 font-bold flex items-center justify-center text-sm font-title flex-shrink-0">
+            KDP
+          </div>
+          <div class="truncate">
+            <h3 id="modal-book-title" class="text-sm sm:text-base font-bold text-slate-100 truncate font-title">Titre du livre</h3>
+            <p id="modal-book-subtitle" class="text-xs text-slate-400 truncate">Sous-titre du livre</p>
+          </div>
+        </div>
+        <button onclick="fermerModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-obsidian-800 transition text-lg">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Tabs Bar -->
+      <div class="flex border-b border-obsidian-700 bg-obsidian-850 px-4 space-x-2 overflow-x-auto">
+        <button onclick="changerOngletModal('couverture')" id="tab-btn-couverture" class="py-2.5 px-4 text-xs font-semibold border-b-2 border-gold-500 text-gold-400 whitespace-nowrap">
+          🖼️ Couverture eBook
+        </button>
+        <button onclick="changerOngletModal('interieur')" id="tab-btn-interieur" class="py-2.5 px-4 text-xs font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap">
+          📖 Maquette Intérieure (HTML 6x9)
+        </button>
+        <button onclick="changerOngletModal('marketing')" id="tab-btn-marketing" class="py-2.5 px-4 text-xs font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap">
+          🛒 Fiche Marketing Amazon
+        </button>
+        <button onclick="changerOngletModal('manuscrit')" id="tab-btn-manuscrit" class="py-2.5 px-4 text-xs font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap">
+          📝 Manuscrit Markdown
+        </button>
+      </div>
+
+      <!-- Modal Body (Viewer container) -->
+      <div class="flex-1 bg-obsidian-950 relative overflow-hidden flex items-center justify-center">
+        
+        <!-- Tab 1: Couverture -->
+        <div id="tab-couverture" class="w-full h-full p-4 flex items-center justify-center overflow-auto">
+          <img id="modal-img-couverture" src="" alt="Couverture" class="max-h-full max-w-full rounded shadow-2xl border border-gold-500/30 object-contain">
+        </div>
+
+        <!-- Tab 2: Intérieur HTML -->
+        <div id="tab-interieur" class="w-full h-full hidden">
+          <iframe id="modal-iframe-interieur" src="" class="w-full h-full border-0 bg-white"></iframe>
+        </div>
+
+        <!-- Tab 3: Marketing HTML -->
+        <div id="tab-marketing" class="w-full h-full p-4 hidden overflow-auto">
+          <iframe id="modal-iframe-marketing" src="" class="w-full h-full border-0 bg-white rounded-xl shadow"></iframe>
+        </div>
+
+        <!-- Tab 4: Manuscrit Text -->
+        <div id="tab-manuscrit" class="w-full h-full p-6 hidden overflow-auto">
+          <pre id="modal-text-manuscrit" class="text-xs font-mono text-slate-300 whitespace-pre-wrap leading-relaxed select-text"></pre>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer (Boutons de téléchargement) -->
+      <div class="p-3 sm:p-4 border-t border-obsidian-700 bg-obsidian-950 flex flex-wrap items-center justify-between gap-3">
+        <div class="text-xs text-slate-400 hidden sm:block">
+          📦 Téléchargement direct des livrables certifiés Amazon KDP :
+        </div>
+        <div class="flex flex-wrap items-center gap-2" id="modal-download-buttons">
+          <!-- Injecté par JavaScript -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================================== -->
+  <!-- MODAL SÉLECTEUR DE PHOTOS STOCK (PEXELS / UNSPLASH / CURATED) -->
+  <!-- ============================================================================== -->
+  <div id="stock-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-obsidian-900 border border-gold-500/50 rounded-2xl w-full max-w-4xl h-[85vh] flex flex-col shadow-2xl overflow-hidden gold-border-glow">
+      
+      <!-- Modal Header -->
+      <div class="p-4 border-b border-obsidian-700 bg-obsidian-950 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 text-obsidian-950 font-bold flex items-center justify-center text-base">
+            🖼️
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-slate-100 font-title">Galerie Stock Haute Définition (300 DPI)</h3>
+            <p class="text-xs text-slate-400">Recherche d'images libres de droits Unsplash & Pixabay pour fond de couverture KDP</p>
+          </div>
+        </div>
+        <button onclick="fermerStockModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-obsidian-800 transition text-lg">
+          ✕
+        </button>
+      </div>
+
+      <!-- Search & Source Filters -->
+      <div class="p-4 border-b border-obsidian-700 bg-obsidian-850 flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <div class="flex items-center space-x-2 w-full sm:w-auto flex-1">
+          <input 
+            type="text" 
+            id="input-stock-search" 
+            placeholder="Rechercher (ex: mandala, gold luxury, stoic, botanical, architecture)..." 
+            class="flex-1 bg-obsidian-950 border border-obsidian-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500"
+            onkeydown="if(event.key==='Enter') executerRechercheStock()"
+          >
+          <button onclick="executerRechercheStock()" class="px-4 py-2 rounded-xl bg-gold-500 text-obsidian-950 font-bold text-xs hover:brightness-110 transition">
+            Rechercher
+          </button>
+        </div>
+
+        <div class="flex items-center space-x-1.5 self-end sm:self-auto">
+          <button onclick="changerSourceStock('all')" id="btn-source-all" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-gold-500 text-obsidian-950">Tous</button>
+          <button onclick="changerSourceStock('unsplash')" id="btn-source-unsplash" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-obsidian-800 text-slate-300 hover:text-gold-400">Unsplash</button>
+          <button onclick="changerSourceStock('pixabay')" id="btn-source-pixabay" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-obsidian-800 text-slate-300 hover:text-gold-400">Pixabay</button>
+        </div>
+      </div>
+
+      <!-- Stock Images Grid Container -->
+      <div id="stock-images-grid" class="flex-1 p-4 overflow-y-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 bg-obsidian-950">
+        <!-- Rempli par JavaScript -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-obsidian-850 border border-gold-500 text-slate-100 text-xs py-3 px-5 rounded-xl shadow-2xl flex items-center space-x-2">
+    <span id="toast-icon">✨</span>
+    <span id="toast-message">Message</span>
+  </div>
+
+  <!-- ============================================================================== -->
+  <!-- JAVASCRIPT LOGIC CLIENT & AUTHENTIFICATION -->
+  <!-- ============================================================================== -->
+  <script>
+    let livresActuels = [];
+    let livreSelectionne = null;
+    let pollInterval = null;
+    let currentUser = null;
+    let currentProjectMode = "non-fiction";
+    let selectedCoverBg = null;
+    let currentStockSource = "all";
+
+    // Gestion du Mode de Projet (Non-Fiction 6x9 vs Coloriage 8.5x11)
+    function switchProjectMode(mode) {
+      currentProjectMode = mode;
+      const btnNonFiction = document.getElementById("tab-mode-nonfiction");
+      const btnColoriage = document.getElementById("tab-mode-coloriage");
+      const secNonFiction = document.getElementById("section-nonfiction");
+      const secColoriage = document.getElementById("section-coloriage");
+      const btnSubmitText = document.getElementById("btn-submit-text");
+
+      if (mode === "coloriage") {
+        btnColoriage.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gradient-to-r from-fuchsia-600 to-amber-500 text-white shadow-sm";
+        btnNonFiction.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200";
+        secNonFiction.classList.add("hidden");
+        secColoriage.classList.remove("hidden");
+        btnSubmitText.textContent = "Générer l'Album Coloriage (1 Crédit)";
+        autoSuggestColoringTitle();
+      } else {
+        btnNonFiction.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gold-500 text-obsidian-950 shadow-sm";
+        btnColoriage.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200";
+        secNonFiction.classList.remove("hidden");
+        secColoriage.classList.add("hidden");
+        btnSubmitText.textContent = "Lancer la Production (1 Crédit)";
+      }
+    }
+
+    function autoSuggestColoringTitle() {
+      const theme = document.getElementById("select-coloriage-theme").value;
+      const suggestions = {
+        mandalas: {
+          titre: "MANDALAS SACRÉS & GÉOMÉTRIE VIBRATOIRE",
+          sous: "Motifs complexes de méditation et d'harmonisation intérieure pour adultes"
+        },
+        botanique: {
+          titre: "JARDINS ENCHANTÉS & ÉLÉGANCE BOTANIQUE",
+          sous: "Une évasion florale apaisante pour cultiver le calme et la pleine conscience"
+        },
+        animaux: {
+          titre: "FAUNE MYSTIQUE & ANIMAUX TOTEMS",
+          sous: "Portraits géométriques d'animaux sacrés pour libérer l'esprit créatif"
+        },
+        architecture: {
+          titre: "ARCHITECTURE ZEN & SANCTUAIRES D'ORIENT",
+          sous: "Pagodes majestueuses, toriis sacrés et jardins karesansui à colorier"
+        }
+      };
+      const sug = suggestions[theme] || suggestions.mandalas;
+      const inputTitre = document.getElementById("input-titre-coloriage");
+      const inputSous = document.getElementById("input-sous-titre-coloriage");
+      if (!inputTitre.value || inputTitre.dataset.autofilled === "true") {
+        inputTitre.value = sug.titre;
+        inputTitre.dataset.autofilled = "true";
+      }
+      if (!inputSous.value || inputSous.dataset.autofilled === "true") {
+        inputSous.value = sug.sous;
+        inputSous.dataset.autofilled = "true";
+      }
+    }
+
+    // Gestion de la Galerie Stock Photo (Unsplash / Pixabay / Curated)
+    function ouvrirStockModal() {
+      document.getElementById("stock-modal").classList.remove("hidden");
+      const defaultQuery = currentProjectMode === "coloriage" ? "mandala" : "luxury gold texture";
+      const searchInput = document.getElementById("input-stock-search");
+      if (!searchInput.value) {
+        searchInput.value = defaultQuery;
+      }
+      executerRechercheStock();
+    }
+
+    function fermerStockModal() {
+      document.getElementById("stock-modal").classList.add("hidden");
+    }
+
+    function changerSourceStock(source) {
+      currentStockSource = source;
+      ["all", "unsplash", "pixabay"].forEach(s => {
+        const btn = document.getElementById(`btn-source-${s}`);
+        if (s === source) {
+          btn.className = "px-3 py-1.5 text-xs font-semibold rounded-lg bg-gold-500 text-obsidian-950";
+        } else {
+          btn.className = "px-3 py-1.5 text-xs font-semibold rounded-lg bg-obsidian-800 text-slate-300 hover:text-gold-400";
+        }
+      });
+      executerRechercheStock();
+    }
+
+    async function executerRechercheStock() {
+      const query = document.getElementById("input-stock-search").value.trim() || (currentProjectMode === "coloriage" ? "mandala" : "abstract");
+      const grid = document.getElementById("stock-images-grid");
+      grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">Recherche des visuels HD en cours...</div>`;
+
+      try {
+        const res = await authFetch(`/api/media/search?query=${encodeURIComponent(query)}&source=${currentStockSource}&per_page=12`);
+        if (res.ok) {
+          const data = await res.json();
+          renderStockImages(data.images || []);
+        } else {
+          grid.innerHTML = `<div class="col-span-full py-12 text-center text-rose-400 text-xs">Impossible de charger les images stock.</div>`;
+        }
+      } catch (err) {
+        grid.innerHTML = `<div class="col-span-full py-12 text-center text-rose-400 text-xs">Erreur de connexion au catalogue d'images.</div>`;
+      }
+    }
+
+    function renderStockImages(images) {
+      const grid = document.getElementById("stock-images-grid");
+      if (!images || images.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-xs">Aucune image trouvée pour ces termes.</div>`;
+        return;
+      }
+
+      grid.innerHTML = images.map(img => `
+        <div class="bg-obsidian-900 border border-obsidian-700 hover:border-gold-500/80 rounded-xl overflow-hidden group transition flex flex-col justify-between">
+          <div class="aspect-[2/3] w-full overflow-hidden bg-obsidian-950 relative">
+            <img src="${img.thumb_url}" alt="${img.title || 'Stock'}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
+            <span class="absolute top-1.5 left-1.5 text-[9px] uppercase px-1.5 py-0.5 rounded bg-black/70 text-gold-300 backdrop-blur font-mono">${img.source}</span>
+          </div>
+          <div class="p-2.5">
+            <div class="text-xs font-semibold text-slate-200 truncate">${img.title || 'Visuel Haute Couture'}</div>
+            <div class="text-[10px] text-slate-400 truncate">Par ${img.photographer || 'Artiste'}</div>
+            <button 
+              type="button" 
+              onclick="selectionnerStockImage('${img.regular_url || img.hd_url}', '${img.photographer || ''}', '${img.thumb_url}', '${(img.title || '').replace(/'/g, "\\'")}')" 
+              class="w-full mt-2 py-1.5 px-2 rounded-lg bg-gold-500/15 hover:bg-gold-500 text-gold-400 hover:text-obsidian-950 border border-gold-500/40 text-xs font-bold transition"
+            >
+              Sélectionner
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectionnerStockImage(url, photographer, thumbUrl, title) {
+      selectedCoverBg = url;
+      const preview = document.getElementById("selected-stock-preview");
+      const thumb = document.getElementById("selected-stock-thumb");
+      const titleEl = document.getElementById("selected-stock-title");
+      const sourceEl = document.getElementById("selected-stock-source");
+
+      thumb.src = thumbUrl;
+      titleEl.textContent = title || "Visuel Haute Couture";
+      sourceEl.textContent = photographer ? `Photo par ${photographer} • 300 DPI` : "Prepress 300 DPI Ready";
+      preview.classList.remove("hidden");
+
+      fermerStockModal();
+      showToast("Arrière-plan de couverture sélectionné !", "🖼️");
+    }
+
+    function retirerStockImage() {
+      selectedCoverBg = null;
+      document.getElementById("selected-stock-preview").classList.add("hidden");
+      document.getElementById("selected-stock-thumb").src = "";
+      showToast("Arrière-plan retiré (Thème Obsidienne par défaut)", "ℹ️");
+    }
+
+    async function ouvrirCanvaConnect() {
+      try {
+        const res = await authFetch("/api/canva/auth-url");
+        if (res.ok) {
+          const data = await res.json();
+          window.open(data.auth_url, "_blank");
+          showToast("Ouverture de Canva Connect API...", "🎨");
+        } else {
+          showToast("Connecteur Canva temporairement indisponible.", "⚠️");
+        }
+      } catch (err) {
+        showToast("Erreur de connexion à Canva Connect API.", "❌");
+      }
+    }
+
+    // Export d'un livre terminé vers Canva (design API ou gabarit PNG/PDF 300 DPI)
+    async function exporterVersCanva(bookId) {
+      showToast("Préparation de l'export Canva 300 DPI...", "🎨");
+      try {
+        const res = await authFetch(`/api/canva/export/${bookId}`);
+        if (!res.ok) {
+          showToast("Export Canva indisponible pour ce livre.", "⚠️");
+          return;
+        }
+        const data = await res.json();
+        if (data.mode === "live") {
+          showToast("Design exporté via Canva Connect API !", "✅");
+        } else {
+          showToast("Gabarit KDP 300 DPI généré, ouverture du téléchargement...", "📐");
+          const token = getToken();
+          window.open(`/api/canva/template/${bookId}?token=${encodeURIComponent(token)}`, "_blank");
+        }
+      } catch (err) {
+        showToast("Erreur de connexion à l'export Canva.", "❌");
+      }
+    }
+
+    // Gestion du token JWT dans localStorage
+    function getToken() {
+      return localStorage.getItem("kdp_jwt_token");
+    }
+
+    function setToken(token) {
+      if (token) {
+        localStorage.setItem("kdp_jwt_token", token);
+      } else {
+        localStorage.removeItem("kdp_jwt_token");
+      }
+    }
+
+    // Requêtes authentifiées (Wrapper Fetch)
+    async function authFetch(url, options = {}) {
+      const token = getToken();
+      const headers = { ...options.headers };
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+      const response = await fetch(url, { ...options, headers });
+      if (response.status === 401) {
+        // Déconnexion ou session expirée
+        setToken(null);
+        currentUser = null;
+        updateUserUI();
+        ouvrirAuthModal('login');
+        showToast("Votre session a expiré. Veuillez vous reconnecter.", "🔒");
+      }
+      return response;
+    }
+
+    // Toast Utility
+    function showToast(message, icon = "✨") {
+      const toast = document.getElementById("toast");
+      document.getElementById("toast-icon").textContent = icon;
+      document.getElementById("toast-message").textContent = message;
+
+      if (icon === "❌" || icon === "⚠️") {
+        toast.className = "fixed bottom-5 right-5 z-50 transform transition-all duration-300 bg-rose-950/95 border border-rose-500/80 text-rose-100 text-xs py-3 px-5 rounded-xl shadow-2xl flex items-center space-x-2.5 max-w-md";
+      } else {
+        toast.className = "fixed bottom-5 right-5 z-50 transform transition-all duration-300 bg-obsidian-850 border border-gold-500 text-slate-100 text-xs py-3 px-5 rounded-xl shadow-2xl flex items-center space-x-2.5 max-w-md";
+      }
+
+      toast.classList.remove("translate-y-20", "opacity-0");
+      setTimeout(() => {
+        toast.classList.add("translate-y-20", "opacity-0");
+      }, 5000);
+    }
+
+    function setNiche(niche) {
+      document.getElementById("input-niche").value = niche;
+      document.getElementById("input-titre").placeholder = "Ex: " + niche.toUpperCase();
+    }
+
+    // Gestion de l'état Utilisateur dans l'Interface
+    function updateUserUI() {
+      const loggedInDiv = document.getElementById("user-logged-in");
+      const loggedOutDiv = document.getElementById("user-logged-out");
+
+      if (currentUser) {
+        loggedInDiv.classList.remove("hidden");
+        loggedOutDiv.classList.add("hidden");
+
+        document.getElementById("user-email-display").textContent = currentUser.email;
+        document.getElementById("user-credits").textContent = currentUser.credits;
+        document.getElementById("stat-credits").textContent = currentUser.credits;
+        
+        const planBadge = document.getElementById("user-plan-badge");
+        if (currentUser.plan === "admin") {
+          planBadge.textContent = "👑 Administrateur";
+          planBadge.className = "text-[10px] text-amber-300 font-bold uppercase tracking-wider font-mono";
+        } else {
+          planBadge.textContent = "Plan Gratuit (SaaS)";
+          planBadge.className = "text-[10px] text-slate-400 uppercase tracking-wider font-mono";
+        }
+
+        // Style du badge de crédits
+        const creditsBadge = document.getElementById("badge-credits-container");
+        if (currentUser.credits <= 0) {
+          creditsBadge.className = "flex items-center space-x-1.5 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-300 shadow-sm animate-pulse";
+        } else {
+          creditsBadge.className = "flex items-center space-x-1.5 px-3 py-1 rounded-full bg-gold-500/15 border border-gold-500/40 text-gold-400 shadow-sm";
+        }
+      } else {
+        loggedInDiv.classList.add("hidden");
+        loggedOutDiv.classList.remove("hidden");
+        document.getElementById("stat-credits").textContent = "—";
+      }
+    }
+
+    // Vérifier la session au démarrage
+    async function verifierSession() {
+      const token = getToken();
+      if (!token) {
+        // Proposer la connexion par défaut si non connecté
+        updateUserUI();
+        ouvrirAuthModal('login');
+        return;
+      }
+      try {
+        const res = await authFetch("/api/auth/me");
+        if (res.ok) {
+          const data = await res.json();
+          currentUser = data.user;
+          updateUserUI();
+          await chargerLivres();
+        } else {
+          ouvrirAuthModal('login');
+        }
+      } catch (err) {
+        console.error("Erreur vérification session :", err);
+      }
+    }
+
+    // Déconnexion
+    function handleLogout() {
+      setToken(null);
+      currentUser = null;
+      livresActuels = [];
+      renderBooks([]);
+      updateStats([]);
+      updateUserUI();
+      showToast("Vous avez été déconnecté.", "👋");
+      ouvrirAuthModal('login');
+    }
+
+    // Gestion de la modale d'authentification
+    function ouvrirAuthModal(tab = 'login') {
+      document.getElementById("auth-error-banner").classList.add("hidden");
+      document.getElementById("auth-success-banner").classList.add("hidden");
+      switchAuthTab(tab);
+      document.getElementById("auth-modal").classList.remove("hidden");
+    }
+
+    function fermerAuthModal() {
+      if (!currentUser) {
+        showToast("Veuillez vous connecter pour gérer vos livres.", "ℹ️");
+      }
+      document.getElementById("auth-modal").classList.add("hidden");
+    }
+
+    function switchAuthTab(tab) {
+      document.getElementById("auth-error-banner").classList.add("hidden");
+      document.getElementById("auth-success-banner").classList.add("hidden");
+
+      const btnLogin = document.getElementById("tab-auth-login");
+      const btnReg = document.getElementById("tab-auth-register");
+      const formLogin = document.getElementById("form-login");
+      const formReg = document.getElementById("form-register");
+
+      if (tab === 'login') {
+        btnLogin.className = "flex-1 py-3 text-xs font-bold border-b-2 border-gold-500 text-gold-400 text-center transition";
+        btnReg.className = "flex-1 py-3 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 text-center transition";
+        formLogin.classList.remove("hidden");
+        formReg.classList.add("hidden");
+      } else {
+        btnReg.className = "flex-1 py-3 text-xs font-bold border-b-2 border-gold-500 text-gold-400 text-center transition";
+        btnLogin.className = "flex-1 py-3 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 text-center transition";
+        formReg.classList.remove("hidden");
+        formLogin.classList.add("hidden");
+      }
+    }
+
+    function remplirIdentifiantsDemo() {
+      document.getElementById("login-email").value = "admin@markeddy.com";
+      document.getElementById("login-password").value = "Admin123!";
+    }
+
+    // Soumission Connexion
+    async function handleLoginSubmit(e) {
+      e.preventDefault();
+      const errBanner = document.getElementById("auth-error-banner");
+      errBanner.classList.add("hidden");
+
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value;
+      const btn = document.getElementById("btn-login-submit");
+
+      btn.disabled = true;
+      btn.textContent = "Connexion en cours...";
+
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setToken(data.token);
+          currentUser = data.user;
+          updateUserUI();
+          document.getElementById("auth-modal").classList.add("hidden");
+          showToast(`Ravi de vous revoir, ${currentUser.email} !`, "✨");
+          await chargerLivres();
+        } else {
+          errBanner.textContent = data.detail || "Email ou mot de passe incorrect.";
+          errBanner.classList.remove("hidden");
+        }
+      } catch (err) {
+        errBanner.textContent = "Erreur de connexion au serveur.";
+        errBanner.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Se Connecter";
+      }
+    }
+
+    // Soumission Inscription
+    async function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const errBanner = document.getElementById("auth-error-banner");
+      errBanner.classList.add("hidden");
+
+      const email = document.getElementById("reg-email").value.trim();
+      const password = document.getElementById("reg-password").value;
+      const confirm = document.getElementById("reg-password-confirm").value;
+      const btn = document.getElementById("btn-reg-submit");
+
+      if (password !== confirm) {
+        errBanner.textContent = "Les deux mots de passe ne correspondent pas.";
+        errBanner.classList.remove("hidden");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Création du compte...";
+
+      try {
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setToken(data.token);
+          currentUser = data.user;
+          updateUserUI();
+          document.getElementById("auth-modal").classList.add("hidden");
+          showToast("Compte créé avec succès ! 3 crédits offerts ont été ajoutés.", "🎉");
+          await chargerLivres();
+        } else {
+          errBanner.textContent = data.detail || "Erreur lors de l'inscription.";
+          errBanner.classList.remove("hidden");
+        }
+      } catch (err) {
+        errBanner.textContent = "Erreur de communication avec le serveur.";
+        errBanner.classList.remove("hidden");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Créer mon Compte (+3 Crédits)";
+      }
+    }
+
+    // Chargement des livres de l'utilisateur
+    async function chargerLivres() {
+      if (!currentUser) return;
+      try {
+        const res = await authFetch("/api/books");
+        if (res.ok) {
+          const data = await res.json();
+          livresActuels = data.books || [];
+          renderBooks(livresActuels);
+          updateStats(livresActuels);
+        }
+      } catch (err) {
+        console.error("Erreur lors de la récupération des livres :", err);
+      }
+    }
+
+    // Mise à jour des cartes métriques
+    function updateStats(books) {
+      document.getElementById("stat-total").textContent = books.length;
+      document.getElementById("stat-termines").textContent = books.filter(b => b.statut === "termine").length;
+      document.getElementById("stat-encours").textContent = books.filter(b => b.statut === "en_cours" || b.statut === "en_attente").length;
+    }
+
+    // Rendu HTML des livres
+    function renderBooks(books) {
+      const container = document.getElementById("books-container");
+      if (!books || books.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center text-slate-400 bg-obsidian-850 rounded-2xl border border-obsidian-700">
+            <div class="text-3xl mb-2">📚</div>
+            <div class="text-sm font-semibold text-slate-200">Aucun livre dans votre bibliothèque privée</div>
+            <div class="text-xs text-slate-400 mt-1">Utilisez le panneau de gauche pour concevoir votre premier livre Amazon KDP !</div>
+          </div>
+        `;
+        return;
+      }
+
+      const token = getToken();
+
+      container.innerHTML = books.map(book => {
+        const estTermine = book.statut === "termine";
+        const estEnCours = book.statut === "en_cours" || book.statut === "en_attente";
+        const estErreur = book.statut === "erreur";
+
+        let badgeStatus = '';
+        if (estTermine) {
+          badgeStatus = `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1"><span>✓</span><span>Prêt KDP 100%</span></span>`;
+        } else if (estEnCours) {
+          badgeStatus = `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-gold-500/15 text-gold-400 border border-gold-500/30 flex items-center space-x-1 animate-pulse"><span>⏳</span><span>${book.progression}% • En cours</span></span>`;
+        } else {
+          badgeStatus = `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-500/15 text-rose-400 border border-rose-500/30">Erreur (Crédit remboursé)</span>`;
+        }
+
+        const coverSrc = book.chemin_couverture_jpg 
+          ? `/api/files/${book.id}/couverture_jpg?preview=true&token=${encodeURIComponent(token)}` 
+          : '/couverture_ebook.jpg';
+
+        return `
+          <div class="bg-obsidian-850 rounded-2xl border ${estEnCours ? 'border-gold-500/60 shadow-lg shadow-gold-500/10' : 'border-obsidian-700/80'} p-5 transition-all hover:border-obsidian-600">
+            <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+              
+              <!-- Left: Vignette & Titres -->
+              <div class="flex items-center space-x-4 flex-1 min-w-0">
+                <div class="w-16 h-24 rounded-lg bg-obsidian-900 border border-gold-500/30 flex-shrink-0 overflow-hidden shadow-md flex items-center justify-center cursor-pointer" onclick="ouvrirModal(${book.id})">
+                  <img src="${coverSrc}" alt="Couverture" class="w-full h-full object-cover hover:scale-105 transition" onerror="this.onerror=null; this.src='/couverture_ebook.jpg';">
+                </div>
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center space-x-2 mb-1">
+                    ${book.type_projet === "coloriage" 
+                      ? `<span class="text-xs font-semibold px-2 py-0.5 rounded bg-fuchsia-950/80 text-fuchsia-300 border border-fuchsia-500/40 font-mono">🎨 COLORIAGE ${book.format_kdp || '8.5x11'}</span>` 
+                      : `<span class="text-xs font-semibold px-2 py-0.5 rounded bg-obsidian-800 text-gold-400 border border-obsidian-700 font-mono">#${book.id} • ${book.format_kdp}</span>`}
+                    <span class="text-xs text-slate-400">${book.niche}</span>
+                  </div>
+                  <h3 class="text-base font-bold text-slate-100 font-title truncate tracking-wide">${book.titre}</h3>
+                  <p class="text-xs text-slate-400 truncate mt-0.5">${book.sous_titre || ''}</p>
+                  
+                  <!-- Métriques chiffrées -->
+                  <div class="flex flex-wrap items-center gap-3 mt-2 text-xs text-slate-300">
+                    ${book.type_projet === "coloriage" ? `
+                      <span class="flex items-center space-x-1"><span>🎨</span><span>${book.nb_illustrations || book.nb_chapitres || 30} planches</span></span>
+                      <span class="flex items-center space-x-1"><span>📄</span><span>~${book.nb_pages || 0} pages</span></span>
+                      <span class="flex items-center space-x-1 text-gold-400 font-semibold"><span>🛡️</span><span>KDP 300 DPI 100/100</span></span>
+                    ` : `
+                      <span class="flex items-center space-x-1"><span>📑</span><span>${book.nb_chapitres} chapitres</span></span>
+                      <span class="flex items-center space-x-1"><span>📊</span><span>${(book.nb_mots || 0).toLocaleString()} mots</span></span>
+                      <span class="flex items-center space-x-1"><span>📄</span><span>~${book.nb_pages || 0} pages</span></span>
+                      <span class="flex items-center space-x-1 text-gold-400 font-semibold"><span>🏆</span><span>QA ${book.score_qa || 100}/100</span></span>
+                    `}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Statut & Boutons d'Action -->
+              <div class="flex flex-col sm:items-end justify-between self-stretch sm:self-auto gap-2">
+                <div>${badgeStatus}</div>
+
+                <div class="flex items-center space-x-2 mt-2 sm:mt-0">
+                  <button onclick="ouvrirModal(${book.id})" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-obsidian-800 text-slate-200 hover:text-gold-400 hover:bg-obsidian-700 border border-obsidian-700 transition flex items-center space-x-1">
+                    <span>👁️</span>
+                    <span>Consulter</span>
+                  </button>
+                  ${estTermine ? `
+                  <button onclick="exporterVersCanva(${book.id})" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-fuchsia-950/70 text-fuchsia-200 hover:bg-fuchsia-500 hover:text-white border border-fuchsia-500/40 transition flex items-center space-x-1" title="Exporter la couverture vers Canva">
+                    <span>🎨</span>
+                    <span>Exporter vers Canva</span>
+                  </button>` : ``}
+                  <button onclick="supprimerLivre(${book.id})" class="p-1.5 rounded-lg text-xs text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/30 transition" title="Supprimer">
+                    🗑️
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Barre de progression si en cours -->
+            ${estEnCours ? `
+              <div class="mt-4 pt-3 border-t border-obsidian-700/60">
+                <div class="flex justify-between text-xs text-slate-400 mb-1.5">
+                  <span class="text-gold-400 font-medium">${book.etape_courante || 'En cours...'}</span>
+                  <span class="font-bold text-slate-200">${book.progression}%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-obsidian-900 overflow-hidden border border-obsidian-700">
+                  <div class="h-full bg-gradient-to-r from-gold-500 to-amber-300 rounded-full transition-all duration-500" style="width: ${book.progression}%"></div>
+                </div>
+              </div>
+            ` : ''}
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Lancer la création d'un livre
+    async function handleCreateBook(e) {
+      e.preventDefault();
+      if (!currentUser) {
+        ouvrirAuthModal('login');
+        showToast("Veuillez vous connecter avant de lancer un livre.", "🔒");
+        return;
+      }
+
+      if (currentUser.credits <= 0) {
+        showToast("Solde insuffisant (0 crédit restant). Rechargez vos crédits pour continuer.", "⚠️");
+        return;
+      }
+
+      let payload = {};
+      if (currentProjectMode === "coloriage") {
+        const theme = document.getElementById("select-coloriage-theme").value;
+        const nbPlanches = parseInt(document.getElementById("select-coloriage-planches").value) || 30;
+        const rectoOnly = document.getElementById("check-recto-uniquement").checked;
+        const titreCol = document.getElementById("input-titre-coloriage").value.trim();
+        const sousTitreCol = document.getElementById("input-sous-titre-coloriage").value.trim();
+
+        payload = {
+          type_projet: "coloriage",
+          project_type: "coloring_book",
+          theme_coloriage: theme,
+          nb_illustrations: nbPlanches,
+          recto_uniquement: rectoOnly,
+          single_sided: rectoOnly,
+          format_kdp: document.getElementById("select-format-coloriage").value || "8.5x11",
+          titre: titreCol || null,
+          sous_titre: sousTitreCol || null,
+          cover_bg_image: selectedCoverBg || null,
+          cover_image_url: selectedCoverBg || null
+        };
+      } else {
+        const nicheInput = document.getElementById("input-niche").value.trim();
+        const titreInput = document.getElementById("input-titre").value.trim();
+        const sousTitreInput = document.getElementById("input-sous-titre").value.trim();
+        const formatKdpInput = document.getElementById("select-format").value;
+        const nbChapitresInput = parseInt(document.getElementById("select-chapitres").value) || 10;
+
+        if (!nicheInput) {
+          showToast("Veuillez renseigner la niche du livre.", "⚠️");
+          return;
+        }
+
+        payload = {
+          type_projet: "non-fiction",
+          project_type: "non_fiction",
+          niche: nicheInput,
+          titre: titreInput || null,
+          sous_titre: sousTitreInput || null,
+          format_kdp: formatKdpInput || "6x9",
+          nb_chapitres: nbChapitresInput,
+          cover_bg_image: selectedCoverBg || null,
+          cover_image_url: selectedCoverBg || null
+        };
+      }
+
+      const btn = document.getElementById("btn-submit");
+      btn.disabled = true;
+      btn.innerHTML = `<span>⏳</span><span>Lancement du pipeline...</span>`;
+
+      try {
+        const res = await authFetch("/api/books/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        let data = {};
+        try {
+          data = await res.json();
+        } catch (_) {
+          data = { detail: `Réponse serveur HTTP ${res.status}` };
+        }
+
+        if (res.ok) {
+          showToast(`Projet #${data.book_id} lancé en direct ! (1 crédit débité)`, "🚀");
+          if (data.credits_restants !== undefined && currentUser) {
+            currentUser.credits = data.credits_restants;
+            updateUserUI();
+          }
+          if (currentProjectMode === "coloriage") {
+            document.getElementById("input-titre-coloriage").value = "";
+            document.getElementById("input-sous-titre-coloriage").value = "";
+          } else {
+            document.getElementById("input-niche").value = "";
+            document.getElementById("input-titre").value = "";
+            document.getElementById("input-sous-titre").value = "";
+          }
+          retirerStockImage();
+          await chargerLivres();
+        } else {
+          // Lecture explicite du message d'erreur retourné par FastAPI (data.detail)
+          let messageErreur = "Erreur lors de la création du livre.";
+          if (typeof data.detail === "string") {
+            messageErreur = data.detail;
+          } else if (Array.isArray(data.detail)) {
+            messageErreur = data.detail.map(item => {
+              const champ = item.loc ? item.loc[item.loc.length - 1] : "";
+              return champ ? `Champ '${champ}' : ${item.msg}` : item.msg;
+            }).join(" | ");
+          } else if (data.detail && typeof data.detail === "object") {
+            messageErreur = JSON.stringify(data.detail);
+          } else if (data.message) {
+            messageErreur = data.message;
+          }
+          showToast(messageErreur, "❌");
+        }
+      } catch (err) {
+        console.error("Erreur requête :", err);
+        showToast(`Erreur réseau : ${err.message || 'Impossible de joindre le serveur.'}`, "❌");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>🚀</span><span id="btn-submit-text">${currentProjectMode === 'coloriage' ? "Générer l'Album Coloriage (1 Crédit)" : "Lancer la Production (1 Crédit)"}</span>`;
+      }
+    }
+
+    // Supprimer un livre
+    async function supprimerLivre(bookId) {
+      if (!confirm(`Supprimer définitivement le livre #${bookId} ?`)) return;
+      try {
+        const res = await authFetch(`/api/books/${bookId}`, { method: "DELETE" });
+        if (res.ok) {
+          showToast(`Livre #${bookId} supprimé.`, "🗑️");
+          await chargerLivres();
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Gestion du Modal de Visionneuse
+    function ouvrirModal(bookId) {
+      const book = livresActuels.find(b => b.id === bookId);
+      if (!book) return;
+      livreSelectionne = book;
+      const token = getToken();
+      const tokenQuery = token ? `&token=${encodeURIComponent(token)}` : '';
+      const tokenQueryFirst = token ? `?token=${encodeURIComponent(token)}` : '';
+
+      document.getElementById("modal-book-title").textContent = book.titre;
+      document.getElementById("modal-book-subtitle").textContent = book.sous_titre || `${book.niche} • Par MarkEddy`;
+
+      // Set Preview URLs avec jeton de sécurité
+      document.getElementById("modal-img-couverture").src = `/api/files/${book.id}/couverture_jpg?preview=true${tokenQuery}`;
+      document.getElementById("modal-iframe-interieur").src = `/api/files/${book.id}/interieur_html?preview=true${tokenQuery}`;
+      document.getElementById("modal-iframe-marketing").src = `/api/files/${book.id}/marketing_html?preview=true${tokenQuery}`;
+
+      // Load Markdown text
+      authFetch(`/api/files/${book.id}/manuscrit_md?preview=true`)
+        .then(r => r.text())
+        .then(txt => {
+          document.getElementById("modal-text-manuscrit").textContent = txt;
+        })
+        .catch(() => {
+          document.getElementById("modal-text-manuscrit").textContent = book.type_projet === "coloriage" ? "Livre de coloriage artistique composé d'illustrations 300 DPI." : "Manuscrit non disponible.";
+        });
+
+      // Download Buttons sécurisés avec token
+      const btnContainer = document.getElementById("modal-download-buttons");
+      const isColoriage = (book.type_projet === "coloriage");
+      btnContainer.innerHTML = `
+        <a href="/api/files/${book.id}/pdf_couverture${tokenQueryFirst}" download class="text-xs px-3 py-1.5 rounded-lg bg-gold-500 text-obsidian-950 font-bold hover:brightness-110 flex items-center space-x-1">
+          <span>🎨</span><span>Couverture 300 DPI</span>
+        </a>
+        <a href="/api/canva/template/${book.id}${tokenQueryFirst}" download class="text-xs px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold flex items-center space-x-1" title="Gabarit KDP 300 DPI pour Canva">
+          <span>🎨</span><span>Gabarit Canva</span>
+        </a>
+        <a href="/api/files/${book.id}/pdf_interieur${tokenQueryFirst}" download class="text-xs px-3 py-1.5 rounded-lg bg-obsidian-800 text-slate-200 hover:text-gold-400 border border-obsidian-700 flex items-center space-x-1">
+          <span>📖</span><span>Intérieur PDF</span>
+        </a>
+        ${!isColoriage ? `
+        <a href="/api/files/${book.id}/epub${tokenQueryFirst}" download class="text-xs px-3 py-1.5 rounded-lg bg-obsidian-800 text-slate-200 hover:text-gold-400 border border-obsidian-700 flex items-center space-x-1">
+          <span>📱</span><span>eBook EPUB 3</span>
+        </a>` : ''}
+        <a href="/api/files/${book.id}/marketing_html${tokenQueryFirst}" download class="text-xs px-3 py-1.5 rounded-lg bg-obsidian-800 text-slate-200 hover:text-gold-400 border border-obsidian-700 flex items-center space-x-1">
+          <span>🛒</span><span>Pack Marketing A9</span>
+        </a>
+        <a href="/api/files/${book.id}/couverture_jpg${tokenQueryFirst}" download class="text-xs px-3 py-1.5 rounded-lg bg-obsidian-800 text-slate-200 hover:text-gold-400 border border-obsidian-700 flex items-center space-x-1">
+          <span>🖼️</span><span>Vignette HD</span>
+        </a>
+      `;
+
+      changerOngletModal("couverture");
+      document.getElementById("preview-modal").classList.remove("hidden");
+    }
+
+    function fermerModal() {
+      document.getElementById("preview-modal").classList.add("hidden");
+      document.getElementById("modal-iframe-interieur").src = "";
+      document.getElementById("modal-iframe-marketing").src = "";
+    }
+
+    function changerOngletModal(onglet) {
+      const tabs = ["couverture", "interieur", "marketing", "manuscrit"];
+      tabs.forEach(t => {
+        const el = document.getElementById(`tab-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === onglet) {
+          el.classList.remove("hidden");
+          btn.className = "py-2.5 px-4 text-xs font-semibold border-b-2 border-gold-500 text-gold-400 whitespace-nowrap";
+        } else {
+          el.classList.add("hidden");
+          btn.className = "py-2.5 px-4 text-xs font-semibold border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap";
+        }
+      });
+    }
+
+    // Polling régulier toutes les 2 secondes pour les mises à jour en direct
+    function demarrerPolling() {
+      pollInterval = setInterval(async () => {
+        if (!currentUser) return;
+        const aDesTachesEnCours = livresActuels.some(b => b.statut === "en_cours" || b.statut === "en_attente");
+        if (aDesTachesEnCours) {
+          await chargerLivres();
+          // Rafraîchir les crédits au cas où
+          const res = await authFetch("/api/auth/me");
+          if (res.ok) {
+            const data = await res.json();
+            currentUser.credits = data.user.credits;
+            updateUserUI();
+          }
+        }
+      }, 2000);
+    }
+
+    // Démarrage de l'application
+    window.addEventListener("DOMContentLoaded", async () => {
+      await verifierSession();
+      demarrerPolling();
+    });
+  
+    async function lancerAgent0() {
+      const niche = (document.getElementById("input-niche")?.value || "").trim();
+      const btn = document.getElementById("btn-agent0");
+      const panel = document.getElementById("agent0-panel");
+      if (!niche) { alert("Saisissez d'abord une niche ou thématique."); return; }
+      btn.disabled = true;
+      btn.textContent = "⏳ Agent 0 : Scan Google / Amazon KDP & Autopsie Gemini...";
+      panel.style.display = "block";
+      panel.innerHTML = "Analyse concurrentielle en cours...";
+      try {
+        const res = await fetch("/api/research/analyze-bestsellers", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ niche, marketplace: "fr", use_ai: true })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.report) throw new Error(data.detail || "Erreur Agent 0");
+        const r = data.report;
+        if (r.recommended_title) document.getElementById("input-titre").value = r.recommended_title;
+        if (r.recommended_subtitle_seo) document.getElementById("input-sous-titre").value = r.recommended_subtitle_seo;
+        const weakHtml = (r.bestseller_weaknesses || []).slice(0, 4).map(w =>
+          `<li style="margin-bottom:4px;"><b>[${w.categorie}]</b> ${w.faiblesse_concurrents} <span style="color:#4ade80;">→ ${w.contre_attaque_markeddy}</span></li>`
+        ).join("");
+        const kws = (r.amazon_kdp_keywords_live || []).slice(0, 5).join(" · ");
+        panel.innerHTML = `
+          <div style="color:#f3d27a;font-weight:700;margin-bottom:6px;">🎯 Score Tendance : ${r.trend_score}/100 • Titre &amp; SEO pré-remplis</div>
+          <div style="color:#94a3b8;margin-bottom:6px;"><b>Amazon KDP Live :</b> ${kws || "—"}</div>
+          <div style="margin-bottom:4px;"><b>Faiblesses Best-Sellers à battre :</b></div>
+          <ul style="margin:0;padding-left:16px;">${weakHtml}</ul>`;
+      } catch (err) {
+        panel.innerHTML = `<span style="color:#f87171;">Erreur : ${err.message}</span>`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "🔍 Analyser Tendances & Faiblesses Best-Sellers (Agent 0)";
+      }
+    }
+  
+    function appliquerPresetCategorieKdp() {
+      const cat = document.getElementById("kdp-categorie")?.value || "";
+      const selMod = document.getElementById("kdp-modele");
+      const selFmt = document.getElementById("select-format-kdp") || document.querySelector("select[id*='format']");
+      if (cat.toLowerCase().includes("coloriage") && selMod) {
+        selMod.value = "Album Coloriage Recto Anti-Bavure";
+        if (selFmt) {
+          for (const opt of selFmt.options) {
+            if (opt.value.includes("8.5x11")) { selFmt.value = opt.value; break; }
+          }
+        }
+      }
+      sauvegarderProfilKdp();
+    }
+
+    function appliquerModeleEditorialKdp() {
+      const mod = document.getElementById("kdp-modele")?.value || "";
+      const subEl = document.getElementById("input-sous-titre") || document.getElementById("input-sous-titre-coloriage");
+      if (subEl && !subEl.value.trim()) {
+        if (mod.includes("30 Jours")) subEl.value = "Plan d'action complet sur 30 jours, checklists et études de cas concrètes";
+        else if (mod.includes("Workbook")) subEl.value = "Cahier pratique d'exercices, tableaux de suivi et protocoles guidés";
+        else if (mod.includes("Coloriage")) subEl.value = "Planches haute résolution 300 DPI recto anti-bavure pour détente et créativité";
+      }
+      sauvegarderProfilKdp();
+    }
+
+    function syncThematiqueKdp() {
+      const quick = document.getElementById("kdp-thematique-rapide")?.value || "";
+      const nicheInput = document.getElementById("input-niche");
+      if (quick && nicheInput) {
+        nicheInput.value = quick;
+      }
+      sauvegarderProfilKdp();
+    }
+
+    function sauvegarderProfilKdp() {
+      const cfg = {
+        categorie: document.getElementById("kdp-categorie")?.value || "",
+        modele: document.getElementById("kdp-modele")?.value || "",
+        public_cible: document.getElementById("kdp-public")?.value || "",
+        langue: document.getElementById("kdp-langue")?.value || "FR",
+        mise_en_forme: document.getElementById("kdp-mise-en-forme")?.value || "",
+        bleed_mode: document.getElementById("kdp-bleed-mode")?.value || "bleed",
+        description_detaillee: document.getElementById("kdp-description-detaillee")?.value || "",
+        font_family: document.getElementById("select-font-family")?.value || "Playfair Display",
+      };
+      try { localStorage.setItem("markeddy_kdp_profil", JSON.stringify(cfg)); } catch (_) {}
+      return cfg;
+    }
+
+    function restaurerProfilKdp() {
+      try {
+        const raw = localStorage.getItem("markeddy_kdp_profil");
+        if (!raw) return;
+        const cfg = JSON.parse(raw);
+        for (const [id, key] of [
+          ["kdp-categorie", "categorie"],
+          ["kdp-modele", "modele"],
+          ["kdp-public", "public_cible"],
+          ["kdp-langue", "langue"],
+          ["kdp-mise-en-forme", "mise_en_forme"],
+          ["kdp-bleed-mode", "bleed_mode"],
+          ["kdp-description-detaillee", "description_detaillee"],
+        ]) {
+          const el = document.getElementById(id);
+          if (el && cfg[key]) el.value = cfg[key];
+        }
+      } catch (_) {}
+    }
+
+    async function lancerAgent0() {
+      const niche = (document.getElementById("input-niche")?.value || document.getElementById("kdp-thematique-rapide")?.value || "").trim();
+      const panel = document.getElementById("agent0-panel");
+      if (!niche) { alert("Indiquez une niche ou thématique KDP."); return; }
+      panel.style.display = "block";
+      panel.innerHTML = "⏳ Agent 0 : Analyse Google / Amazon KDP &amp; faiblesses best-sellers...";
+      try {
+        const res = await fetch("/api/research/analyze-bestsellers", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            niche,
+            cible: document.getElementById("kdp-public")?.value || "Lecteurs exigeants",
+            marketplace: (document.getElementById("kdp-langue")?.value || "FR").toLowerCase() === "en" ? "com" : "fr",
+            use_ai: true
+          })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.report) throw new Error(data.detail || "Erreur Agent 0");
+        const r = data.report;
+        const tInput = document.getElementById("input-titre") || document.getElementById("input-titre-coloriage");
+        const sInput = document.getElementById("input-sous-titre") || document.getElementById("input-sous-titre-coloriage");
+        if (r.recommended_title && tInput && !tInput.value.trim()) tInput.value = r.recommended_title;
+        if (r.recommended_subtitle_seo && sInput && !sInput.value.trim()) sInput.value = r.recommended_subtitle_seo;
+        const items = (r.bestseller_weaknesses || []).slice(0, 4).map(w =>
+          `<li><b>[${w.categorie}]</b> ${w.faiblesse_concurrents} <span style="color:#4ade80;">→ ${w.contre_attaque_markeddy}</span></li>`
+        ).join("");
+        panel.innerHTML = `<div style="color:#f3d27a;font-weight:700;margin-bottom:4px;">🎯 Tendance ${r.trend_score}/100 • KDP Live : ${(r.amazon_kdp_keywords_live || []).slice(0,4).join(", ")}</div><ul style="margin:0;padding-left:16px;">${items}</ul>`;
+      } catch (e) {
+        panel.innerHTML = `<span style="color:#f87171;">Erreur : ${e.message}</span>`;
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      restaurerProfilKdp();
+      const origFetch = window.fetch;
+      window.fetch = async function(url, opts = {}) {
+        if (typeof url === "string" && url.includes("/api/books/create") && opts.body) {
+          try {
+            const cfg = sauvegarderProfilKdp();
+            const parsed = JSON.parse(opts.body);
+            parsed.font_family = cfg.font_family;
+            parsed.kdp_definitions = cfg;
+            if (cfg.description_detaillee && cfg.description_detaillee.trim()) {
+              parsed.description_detaillee = cfg.description_detaillee.trim();
+              if (!parsed.sous_titre) {
+                parsed.sous_titre = cfg.description_detaillee.trim().slice(0, 180);
+              }
+            }
+            if (!parsed.sous_titre && cfg.modele) {
+              parsed.sous_titre = `${cfg.modele} — ${cfg.mise_en_forme} (${cfg.public_cible})`;
+            }
+            opts = { ...opts, body: JSON.stringify(parsed) };
+          } catch (_) {}
+        }
+        return origFetch(url, opts);
+      };
+    });
+  </script>
+</body>
+</html>

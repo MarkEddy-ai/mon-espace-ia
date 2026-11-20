@@ -1,34 +1,37 @@
 
-### 8.3 Anticiper les rechutes et les plateaux de stagnation
+### 8.3 Structurer son patrimoine selon sa situation familiale
 
-La courbe de progression neuronale n'est jamais linéaire. Tout changement de comportement permanent passe inévitablement par des phases de stagnation – le plateau – suivies de menaces de régression. Vouloir maintenir un niveau de focus maximal sans anticiper l'épuisement ou la baisse de régime relève de l'illusion biologique. Le cerveau, confronté à l'homéostasie, cherche constamment à revenir à ses anciennes autoroutes synaptiques dès que la charge cognitive globale augmente.
+L'ingénierie financière ne s'arrête pas aux chiffres du compte en banque : elle s'ancre dans le droit de la famille. Votre statut marital (concubinage, PACS, mariage) et le régime matrimonial choisi dictent la protection de vos actifs en cas de divorce, de faillite professionnelle ou de décès prématuré.
 
-#### Reconnaître les signes avant-coureurs du retour en arrière
+La plupart des couples se marient sans contrat préalable, adoptant par défaut le régime légal de la **Communauté Réduite aux Acquêts**. Pour des salariés sans risque, ce régime est protecteur. Mais dès lors qu'un des conjoints entreprend, crée une société ou détient des actifs spécifiques, ce régime par défaut peut s'avérer un piège redoutable.
 
-Une rechute comportementale ne survient jamais par accident du jour au lendemain. Elle est précédée de micro-signes comportementaux et physiologiques mesurables. Ignorer ces indicateurs, c'est s'exposer à l'effondrement des micro-habitudes construites au cours des derniers mois.
+#### La Matrice des Régimes Maritaux
 
-L'analyse de cohortes de sujets engagés dans des transformations de routines professionnelles met en évidence trois indicateurs avancés d'une rechute imminente :
+1. **La Séparation de Biens : Le Bouclier de l'Entrepreneur**
+   * *Principe :* Ce qui est à vous est à vous ; ce qui est à votre conjoint lui appartient en propre.
+   * *Protection majeure :* Si vous êtes chef d'entreprise ou indépendant et que votre activité fait faillite, les créanciers ne peuvent en aucun cas saisir le patrimoine de votre conjoint ni les biens acquis à son nom.
+2. **La Communauté Réduite aux Acquêts : Le Partage Solidaire**
+   * *Principe :* Tout ce qui est acquis pendant le mariage (épargne, immobilier, placements) appartient pour moitié aux deux conjoints, quelle que soit la source de revenus respective.
+3. **Le Concubinage (L'Union Libre) : Le Danger Successoral Absolu**
+   * *Avertissement légal :* Pour le droit fiscal, des concubins non mariés ni pacsés sont des tiers étrangers. Au décès de l'un, le concubin survivant n'a **aucun droit légal sur la succession** et subit une taxation punitive de **60 % sur tout bien hérité par testament**.
 
-1. **La dégradation du premier ancrage :** Le premier rituel de la journée (par exemple, les vingt minutes de lecture ou l'absence de consultation du smartphone au réveil) est reporté ou écourté sous un faux prétexte d'urgence.
-2. **L'accumulation de la dette décisionnelle :** Le sujet commence à négocier avec lui-même ("Je le ferai ce soir" ou "Une exception ne compte pas"). La fatigue décisionnelle ronge la résistance du cortex préfrontal.
-3. **L'isolement organisationnel :** Abandon de l'auto-suivi (tableau de bord, applications de tracking) et arrêt des points de friction constructifs avec son environnement.
-
-| Phase critique | Signe observable au niveau comportemental | Réponse neuro-cognitive associée | Action corrective immédiate |
+| Régime Matrimonial | Protection Professionnelle | Protection en Cas de Décès | Coût de Mise en Place |
 | :--- | :--- | :--- | :--- |
-| **Micro-relâchement** | Sauter une micro-habitude pendant 2 jours consécutifs | Activation de la plasticité régressive (emprunt de l'ancienne autoroute synaptique) | Réduction de 50 % de la charge de la habitude pour forcer la validation |
-| **Plateau de stagnation** | Sentiment de plateau, absence de progrès perçu malgré l'effort | Baisse de la production dopaminergique liée à la nouveauté | Introduction d'une micro-variation dans le contexte d'exécution |
-| **Crise / Congés** | Rupture totale de la routine pendant plus de 5 jours | Effacement partiel de l'automatisation par surcharge contextuelle | Application immédiate du protocole de redémarrage à friction zéro |
+| **Concubinage simple** | Faible (aucune solidarité) | **CATASTROPHIQUE (Taxe de 60%)** | Gratuit |
+| **PACS avec Testament** | Bonne étanchéité | **Exonération totale des droits de succession** | ~150 € chez un notaire |
+| **Séparation de Biens** | **Maximale (Étanchéité totale)** | Protégé par testament ou donation au dernier vivant | ~450 € chez un notaire |
+| **Communauté Universelle**| Faible (patrimoines fusionnés)| Transmission intégrale au conjoint survivant | Recommandé aux seniors aisés |
 
-#### Méthode pas-à-pas pour relancer la machine après une période de crise ou de congés
+#### Le Piège Fréquent & La Parade
 
-Une interruption prolongée – qu'il s'agisse de vacances, d'une maladie ou d'un pic de stress professionnel intense – brise la chaîne dopaminergique. Essayer de reprendre brutalement au niveau exact où l'on s'était arrêté conduit à l'échec par surcharge cognitive. Le système limbique perçoit l'effort comme une agression.
+> ❌ **Le piège fatal :** Vivre en concubinage pendant 20 ans avec des enfants et acheter un bien immobilier ensemble sans convention d'indivision ni testament. En cas d'accident de la vie, le conjoint survivant peut se retrouver en indivision forcée avec sa belle-famille.  
+>  
+> ✅ **La contre-mesure :** Au minimum, concluez un **PACS assorti d'un testament croisé** rédigé devant notaire pour bénéficier de l'exonération totale des droits de succession entre partenaires.
 
-Il faut appliquer le protocole de réinitialisation incrémentale en trois étapes strictes :
+---
 
-1. **La division par quatre (Le quart-temps) :** Si votre micro-habitude consistait à rédiger 500 mots par jour ou à méditer 20 minutes, ramenez l'objectif à 25 % de sa valeur initiale pendant les trois premiers jours (125 mots, 5 minutes). L'objectif unique de cette phase n'est pas la performance, mais la réactivation de la boucle de validation.
-2. **L'ancrage temporel fixe :** Ne laissez pas le choix du moment de la journée. Rattachez la micro-habitude réduite à un ancrage biologique incontournable (immédiatement après le premier verre d'eau du matin, ou juste avant de fermer l'ordinateur le soir).
-3. **L'interdiction de l'autoflagellation :** Sur le plan neuro-chimique, la culpabilité déclenche la production de cortisol, une hormone qui inhibe directement la neurogenèse et affaiblit la connectivité du cortex préfrontal. Considérez l'interruption comme une simple donnée technique, un état de maintenance de votre système, et non comme un échec personnel.
-
-> [!IMPORTANT]
-> **Action Immédiate :** 
-> Identifiez par écrit la micro-habitude qui a le plus tendance à s'effondrer dès que votre emploi du temps se dégrade. Notez sur un papier la version "ultra-allégée" de cette habitude (divisée par quatre) que vous vous engagez à exécuter immédiatement en cas de crise, sans chercher à négocier. Conservez cette note dans votre poche ou en fond d'écran sur votre téléphone.
+> ⚡ **Action Immédiate (Moins de 24 Heures) :**
+>
+> 1. Faites le point sur votre statut conjugal actuel et ses conséquences patrimoniales.
+> 2. Vérifiez la rédaction de la « Clause Bénéficiaire » de vos contrats d'assurance-vie (qui prévaut sur le testament pour ces contrats).
+> 3. Si vous êtes pacsés ou concubins propriétaires, prenez rendez-vous pour un conseil notarial gratuit.

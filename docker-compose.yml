@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  kdp-studio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: markeddy-kdp-studio:latest
+    container_name: markeddy_kdp_studio
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"
+    environment:
+      - PORT=${PORT:-8000}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - JWT_SECRET=${JWT_SECRET:-markeddy_kdp_luxury_secret_key_2026_super_secure_vault}
+    volumes:
+      # Persistance de la base de données SQLite et des dossiers de sortie KDP
+      - ./kdp_studio.db:/app/kdp_studio.db
+      - ./books:/app/books
+      - ./couvertures_finales:/app/couvertures_finales
+      - ./interieurs_finaux:/app/interieurs_finaux
+      - ./ebooks_finaux:/app/ebooks_finaux
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:${PORT:-8000}/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s

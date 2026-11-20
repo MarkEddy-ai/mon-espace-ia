@@ -1,89 +1,200 @@
-# 📚 Machine de Création de Livres Amazon KDP & Hub d'Automatisation IA
+# 🏛️ MarkEddy KDP Studio — Plateforme SaaS de Production Amazon KDP
 
-Plateforme professionnelle de production automatisée de **livres Amazon KDP non-fiction** (150+ pages, format 6x9 pouces, normes d'impression KDP) et hub d'API pour **n8n**, **Hermes** et modèles LLM (**Google Gemini** & **Groq**).
+**MarkEddy KDP Studio** est une plateforme SaaS industrielle automatisée de conception, rédaction, formatage typographique et publication de livres professionnels de non-fiction pour **Amazon KDP (Broché 6" × 9" et eBook Kindle EPUB 3)**.
 
 ---
 
-## 🏗️ Architecture du Projet
+## 🌟 Fonctionnalités Clés
+
+* **🎨 Direction Artistique & Typographie Haute Couture :** Formatage intérieur strict 6×9 po avec marge de reliure (*Gutter 0.85 po*), lettrines royales, ornements et CSS d'impression certifié KDP.
+* **📐 Couverture 300 DPI Dynamique :** Gabarit complet PDF haute résolution avec calcul au micron de la tranche (dos) selon le nombre exact de pages, fond perdu (*Bleed 0.125 po*) et réservation normalisée du code-barres ISBN.
+* **📱 Exportation Kindle EPUB 3 :** Fichier eBook reflowable optimisé pour l'écosystème Amazon Kindle.
+* **🛒 Pack Marketing & SEO A9 :** Description commerciale en HTML strict KDP, 7 slots de mots-clés backend sans redondance et structure A+ Content.
+* **🛡️ Architecture SaaS Multi-Utilisateurs :** 
+  * Authentification par jeton JWT conforme **RFC 7519** (HS256) et hachage fort (PBKDF2-HMAC-SHA256 à 100 000 itérations / Bcrypt).
+  * Isolation stricte des données et des fichiers par utilisateur.
+  * Système de crédits et quotas (3 crédits offerts à l'inscription, 1 crédit par livre, remboursement automatique sur incident).
+  * Sécurité anti-Path Traversal sur la distribution de tous les livrables.
+* **📚 Livre Pilote Vitrine Intégré :** *"L'INTELLIGENCE FINANCIÈRE PRATIQUE"* (112 pages, QA 100/100) consultable et téléchargeable dès le premier démarrage.
+
+---
+
+## 🏗️ Structure du Projet
 
 ```text
 mon-espace-ia/
-├── kdp_machine.py         # 🏭 Orchestrateur central de la Machine KDP
-├── kdp_architect.py       # 🧠 Concepteur du plan (10 chapitres x 5 sections, SEO, mots-clés)
-├── kdp_writer.py          # ✍️ Moteur de rédaction séquentielle avec reprise sur incident
-├── kdp_formatter.py       # 🎨 Moteur de mise en page conforme KDP 6x9 po (HTML Print & Markdown)
-├── generate_article.py    # 💡 Générateur d'articles techniques Markdown
-├── server.py              # 🌐 Hub API FastAPI (Gemini / Groq / KDP Endpoints)
-├── call_ai.py             # ⚡ Client direct et utilitaire CLI d'appel LLM
-├── test_suite.py          # 🧪 Suite de tests automatisés (14 tests unitaires)
-├── test.py                # 🔑 Diagnostic de clé d'API et listing des modèles
-├── .env                   # 🔒 Clés d'API et configuration locale (non commité)
-├── requirements.txt       # 📦 Dépendances Python du projet
-└── .gitignore             # 🛡️ Protection des secrets et fichiers temporaires
+├── app_studio.py              # 🚀 Backend FastAPI SaaS & gestion des tâches d'arrière-plan
+├── studio_db.py               # 💾 Base de données SQLite (users, books, quotas & migrations)
+├── auth.py                    # 🔐 Authentification JWT (RFC 7519) et hachage de mots de passe
+├── static/
+│   └── index.html             # ✨ Interface Web Moderne (Tailwind CSS, Obsidienne & Or Impérial)
+├── kdp_universal_publishing_engine.py # 📐 Moteur de mise en page CSS 6x9 Print-Ready
+├── generate_luxury_cover.py   # 🎨 Moteur graphique de couverture complète 300 DPI (Pillow)
+├── kdp_epub_exporter.py       # 📱 Exportateur EPUB 3 Kindle standardisé
+├── kdp_marketing.py           # 🛒 Générateur de fiche produit et mots-clés A9
+├── kdp_qa.py                  # 🔬 Auditeur de conformité industrielle Amazon KDP
+├── Dockerfile                 # 🐳 Image Cloud Playwright Python v1.48.0 (Ubuntu Jammy)
+├── docker-compose.yml         # 🚢 Orchestration Docker avec volumes persistants
+├── test_suite.py              # 🧪 Banc d'essai automatisé (23 tests unitaires)
+├── test_saas_auth.py          # 🧪 Suite de tests SaaS (Auth, Quotas, Isolation, 8 tests)
+├── requirements.txt           # 📦 Dépendances Python de production
+└── .env.example               # 🔒 Modèle des variables d'environnement
 ```
 
 ---
 
-## 🏭 1. La Machine de Création de Livres KDP
+## 🚀 Démarrage Rapide en Local
 
-La machine génère un livre complet de non-fiction prêt pour publication sur Amazon KDP en 3 étapes automatisées :
+### 1. Prérequis
+* Python 3.10+
+* Navigateur moderne (Chrome, Edge ou Firefox)
 
-### Commande tout-en-un :
-```powershell
-python kdp_machine.py --niche "Maîtriser ses finances personnelles et investir simplement" --cible "Débutants et jeunes actifs"
+### 2. Installation
+```bash
+# Cloner le dépôt et entrer dans le dossier
+git clone <url-du-repo>
+cd mon-espace-ia
+
+# Créer et activer l'environnement virtuel
+python -m venv .venv
+source .venv/bin/activate    # Sur Linux/macOS
+# .\.venv\Scripts\Activate.ps1 # Sur Windows PowerShell
+
+# Installer les dépendances
+pip install -r requirements.txt
+playwright install chromium
 ```
 
-### Options disponibles :
-* **Mode Démo rapide (2 chapitres pour tester la chaîne en quelques minutes)** :
-  ```powershell
-  python kdp_machine.py --demo
-  ```
-* **Concevoir uniquement l'architecture (Blueprint)** :
-  ```powershell
-  python kdp_architect.py --niche "Productivité et gestion du temps" --cible "Entrepreneurs"
-  ```
-* **Reprendre une rédaction interrompue** :
-  ```powershell
-  python kdp_writer.py --blueprint book_blueprint.json --draft book_draft.json
-  ```
-* **Formater un livre existant sans régénérer l'IA** :
-  ```powershell
-  python kdp_formatter.py
-  ```
+### 3. Configuration de l'environnement
+```bash
+cp .env.example .env
+```
+Éditez le fichier `.env` pour définir vos secrets (`GEMINI_API_KEY`, `JWT_SECRET`).
+
+### 4. Lancement de l'application
+```bash
+python app_studio.py
+```
+* **Interface Web Studio :** [http://127.0.0.1:8000](http://127.0.0.1:8000)
+* **Documentation OpenAPI :** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+### 5. Identifiants par défaut
+* **Compte Administrateur / Démo :** `admin@markeddy.com` / `Admin123!` (999 crédits)
+* **Nouvel Utilisateur :** Inscription libre en 1 clic via le bouton *« Créer un Compte »* (3 crédits offerts).
 
 ---
 
-## 📦 2. Livrables générés pour chaque livre
+## 🐳 Déploiement avec Docker & Docker Compose
 
-| Livrable | Fichier | Description |
-| :--- | :--- | :--- |
-| **Livre Imprimable KDP (6x9 po)** | `livre_kdp_6x9.html` | Conforme aux marges de reliure KDP (Gutter 0.8"), sauts de page, table des matières, copyright, lettrines. Ouvrez dans Chrome -> *Imprimer* -> *Enregistrer en PDF*. |
-| **Manuscrit Complet** | `manuscrit_complet.md` | Manuscrit prêt pour Kindle Create, liseuses eBook ou relecture éditoriale. |
-| **Fiche Produit Amazon KDP** | `amazon_description.html` | Description commerciale avec balises HTML autorisées par KDP (`<h2>`, `<b>`, `<ul>`, `<li>`), 7 mots-clés stratégiques et catégories BISAC. |
-| **Blueprint Stratégique** | `book_blueprint.json` | Structure complète des 10 chapitres et 50 sous-sections avec objectifs pédagogiques. |
+Pour un déploiement conteneurisé instantané :
+
+```bash
+# Construction et lancement en arrière-plan
+docker compose up -d --build
+
+# Consulter les journaux d'exécution
+docker compose logs -f
+
+# Arrêter les services
+docker compose down
+```
+
+Les volumes persistants conservent automatiquement la base SQLite (`kdp_studio.db`) ainsi que l'ensemble des livres générés (`books/`, `couvertures_finales/`, etc.).
 
 ---
 
-## 🌐 3. Hub API FastAPI & Intégration n8n
+## 🌐 Procédure de Déploiement en Production sur Serveur VPS (Ubuntu/Debian)
 
-Le serveur expose des routes pour piloter la machine depuis **n8n**, **Hermes** ou vos webhooks :
+### Étape 1 : Préparation du serveur VPS
+Connectez-vous à votre VPS en SSH et installez Docker et Docker Compose :
+```bash
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install -y curl git ufw
 
-```powershell
-uvicorn server:app --reload --port 8000
+# Installation officielle de Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker $USER
 ```
 
-### Endpoints disponibles :
-* `POST /kdp/blueprint` : Génère le plan complet d'un livre à partir d'une niche et d'une cible.
-* `POST /kdp/format` : Compile et formate le livre aux normes KDP 6x9.
-* `POST /generate` : Route universelle de complétion LLM (Gemini ou Groq).
-* `POST /generate-article` : Génération d'articles techniques en Markdown.
-* `GET /docs` : Documentation Swagger interactive sur [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+### Étape 2 : Clonage et configuration
+```bash
+cd /opt
+sudo git clone <url-du-repo> markeddy-studio
+cd markeddy-studio
+sudo chown -R $USER:$USER .
+
+cp .env.example .env
+nano .env  # Définir JWT_SECRET et GEMINI_API_KEY
+```
+
+### Étape 3 : Lancement du Studio KDP
+```bash
+docker compose up -d --build
+```
+
+### Étape 4 : Configuration du Reverse-Proxy Nginx & SSL Certbot (HTTPS)
+Installez Nginx et configurez le nom de domaine :
+```bash
+sudo apt-get install -y nginx certbot python3-certbot-nginx
+```
+
+Créez le fichier `/etc/nginx/sites-available/kdp-studio` :
+```nginx
+server {
+    server_name studio.votredomaine.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        client_max_body_size 50M;
+    }
+}
+```
+
+Activez le site et générez le certificat SSL gratuit Let's Encrypt :
+```bash
+sudo ln -s /etc/nginx/sites-available/kdp-studio /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+sudo certbot --nginx -d studio.votredomaine.com
+```
+
+Votre studio SaaS est désormais accessible en HTTPS sécurisé avec renouvellement automatique des certificats.
 
 ---
 
-## 🧪 4. Validation & Tests
+## ☁️ Déploiement Cloud en 1 Clic (Render / Railway)
 
-Pour lancer la suite de 14 tests automatisés vérifiant tous les composants locaux :
-```powershell
-python test_suite.py
+Le [`Dockerfile`](Dockerfile) utilise l'expansion dynamique de port `CMD sh -c "uvicorn app_studio:app --host 0.0.0.0 --port ${PORT:-8000} --workers 2"` :
+* **Render :** Créez un nouveau *Web Service*, connectez votre dépôt Git, sélectionnez l'environnement *Docker*. Render injecte automatiquement `$PORT` et démarre le service.
+* **Railway :** Déployez depuis votre dépôt GitHub. Configurez un volume persistant monté sur `/app/books` et `/app/kdp_studio.db`.
+
+---
+
+## 🧪 Banc d'Essai & Validation Automatisée
+
+Pour lancer l'ensemble des validations avant mise en ligne :
+
+```bash
+# 1. Suite de tests du moteur KDP (23 tests d'intégration)
+python -m pytest test_suite.py
+
+# 2. Suite de tests de sécurité SaaS (Auth JWT, Quotas, Isolation)
+python test_saas_auth.py
 ```
+
+Résultats attendus :
+* `test_suite.py` : **23/23 tests réussis**
+* `test_saas_auth.py` : **8/8 tests réussis**
+
+---
+
+## 📄 Licence & Propriété
+Développé par le Studio **MarkEddy**. Tous droits réservés.

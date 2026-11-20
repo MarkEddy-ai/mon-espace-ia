@@ -175,3 +175,99 @@ Le fichier [`server.py`](file:///c:/Users/acer/OneDrive/Desktop/mon-espace-ia/se
 * `POST /kdp/format` : Déclenche l'Agent Typographe
 * `POST /generate` : Moteur de génération textuelle rapide
 * Documentation OpenAPI interactive : [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+---
+
+## 🧩 6. Package d'Extension `kdp_extensions/` (Sur-Ensemble Zéro-Casse)
+
+Ce package est un **sur-ensemble** : aucun fichier existant à la racine n'est déplacé,
+renommé ni supprimé, et aucune signature ni comportement par défaut n'est modifié.
+Toute nouvelle fonctionnalité y est ajoutée uniquement.
+
+```text
+kdp_extensions/
+├── __init__.py              # Package d'extension (kdp_dimensions, media_connectors, coloring_book_engine)
+├── kdp_dimensions.py        # Référentiel des 16 formats KDP officiels + calculate_kdp_specs()
+├── media_connectors.py      # Connecteurs Unsplash, Pixabay & Canva Connect API (httpx + Pillow)
+└── coloring_book_engine.py  # Moteur de livres de coloriage 16 formats (SVG, Playwright, couverture)
+```
+
+### 6.1. Référentiel des 16 Formats KDP — [`kdp_dimensions.py`](file:///c:/Users/acer/OneDrive/Desktop/mon-espace-ia/kdp_extensions/kdp_dimensions.py)
+
+Formats officiels supportés : `5x8`, `5.06x7.81`, `5.25x8`, `5.5x8.5`, `6x9`,
+`6.14x9.21`, `6.69x9.61`, `7x10`, `7.44x9.69`, `7.5x9.25`, `8.25x6`, `8.25x8.25`,
+`8.5x8.5`, `8x10`, `8.5x11`, `8.27x11.69`.
+
+* `calculate_kdp_specs(trim_id, page_count, paper_type="white", bleed=True)` calcule :
+  * les **marges dynamiques KDP** (gutter 0.375" ≤150 p. → 0.75" >400 p., bleed 0.125" ajouté aux marges de sécurité) ;
+  * l'**épaisseur de dos** : `white` 0.002252 · `cream` 0.0025 · `color_standard` 0.002349 · `color_premium` 0.0025 pouces/page ;
+  * les **dimensions 300 DPI** de l'intérieur et de la couverture complète (Plat 4 + Dos + Plat 1 + 2 × bleed) ;
+  * la **réserve ISBN : 600 × 360 px**.
+
+### 6.2. Connecteurs Média — [`media_connectors.py`](file:///c:/Users/acer/OneDrive/Desktop/mon-espace-ia/kdp_extensions/media_connectors.py)
+
+* `search_stock_images(query, source="all", orientation="portrait", per_page=12)`
+  * **Unsplash** : `UNSPLASH_ACCESS_KEY`, en-tête `Authorization: Client-ID ...`
+  * **Pixabay** : `PIXABAY_API_KEY` sur `https://pixabay.com/api/` (`orientation='vertical'` pour portrait, `image_type='photo'|'vector'`, URL HD = `hit.get("fullHDURL") or hit.get("largeImageURL")`, aperçu = `hit.get("webformatURL")`)
+  * Repli sur un catalogue curé hors-ligne si une clé manque (jamais de liste vide)
+* `download_and_prepare_cover_bg(image_url, target_width_px, target_height_px)` : téléchargement **systématique** dans `assets/media_cache/` (conformité anti-hotlinking), recadrage sans déformation (`ImageOps.fit`), sauvegarde JPEG **300 DPI**
+* **Canva Connect API** : `get_canva_auth_url()` (OAuth 2.0 + state CSRF) → `exchange_canva_code_for_token()` (callback → `canva_tokens.json`) → `upload_canva_asset()` → `export_canva_design()` avec **fallback** générant un gabarit PNG/PDF 300 DPI (dos calculé, ISBN 600 × 360 px) prêt à ouvrir dans Canva
+
+### 6.3. Moteur de Coloriage — [`coloring_book_engine.py`](file:///c:/Users/acer/OneDrive/Desktop/mon-espace-ia/kdp_extensions/coloring_book_engine.py)
+
+* Formats : `8.5" × 11"` par défaut ou **l'un des 16 formats KDP**
+* Planches **noir pur** `#000000` sur `#FFFFFF`, **zéro niveau de gris** (SVG vectoriel haute précision ou conversion line-art Pillow binaire)
+* Option **recto uniquement** : page verso blanche anti-bavure après chaque illustration
+* Compilation **PDF 300 DPI via Playwright** (repli automatique `msedge`)
+* Couverture **calibrée via [`cover_artisan_agent.py`](file:///c:/Users/acer/OneDrive/Desktop/mon-espace-ia/cover_artisan_agent.py)** (tranche au micron, fond photo injectable)
+
+---
+
+## 🤖 7. Subagents OpenCode & Skill Dédié
+
+```text
+.opencode/
+├── agents/
+│   ├── kdp-media-designer.md      # @kdp-media-designer — Images 300 DPI, galerie Unsplash/Pixabay, Canva
+│   └── kdp-coloring-artisan.md    # @kdp-coloring-artisan — Livres de coloriage 16 formats, PDF Playwright
+└── skills/
+    └── kdp-visual-pipeline/
+        └── SKILL.md               # Skill « Pipeline Visuel KDP » (orchestration complète)
+```
+
+| Routage de la demande | Subagent mobilisé |
+| :--- | :--- |
+| Recherche d'image, visuel de couverture, galerie stock, export Canva | `@kdp-media-designer` |
+| Livre de coloriage, planche noir & blanc, verso anti-bavure, PDF Playwright | `@kdp-coloring-artisan` |
+
+Le skill **`kdp-visual-pipeline`** documente l'ensemble du pipeline : 16 formats,
+connecteurs média, moteur de coloriage, routes HTTP et contrôle qualité.
+
+### Routes API d'extension (`app_studio.py`)
+
+| Route | Rôle |
+| :--- | :--- |
+| `GET /api/kdp/formats` | Liste des 16 formats KDP officiels |
+| `GET /api/media/search` | Galerie **Unsplash + Pixabay** |
+| `GET /api/canva/auth-url` | URL d'autorisation OAuth 2.0 Canva |
+| `GET /api/canva/callback` | Échange du code → `canva_tokens.json` |
+| `GET /api/canva/template/{book_id}` | Gabarit PNG 300 DPI |
+| `GET /api/canva/export/{book_id}` | Export design (live) ou gabarit local (fallback) |
+
+Champs **optionnels** ajoutés à `POST /api/books/create` (valeurs par défaut,
+compatibilité totale) : `project_type` (`non_fiction` | `coloring_book`),
+`cover_image_url`, `single_sided`.
+
+---
+
+## 🧪 8. Exécution Obligatoire & Validation
+
+Sur **Windows 11**, toute exécution passe par le virtualenv du projet :
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest test_suite.py test_extensions.py
+```
+
+* `test_suite.py` : suite historique — **24/24 sans aucune modification** (non-régression).
+* `test_extensions.py` : validations des extensions (16 formats, specs 300 DPI,
+  connecteurs HTTP **mockés** Unsplash/Pixabay, Canva **mocké**, moteur de coloriage **mocké**).

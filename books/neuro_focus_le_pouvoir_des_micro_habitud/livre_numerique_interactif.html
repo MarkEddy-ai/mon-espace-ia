@@ -26,7 +26,16 @@ body {
     line-height: 1.5;
     color: #0f172a;
     text-align: justify;
-    hyphens: auto;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+}
+
+/* Règle stricte anti-césure sauvage */
+h1, h2, h3, h4, th, td, .callout-box, .callout-header, .author-title, .title-signature, .chapter-lead::first-letter, .toc-link, .author-signature, .kdp-table, tr {
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
 }
 
 h1 {
@@ -73,13 +82,24 @@ h3 {
     page-break-after: avoid;
 }
 
+h4, .sub-heading {
+    font-family: 'Georgia', serif;
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1e293b;
+    margin-top: 0.45in;
+    margin-bottom: 0.15in;
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
 p {
     margin-top: 0;
     margin-bottom: 0.65em;
     text-indent: 1.2em;
 }
 
-h1 + p, h2 + p, h3 + p, hr + p, blockquote + p, table + p {
+h1 + p, h2 + p, h3 + p, h4 + p, hr + p, blockquote + p, table + p {
     text-indent: 0;
 }
 
@@ -97,13 +117,27 @@ p.chapter-lead::first-letter {
 blockquote, .callout-box {
     border-left: 3.5px solid #d4af37;
     background-color: #fcfbf9;
-    margin: 1.4em 0;
+    margin: 1.3em 0.2in;
     padding: 0.9em 1.3em;
     font-size: 9.6pt;
     font-style: normal;
     page-break-inside: avoid;
+    break-inside: avoid;
     box-shadow: 0 1px 3px rgba(0,0,0,0.03);
     border-radius: 0 4px 4px 0;
+}
+
+.callout-header {
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    font-size: 9.8pt;
+    color: #996515;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4em;
+    display: block;
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+    text-transform: uppercase;
 }
 
 /* Liens cliquables actifs */
@@ -133,30 +167,40 @@ a:hover {
 }
 
 table, .kdp-table {
+    table-layout: fixed;
     width: 100%;
-    margin: 1.6em 0;
+    margin: 1.4em 0;
     border-collapse: collapse;
-    font-size: 8.8pt;
+    font-size: 8pt;
+    line-height: 1.35;
     page-break-inside: avoid;
+    break-inside: avoid;
 }
 
 th {
     font-family: 'Georgia', serif;
-    font-size: 8.5pt;
-    letter-spacing: 0.5px;
+    font-size: 7.5pt;
+    letter-spacing: 0.3px;
     text-transform: uppercase;
     background-color: #0f172a;
     color: #ffffff;
-    padding: 7px 10px;
+    padding: 6px 4px;
     border: 1px solid #0f172a;
     text-align: left;
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+    word-break: normal !important;
 }
 
 td {
-    padding: 6px 10px;
+    font-size: 7.8pt;
+    padding: 5px 4px;
     border-bottom: 0.5pt solid #cbd5e1;
     color: #334155;
     text-align: left;
+    hyphens: none !important;
+    -webkit-hyphens: none !important;
+    word-break: normal !important;
 }
 
 tr:nth-child(even) td {
@@ -166,7 +210,9 @@ tr:nth-child(even) td {
 hr {
     border: 0;
     text-align: center;
-    margin: 2em auto;
+    margin: 1.8em auto;
+    page-break-after: avoid;
+    break-after: avoid;
 }
 
 hr::after {
@@ -180,12 +226,11 @@ hr::after {
     </style>
 </head>
 <body>
-<h1 id="neuro-focus-le-pouvoir-des-micro-habitudes">NEURO-FOCUS : LE POUVOIR DES MICRO-HABITUDES</h1>
+<h1 id="neuro-focus-le-pouvoir-des-micro-habitudes">NEURO&#8209;FOCUS : LE POUVOIR DES MICRO&#8209;HABITUDES</h1>
 <p class="chapter-lead"><em>Reprogrammer son cerveau en 66 jours : la méthode pas-à-pas pour éliminer la procrastination et libérer 3 heures par jour</em></p>
 
-<hr>
 
-<h1 id="neuro-focus-le-pouvoir-des-micro-habitudes">NEURO-FOCUS : LE POUVOIR DES MICRO-HABITUDES</h1>
+<h1 id="neuro-focus-le-pouvoir-des-micro-habitudes">NEURO&#8209;FOCUS : LE POUVOIR DES MICRO&#8209;HABITUDES</h1>
 
 <h3 id="reprogrammer-son-cerveau-en-66-jours-la-m-thode-pas-pas-pour-liminer-la-procrastination-et-lib-rer-3-heures-par-jour">Reprogrammer son cerveau en 66 jours : la méthode pas-à-pas pour éliminer la procrastination et libérer 3 heures par jour</h3>
 
@@ -193,7 +238,6 @@ hr::after {
 
 <div class="author-signature" style="text-align: center; margin: 40px auto 15px auto;"><img src="assets/logo/logo_markeddy_bleu_or_fond_clair.png" alt="MarkEddy" style="width: 3.0in; max-width: 85%; height: auto; display: inline-block;" /><p style="font-family: 'Georgia', serif; font-size: 11pt; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; color: #0f172a;">Éditions MarkEddy</p></div>
 
-<hr>
 
 <h1 id="mentions-l-gales-droits-d-auteur">Mentions Légales & Droits d'Auteur</h1>
 
@@ -214,7 +258,6 @@ hr::after {
 <p>Ce livre a été conçu dans un but exclusivement éducatif, méthodologique et informatif. L'auteur, <strong>MarkEddy</strong>, ainsi que l'éditeur ne sont ni conseillers en investissements financiers (CIF), ni gestionnaires de patrimoine agréés, ni experts-comptables assermentés. Les exemples, études de cas, calculs mathématiques et stratégies présentés dans cet ouvrage reflètent des principes généraux de gestion rationnelle et ne constituent en aucun cas des recommandations d'investissement personnalisées, des incitations à l'achat ou à la vente d'actifs financiers, ni des conseils juridiques ou fiscaux. Tout investissement (actions, ETF, obligations, immobilier, cryptomonnaies) comporte un risque inhérent de perte totale ou partielle du capital investi. Il appartient au lecteur de faire ses propres vérifications et de solliciter un professionnel habilité avant toute décision financière.</p>
 </blockquote>
 
-<hr>
 
 <h1 id="d-dicace">Dédicace</h1>
 
@@ -226,7 +269,6 @@ hr::after {
 
 <p>— <strong>MarkEddy</strong></p>
 
-<hr>
 
 <h1 id="table-des-mati-res">Table des Matières</h1>
 
@@ -239,74 +281,74 @@ hr::after {
 
 <p class="toc-chapitre-item"><a href="#ch-1" class="toc-ch-link"><strong>Chapitre 1 : L'Anatomie du Désordre Mental et la Crise de la Dopamine</strong></a></p>
 <ul>
-<li><a href="#sec-1-1" class="toc-link"><strong>1.1</strong> 1.1 Le piège de la gratification instantanée</a></li>
-<li><a href="#sec-1-2" class="toc-link"><strong>1.2</strong> 1.2 Pourquoi la volonté pure est un mythe destructeur</a></li>
-<li><a href="#sec-1-3" class="toc-link"><strong>1.3</strong> 1.3 Le coût caché du multitasking</a></li>
-<li><a href="#sec-1-4" class="toc-link"><strong>1.4</strong> 1.4 Le diagnostic de votre état dopaminergique actuel</a></li>
-<li><a href="#sec-1-5" class="toc-link"><strong>1.5</strong> 1.5 Reprendre le contrôle : le nouveau paradigme de la concentration</a></li>
+<li><a href="#sec-1-1" class="toc-link"><strong>1.1</strong> Le piège de la gratification instantanée</a></li>
+<li><a href="#sec-1-2" class="toc-link"><strong>1.2</strong> Pourquoi la volonté pure est un mythe destructeur</a></li>
+<li><a href="#sec-1-3" class="toc-link"><strong>1.3</strong> Le coût caché du multitasking</a></li>
+<li><a href="#sec-1-4" class="toc-link"><strong>1.4</strong> Le diagnostic de votre état dopaminergique actuel</a></li>
+<li><a href="#sec-1-5" class="toc-link"><strong>1.5</strong> Reprendre le contrôle : le nouveau paradigme de la concentration</a></li>
 </ul>
 
 <p class="toc-chapitre-item"><a href="#ch-2" class="toc-ch-link"><strong>Chapitre 2 : Le Protocole de Détox Dopamine de 7 Jours</strong></a></p>
 <ul>
-<li><a href="#sec-2-1" class="toc-link"><strong>2.1</strong> 2.1 Qu'est-ce qu'une vraie détox dopaminergique ?</a></li>
-<li><a href="#sec-2-2" class="toc-link"><strong>2.2</strong> 2.2 Jours 1 à 3 : La traversée du désert et le sevrage</a></li>
-<li><a href="#sec-2-3" class="toc-link"><strong>2.3</strong> 2.3 Jours 4 à 7 : L'émergence du calme mental et du focus</a></li>
-<li><a href="#sec-2-4" class="toc-link"><strong>2.4</strong> 2.4 Redéfinir la notion de plaisir et d'ennui constructif</a></li>
-<li><a href="#sec-2-5" class="toc-link"><strong>2.5</strong> 2.5 Stabiliser les résultats après la première semaine</a></li>
+<li><a href="#sec-2-1" class="toc-link"><strong>2.1</strong> Qu'est-ce qu'une vraie détox dopaminergique ?</a></li>
+<li><a href="#sec-2-2" class="toc-link"><strong>2.2</strong> Jours 1 à 3 : La traversée du désert et le sevrage</a></li>
+<li><a href="#sec-2-3" class="toc-link"><strong>2.3</strong> Jours 4 à 7 : L'émergence du calme mental et du focus</a></li>
+<li><a href="#sec-2-4" class="toc-link"><strong>2.4</strong> Redéfinir la notion de plaisir et d'ennui constructif</a></li>
+<li><a href="#sec-2-5" class="toc-link"><strong>2.5</strong> Stabiliser les résultats après la première semaine</a></li>
 </ul>
 
 <p class="toc-chapitre-item"><a href="#ch-3" class="toc-ch-link"><strong>Chapitre 3 : La Science des Micro-Habitudes : Le Pouvoir du 1%</strong></a></p>
 <ul>
-<li><a href="#sec-3-1" class="toc-link"><strong>3.1</strong> 3.1 La mathématique implacable de l'agrégation des gains marginaux</a></li>
-<li><a href="#sec-3-2" class="toc-link"><strong>3.2</strong> 3.2 La règle des 2 minutes : vaincre l'inertie instantanément</a></li>
-<li><a href="#sec-3-3" class="toc-link"><strong>3.3</strong> 3.3 Le concept de l'activation neuronale par la friction</a></li>
-<li><a href="#sec-3-4" class="toc-link"><strong>3.4</strong> 3.4 Créer son 'Habit Stacking' (le cumul d'habitudes)</a></li>
-<li><a href="#sec-3-5" class="toc-link"><strong>3.5</strong> 3.5 Bâtir un système plutôt qu'un objectif</a></li>
+<li><a href="#sec-3-1" class="toc-link"><strong>3.1</strong> La mathématique implacable de l'agrégation des gains marginaux</a></li>
+<li><a href="#sec-3-2" class="toc-link"><strong>3.2</strong> La règle des 2 minutes : vaincre l'inertie instantanément</a></li>
+<li><a href="#sec-3-3" class="toc-link"><strong>3.3</strong> Le concept de l'activation neuronale par la friction</a></li>
+<li><a href="#sec-3-4" class="toc-link"><strong>3.4</strong> Créer son 'Habit Stacking' (le cumul d'habitudes)</a></li>
+<li><a href="#sec-3-5" class="toc-link"><strong>3.5</strong> Bâtir un système plutôt qu'un objectif</a></li>
 </ul>
 
 <p class="toc-chapitre-item"><a href="#ch-4" class="toc-ch-link"><strong>Chapitre 4 : Architecte de l'Environnement : Programmer son Espace pour Réussir</strong></a></p>
 <ul>
-<li><a href="#sec-4-1" class="toc-link"><strong>4.1</strong> 4.1 L'environnement bat toujours la volonté</a></li>
-<li><a href="#sec-4-2" class="toc-link"><strong>4.2</strong> 4.2 Le minimalisme numérique radical</a></li>
-<li><a href="#sec-4-3" class="toc-link"><strong>4.3</strong> 4.3 Structurer son espace physique pour le Deep Work</a></li>
-<li><a href="#sec-4-4" class="toc-link"><strong>4.4</strong> 4.4 Gérer l'environnement social et les interruptions des collègues</a></li>
-<li><a href="#sec-4-5" class="toc-link"><strong>4.5</strong> 4.5 Maintenir un écosystème sain sur le long terme</a></li>
+<li><a href="#sec-4-1" class="toc-link"><strong>4.1</strong> L'environnement bat toujours la volonté</a></li>
+<li><a href="#sec-4-2" class="toc-link"><strong>4.2</strong> Le minimalisme numérique radical</a></li>
+<li><a href="#sec-4-3" class="toc-link"><strong>4.3</strong> Structurer son espace physique pour le Deep Work</a></li>
+<li><a href="#sec-4-4" class="toc-link"><strong>4.4</strong> Gérer l'environnement social et les interruptions des collègues</a></li>
+<li><a href="#sec-4-5" class="toc-link"><strong>4.5</strong> Maintenir un écosystème sain sur le long terme</a></li>
 </ul>
 
 <p class="toc-chapitre-item"><a href="#ch-5" class="toc-ch-link"><strong>Chapitre 5 : Le Protocole Deep Work : Dompter le Temps et l'Attention</strong></a></p>
 <ul>
-<li><a href="#sec-5-1" class="toc-link"><strong>5.1</strong> 5.1 La distinction vitale entre travail profond et travail superficiel</a></li>
-<li><a href="#sec-5-2" class="toc-link"><strong>5.2</strong> 5.2 La méthode des blocs de temps incompressibles</a></li>
-<li><a href="#sec-5-3" class="toc-link"><strong>5.3</strong> 5.3 Vaincre la résistance des premières 15 minutes</a></li>
-<li><a href="#sec-5-4" class="toc-link"><strong>5.4</strong> 5.4 Gérer l'énergie et non seulement les heures</a></li>
-<li><a href="#sec-5-5" class="toc-link"><strong>5.5</strong> 5.5 Bilan et optimisation de la semaine de travail</a></li>
+<li><a href="#sec-5-1" class="toc-link"><strong>5.1</strong> La distinction vitale entre travail profond et travail superficiel</a></li>
+<li><a href="#sec-5-2" class="toc-link"><strong>5.2</strong> La méthode des blocs de temps incompressibles</a></li>
+<li><a href="#sec-5-3" class="toc-link"><strong>5.3</strong> Vaincre la résistance des premières 15 minutes</a></li>
+<li><a href="#sec-5-4" class="toc-link"><strong>5.4</strong> Gérer l'énergie et non seulement les heures</a></li>
+<li><a href="#sec-5-5" class="toc-link"><strong>5.5</strong> Bilan et optimisation de la semaine de travail</a></li>
 </ul>
 
 <p class="toc-chapitre-item"><a href="#ch-6" class="toc-ch-link"><strong>Chapitre 6 : Éradiquer la Procrastination à la Racine</strong></a></p>
 <ul>
-<li><a href="#sec-6-1" class="toc-link"><strong>6.1</strong> 6.1 La procrastination n'est pas un problème de gestion du temps, c'est une régulation émotionnelle</a></li>
-<li><a href="#sec-6-2" class="toc-link"><strong>6.2</strong> 6.2 La technique du 'Découpage Chirurgical'</a></li>
-<li><a href="#sec-6-3" class="toc-link"><strong>6.3</strong> 6.3 Le pouvoir magique du 'Commitment Device' (l'engagement irrévocable)</a></li>
-<li><a href="#sec-6-4" class="toc-link"><strong>6.4</strong> 6.4 Transformer la critique interne en coaching bienveillant mais ferme</a></li>
-<li><a href="#sec-6-5" class="toc-link"><strong>6.5</strong> 6.5 Célébrer les micro-victoires pour reprogrammer le cerveau</a></li>
+<li><a href="#sec-6-1" class="toc-link"><strong>6.1</strong> La procrastination n'est pas un problème de gestion du temps, c'est une régulation émotionnelle</a></li>
+<li><a href="#sec-6-2" class="toc-link"><strong>6.2</strong> La technique du 'Découpage Chirurgical'</a></li>
+<li><a href="#sec-6-3" class="toc-link"><strong>6.3</strong> Le pouvoir magique du 'Commitment Device' (l'engagement irrévocable)</a></li>
+<li><a href="#sec-6-4" class="toc-link"><strong>6.4</strong> Transformer la critique interne en coaching bienveillant mais ferme</a></li>
+<li><a href="#sec-6-5" class="toc-link"><strong>6.5</strong> Célébrer les micro-victoires pour reprogrammer le cerveau</a></li>
 </ul>
 
 <p class="toc-chapitre-item"><a href="#ch-7" class="toc-ch-link"><strong>Chapitre 7 : Le Système de Discipline Inflexible (Sans Rigidité)</strong></a></p>
 <ul>
-<li><a href="#sec-7-1" class="toc-link"><strong>7.1</strong> 7.1 Discipline vs Motivation : Le grand malentendu</a></li>
-<li><a href="#sec-7-2" class="toc-link"><strong>7.2</strong> 7.2 La règle des 'Jamais deux fois de suite'</a></li>
-<li><a href="#sec-7-3" class="toc-link"><strong>7.3</strong> 7.3 L'art de dire 'Non' pour protéger son focus</a></li>
-<li><a href="#sec-7-4" class="toc-link"><strong>7.4</strong> 7.4 Créer son Code d'Honneur Personnel</a></li>
-<li><a href="#sec-7-5" class="toc-link"><strong>7.5</strong> 7.5 Auditer sa discipline avec bienveillance</a></li>
+<li><a href="#sec-7-1" class="toc-link"><strong>7.1</strong> Discipline vs Motivation : Le grand malentendu</a></li>
+<li><a href="#sec-7-2" class="toc-link"><strong>7.2</strong> La règle des 'Jamais deux fois de suite'</a></li>
+<li><a href="#sec-7-3" class="toc-link"><strong>7.3</strong> L'art de dire 'Non' pour protéger son focus</a></li>
+<li><a href="#sec-7-4" class="toc-link"><strong>7.4</strong> Créer son Code d'Honneur Personnel</a></li>
+<li><a href="#sec-7-5" class="toc-link"><strong>7.5</strong> Auditer sa discipline avec bienveillance</a></li>
 </ul>
 
 <p class="toc-chapitre-item"><a href="#ch-8" class="toc-ch-link"><strong>Chapitre 8 : Votre Plan d'Action sur 90 Jours et au-delà</strong></a></p>
 <ul>
-<li><a href="#sec-8-1" class="toc-link"><strong>8.1</strong> 8.1 Synthèse des piliers : Dopamine, Micro-Habitudes et Deep Work</a></li>
-<li><a href="#sec-8-2" class="toc-link"><strong>8.2</strong> 8.2 Le plan de 90 jours : Phase par phase</a></li>
-<li><a href="#sec-8-3" class="toc-link"><strong>8.3</strong> 8.3 Anticiper les rechutes et les plateaux de stagnation</a></li>
-<li><a href="#sec-8-4" class="toc-link"><strong>8.4</strong> 8.4 Devenir le gardien de votre propre attention</a></li>
-<li><a href="#sec-8-5" class="toc-link"><strong>8.5</strong> 8.5 Le mot de la fin : Passez à l'action dès maintenant</a></li>
+<li><a href="#sec-8-1" class="toc-link"><strong>8.1</strong> Synthèse des piliers : Dopamine, Micro-Habitudes et Deep Work</a></li>
+<li><a href="#sec-8-2" class="toc-link"><strong>8.2</strong> Le plan de 90 jours : Phase par phase</a></li>
+<li><a href="#sec-8-3" class="toc-link"><strong>8.3</strong> Anticiper les rechutes et les plateaux de stagnation</a></li>
+<li><a href="#sec-8-4" class="toc-link"><strong>8.4</strong> Devenir le gardien de votre propre attention</a></li>
+<li><a href="#sec-8-5" class="toc-link"><strong>8.5</strong> Le mot de la fin : Passez à l'action dès maintenant</a></li>
 </ul>
 
 <p><strong>Conclusion Générale : De la Maîtrise des Micro-Habitudes à la Souveraineté du Temps</strong></p>
@@ -322,10 +364,7 @@ hr::after {
 
 <p><strong>Remerciements & Notes d'Édition</strong></p>
 
-
-<hr>
-
-<h1 id="avant-propos-le-manifeste-du-neuro-focus-et-de-la-souverainet-de-l-attention">Avant-propos : Le Manifeste du Neuro-Focus et de la Souveraineté de l'Attention</h1>
+<h1 id="avant-propos-le-manifeste-du-neuro-focus-et-de-la-souverainet-de-l-attention">Avant-propos : Le Manifeste du Neuro&#8209;Focus et de la Souveraineté de l'Attention</h1>
 
 <h3 id="pourquoi-90-des-r-solutions-et-des-m-thodes-de-productivit-chouent">Pourquoi 90 % des résolutions et des méthodes de productivité échouent</h3>
 
@@ -337,7 +376,7 @@ hr::after {
 
 <p>Ce livre a été écrit pour vous arracher à l'esclavage de la gratification instantanée et vous rendre les clés de votre propre cerveau.</p>
 
-<h3 id="la-m-thode-de-l-ing-nierie-du-neuro-focus">La Méthode de l'Ingénierie du Neuro-Focus</h3>
+<h3 id="la-m-thode-de-l-ing-nierie-du-neuro-focus">La Méthode de l'Ingénierie du Neuro&#8209;Focus</h3>
 
 <p>Ce guide ne contient aucune théorie abstraite ou recommandation ésotérique. Il repose sur un protocole d'ingénierie comportementale éprouvé, validé par les neurosciences cognitives et l'expérimentation de terrain :</p>
 
@@ -370,8 +409,6 @@ hr::after {
 <h1 id="ch-1">Chapitre 1 : L'Anatomie du Désordre Mental et la Crise de la Dopamine</h1>
 
 
-<h3 id="sec-1-1">1.1 1.1 Le piège de la gratification instantanée</h3>
-
 <h3 id="sec-1-1">1.1 Le piège de la gratification instantanée</h3>
 
 <p class="chapter-lead">L’effondrement de notre capacité de concentration n’est pas un échec de la volonté, c’est une collision frontale entre un cerveau façonné par la chasse-cueillette et l’architecture addictive de l’économie de l’attention. À l’origine, la dopamine n’est ni l’hormone du plaisir ni celle du bonheur : c’est la molécule de l’anticipation et de la survie. Pour nos ancêtres, chaque signal environnemental annonçant une ressource rare — un arbre fruitier, une piste de gibier — déclenchait une décharge dopaminergique. Ce pic chimique forçait l'organisme à agir immédiatement pour capturer la récompense avant qu'elle ne disparaisse. Le système était conçu pour la rareté.</p>
@@ -384,7 +421,7 @@ hr::after {
 
 <p>Considérons l'impact concret d'une seule vibration de téléphone sur le cortex préfrontal, le siège de la planification, de la régulation émotionnelle et de la concentration profonde.</p>
 
-<p>#### Étude de cas : La surcharge du cortex préfrontal par les notifications push</p>
+<h4 class="sub-heading">Étude de cas : La surcharge du cortex préfrontal par les notifications push</h4>
 
 <p>Une équipe de neuroscientifiques de l'Université de Californie a analysé l'activité cérébrale de cadres supérieurs soumis à des interruptions numériques constantes. Lorsqu'une notification push s'affiche, même si l'utilisateur ne lit pas le message, le cortex préfrontal doit évaluer la menace ou l'opportunité potentielle. Ce processus, appelé le <em>coût de commutation</em> (<em>switch cost</em>), monopolise l'attention pendant une durée moyenne de 23 minutes pour retrouver un état de focus comparable.</p>
 
@@ -417,7 +454,7 @@ hr::after {
 
 <p>L'étude démontre que la simple exposition à 40 notifications par jour maintient le cortex préfrontal dans un état d'inflammation neuronale chronique. Les sujets testés présentaient des marqueurs de fatigue cognitive équivalents à une nuit blanche, alors même qu'ils avaient dormi huit heures.</p>
 
-<p>#### La fausse fatigue physique vs la saturation dopaminergique</p>
+<h4 class="sub-heading">La fausse fatigue physique vs la saturation dopaminergique</h4>
 
 <p>C'est ici que se commet l'erreur fondamentale qui paralyse des millions de professionnels : <strong>croire que l'épuisement ressenti en fin de journée est d'origine physique.</strong></p>
 
@@ -430,24 +467,13 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate : L'audit des interruptions numériques sur 24 heures</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate : L'audit des interruptions numériques sur 24 heures</div>
 <p>Ne modifiez rien à vos habitudes aujourd'hui, mais documentez la réalité de votre exposition.</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p>1. <strong>Téléchargez</strong> un outil de suivi du temps d'écran sur votre terminal principal (ou utilisez les paramètres natifs d'iOS/Android).</p>
 <p>2. <strong>Notez sur un carnet</strong> à chaque fois que vous consultez votre téléphone par réflexe, sans intention précise (ouverture d'une application par ennui ou fatigue).</p>
 <p>3. <strong>Quantifiez</strong> le nombre exact de déblocages d'écran et de notifications reçues sur 24 heures.</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p><em>Objectif :</em> Confronter votre perception subjective (« je consulte à peine mon téléphone ») à la réalité biologique de vos micro-sollicitations pour identifier vos angles morts attentionnels.</p>
 </blockquote>
-
-<h3 id="sec-1-2">1.2 1.2 Pourquoi la volonté pure est un mythe destructeur</h3>
 
 <h3 id="sec-1-2">1.2 Pourquoi la volonté pure est un mythe destructeur</h3>
 
@@ -519,14 +545,12 @@ hr::after {
 
 <hr>
 
-<h3 id="action-imm-diate-le-protocole-de-gel-des-choix-matinaux">ACTION IMMÉDIATE : Le protocole de gel des choix matinaux</h3>
-
+<blockquote class="callout-box">
+<div class="callout-header">⚡ ACTION IMMÉDIATE : Le protocole de gel des choix matinaux</div>
 <p>1. <strong>Éliminez deux micro-décisions de votre réveil :</strong> Décidez dès ce soir de la tenue exacte que vous porterez demain et formalisez par écrit la première tâche professionnelle ou personnelle que vous accomplirez, sans transition, dès votre installation à votre poste.</p>
 <p>2. <strong>Verrouillez l'environnement :</strong> Placez votre terminal numérique hors de portée visuelle et tactile pour la première heure de votre journée de travail, interdisant ainsi au cerveau fatigué de céder à la facilité de la notification.</p>
 <p>3. <strong>Appliquez la règle du « Un seul choix par bloc » :</strong> Ne planifiez jamais plus d'une tâche majeure par plage de 90 minutes. Réduisez la charge cognitive pour forcer le passage vers l'action fluide.</p>
-
-<h3 id="sec-1-3">1.3 1.3 Le coût caché du multitasking</h3>
-
+</blockquote>
 <h3 id="sec-1-3">1.3 Le coût caché du multitasking</h3>
 
 <p>Le mythe du multitâche est l'assassin silencieux de la performance cognitive. Contrairement à l'intuition populaire, le cerveau humain ne traite pas deux tâches complexes en parallèle ; il exécute un basculement rapide et inefficace entre les stimuli, un processus que les neurosciences nomment le <em>switch cost</em>. Chaque transition forcée entre un e-mail professionnel, un onglet de navigateur ouvert et un rapport à rédiger déclenche une cascade biochimique épuisante. Le cortex préfrontal doit littéralement décharger le contexte de la tâche A pour recharger les paramètres de la tâche B, un exercice d'une gourmandise énergétique extrême pour le glucose cérébral.</p>
@@ -574,7 +598,7 @@ hr::after {
 <p>« Le multitâche est l'art de faire avec un maximum de stress ce que l'on pourrait faire avec un minimum d'effort en séquentiel. » — <em>Dr. Gloria Mark</em></p>
 </blockquote>
 
-<h3 id="m-thode-pas-pas-pour-liminer-les-micro-interruptions-au-bureau">Méthode pas-à-pas pour éliminer les micro-interruptions au bureau</h3>
+<h3 id="m-thode-pas-pas-pour-liminer-les-micro-interruptions-au-bureau">Méthode pas-à-pas pour éliminer les micro&#8209;interruptions au bureau</h3>
 
 <p>1. <strong>L'audit des canaux d'entrée :</strong> Listez l'ensemble des applications qui émettent des sons, des bannières visuelles ou des vibrations. Conservez un canal d'urgence absolue (ex: appel téléphonique direct de la hiérarchie) et supprimez impitoyablement les notifications pour tous les autres.</p>
 <p>2. <strong>Le batching des communications :</strong> Fixez trois créneaux précis et immuables dans votre journée (ex: 11h00, 14h00, 17h00) d'une durée maximale de 20 minutes pour traiter l'intégralité de vos messages et e-mails. En dehors de ces fenêtres, le logiciel de messagerie doit être totalement fermé.</p>
@@ -584,11 +608,9 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### ACTION IMMÉDIATE</p>
+<div class="callout-header">⚡ ACTION IMMÉDIATE</div>
 <p>Fermez dès à présent tous les onglets de votre navigateur qui ne sont pas strictement nécessaires à l'action que vous entreprenez dans la minute. Désactivez les notifications sonores et visuelles de votre messagerie pour les 90 prochaines minutes. Programmez une alarme unique pour le prochain créneau autorisé de consultation des messages. Votre cerveau vient de récupérer 80 % de sa bande passante.</p>
 </blockquote>
-
-<h3 id="sec-1-4">1.4 1.4 Le diagnostic de votre état dopaminergique actuel</h3>
 
 <h3 id="sec-1-4">1.4 Le diagnostic de votre état dopaminergique actuel</h3>
 
@@ -596,7 +618,7 @@ hr::after {
 
 <p>L'évaluation de votre état dopaminergique repose sur une cartographie objective de vos comportements d'évitement. Lorsque le cerveau épuise sa bande passante sur des tâches complexes, il active des mécanismes de défense archaïques. Il ne réclame pas du repos, il réclame de la dopamine immédiate et sans effort. C'est la genèse de la fuite cognitive.</p>
 
-<p>#### Évaluation chiffrée de votre niveau de dépendance aux micro-stimulations</p>
+<h4 class="sub-heading">Évaluation chiffrée de votre niveau de dépendance aux micro&#8209;stimulations</h4>
 
 <p>Le test suivant quantifie votre dépendance actuelle aux boucles de rétroaction rapide (réseaux sociaux, notifications, sucre, vérification compulsive des e-mails). Attribuez-vous un score de 0 (jamais) à 4 (constamment, plus de 20 fois par jour) pour chacun des items suivants :</p>
 
@@ -610,17 +632,17 @@ hr::after {
 <thead><tr>
 <th>Score Total</th>
 <th>Diagnostic Dopaminergique</th>
-<th>Impact Neuro-Cognitif</th>
+<th>Impact Neuro&#8209;Cognitif</th>
 </tr></thead><tbody>
 <tr>
 <td><strong>0 à 4</strong></td>
 <td><strong>Système Équilibré</strong></td>
-<td>Votre cortex préfrontal maintient le contrôle. La résistance à la distraction est élevée ; les micro-habitudes suffiront à optimiser votre focus.</td>
+<td>Votre cortex préfrontal maintient le contrôle. La résistance à la distraction est élevée ; les micro&#8209;habitudes suffiront à optimiser votre focus.</td>
 </tr>
 <tr>
 <td><strong>5 à 11</strong></td>
 <td><strong>Résistance Altérée</strong></td>
-<td>Fatigue décisionnelle chronique. Votre seuil de tolérance à l'effort prolongé diminue. Les boucles de dopamine dictent vos micro-pauses.</td>
+<td>Fatigue décisionnelle chronique. Votre seuil de tolérance à l'effort prolongé diminue. Les boucles de dopamine dictent vos micro&#8209;pauses.</td>
 </tr>
 <tr>
 <td><strong>12 à 20</strong></td>
@@ -631,7 +653,7 @@ hr::after {
 
 <p>Cette grille met en lumière la réalité biologique de votre productivité : si votre score dépasse 11, vous ne luttez pas contre un manque de motivation, mais contre un sevrage biochimique.</p>
 
-<p>#### Exercice d'application : cartographier vos déclencheurs de fuite</p>
+<h4 class="sub-heading">Exercice d'application : cartographier vos déclencheurs de fuite</h4>
 
 <p>La prise de conscience ne suffit pas ; il faut intercepter le signal avant qu'il ne devienne une action automatique. La fuite cognitive suit un triptyque immuable : un déclencheur (interne ou externe), une action substitutive (le scrolling, la vérification, le sucre) et une récompense instantanée (soulagement éphémère).</p>
 
@@ -642,7 +664,7 @@ hr::after {
 <th>Heure</th>
 <th>Déclencheur Interne (Émotion, Fatigue, Ennui)</th>
 <th>Déclencheur Externe (Notification, Bruit, Blocage)</th>
-<th>Action de Fuite (Scrolling, Sucre, E-mail)</th>
+<th>Action de Fuite (Scrolling, Sucre, E&#8209;mail)</th>
 <th>Durée de la Fuite</th>
 </tr></thead><tbody>
 <tr>
@@ -680,11 +702,9 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### ACTION IMMÉDIATE</p>
+<div class="callout-header">⚡ ACTION IMMÉDIATE</div>
 <p>Prenez une feuille de papier blanche et tracez les quatre colonnes de la matrice de cartographie ci-dessus. Notez dès à présent les trois dernières occurrences de fuite cognitive (scrolling, sucre, e-mails) survenues au cours des dernières 24 heures en identifiant précisément l'émotion ou le blocage qui les a provoquées. Conservez cette feuille sous vos yeux : elle constitue la carte topographique exacte des failles que nous allons colmater dans les prochaines sections.</p>
 </blockquote>
-
-<h3 id="sec-1-5">1.5 1.5 Reprendre le contrôle : le nouveau paradigme de la concentration</h3>
 
 <h3 id="sec-1-5">1.5 Reprendre le contrôle : le nouveau paradigme de la concentration</h3>
 
@@ -741,7 +761,7 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### ACTION IMMÉDIATE</p>
+<div class="callout-header">⚡ ACTION IMMÉDIATE</div>
 <p>Configurez dès maintenant votre espace de travail numérique selon le principe de friction maximale :</p>
 <p>1. Désinstallez définitivement ou masquez dans un dossier inaccessible toutes les applications de divertissement et de réseaux sociaux de votre terminal professionnel.</p>
 <p>2. Paramétrez un mode "Concentration" strict bloquant l'ensemble des e-mails et des messageries instantanées pour les 3 prochaines heures.</p>
@@ -752,8 +772,6 @@ hr::after {
 
 <h1 id="ch-2">Chapitre 2 : Le Protocole de Détox Dopamine de 7 Jours</h1>
 
-
-<h3 id="sec-2-1">2.1 2.1 Qu'est-ce qu'une vraie détox dopaminergique ?</h3>
 
 <h3 id="sec-2-1">2.1 Qu'est-ce qu'une vraie détox dopaminergique ?</h3>
 
@@ -767,7 +785,7 @@ hr::after {
 
 <p>Une véritable détox dopaminergique ne consiste pas à supprimer la dopamine, mais à abaisser le seuil de déclenchement de vos récepteurs $D_2$. Avec l'exposition chronique aux flux continus d'informations et de notifications, ces récepteurs se désensibilisent. Il vous faut désormais des stimuli de plus en plus intenses (une vidéo courte, un like, un e-mail professionnel urgent) pour ressentir un simple niveau d'engagement ou de satisfaction. Le protocole de reset réaliste et scientifiquement fondé pour les professionnels actifs ne cherche pas le vide existentiel, mais l'élimination chirurgicale des stimuli à haute fréquence et à faible valeur ajoutée.</p>
 
-<p>#### Étude de cas : Le protocole de reset pour un cadre dirigeant</p>
+<h4 class="sub-heading">Étude de cas : Le protocole de reset pour un cadre dirigeant</h4>
 
 <p>Prenons le cas de Marc, directeur marketing de 42 jours, dont l'attention est fragmentée par environ 120 consultations quotidiennes de son smartphone et une vérification compulsive de sa boîte mail toutes les quatre minutes.</p>
 
@@ -775,7 +793,7 @@ hr::after {
 <thead><tr>
 <th>Paramètre</th>
 <th>Approche Mythe (Silicon Valley)</th>
-<th>Approche Réaliste (Protocole Neuro-Focus)</th>
+<th>Approche Réaliste (Protocole Neuro&#8209;Focus)</th>
 </tr></thead><tbody>
 <tr>
 <td><strong>Durée</strong></td>
@@ -804,17 +822,12 @@ hr::after {
 <p>La règle d'or pour réussir ce reset réside dans la distinction entre les stimuli fonctionnels (nécessaires à la survie ou à l'activité professionnelle structurée) et les stimuli parasites (conçus exclusivement pour capter l'attention par intermittence). Une détox réussie est une mise en quarantaine des boucles de rétroaction dopaminergique rapide, pas une cessation de l'activité humaine.</p>
 
 <blockquote class="callout-box">
-<p><strong>ACTION IMMÉDIATE</strong></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ ACTION IMMÉDIATE</div>
 <p>Ouvrez un document ou prenez une feuille de papier, puis dressez votre liste noire personnelle pour les 7 prochains jours en classant vos stimuli en trois catégories strictes :</p>
 <p>1. <strong>Les Hyper-Sollicitations à bannir totalement :</strong> Réseaux sociaux personnels, flux d'actualités en continu, jeux vidéo, sites de streaming en mode "auto-play".</p>
 <p>2. <strong>Les Stimuli sous conditions (Friction maximale) :</strong> E-mails professionnels (limités à 3 consultations fixes par jour), messagerie instantanée de l'entreprise (mode silencieux entre les blocs de travail).</p>
 <p>3. <strong>Les Substituts sains autorisés :</strong> Lecture sur support papier, écriture manuscrite, marche en extérieur sans écouteurs, conversations directes.</p>
 </blockquote>
-
-<h3 id="sec-2-2">2.2 2.2 Jours 1 à 3 : La traversée du désert et le sevrage</h3>
 
 <h3 id="sec-2-2">2.2 Jours 1 à 3 : La traversée du désert et le sevrage</h3>
 
@@ -831,7 +844,7 @@ hr::after {
 <th>Phase du Sevrage</th>
 <th>Manifestation Neurologique</th>
 <th>Réponse Comportementale Automatique</th>
-<th>Stratégie de Contre-Mesure</th>
+<th>Stratégie de Contre&#8209;Mesure</th>
 </tr></thead><tbody>
 <tr>
 <td><strong>Jour 1 (Matin)</strong></td>
@@ -849,13 +862,13 @@ hr::after {
 <td><strong>Jour 2</strong></td>
 <td>Brouillard mental et apathie</td>
 <td>Procrastination aiguë sur les tâches complexes</td>
-<td>Découpage des tâches en micro-actions de 5 minutes</td>
+<td>Découpage des tâches en micro&#8209;actions de 5 minutes</td>
 </tr>
 <tr>
 <td><strong>Jour 3</strong></td>
 <td>Recherche agressive de substituts</td>
 <td>Tentative de négociation avec soi-même ("juste 2 minutes")</td>
-<td>Consultation de la checklist anti-rechute</td>
+<td>Consultation de la checklist anti&#8209;rechute</td>
 </tr>
 </tbody></table>
 
@@ -873,9 +886,6 @@ hr::after {
 
 <blockquote class="callout-box">
 <p><strong>CHECKLIST ANTI-RECHUTE (EN CAS DE CREUX INTENSE)</strong></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p>* <strong>Étape 1 : Identifier le déclencheur.</strong> Est-ce de l'ennui, de la fatigue, de la faim ou une tâche difficile à accomplir ? (Nommer l'émotion réduit son emprise de 50 %).</p>
 <p>* <strong>Étape 2 : Appliquer la règle du "Stop-Bouge".</strong> Quitter immédiatement la position assise ou l'endroit où l'envie est apparue. Faire 20 pas dans la pièce ou aller boire un verre d'eau fraîche.</p>
 <p>* <strong>Étape 3 : Activer le substitut sensoriel.</strong> Saisir un livre papier et lire une page, ou prendre un carnet et écrire trois lignes sur l'état d'esprit actuel sans filtre.</p>
@@ -883,14 +893,9 @@ hr::after {
 </blockquote>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p><strong>Levez-vous de votre siège dès à présent.</strong> Fermez les yeux et exécutez 5 cycles complets de respiration carrée (4 secondes inspir - 4 secondes bloqué - 4 secondes expir - 4 secondes vide). Notez ensuite sur un carnet ou une feuille volante l'émotion exacte ou l'impulsion qui vous poussait à consulter un écran dans la dernière heure. Conservez cette feuille à portée de main pour les Jours 2 et 3.</p>
 </blockquote>
-
-<h3 id="sec-2-3">2.3 2.3 Jours 4 à 7 : L'émergence du calme mental et du focus</h3>
 
 <h3 id="sec-2-3">2.3 Jours 4 à 7 : L'émergence du calme mental et du focus</h3>
 
@@ -950,17 +955,12 @@ hr::after {
 <p>Cette matrice garantit que la technologie redevient un outil au service des objectifs de l'individu, et non l'inverse. Chaque application réinstallée doit passer le test des trois questions : <em>Quel problème réel cette application résout-elle ? Puis-je l'utiliser sans déclencher une boucle de dopamine rapide ? Mon bien-être augmente-t-il après son utilisation ?</em></p>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p><strong>Prenez votre smartphone dès maintenant.</strong></p>
 <p>1. Désinstallez définitivement toutes les applications de divertissement rapide et d'actualité en continu.</p>
 <p>2. Désactivez l'intégralité des notifications visuelles et sonores, à l'exception stricte des appels téléphoniques.</p>
 <p>3. Paramétrez votre téléphone en niveaux de gris (mode monochrome) dans les paramètres d'accessibilité : retirez toute la palette chromatique agressive qui stimule artificiellement le centre visuel de votre cerveau. Conservez ce réglage pour les 48 prochaines heures.</p>
 </blockquote>
-
-<h3 id="sec-2-4">2.4 2.4 Redéfinir la notion de plaisir et d'ennui constructif</h3>
 
 <h3 id="sec-2-4">2.4 Redéfinir la notion de plaisir et d'ennui constructif</h3>
 
@@ -1008,25 +1008,20 @@ hr::after {
 <p>La peur de s'ennuyer est une construction culturelle récente. Les plus grands créateurs de l'histoire — de Friedrich Nietzsche à Albert Einstein en passant par Agatha Christie — cultivaient délibérément de longues plages d'inactivité physique et mentale. Einstein ne portait pas des costumes identiques uniquement par simplicité vestimentaire ; il éliminait les micro-décisions et s'octroyait des heures de marche en silence, conscient que les équations fondamentales de la physique ne naissent pas dans l'agitation, mais dans le silence de la réflexion non dirigée.</p>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p><strong>Instaurez le rituel de l'heure blanche dès aujourd'hui :</strong></p>
 <p>1. Programmez un minuteur analogique pour une durée exacte de 60 minutes (retirez tout appareil numérique de la pièce).</p>
 <p>2. Asseyez-vous dans une pièce calme, sans musique de fond, sans podcast, sans livre, sans carnet pendant les trente premières minutes. Laissez l'agitation mentale monter, culminer et retomber.</p>
 <p>3. Durant les trente minutes suivantes, autorisez-vous l'écriture manuscrite sur une feuille blanche, uniquement pour consigner les pensées, frustrations ou idées créatives qui ont émergé du silence. Répétez cet exercice chaque jour pendant la durée de votre détox.</p>
 </blockquote>
 
-<h3 id="sec-2-5">2.5 2.5 Stabiliser les résultats après la première semaine</h3>
-
-<h3 id="stabiliser-les-r-sultats-apr-s-la-premi-re-semaine">Stabiliser les résultats après la première semaine</h3>
+<h3 id="sec-2-5">2.5 Stabiliser les résultats après la première semaine</h3>
 
 <p>Le véritable défi d'une détox dopaminergique ne réside pas dans l'exécution des sept jours de sevrage, mais dans la transition vers le 8e jour. La majorité des individus commettent l'erreur monumentale de réintroduire l'intégralité de leurs stimuli numériques et comportementaux dès la fin du protocole, annulant instantanément les gains neurochimiques obtenus. Un système limbique réinitialisé fonctionne comme une feuille de papier vierge : il est hypersensible au moindre pic de dopamine. Un retour brutal aux anciennes habitudes provoque un effet rebond d'autant plus violent que le cerveau s'est habitué au silence fonctionnel.</p>
 
 <p>Pour pérenniser ces acquis, il faut abandonner l'illusion d'un retour à la "normale" et accepter que la norme précédente était précisément la pathologie qui détruisait votre capacité d'attention. La stabilisation repose sur le concept de la "dopamine méritée" : chaque source de plaisir à haute intensité (réseaux sociaux, jeux vidéo, sucre raffiné) doit désormais être précédée d'un effort cognitif ou physique substantiel.</p>
 
-<p>#### Étude de cas : Le redémarrage mesuré de Marc, ingénieur logiciel</p>
+<h4 class="sub-heading">Étude de cas : Le redémarrage mesuré de Marc, ingénieur logiciel</h4>
 
 <p>Marc, 34 ans, a achevé son protocole de 7 jours avec une clarté mentale qu'il n'avait pas ressentie depuis l'université. Au matin du 8e jour, confronté à la tentation de rouvrir ses boîtes mail et ses flux d'actualité en continu, il a mis en place un protocole de réintroduction graduelle sur 14 jours, structuré selon un ratio d'effort de 5 pour 1.</p>
 
@@ -1041,7 +1036,7 @@ hr::after {
 <table class="kdp-table">
 <thead><tr>
 <th>Type de Stimulus</th>
-<th>Règle d'Usage Post-Détox</th>
+<th>Règle d'Usage Post&#8209;Détox</th>
 <th>Condition d'Accès (Le péage)</th>
 </tr></thead><tbody>
 <tr>
@@ -1081,10 +1076,7 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### 🛑 Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>Rédigez dès maintenant votre <strong>Contrat de Maintenance Dopaminergique</strong> pour les 30 prochains jours en suivant ces trois étapes sur une feuille de papier :</p>
 <p>1. <strong>Identifiez</strong> l'unique source de dopamine toxique que vous refusez catégoriquement de réintégrer dans votre vie (ex: le scroll infini sur Instagram au réveil).</p>
 <p>2. <strong>Définissez</strong> le "péage" obligatoire (l'effort exigé) pour les deux sources de divertissement que vous autorisez à nouveau.</p>
@@ -1093,10 +1085,8 @@ hr::after {
 
 
 
-<h1 id="ch-3">Chapitre 3 : La Science des Micro-Habitudes : Le Pouvoir du 1%</h1>
+<h1 id="ch-3">Chapitre 3 : La Science des Micro&#8209;Habitudes : Le Pouvoir du 1%</h1>
 
-
-<h3 id="sec-3-1">3.1 3.1 La mathématique implacable de l'agrégation des gains marginaux</h3>
 
 <h3 id="sec-3-1">3.1 La mathématique implacable de l'agrégation des gains marginaux</h3>
 
@@ -1110,7 +1100,7 @@ hr::after {
 <p>« La réussite n'est pas un événement spectaculaire, mais la somme de petits choix répétés quotidiennement avec constance. »</p>
 </blockquote>
 
-<p>#### Le piège de la discontinuité et l'approche minimaliste</p>
+<h4 class="sub-heading">Le piège de la discontinuité et l'approche minimaliste</h4>
 
 <p>L'erreur la plus fréquente consiste à vouloir tout changer du jour au lendemain sous l'impulsion d'une motivation éphémère. Cette approche dite "maximaliste" active massivement le système limbique, déclenche une réponse de peur face à l'effort perçu, et s'achève inévitablement par un épuisement cognitif. Vouloir passer de zéro minute de lecture à une heure par jour, ou rédiger un rapport complet d'un seul bloc sans routine préalable, revient à exiger de son cortex préfrontal une dépense d'énergie qu'il ne peut maintenir.</p>
 
@@ -1130,7 +1120,7 @@ hr::after {
 <td><strong>Surcharge amygdalienne</strong> : résistance et fuite face à la tâche.</td>
 </tr>
 <tr>
-<td><strong>Micro-habitude</strong></td>
+<td><strong>Micro&#8209;habitude</strong></td>
 <td>Ouvrir son document de travail et rédiger exactement 50 mots.</td>
 <td>1 500 mots rédigés, habitude ancrée, élan créé.</td>
 <td><strong>Activation dopaminergique douce</strong> : renforcement de la boucle neuronale.</td>
@@ -1139,7 +1129,7 @@ hr::after {
 
 <p>Dans l'approche minimaliste, le seuil d'activation est tellement bas qu'il est impossible de procrastiner. Une fois la micro-étape franchie (les 50 mots écrits), l'inertie est brisée et le cerveau, déjà engagé, accepte naturellement de prolonger l'effort. C'est l'application directe de la loi du moindre effort biologique au service de la performance.</p>
 
-<p>#### Décomposition algorithmique d'une compétence</p>
+<h4 class="sub-heading">Décomposition algorithmique d'une compétence</h4>
 
 <p>Pour exploiter cette mathématique, vous devez cesser de cibler des résultats et commencer à optimiser des processus. Une compétence complexe n'est jamais qu'une imbrication de micro-comportements automatisés.</p>
 
@@ -1154,20 +1144,14 @@ hr::after {
 
 <hr>
 
-<h3 id="action-imm-diate">🛑 Action Immédiate</h3>
-
 <blockquote class="callout-box">
-<p>Pour enclencher immédiatement la puissance de l'agrégation des gains marginaux, réalisez l'exercice suivant sur votre carnet de travail :</p>
-</blockquote>
+<div class="callout-header">⚡ ACTION IMMÉDIATE</div>
+<p>> Pour enclencher immédiatement la puissance de l'agrégation des gains marginaux, réalisez l'exercice suivant sur votre carnet de travail :</p>
 <p>></p>
-<blockquote class="callout-box">
-<p>1. <strong>Identifiez</strong> une seule habitude majeure que vous avez échoué à maintenir par le passé en raison de son ampleur (ex: faire du sport, méditer, écrire, prospecter).</p>
-<p>2. <strong>Décomposez</strong> cette habitude en sa plus petite expression possible, réalisable en moins de 120 secondes (ex: enfiler ses chaussures de sport, respirer en conscience pendant 60 secondes, formuler une seule phrase).</p>
-<p>3. <strong>Fixez</strong> le déclencheur contextuel exact qui validera l'exécution de cette micro-étape chaque jour sans exception pour les 14 prochains jours.</p>
+<p>> 1. <strong>Identifiez</strong> une seule habitude majeure que vous avez échoué à maintenir par le passé en raison de son ampleur (ex: faire du sport, méditer, écrire, prospecter).</p>
+<p>> 2. <strong>Décomposez</strong> cette habitude en sa plus petite expression possible, réalisable en moins de 120 secondes (ex: enfiler ses chaussures de sport, respirer en conscience pendant 60 secondes, formuler une seule phrase).</p>
+<p>> 3. <strong>Fixez</strong> le déclencheur contextuel exact qui validera l'exécution de cette micro-étape chaque jour sans exception pour les 14 prochains jours.</p>
 </blockquote>
-
-<h3 id="sec-3-2">3.2 3.2 La règle des 2 minutes : vaincre l'inertie instantanément</h3>
-
 <h3 id="sec-3-2">3.2 La règle des 2 minutes : vaincre l'inertie instantanément</h3>
 
 <p>L'obstacle majeur qui paralyse le passage à l'action n'est ni le manque de motivation ni l'absence de vision, mais la friction psychologique générée par la taille perçue de la tâche. Le cerveau humain, programmé pour économiser l'énergie métabolique, évalue systématiquement l'effort requis avant d'autoriser l'engagement. Face à une montagne — comme rédiger un rapport de dix pages ou courir dix kilomètres —, le cortex préfrontal anticipe la dépense calorique et déclenche une réponse de résistance ou d'évitement.</p>
@@ -1180,8 +1164,8 @@ hr::after {
 <thead><tr>
 <th>Phase de l'Habitude</th>
 <th>Approche Traditionnelle (Échec)</th>
-<th>Approche Micro-Habitude (Succès)</th>
-<th>Gain Neuro-Cognitif</th>
+<th>Approche Micro&#8209;Habitude (Succès)</th>
+<th>Gain Neuro&#8209;Cognitif</th>
 </tr></thead><tbody>
 <tr>
 <td><strong>Déclencheur</strong></td>
@@ -1216,28 +1200,20 @@ hr::after {
 <p>Si l'un de ces critères n'est pas validé, la micro-habitude est encore trop complexe et risque de s'effondrer au premier soubresaut de stress ou de fatigue. Réduisez-la davantage jusqu'à ce qu'elle devienne triviale, presque impossible à rater.</p>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>Ouvrez votre carnet de notes ou le bloc-notes de votre terminal numérique dès à présent.</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p>1. Sélectionnez l'objectif professionnel ou personnel que vous repoussez depuis le plus longtemps.</p>
 <p>2. Définissez l'action exacte, mesurable et non négociable qui prend exactement 120 secondes à réaliser (ex: "Lire une seule page de l'ouvrage technique", "Écrire une seule ligne de code", "Faire un seul étirement des cervicales").</p>
-<p>3. Exécutez cette micro-action immédiatement, avant de tourner la page de ce livre. Validez mentalement le signal de réussite pour ancrer la boucle neuronale.</p>
+<div class="callout-header">⚡ 3. Exécutez cette micro&#8209;action immédiatement, avant de tourner la page de ce livre. Validez mentalement le signal de réussite pour ancrer la boucle neuronale.</div>
 </blockquote>
 
-<h3 id="sec-3-3">3.3 3.3 Le concept de l'activation neuronale par la friction</h3>
-
-<h3 id="le-concept-de-l-activation-neuronale-par-la-friction">Le concept de l'activation neuronale par la friction</h3>
+<h3 id="sec-3-3">3.3 Le concept de l'activation neuronale par la friction</h3>
 
 <p>La vitesse à laquelle le cerveau adopte ou abandonne un comportement ne dépend pas de la force de volonté, mais de la résistance électrique et chimique rencontrée le long des chemins synaptiques. Le système nerveux cherche constamment à minimiser la dépense énergétique. Face à deux actions concurrentes, il choisira toujours celle qui exige le moins d'étapes de traitement cognitif. La friction environnementale est le levier physique qui module cette dépense.</p>
 
 <p>Moduler la friction ne consiste pas à lutter contre ses envies par la force mentale, mais à modifier l'architecture de son environnement immédiat pour rendre le comportement souhaité inévitable et le comportement indésirable excessivement laborieux.</p>
 
-<p>#### L'ingénierie de la résistance : augmenter la friction des parasites</p>
+<h4 class="sub-heading">L'ingénierie de la résistance : augmenter la friction des parasites</h4>
 
 <p>Pour éradiquer une mauvaise habitude, il faut multiplier les barrières physiques entre le déclencheur (le signal) et la récompense. Chaque étape supplémentaire introduite dans la séquence comportementale active le cortex préfrontal, brisant le mode pilote automatique des noyaux gris centraux.</p>
 
@@ -1249,7 +1225,7 @@ hr::after {
 <li><strong>Résultat chiffré à 30 jours :</strong> Le temps d'accès est passé de 0,4 seconde à 45 secondes (marche, ouverture du tiroir, déverrouillage, authentification). La friction additionnelle a réduit la consultation spontanée de 82 %. Le gain de productivité net s'élève à 1,8 heure par jour, réalloué au code à haute valeur ajoutée.</li>
 </ul>
 
-<p>#### L'autoroute synaptique : réduire la friction à zéro</p>
+<h4 class="sub-heading">L'autoroute synaptique : réduire la friction à zéro</h4>
 
 <p>À l'inverse, l'ancrage d'une nouvelle habitude exige l'élimination totale de toute micro-décision ou effort physique préparatoire. Si le cerveau doit chercher le matériel nécessaire pour accomplir une action, il interprète cet effort comme un signal de renoncement.</p>
 
@@ -1259,7 +1235,7 @@ hr::after {
 <thead><tr>
 <th>Type d'Habitude</th>
 <th>Action sur l'Environnement</th>
-<th>Effet Neuro-Biologique</th>
+<th>Effet Neuro&#8209;Biologique</th>
 </tr></thead><tbody>
 <tr>
 <td><strong>Mauvaise (ex: Smartphone)</strong></td>
@@ -1291,30 +1267,22 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>Exécutez cette modification environnementale dans les 120 secondes qui suivent :</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p>1. Identifiez la distraction principale qui sabote votre concentration (smartphone, onglets de réseaux sociaux ouverts, snacks sur le bureau).</p>
 <p>2. Appliquez la friction maximale : éteignez cet appareil, déconnectez vos comptes, ou enfermez l'élément perturbateur hors de portée visuelle immédiate.</p>
 <p>3. En symétrie, préparez l'outil de votre micro-habitude du lendemain (posez le livre ouvert, le fichier de code à l'écran, ou l'outil de travail) de manière à ce qu'il soit le <strong>seul</strong> objet physique ou numérique visible lorsque vous vous installerez à votre poste.</p>
 </blockquote>
 
-<h3 id="sec-3-4">3.4 3.4 Créer son 'Habit Stacking' (le cumul d'habitudes)</h3>
+<h3 id="sec-3-4">3.4 Créer son 'Habit Stacking' (le cumul d'habitudes)</h3>
 
 <h3 id="sec-3-4">3.4 Créer son "</h3>
-
-<h3 id="sec-3-5">3.5 3.5 Bâtir un système plutôt qu'un objectif</h3>
 
 <h3 id="sec-3-5">3.5 Bâtir un système plutôt qu'un objectif</h3>
 
 <p>La poursuite aveugle d'objectifs chiffrés conduit inévitablement à l'épuisement psychologique. Fixer une cible lointaine — comme perdre dix kilos, doubler son chiffre d'affaires ou écrire un livre en trois mois — crée un état de manque permanent : le succès est sans cesse repoussé à plus tard, tandis que le présent est vécu comme une suite d'efforts non récompensés. Dès que l'objectif est atteint, ou abandonné face à la difficulté, la dynamique s'effondre. Le problème ne vient pas de la volonté du individu, mais de l'architecture même de sa démarche.</p>
 
-<p>#### Le principe fondamental : L'ascendant du processus sur le résultat</p>
+<h4 class="sub-heading">Le principe fondamental : L'ascendant du processus sur le résultat</h4>
 
 <p>Un objectif définit la direction, mais le système détermine la progression réelle. Le système représente l'ensemble des micro-habitudes quotidiennes, des routines et des environnements qui s'enclenchent automatiquement.</p>
 
@@ -1329,7 +1297,7 @@ hr::after {
 
 <p>À l'inverse, l'approche systémique déplace l'attention de la destination vers le voyage. Elle ne demande pas : "Quel type de personne veux-je devenir d'ici un an ?", mais "Quel type de personne agit ainsi chaque matin à 8h ?".</p>
 
-<p>#### Étude de cas : La refonte logistique d'une PME de e-commerce</p>
+<h4 class="sub-heading">Étude de cas : La refonte logistique d'une PME de e-commerce</h4>
 
 <p>Prenons l'exemple de <em>NovaLog</em>, une entreprise de e-commerce confrontée à un taux d'erreurs de préparation de commandes de 4,2 %, bien au-delà du seuil critique de 1 % acceptable pour sa rentabilité.</p>
 
@@ -1373,7 +1341,7 @@ hr::after {
 
 <p>Le système a rendu l'erreur difficile et la bonne exécution automatique.</p>
 
-<p>#### Plan d'action : Évaluer ses progrès hebdomadaires</p>
+<h4 class="sub-heading">Plan d'action : Évaluer ses progrès hebdomadaires</h4>
 
 <p>Un système ne s'auto-entretient pas ; il nécessite une calibration régulière. Pour s'assurer que les micro-habitudes produisent la trajectoire escomptée sans dépendre d'un objectif lointain, l'application d'un protocole d'audit hebdomadaire est requise.</p>
 
@@ -1387,10 +1355,7 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>1. <strong>Identifiez</strong> un grand objectif actuel de votre vie professionnelle ou personnelle (ex: "Écrire un livre", "Me remettre en forme").</p>
 <p>2. <strong>Traduisez-le</strong> en un système unique et récurrent (ex: "Rédiger 200 mots chaque matin à 7h00" ou "Faire 10 pompes après m'être brossé les dents").</p>
 <p>3. <strong>Planifiez</strong> dès à présent dans votre agenda un créneau de 15 minutes, chaque dimanche soir, pour réaliser votre audit hebdomadaire des 3V, en mesurant uniquement la régularité de votre système et non le résultat brut.</p>
@@ -1401,8 +1366,6 @@ hr::after {
 <h1 id="ch-4">Chapitre 4 : Architecte de l'Environnement : Programmer son Espace pour Réussir</h1>
 
 
-<h3 id="sec-4-1">4.1 4.1 L'environnement bat toujours la volonté</h3>
-
 <h3 id="sec-4-1">4.1 L'environnement bat toujours la volonté</h3>
 
 <p class="chapter-lead">La volonté est une ressource cognitive limitée, un stock d'énergie s'épuisant au fil des micro-décisions de la journée. Compter sur sa force morale pour maintenir le cap dans un espace saturé de tentations relève de l'illusion stratégique. Le cerveau humain est une machine à économiser l'énergie : il scanne en permanence son environnement à la recherche d'indices visuels pour automatiser ses comportements. Si votre champ de vision regorge de distractions — smartphone clignotant, onglets ouverts par dizaines, dossiers empilés —, vos circuits neuronaux consacrent une part de leur bande passante à inhiber ces stimuli. C'est la fatigue décisionnelle. Modifier le design spatial de votre espace de travail ne demande un effort qu'une seule fois, tandis que résister à la tentation exige une vigilance permanente vouée à l'échec.</p>
@@ -1411,20 +1374,11 @@ hr::after {
 
 <blockquote class="callout-box">
 <p><strong>Étude de cas : Le redéploiement ergonomique et cognitif chez Nexus Tech</strong></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p>Thomas, développeur senior, luttait quotidiennement contre la procrastination. Son bureau contenait son ordinateur, son téléphone personnel posé face visible, une pile de carnets, des reçus et un second écran affichant sa boîte mail en temps réel. Sa productivité mesurée en plages de travail ininterrompu ne dépassait pas 22 minutes consécutives avant une diversion.</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p>L'intervention a consisté à appliquer la règle de la table rase :</p>
 <p>- <strong>Retrait total</strong> du smartphone (placé dans un tiroir de la pièce voisine, en mode silencieux).</p>
 <p>- <strong>Suppression</strong> des carnets et papiers non liés à la ligne de code en cours d'écriture.</p>
 <p>- <strong>Fermeture</strong> définitive du client de messagerie et installation d'un bloqueur de sites d'information.</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p><strong>Résultat quantifié sur 30 jours :</strong> La durée moyenne des sessions de travail ininterrompu est passée de 22 minutes à 1 heure 45 minutes. Le volume de code produit a augmenté de 64 %, tandis que le niveau de fatigue mentale perçu en fin de journée a chuté de 40 %, l'esprit n'ayant plus à arbitrer entre la tâche et les sollicitations périphériques.</p>
 </blockquote>
 
@@ -1458,18 +1412,13 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>1. <strong>Videz</strong> l'intégralité de votre surface de travail (bureau physique ou interface d'ordinateur) de tout objet, papier ou application qui n'est pas strictement indispensable à la tâche unique que vous devez accomplir dans les 60 prochaines minutes.</p>
 <p>2. <strong>Isolez</strong> votre téléphone hors de votre portée immédiate et de votre champ de vision direct (dans un sac ou un tiroir fermé).</p>
 <p>3. <strong>Installez</strong> un unique outil de travail sur votre espace épuré, validant ainsi le principe fondateur : un espace neutre appelle une concentration absolue.</p>
 </blockquote>
 
-<h3 id="sec-4-2">4.2 4.2 Le minimalisme numérique radical</h3>
-
-<h3 id="le-minimalisme-num-rique-radical">Le minimalisme numérique radical</h3>
+<h3 id="sec-4-2">4.2 Le minimalisme numérique radical</h3>
 
 <p>La friction physique n'est que la moitié de la bataille. Si votre bureau est immaculé mais que votre écran clignote, vibre et sollicite votre attention toutes les quatre minutes, votre cortex préfrontal est soumis à une charge cognitive insoutenable. Le cerveau humain traite les stimuli numériques avec la même intensité biologique que les menaces ou les opportunités physiques. Chaque notification est une micro-interruption qui détruit l'état de flux (<em>deep work</em>). Pour restaurer une attention souveraine, il ne s'agit pas de faire preuve de volonté, mais d'appliquer une politique de terre brûlée numérique : désinstaller 80 % des applications et désactiver 100 % des notifications non vitales.</p>
 
@@ -1515,19 +1464,14 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### Checklist de désencombrement numérique</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<p><strong>⚡ Checklist de désencombrement numérique :</strong></p>
 <p>1. <strong>Audit des applications mobile :</strong> Parcourez chaque page de votre smartphone. Supprimez immédiatement toute application non ouverte au cours des 30 derniers jours (visez une réduction drastique de 80 %).</p>
 <p>2. <strong>Neutralisation des alertes :</strong> Rendez-vous dans les paramètres système. Désactivez les notifications push de <em>toutes</em> les applications, sauf les appels directs et l'agenda professionnel. Pas de bannières, pas de sons, pas de pastilles.</p>
 <p>3. <strong>Automatisation des profils :</strong> Programmez un mode "Travail" sur votre ordinateur et votre téléphone qui s'active automatiquement de 9h à 12h et de 14h à 17h, bloquant tout accès aux e-mails et aux messageries instantanées.</p>
 <p>4. <strong>Purge des favoris web :</strong> Fermez tous les onglets ouverts non pertinents pour votre tâche actuelle et videz votre dossier "Favoris/Bookmarks" de toute distraction addictive.</p>
 </blockquote>
 
-<h3 id="sec-4-3">4.3 4.3 Structurer son espace physique pour le Deep Work</h3>
-
-<h3 id="structurer-son-espace-physique-pour-le-deep-work">Structurer son espace physique pour le Deep Work</h3>
+<h3 id="sec-4-3">4.3 Structurer son espace physique pour le Deep Work</h3>
 
 <p>La volonté est une ressource biologique limitée. Compter sur sa force de pour s'isoler des distractions au milieu d'un bureau encombré mène directement à l'épuisement cognitif. Le cerveau humain fonctionne par association environnementale : chaque objet de votre champ visuel déclenche un programme comportemental ancré. Si votre canapé évoque la détente et votre bureau évoque l'anxiété ou la navigation web chaotique, s'asseoir pour produire un travail de haute intensité devient un combat permanent contre votre propre biologie. Pour éliminer cette friction, il faut transformer l'espace physique en un tuteur externe de concentration.</p>
 
@@ -1579,17 +1523,12 @@ hr::after {
 <p><em></em>*</p>
 
 <blockquote class="callout-box">
-<p>### ACTION IMMÉDIATE : Le "Reset" du Sanctuaire</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ ACTION IMMÉDIATE : Le "Reset" du Sanctuaire</div>
 <p>1. <strong>Identifiez</strong> dès maintenant l'élément de votre bureau actuel qui n'a aucun rapport direct avec votre tâche de production actuelle (tasses, bibelots, papiers administratifs, smartphone).</p>
 <p>2. <strong>Retirez</strong> immédiatement cet objet de votre champ visuel direct.</p>
 <p>3. <strong>Définissez</strong> un ancrage physique unique (un sous-main d'une couleur spécifique, une position de chaise précise ou une lampe dédiée) qui n'existera que pour valider l'entrée en mode <em>Deep Work</em>.</p>
 <p>4. Si vous travaillez dans un espace restreint, installez une barrière visuelle amovible (rideau, meuble, paravent) que vous fermerez rituellement à la fin de chaque session pour signifier la fin de l'effort.</p>
 </blockquote>
-
-<h3 id="sec-4-4">4.4 4.4 Gérer l'environnement social et les interruptions des collègues</h3>
 
 <h3 id="sec-4-4">4.4 Gérer l'environnement social et les interruptions des collègues</h3>
 
@@ -1636,26 +1575,17 @@ hr::after {
 
 <hr>
 
-<h3 id="action-imm-diate-r-diger-et-diffuser-votre-protocole-de-disponibilit">Action Immédiate : Rédiger et diffuser votre protocole de disponibilité</h3>
-
+<blockquote class="callout-box">
+<div class="callout-header">⚡ ACTION IMMÉDIATE : Rédiger et diffuser votre protocole de disponibilité</div>
 <p>Ouvrez immédiatement votre application de messagerie professionnelle (Slack, Teams, ou un brouillon d'e-mail) et rédigez votre protocole personnel en vous basant sur le modèle ci-dessous. Ne cherchez pas la perfection, visez l'exhaustivité fonctionnelle.</p>
-
 <p><strong>Modèle de protocole à adapter :</strong></p>
-
-<blockquote class="callout-box">
-<p><em>"Bonjour à tous, afin d'optimiser la qualité de nos livrables et de réduire les temps de latence sur nos projets complexes, je mets en place un rituel de concentration profonde (<strong>Deep Work</strong>).</em></p>
-</blockquote>
+<p>> <em>"Bonjour à tous, afin d'optimiser la qualité de nos livrables et de réduire les temps de latence sur nos projets complexes, je mets en place un rituel de concentration profonde (<strong>Deep Work</strong>).</em></p>
 <p>></p>
-<blockquote class="callout-box">
-<p><em> <strong>Mes créneaux de concentration :</strong> De [Heure de début] à [Heure de fin], je serai en mode de travail immersif (signalé par mon casque audio / mon statut "Focus"). Durant ces plages, je ne consulterai pas la messagerie instantanée en temps réel.</em></p>
-<p><em> <strong>En cas d'urgence absolue (bloquant technique bloquant toute l'équipe) :</strong> Ne m'interpellez pas physiquement, envoyez un SMS ou utilisez la mention prioritaire sur [Canal].</em></p>
-<p><em> <strong>Ma disponibilité :</strong> Je serai pleinement à votre écoute et disponible pour toutes vos questions de [Heure] à [Heure]. Regroupez vos points d'interrogation sur cette plage pour que nous les réglions en une seule fois."</em></p>
-</blockquote>
-
+<p>> <em> <strong>Mes créneaux de concentration :</strong> De [Heure de début] à [Heure de fin], je serai en mode de travail immersif (signalé par mon casque audio / mon statut "Focus"). Durant ces plages, je ne consulterai pas la messagerie instantanée en temps réel.</em></p>
+<p>> <em> <strong>En cas d'urgence absolue (bloquant technique bloquant toute l'équipe) :</strong> Ne m'interpellez pas physiquement, envoyez un SMS ou utilisez la mention prioritaire sur [Canal].</em></p>
+<p>> <em> <strong>Ma disponibilité :</strong> Je serai pleinement à votre écoute et disponible pour toutes vos questions de [Heure] à [Heure]. Regroupez vos points d'interrogation sur cette plage pour que nous les réglions en une seule fois."</em></p>
 <p>Copiez ce texte, ajustez les horaires à votre réalité biologique et professionnelle, et envoyez-le à votre équipe ou manager dès aujourd'hui. Votre environnement social cesse d'être une menace subie dès l'instant où vous en devenez le programmateur.</p>
-
-<h3 id="sec-4-5">4.5 4.5 Maintenir un écosystème sain sur le long terme</h3>
-
+</blockquote>
 <h3 id="sec-4-5">4.5 Maintenir un écosystème sain sur le long terme</h3>
 
 <p>L'architecture comportementale n'est pas un événement unique, c'est une maintenance continue. Un espace de travail ou de vie optimisé aujourd'hui subit inexorablement l'entropie : le désordre s'installe, les notifications s'accumulent, les objets superflus reviennent coloniser le bureau, et les limites sociales s'étiolent. Sans un protocole de réinitialisation régulier, la friction initiale reprend le dessus, épuisant les ressources du cortex préfrontal. Maintenir un écosystème sain exige de systématiser l'audit environnemental pour transformer la discipline en automatisme organisationnel.</p>
@@ -1687,7 +1617,7 @@ hr::after {
 </tr>
 <tr>
 <td><strong>4. Déclencheurs Visuels</strong></td>
-<td>Présence des indices de micro-habitudes cibles</td>
+<td>Présence des indices de micro&#8209;habitudes cibles</td>
 <td>Repositionnement des déclencheurs (ex: carnet ouvert, gourde d'eau) dans le champ direct.</td>
 </tr>
 </tbody></table>
@@ -1698,23 +1628,17 @@ hr::after {
 <p>« Nous façonnons nos édifices, puis nos édifices nous façonnent. » — Winston Churchill</p>
 </blockquote>
 
-<h3 id="action-imm-diate">Action Immédiate</h3>
-
+<blockquote class="callout-box">
+<div class="callout-header">⚡ ACTION IMMÉDIATE</div>
 <p><strong>Planifiez dès maintenant votre premier Audit Environnemental Mensuel dans votre agenda (durée : 30 minutes, bloquées le premier vendredi de chaque mois).</strong></p>
-
 <p>Durant cette session, suivez l'ordre séquentiel suivant :</p>
 <p>1. <strong>Soustraction physique :</strong> Retirez tout ce qui n'a pas servi dans les 30 derniers jours de votre champ de vision immédiat.</p>
 <p>2. <strong>Purge numérique :</strong> Videz la corbeille, fermez les applications en arrière-plan, désinstallez les distractions logicielles inutiles.</p>
 <p>3. <strong>Calibrage social :</strong> Envoyez un rappel synthétique de vos plages de concentration à votre équipe si les frontières ont glissé.</p>
-
 <p>Votre environnement ne doit plus jamais être subit ; il redevient à chaque audit le gardien silencieux de votre attention.</p>
-
-
-
+</blockquote>
 <h1 id="ch-5">Chapitre 5 : Le Protocole Deep Work : Dompter le Temps et l'Attention</h1>
 
-
-<h3 id="sec-5-1">5.1 5.1 La distinction vitale entre travail profond et travail superficiel</h3>
 
 <h3 id="sec-5-1">5.1 La distinction vitale entre travail profond et travail superficiel</h3>
 
@@ -1760,22 +1684,20 @@ hr::after {
 
 <p><em></em>*</p>
 
-<h3 id="action-imm-diate-l-audit-des-20-d-impact">Action Immédiate : L'Audit des 20 % d'Impact</h3>
-
+<blockquote class="callout-box">
+<div class="callout-header">⚡ ACTION IMMÉDIATE : L'Audit des 20 % d'Impact</div>
 <p>1. <strong>Extraction :</strong> Sur une feuille blanche, dressez la liste exhaustive de toutes les tâches réalisées au cours des dix derniers jours ouvrés.</p>
 <p>2. <strong>Notation :</strong> Attribuez à chaque tâche une note de 1 à 10 concernant son impact direct sur vos objectifs fondamentaux (revenus, création d'actifs, innovations majeures).</p>
 <p>3. <strong>Isolation :</strong> Silexez les 80 % de tâches ayant récolté les notes les plus basses. Identifiez les 2 ou 3 activités uniques qui concentrent la véritable valeur de votre métier.</p>
 <p>4. <strong>Verrouillage :</strong> Planifiez dès demain matin, dans votre calendrier, un bloc inviolable de 90 minutes entièrement dédié à l'une de ces tâches à fort impact, avant toute consultation de messagerie.</p>
-
-<h3 id="sec-5-2">5.2 5.2 La méthode des blocs de temps incompressibles</h3>
-
+</blockquote>
 <h3 id="sec-5-2">5.2 La méthode des blocs de temps incompressibles</h3>
 
 <p>La sanctuarisation d’un créneau horaire de 90 minutes, telle qu’esquissée précédemment, ne suffit pas à garantir l’efficacité cognitive. Sans une architecture rigoureuse, ce laps de temps se fragmente sous la pression des urgences, des notifications et de la résistance psychologique naturelle du cerveau face à l'effort profond. Pour maintenir un état de performance maximale, il est impératif d'appliquer la méthode des blocs de temps incompressibles (les <em>Deep Work Blocks</em>), calés sur les rythmes ultradiens de l'organisme.</p>
 
 <p>Le cycle ultradien régit l'alternance de nos niveaux d'énergie et de concentration au cours de la journée, par vagues d'environ 90 à 120 minutes. Ignorer cette pulsation biologique conduit à l'épuisement. En alignant vos sessions de travail profond sur ces vagues, vous exploitez la période optimale durant laquelle le cortex préfrontal fonctionne à son maximum, avant l'apparition naturelle d'une fatigue cognitive nécessitant une récupération.</p>
 
-<p>#### Étude de cas : Le redressement de la productivité chez TechScale</p>
+<h4 class="sub-heading">Étude de cas : Le redressement de la productivité chez TechScale</h4>
 
 <p>Marc, directeur technique d'une entreprise de logiciels de 50 salariés, subissait une fragmentation chronique de son temps. Interruptions Slack, réunions impromptues et e-mails constants réduisaient son temps de codage et d'architecture à des micro-intervalles inefficaces.</p>
 
@@ -1786,7 +1708,7 @@ hr::after {
 <li><strong>Résultat chiffré :</strong> En six semaines, la livraison de la nouvelle version logicielle a été avancée de 22 jours, tout en réduisant le taux de bugs de 34 %, l'attention soutenue éliminant les erreurs d'inattention inhérentes au multitâche.</li>
 </ul>
 
-<p>#### Le rituel d'entrée et de sortie d'un bloc de concentration</p>
+<h4 class="sub-heading">Le rituel d'entrée et de sortie d'un bloc de concentration</h4>
 
 <p>Le passage d'un mode réactif (supervision, communication) à un mode productif (création, analyse) nécessite une transition neurologique claire. Le cerveau a besoin de signaux physiques et environnementaux pour enclencher la bascule vers le <em>Deep Work</em>.</p>
 
@@ -1812,7 +1734,7 @@ hr::after {
 <p>« La profondeur n'est pas un trait de caractère, c'est un protocole. » — Cal Newport</p>
 </blockquote>
 
-<p>#### Checklist pour sécuriser son créneau horaire sans interruption</p>
+<h4 class="sub-heading">Checklist pour sécuriser son créneau horaire sans interruption</h4>
 
 <p>Pour qu'un bloc de 90 minutes demeure inviolable, l'environnement social et numérique doit être verrouillé en amont. L'improvisation mène à l'échec. Validez systématiquement les quatre points de cette checklist avant d'enclencher votre chronomètre :</p>
 
@@ -1822,11 +1744,9 @@ hr::after {
 <p>4. <strong>Protocole d'Urgence Convenu :</strong> Informez votre équipe ou vos proches des créneaux d'indisponibilité et de la seule méthode admise pour vous joindre en cas de crise majeure (un appel téléphonique unique, le reste pouvant attendre).</p>
 
 <blockquote class="callout-box">
-<p><strong>ACTION IMMÉDIATE :</strong></p>
+<div class="callout-header">⚡ ACTION IMMÉDIATE</div>
 <p>Ouvrez votre calendrier pour la semaine à venir. Identifiez et verrouillez dès maintenant <strong>exactement trois créneaux de 90 minutes</strong> (un par jour sur les trois prochains jours ouvrés). Nommez ces événements "BLOC INCOMPRESSIBLE : [Votre Tâche Unique]". Configurez une alerte de préparation 10 minutes avant chacun d'eux pour exécuter le rituel d'entrée. Aucune exception tolérée.</p>
 </blockquote>
-
-<h3 id="sec-5-3">5.3 5.3 Vaincre la résistance des premières 15 minutes</h3>
 
 <h3 id="sec-5-3">5.3 Vaincre la résistance des premières 15 minutes</h3>
 
@@ -1874,13 +1794,11 @@ hr::after {
 <p>Pour ancrer cette habitude dans votre pratique quotidienne, appliquez immédiatement le protocole ci-dessous dès votre prochaine session de 90 minutes.</p>
 
 <blockquote class="callout-box">
-<p><strong>ACTION IMMÉDIATE :</strong></p>
+<div class="callout-header">⚡ ACTION IMMÉDIATE</div>
 <p>Lors de votre prochaine session de travail profond, réglez un minuteur physique sur exactement <strong>15 minutes</strong>. Ouvrez un document vierge et activez le mode plein écran pour masquer toute distraction. Écrivez ou créez sans lever les doigts du clavier, en vous répétant la consigne suivante : <em>"Ceci est un brouillon exécrable, et c'est exactement ce qu'on attend de moi."</em> Lorsque la sonnette retentit, autorisez-vous enfin à relire, structurer et polir. Vous constaterez que la résistance s'est évaporée.</p>
 </blockquote>
 
-<h3 id="sec-5-4">5.4 5.4 Gérer l'énergie et non seulement les heures</h3>
-
-<h3 id="g-rer-l-nergie-et-non-seulement-les-heures">Gérer l'énergie et non seulement les heures</h3>
+<h3 id="sec-5-4">5.4 Gérer l'énergie et non seulement les heures</h3>
 
 <p>La gestion du temps est une illusion productiviste. Disposer de huit heures consécutives à son bureau ne garantit aucunement la réalisation d'une œuvre de valeur si ces heures coïncident avec un creux métabolique profond. Le cerveau humain ne fonctionne pas comme un moteur linéaire, mais selon des cycles ultradiens d'environ 90 à 120 minutes, dictés par des fluctuations hormonales et neurochimiques. Vouloir maintenir une attention focalisée de haut niveau pendant dix heures d'affilée relève de l'aberration biologique. La véritable variable de performance n'est pas le volume horaire, mais l'alignement chirurgical entre la complexité d'une tâche et le niveau d'énergie disponible à l'instant T.</p>
 
@@ -1918,11 +1836,9 @@ hr::after {
 <p>3. <strong>Réajuster</strong> vos blocs de travail profond pour qu'ils épousent exclusivement les scores de 8 à 10.</p>
 
 <blockquote class="callout-box">
-<p><strong>ACTION IMMÉDIATE :</strong></p>
+<div class="callout-header">⚡ ACTION IMMÉDIATE</div>
 <p>Prenez une feuille de papier et tracez un axe temporel de 6h00 à 22h00, divisé par tranches de deux heures. Notez honnêtement votre niveau d'énergie actuel (de 1 à 10) pour chaque tranche sur la base de vos souvenirs de la semaine écoulée. Identifiez visuellement votre "fenêtre d'or" — le bloc de deux heures affichant la moyenne la plus élevée. Bloquez impérativement ce créneau dans votre calendrier pour les trente prochains jours : aucune réunion, aucun appel, aucune interruption ne doit y pénétrer. C'est votre sanctuaire de <em>Deep Work</em>.</p>
 </blockquote>
-
-<h3 id="sec-5-5">5.5 5.5 Bilan et optimisation de la semaine de travail</h3>
 
 <h3 id="sec-5-5">5.5 Bilan et optimisation de la semaine de travail</h3>
 
@@ -1932,8 +1848,6 @@ hr::after {
 
 <h1 id="ch-6">Chapitre 6 : Éradiquer la Procrastination à la Racine</h1>
 
-
-<h3 id="sec-6-1">6.1 6.1 La procrastination n'est pas un problème de gestion du temps, c'est une régulation émotionnelle</h3>
 
 <h3 id="sec-6-1">6.1 La procrastination n'est pas un problème de gestion du temps, c'est une régulation émotionnelle</h3>
 
@@ -1952,7 +1866,7 @@ hr::after {
 <table class="kdp-table">
 <thead><tr>
 <th>Approche Traditionnelle (Gestion du Temps)</th>
-<th>Approche Neuro-Cognitive (Régulation Émotionnelle)</th>
+<th>Approche Neuro&#8209;Cognitive (Régulation Émotionnelle)</th>
 </tr></thead><tbody>
 <tr>
 <td><strong>Diagnostic :</strong> Manque de discipline ou de méthode.</td>
@@ -1975,27 +1889,16 @@ hr::after {
 <p>Pour briser ce cycle, il est impératif de court-circuiter l'automatisme de l'évitement par une prise de conscience lucide et immédiate. Mettre des mots précis sur ce que l'on ressent permet de basculer l'activité cérébrale du système limbique (émotionnel) vers le cortex préfrontal (analytique), réduisant instantanément la charge anxieuse.</p>
 
 <blockquote class="callout-box">
-<p><strong>Action Immédiate : Le protocole de nomination émotionnelle</strong></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate : Le protocole de nomination émotionnelle</div>
 <p>Dès que vous remarquez l'envie de repousser une tâche importante, posez votre stylo ou fermez vos onglets de diversion, prenez une inspiration profonde, et écrivez sur un carnet la réponse exacte à cette question : <em>"Quelle émotion précise suis-je en train d'éviter face à cette tâche ?"</em></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p>Bannissez les termes vagues comme "stressé" ou "fatigué". Nommez l'émotion exacte :</p>
 <p>- <em>« Je ressens de la honte à l'idée de ne pas comprendre ce chiffre. »</em></p>
 <p>- <em>« Je ressens de la frustration face à la lourdeur administrative de ce formulaire. »</em></p>
 <p>- <em>« Je ressens la peur du jugement de mon supérieur sur cette note de synthèse. »</em></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p>En qualifiant chirurgicalement l'émotion, vous désamorcez son pouvoir paralysant et récupérez la maîtrise de vos choix d'action.</p>
 </blockquote>
 
-<h3 id="sec-6-2">6.2 6.2 La technique du 'Découpage Chirurgical'</h3>
-
-<h3 id="sec-6-2">6.2 La technique du "Découpage Chirurgical"</h3>
+<h3 id="sec-6-2">6.2 La technique du 'Découpage Chirurgical'</h3>
 
 <p>Nommer l'émotion exacte qui paralyse l'action ne suffit pas si la tâche elle-même reste une masse informe et intimidante. Face à un projet d'envergure, le cerveau reptilien interprète la complexité comme une menace mortelle pour ses réserves d'énergie. Il déclenche alors une réponse de fuite, communément appelée procrastination. Pour court-circuiter ce réflexe de survie, il faut transformer la montagne effrayante en une suite de collines inoffensives. C'est l'objectif du découpage chirurgical : réduire l'échelle de perception jusqu'à ce que l'effort exigé devienne neurologiquement négligeable.</p>
 
@@ -2006,7 +1909,7 @@ hr::after {
 <table class="kdp-table">
 <thead><tr>
 <th>Approche Macro (Procrastinogène)</th>
-<th>Approche Chirurgicale (Micro-actions de 10 min)</th>
+<th>Approche Chirurgicale (Micro&#8209;actions de 10 min)</th>
 </tr></thead><tbody>
 <tr>
 <td><em>« Je dois écrire le dossier d'appel d'offres. »</em></td>
@@ -2024,10 +1927,7 @@ hr::after {
 
 <blockquote class="callout-box">
 <p><strong>Checklist anti-blocage mental : Le Test des 10 Minutes</strong></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
-<p>- [ ] <strong>Verbe d'action immédiate :</strong> L'intitulé commence-t-il par un verbe moteur (écrire, lister, ouvrir, copier, appeler) plutôt que conceptuel (réfléchir, concevoir, structurer) ?</p>
+<div class="callout-header">⚡ - [ ] **Verbe d'action immédiate :** L'intitulé commence-t-il par un verbe moteur (écrire, lister, ouvrir, copier, appeler) plutôt que conceptuel (réfléchir, concevoir, structurer) ?</div>
 <p>- [ ] <strong>Durée verrouillée :</strong> L'action peut-elle être réalisée en dix minutes chrono, montre en main, sans recherche documentaire complexe ?</p>
 <p>- [ ] <strong>Indépendance des livrables :</strong> Le résultat de ces dix minutes produit-il une trace visible et tangible (une ligne écrite, un fichier classé, un contact saisi) ?</p>
 <p>- [ ] <strong>Absence de décision créative :</strong> L'étape évite-t-elle d'avoir à faire des choix esthétiques ou stratégiques majeurs ?</p>
@@ -2036,19 +1936,14 @@ hr::after {
 <p>Si l'une de ces cases décoche, le découpage n'est pas assez fin. Il faut diviser à nouveau. "Rédiger l'introduction" est encore trop flou ; "Lister trois mots-clés pour l'accroche" est chirurgical.</p>
 
 <blockquote class="callout-box">
-<p><strong>Action Immédiate</strong></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>Prenez la tâche qui vous hante le plus sur votre liste actuelle, celle que vous repoussez depuis plus de 48 heures.</p>
 <p>1. Posez votre chronomètre à 10 minutes.</p>
 <p>2. Découpez cette tâche en trois sous-actions ridicules de simplicité, dont la première ne demande aucun effort intellectuel majeur.</p>
 <p>3. Lancez le minuteur et exécutez <em>uniquement</em> la première micro-action, sans vous soucier du reste du projet.</p>
 </blockquote>
 
-<h3 id="sec-6-3">6.3 6.3 Le pouvoir magique du 'Commitment Device' (l'engagement irrévocable)</h3>
-
-<h3 id="le-pouvoir-magique-du-commitment-device-l-engagement-irr-vocable">Le pouvoir magique du "Commitment Device" (l'engagement irrévocable)</h3>
+<h3 id="sec-6-3">6.3 Le pouvoir magique du 'Commitment Device' (l'engagement irrévocable)</h3>
 
 <p>Le cerveau humain est biologiquement programmé pour privilégier la gratification instantanée au détriment des bénéfices futurs. Face à une tâche complexe, le cortex préfrontal pèse le coût énergétique immédiat de l'action et choisit systématiquement la voie de la moindre résistance : l'inaction. Pour briser cette inertie neurologique, la simple volonté est un outil obsolète. Il faut modifier l'architecture même de votre environnement décisionnel en utilisant un <em>commitment device</em> (dispositif d'engagement). Ce mécanisme consiste à prendre dès aujourd'hui une décision qui restreint vos libertés futures, rendant le coût de l'inaction objectivement supérieur à celui de l'action.</p>
 
@@ -2062,14 +1957,11 @@ hr::after {
 
 <blockquote class="callout-box">
 <p><strong>La Méthode d'Ingénierie du Dispositif d'Engagement</strong></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p>1. <strong>Identifiez le comportement cible</strong> : Définissez précisément la tâche non négociable à accomplir (ex: "Écrire 1000 mots").</p>
 <p>2. <strong>Choisissez votre levier de contrainte</strong> :</p>
-<p>   - <em>Levier Financier</em> : Utilisez un tiers de confiance ou un outil automatisé pour bloquer une somme d'argent récupérable uniquement sur preuve de réalisation.</p>
-<p>   - <em>Levier Social</em> : Envoyez un SMS programmé à un collègue exigeant : "Si je ne t'ai pas envoyé le dossier à 18h00, je t'offre le restaurant le plus cher de la ville."</p>
-<p>   - <em>Levier Technique</em> : Installez un logiciel de verrouillage strict (type <em>Freedom</em> ou <em>Cold Turkey</em>) qui bloque l'accès à vos distractions favorites pendant les heures de travail critiques, sans mot de passe de contournement possible.</p>
+<p>- <em>Levier Financier</em> : Utilisez un tiers de confiance ou un outil automatisé pour bloquer une somme d'argent récupérable uniquement sur preuve de réalisation.</p>
+<p>- <em>Levier Social</em> : Envoyez un SMS programmé à un collègue exigeant : "Si je ne t'ai pas envoyé le dossier à 18h00, je t'offre le restaurant le plus cher de la ville."</p>
+<p>- <em>Levier Technique</em> : Installez un logiciel de verrouillage strict (type <em>Freedom</em> ou <em>Cold Turkey</em>) qui bloque l'accès à vos distractions favorites pendant les heures de travail critiques, sans mot de passe de contournement possible.</p>
 <p>3. <strong>Établissez l'irréversibilité</strong> : Le dispositif ne doit laisser aucune porte de sortie psychologique une fois le compte à rebours lancé.</p>
 </blockquote>
 
@@ -2111,22 +2003,17 @@ hr::after {
 <p>Ne subissez plus vos fluctuations d'énergie. Programmez votre propre carcan stratégique et assistez à l'effondrement instantané de vos marges de procrastination.</p>
 
 <blockquote class="callout-box">
-<p><strong>Action Immédiate</strong></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>1. Ouvrez l'application de messagerie de votre téléphone et sélectionnez une personne de confiance (collègue, mentor ou conjoint exigeant).</p>
 <p>2. Rédigez et envoyez dès maintenant ce message exact : <em>"Je m'engage à terminer [Nom de la tâche précise] avant [Heure précise, ex: 19h00 aujourd'hui]. Si j'échoue, je m'engage à [gage concret, ex: te verser 50 euros / faire la vaisselle pendant une semaine]."</em></p>
 <p>3. Appuyez sur "Envoyer". La machine est en marche ; votre cerveau n'a plus d'autre choix que de livrer la marchandise.</p>
 </blockquote>
 
-<h3 id="sec-6-4">6.4 6.4 Transformer la critique interne en coaching bienveillant mais ferme</h3>
-
 <h3 id="sec-6-4">6.4 Transformer la critique interne en coaching bienveillant mais ferme</h3>
 
 <p>La pression sociale externe et les engagements publics ne suffisent pas si, dans l'intimité de votre monologue mental, vous sabotez vos propres efforts. Le principal moteur de la procrastination chronique n'est pas la paresse, mais la peur de l'imperfection. Le critique interne – cette voix qui hurle que si un travail n'est pas parfait, il ne vaut rien – déclenche un stress biologique aigu. Face à la menace perçue d'un échec, l'amygdale cérébrale détourne le flux sanguin du cortex préfrontal (siège de la planification). Résultat : vous fuyez la tâche. Pour éradiquer ce mécanisme à la racine, vous devez cesser de vous comporter en bourreau inique et adopter la posture d'un entraîneur de haut niveau : exigeant sur les standards, mais implacablement constructif face à l'erreur.</p>
 
-<p>#### Le piège binaire du perfectionnisme paralysant</p>
+<h4 class="sub-heading">Le piège binaire du perfectionnisme paralysant</h4>
 
 <p>Le perfectionnisme est le masque socialement acceptable de la procrastination. Il repose sur une distorsion cognitive binaire : le "Tout ou rien". Soit le rapport fait vingt pages et décroche un prix, soit il est nul. Soit la séance de sport dure une heure et respecte le plan à la lettre, soit elle ne sert à rien et vous commandez une pizza.</p>
 
@@ -2138,7 +2025,7 @@ hr::after {
 
 <p>Pour briser ce cycle, Thomas a dû appliquer la règle du <strong>minimum viable exécutable</strong>. Il s'est imposé d'écrire des brouillons intentionnellement "moches". En s'autorisant à mal faire, il a désamorcé la menace perçue par son cerveau limbique. Le cortisol a baissé, le cortex préfrontal a repris le contrôle. Son premier jet était effectivement médiocre, mais il existait. Il suffisait ensuite d'activer une boucle de rétroaction saine : corriger, polir, améliorer.</p>
 
-<p>#### Grille de conversion du monologue mental</p>
+<h4 class="sub-heading">Grille de conversion du monologue mental</h4>
 
 <table class="kdp-table">
 <thead><tr>
@@ -2165,7 +2052,7 @@ hr::after {
 
 <p>Cette grille n'est pas un exercice de pensée positive béate ; c'est un outil de restructuration neuro-cognitive. Elle force le cerveau à remplacer l'émotion brute par des instructions exécutives claires.</p>
 
-<p>#### Exercice d'application : rédiger son contrat anti-procrastination</p>
+<h4 class="sub-heading">Exercice d'application : rédiger son contrat anti-procrastination</h4>
 
 <p>Pour ancrer définitivement cette transition neuronale, vous devez formaliser les règles de votre nouveau dialogue interne dans un contrat écrit. Cet accord passé avec vous-même élimine la négociation mentale au moment critique de l'action.</p>
 
@@ -2178,18 +2065,13 @@ hr::after {
 <p>Signez ce contrat avec votre nom complet et la date du jour. Consignez-le à un endroit où vous pourrez le relire lorsque la résistance psychologique s'installera.</p>
 
 <blockquote class="callout-box">
-<p><strong>Action Immédiate</strong></p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>1. Prenez une feuille de papier blanche et écrivez en haut en majuscules : <strong>MON CONTRAT ANTI-PROCRASTINATION</strong>.</p>
 <p>2. Recopiez immédiatement la clause suivante en y insérant votre tâche du moment : <em>"Je soussigné(e) [Votre Nom], m'engage à exécuter [Tâche précise] aujourd'hui avant [Heure], en renonçant définitivement à l'exigence de perfection. Fait pour servir de guide à mon nouveau moi opérationnel."</em></p>
 <p>3. Signez le document, posez-le à côté de votre clavier, et lancez un chronomètre de 20 minutes pour abattre la première brique de cette tâche, aussi imparfaite soit-elle.</p>
 </blockquote>
 
-<h3 id="sec-6-5">6.5 6.5 Célébrer les micro-victoires pour reprogrammer le cerveau</h3>
-
-<h3 id="sec-6-5">6.5 Célébrer les micro-victoires pour reprogrammer le cerveau</h3>
+<h3 id="sec-6-5">6.5 Célébrer les micro&#8209;victoires pour reprogrammer le cerveau</h3>
 
 <p>Le cerveau humain est une machine biologique fondamentalement conservatrice, conçue pour économiser l'énergie et privilégier la gratification immédiate. Face à une tâche complexe, l'amygdale perçoit l'effort comme une menace existentielle, déclenchant l'évitement que nous nommons procrastination. Pour court-circuiter ce réflexe archaïque, la volonté brute échoue systématiquement sur le long terme. Seule la chimie interne peut neutraliser la résistance. En validant consciemment chaque micro-progrès par une décharge volontaire de dopamine, vous transformez l'effort en récompense. La boucle de la habitude ne se ferme pas sur l'achèvement de la tâche finale – souvent trop lointaine pour stimuler le striatum –, mais sur l'exécutio réussie de la brique élémentaire.</p>
 
@@ -2213,13 +2095,13 @@ hr::after {
 <tr>
 <td><strong>La Clôture Visuelle</strong></td>
 <td>Libération de dopamine par la perception de l'achèvement.</td>
-<td>Barrer ou cocher explicitement une micro-tâche sur papier.</td>
+<td>Barrer ou cocher explicitement une micro&#8209;tâche sur papier.</td>
 <td>Garder une liste numérique infinie et invisible.</td>
 </tr>
 <tr>
 <td><strong>La Pause Dopaminergique</strong></td>
 <td>Renforcement positif par l'association effort/récompense.</td>
-<td>60 secondes de respiration consciente ou de marche après 3 micro-tâches.</td>
+<td>60 secondes de respiration consciente ou de marche après 3 micro&#8209;tâches.</td>
 <td>Utiliser les réseaux sociaux comme "récompense" (effet anxiogène).</td>
 </tr>
 <tr>
@@ -2231,7 +2113,7 @@ hr::after {
 <tr>
 <td><strong>Le Bilan Incrémental</strong></td>
 <td>Activation du cortex préfrontal par la mesure du progrès cumulé.</td>
-<td>Noter chaque soir le nombre de micro-victoires accumulées.</td>
+<td>Noter chaque soir le nombre de micro&#8209;victoires accumulées.</td>
 <td>Se focaliser uniquement sur ce qu'il reste à faire.</td>
 </tr>
 </tbody></table>
@@ -2246,10 +2128,7 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>1. Ouvrez votre carnet ou une note sur votre téléphone et créez une section intitulée : <strong>TABLEAU DES MICRO-VICTOIRES</strong>.</p>
 <p>2. Définissez dès maintenant les trois prochaines micro-tâches (de moins de 5 minutes chacune) nécessaires pour faire avancer le projet qui vous stagne le plus aujourd'hui.</p>
 <p>3. Exécutez la première, cochez-la instantanément, fermez les yeux pendant 10 secondes pour savourer la sensation du travail fait, puis écrivez un mot positif sur votre état d'esprit avant d'attaquer la deuxième.</p>
@@ -2259,8 +2138,6 @@ hr::after {
 
 <h1 id="ch-7">Chapitre 7 : Le Système de Discipline Inflexible (Sans Rigidité)</h1>
 
-
-<h3 id="sec-7-1">7.1 7.1 Discipline vs Motivation : Le grand malentendu</h3>
 
 <h3 id="sec-7-1">7.1 Discipline vs Motivation : Le grand malentendu</h3>
 
@@ -2306,15 +2183,13 @@ hr::after {
 
 <hr>
 
-<h3 id="action-imm-diate">Action Immédiate</h3>
-
+<blockquote class="callout-box">
+<div class="callout-header">⚡ ACTION IMMÉDIATE</div>
 <p>1. <strong>Identifiez votre point de friction actuel :</strong> Repérez dans votre journée de demain une tâche importante que vous repoussez systématiquement sous prétexte que vous "manquez d'énergie" ou "d'inspiration".</p>
 <p>2. <strong>Rédigez votre clause professionnelle :</strong> Sur un post-it, écrivez cette phrase exacte : <em>"Je n'ai pas besoin d'avoir envie pour le faire."</em> Collez-le à l'endroit précis où vous réalisez cette tâche.</p>
 <p>3. <strong>Appliquez la règle des 120 secondes :</strong> Dès que l'heure prévue arrive, lancez un chronomètre de deux minutes et commencez à exécuter la tâche au ralenti, sans chercher la perfection, uniquement pour briser l'inertie de l'attente.</p>
-
-<h3 id="sec-7-2">7.2 7.2 La règle des 'Jamais deux fois de suite'</h3>
-
-<h3 id="sec-7-2">7.2 La règle des "Jamais deux fois de suite"</h3>
+</blockquote>
+<h3 id="sec-7-2">7.2 La règle des 'Jamais deux fois de suite'</h3>
 
 <p>L'erreur fondamentale qui détruit 90 % des routines de productivité réside dans la binarité de la pensée : le succès parfait ou l'échec total. Lorsqu'un individu s'impose une discipline de fer — écrire 500 mots par jour, méditer 15 minutes, ou s'entraîner à 6h00 — la première dérogation au système est perçue comme une catastrophe. Cette vision dogmatique active le biais de compensation (« Puisque j'ai raté hier, toute la semaine est fichue ») et provoque l'abandon pur et simple de l'habitude. La plasticité cérébrale ne demande pas la perfection ; elle exige de la régularité statistique. Pour ancrer un comportement de manière pérenne, il faut accepter l'imperfection tout en interdisant la récidive immédiate. C'est le principe fondateur de la règle des « Jamais deux fois de suite ».</p>
 
@@ -2389,18 +2264,13 @@ hr::after {
 <hr>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>1. <strong>Identifiez</strong> sur votre calendrier ou votre carnet de suivi la dernière habitude que vous avez abandonnée suite à un seul jour manqué.</p>
 <p>2. <strong>Rédigez</strong> sur une feuille volante la phrase suivante : <em>"Manquer un jour est un accident. Manquer deux jours est un choix."</em></p>
 <p>3. <strong>Configurez</strong> dès maintenant une alarme de secours sur votre téléphone pour demain matin, intitulée : <em>"Règle des Jamais deux fois — Exécution minimale garantie"</em>.</p>
 </blockquote>
 
-<h3 id="sec-7-3">7.3 7.3 L'art de dire 'Non' pour protéger son focus</h3>
-
-<h3 id="sec-7-3">7.3 L'art de dire "Non" pour protéger son focus</h3>
+<h3 id="sec-7-3">7.3 L'art de dire 'Non' pour protéger son focus</h3>
 
 <p>Protéger son intégrité temporelle exige une défense active contre l'érosion insidieuse de l'attention par les sollicitations extérieures. Chaque "oui" accordé à une demande superflue représente mécaniquement un "non" adressé à vos micro-habitudes de productivité et à vos objectifs à long terme. La neuroscience du choix montre que chaque interruption, qu'il s'agisse d'une réunion improvisée ou d'une sollicitation par messagerie instantanée, déclenche un coût de commutation (<em>switch cost</em>). Ce coût ne se limite pas à la durée de l'interruption ; il faut en moyenne vingt-trois minutes au cerveau pour retrouver un état de concentration profonde après une distraction. Laisser les autres dicter l'emploi de son temps revient à saboter chimiquement sa capacité de focalisation par des pics répétés de cortisol et d'adrénaline.</p>
 
@@ -2439,16 +2309,11 @@ hr::after {
 <p>L'erreur classique consiste à se perdre en justifications complexes. Plus vous donnez de raisons, plus vous offrez de prises à votre interlocuteur pour négocier. Un refus efficace est factuel, neutre et définitif. Il ne s'excuse pas d'exister ; il constate une impossibilité matérielle liée à des engagements antérieurs pris envers vous-même.</p>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>1. <strong>Listez</strong> les trois types de sollicitations extérieures les plus fréquentes qui rongent vos journées (réunions inutiles, messages non urgents, demandes de dépannage).</p>
 <p>2. <strong>Rédigez</strong> et apprenez par cœur une phrase de refus neutre pour chacune d'elles, sans utiliser le mot "désolé" (ex: <em>"Mon planning est complet pour cette semaine, je ne peux pas y contribuer"</em>).</p>
 <p>3. <strong>Bloquez</strong> immédiatement deux plages de 90 minutes de "Focus Absolu" sur votre agenda partagé pour la semaine à venir, en mode "Ne pas déranger" strict.</p>
 </blockquote>
-
-<h3 id="sec-7-4">7.4 7.4 Créer son Code d'Honneur Personnel</h3>
 
 <h3 id="sec-7-4">7.4 Créer son Code d'Honneur Personnel</h3>
 
@@ -2462,7 +2327,7 @@ hr::after {
 
 <table class="kdp-table">
 <thead><tr>
-<th>Type de Non-Négociable</th>
+<th>Type de Non&#8209;Négociable</th>
 <th>Fréquence</th>
 <th>Seuil Minimal d'Exécution</th>
 <th>Conséquence en cas de Dérogation</th>
@@ -2502,21 +2367,16 @@ hr::after {
 <p>Exemple de formulation correcte : <em>"Je protège mes 90 premières minutes de la journée contre toute sollicitation externe."</em> (Plutôt que : <em>"J'essaie de moins regarder mes mails le matin"</em>).</p>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>1. <strong>Rédigez</strong> vos 5 commandements incommutables sur une carte cartonnée ou en fond d'écran de votre smartphone en suivant cette structure :</p>
-<p>   - Commandement 1 (Sommeil/Récupération)</p>
-<p>   - Commandement 2 (Focus Professionnel)</p>
-<p>   - Commandement 3 (Santé Physique)</p>
-<p>   - Commandement 4 (Intégrité Temporelle / Refus des urgences des autres)</p>
-<p>   - Commandement 5 (Revue Stratégique Hebdomadaire)</p>
+<p>- Commandement 1 (Sommeil/Récupération)</p>
+<p>- Commandement 2 (Focus Professionnel)</p>
+<p>- Commandement 3 (Santé Physique)</p>
+<p>- Commandement 4 (Intégrité Temporelle / Refus des urgences des autres)</p>
+<p>- Commandement 5 (Revue Stratégique Hebdomadaire)</p>
 <p>2. <strong>Signez</strong> ce document avec la date du jour : cette signature symbolise le pacte irrévocable passé avec votre futur vous.</p>
 <p>3. <strong>Affichez</strong> ce code d'honneur à un endroit où vos yeux se posent obligatoirement avant d'entamer votre journée de travail.</p>
 </blockquote>
-
-<h3 id="sec-7-5">7.5 7.5 Auditer sa discipline avec bienveillance</h3>
 
 <h3 id="sec-7-5">7.5 Auditer sa discipline avec bienveillance</h3>
 
@@ -2580,17 +2440,15 @@ hr::after {
 
 <blockquote class="callout-box">
 <p>[!ACTION]</p>
-<p><strong>Action Immédiate :</strong> Programmez dès à présent un rendez-vous récurrent de 20 minutes dans votre calendrier pour le vendredi en fin d'après-midi, intitulé "Télémétrie & Bilan de Discipline". Préparez un carnet dédié où vous consignerez exclusivement les faits, les causes environnementales et la variable unique à ajuster pour la semaine suivante.</p>
+<div class="callout-header">⚡ Action Immédiate :** Programmez dès à présent un rendez-vous récurrent de 20 minutes dans votre calendrier pour le vendredi en fin d'après-midi, intitulé "Télémétrie & Bilan de Discipline". Préparez un carnet dédié où vous consignerez exclusivement les faits, les causes environnementales et la variable unique à ajuster pour la semaine suivante.</div>
 </blockquote>
 
 
 
-<h1 id="ch-8">Chapitre 8 : Votre Plan d'Action sur 90 Jours et au-delà</h1>
+<h1 id="ch-8">Chapitre 8 : Votre Plan d'Action sur 90 Jours et au&#8209;delà</h1>
 
 
-<h3 id="sec-8-1">8.1 8.1 Synthèse des piliers : Dopamine, Micro-Habitudes et Deep Work</h3>
-
-<h3 id="synth-se-des-piliers-dopamine-micro-habitudes-et-deep-work">Synthèse des piliers : Dopamine, Micro-Habitudes et Deep Work</h3>
+<h3 id="sec-8-1">8.1 Synthèse des piliers : Dopamine, Micro&#8209;Habitudes et Deep Work</h3>
 
 <p class="chapter-lead">La maîtrise de votre attention et de votre productivité ne relève pas de la force de volonté brute, mais de l'architecture délibérée de votre environnement cognitif. Le système Neuro-Focus repose sur l'interconnexion de trois leviers fondamentaux : la régulation de la dopamine, l'ancrage de micro-habitudes et l'immersion en <em>Deep Work</em>. Pris isolément, chaque pilier offre un soulagement temporaire. Intégrés, ils forment un écosystème autonome qui redéfinit votre capacité à produire de la valeur à haute intensité.</p>
 
@@ -2600,7 +2458,6 @@ hr::after {
 
 <p>Le <em>Deep Work</em> représente enfin la destination : l'état de flux prolongé où votre énergie convergente produit des résultats d'une qualité exceptionnelle. Sans régulation dopaminergique, le <em>Deep Work</em> est impossible à initier face aux sirènes de la notification. Sans micro-habitudes, il est impossible à maintenir de manière pérenne. L'interaction de ces trois éléments transforme l'effort conscient en un réflexe biologique.</p>
 
-<hr>
 
 <h3 id="tude-de-cas-le-redressement-cognitif-de-marc-directeur-des-op-rations">Étude de cas : Le redressement cognitif de Marc, Directeur des Opérations</h3>
 
@@ -2623,7 +2480,7 @@ hr::after {
 </tr>
 <tr>
 <td><strong>Jours 31 - 60</strong></td>
-<td>Micro-Habitudes</td>
+<td>Micro&#8209;Habitudes</td>
 <td>Ancrage d'une routine de 15 minutes de rédaction stratégique à 8h05, immédiatement après le premier café.</td>
 <td>100 % de régularité sur 30 jours, 12 notes stratégiques produites.</td>
 </tr>
@@ -2637,7 +2494,6 @@ hr::after {
 
 <p>Au terme de ce cycle, Marc a divisé par deux son volume d'e-mails tout en obtenant une promotion liée à la refonte complète du processus logistique de son entreprise, rédigée exclusivement durant ses blocs de <em>Deep Work</em>.</p>
 
-<hr>
 
 <h3 id="l-cueil-critique-le-pi-ge-de-la-table-rase">L'écueil critique : Le piège de la table rase</h3>
 
@@ -2655,17 +2511,14 @@ hr::after {
 
 <blockquote class="callout-box">
 <p>[!ACTION]</p>
-<p><strong>Action Immédiate :</strong> Ouvrez votre carnet de notes et éliminez toute velléité de liste exhaustive. Identifiez et écrivez précisément <strong>les 3 micro-habitudes prioritaires</strong> que vous allez maintenir sans exception pour les 90 prochains jours.</p>
+<div class="callout-header">⚡ Action Immédiate :** Ouvrez votre carnet de notes et éliminez toute velléité de liste exhaustive. Identifiez et écrivez précisément **les 3 micro&#8209;habitudes prioritaires** que vous allez maintenir sans exception pour les 90 prochains jours.</div>
 <p>1. Une habitude de <strong>régulation dopaminergique</strong> (ex: pas de smartphone dans la première heure post-réveil).</p>
 <p>2. Une habitude de <strong>stabilisation comportementale</strong> (ex: 10 minutes de lecture technique ou de rédaction ciblée par jour).</p>
 <p>3. Une habitude de <strong>récupération ou de télémétrie</strong> (ex: le bilan du vendredi après-midi).</p>
-</blockquote>
-<p>></p>
-<blockquote class="callout-box">
 <p>Engagez-vous uniquement sur ces trois points pour clore définitivement l'ère de la dispersion.</p>
 </blockquote>
 
-<h3 id="sec-8-2">8.2 8.2 Le plan de 90 jours : Phase par phase</h3>
+<h3 id="sec-8-2">8.2 Le plan de 90 jours : Phase par phase</h3>
 
 <h3 id="mois-1-stabilisation-et-d-tox-dopamine">Mois 1 : Stabilisation et Détox Dopamine</h3>
 
@@ -2689,7 +2542,7 @@ hr::after {
 <tr>
 <td><strong>Semaines 3-4</strong></td>
 <td>Sevrage des notifications périphériques</td>
-<td>Désactivation des push non-humains</td>
+<td>Désactivation des push non&#8209;humains</td>
 <td>Moins de 5 ouvertures de l'écran par heure</td>
 </tr>
 </tbody></table>
@@ -2698,7 +2551,6 @@ hr::after {
 <p>"La discipline n'est pas un combat contre soi, c'est une réduction des tentations environnementales."</p>
 </blockquote>
 
-<hr>
 
 <h3 id="mois-2-installation-des-ancrages-et-deep-work">Mois 2 : Installation des ancrages et Deep Work</h3>
 
@@ -2729,7 +2581,6 @@ hr::after {
 </tr>
 </tbody></table>
 
-<hr>
 
 <h3 id="mois-3-expansion-automatisation-et-ma-trise">Mois 3 : Expansion, automatisation et maîtrise</h3>
 
@@ -2741,7 +2592,6 @@ hr::after {
 <p>"L'excellence n'est pas un acte isolé, c'est la sédimentation inconsciente de petits gestes répétés sans exception."</p>
 </blockquote>
 
-<hr>
 
 <h3 id="checklist-de-suivi-trimestriel">Checklist de suivi trimestriel</h3>
 
@@ -2756,17 +2606,15 @@ hr::after {
 
 <blockquote class="callout-box">
 <p>[!IMPORTANT]</p>
-<p><strong>Action Immédiate :</strong></p>
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>Ouvrez votre agenda numérique dès maintenant. Programmez un rendez-vous unique d'une heure exactement dans 90 jours, intitulé : <em>"Bilan Trimestriel Neuro-Focus"</em>. Dans la description de cet événement, copiez la checklist ci-dessus. Ne laissez pas votre calendrier à la merci du hasard : verrouillez dès aujourd'hui l'évaluation de votre propre transformation.</p>
 </blockquote>
-
-<h3 id="sec-8-3">8.3 8.3 Anticiper les rechutes et les plateaux de stagnation</h3>
 
 <h3 id="sec-8-3">8.3 Anticiper les rechutes et les plateaux de stagnation</h3>
 
 <p>La courbe de progression neuronale n'est jamais linéaire. Tout changement de comportement permanent passe inévitablement par des phases de stagnation – le plateau – suivies de menaces de régression. Vouloir maintenir un niveau de focus maximal sans anticiper l'épuisement ou la baisse de régime relève de l'illusion biologique. Le cerveau, confronté à l'homéostasie, cherche constamment à revenir à ses anciennes autoroutes synaptiques dès que la charge cognitive globale augmente.</p>
 
-<p>#### Reconnaître les signes avant-coureurs du retour en arrière</p>
+<h4 class="sub-heading">Reconnaître les signes avant-coureurs du retour en arrière</h4>
 
 <p>Une rechute comportementale ne survient jamais par accident du jour au lendemain. Elle est précédée de micro-signes comportementaux et physiologiques mesurables. Ignorer ces indicateurs, c'est s'exposer à l'effondrement des micro-habitudes construites au cours des derniers mois.</p>
 
@@ -2780,12 +2628,12 @@ hr::after {
 <thead><tr>
 <th>Phase critique</th>
 <th>Signe observable au niveau comportemental</th>
-<th>Réponse neuro-cognitive associée</th>
+<th>Réponse neuro&#8209;cognitive associée</th>
 <th>Action corrective immédiate</th>
 </tr></thead><tbody>
 <tr>
-<td><strong>Micro-relâchement</strong></td>
-<td>Sauter une micro-habitude pendant 2 jours consécutifs</td>
+<td><strong>Micro&#8209;relâchement</strong></td>
+<td>Sauter une micro&#8209;habitude pendant 2 jours consécutifs</td>
 <td>Activation de la plasticité régressive (emprunt de l'ancienne autoroute synaptique)</td>
 <td>Réduction de 50 % de la charge de la habitude pour forcer la validation</td>
 </tr>
@@ -2793,7 +2641,7 @@ hr::after {
 <td><strong>Plateau de stagnation</strong></td>
 <td>Sentiment de plateau, absence de progrès perçu malgré l'effort</td>
 <td>Baisse de la production dopaminergique liée à la nouveauté</td>
-<td>Introduction d'une micro-variation dans le contexte d'exécution</td>
+<td>Introduction d'une micro&#8209;variation dans le contexte d'exécution</td>
 </tr>
 <tr>
 <td><strong>Crise / Congés</strong></td>
@@ -2803,7 +2651,7 @@ hr::after {
 </tr>
 </tbody></table>
 
-<p>#### Méthode pas-à-pas pour relancer la machine après une période de crise ou de congés</p>
+<h4 class="sub-heading">Méthode pas-à-pas pour relancer la machine après une période de crise ou de congés</h4>
 
 <p>Une interruption prolongée – qu'il s'agisse de vacances, d'une maladie ou d'un pic de stress professionnel intense – brise la chaîne dopaminergique. Essayer de reprendre brutalement au niveau exact où l'on s'était arrêté conduit à l'échec par surcharge cognitive. Le système limbique perçoit l'effort comme une agression.</p>
 
@@ -2815,11 +2663,9 @@ hr::after {
 
 <blockquote class="callout-box">
 <p>[!IMPORTANT]</p>
-<p><strong>Action Immédiate :</strong></p>
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>Identifiez par écrit la micro-habitude qui a le plus tendance à s'effondrer dès que votre emploi du temps se dégrade. Notez sur un papier la version "ultra-allégée" de cette habitude (divisée par quatre) que vous vous engagez à exécuter immédiatement en cas de crise, sans chercher à négocier. Conservez cette note dans votre poche ou en fond d'écran sur votre téléphone.</p>
 </blockquote>
-
-<h3 id="sec-8-4">8.4 8.4 Devenir le gardien de votre propre attention</h3>
 
 <h3 id="sec-8-4">8.4 Devenir le gardien de votre propre attention</h3>
 
@@ -2875,15 +2721,13 @@ hr::after {
 
 <blockquote class="callout-box">
 <p>[!IMPORTANT]</p>
-<p><strong>Action Immédiate :</strong></p>
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>Prenez une feuille de papier et un stylo. Rédigez dès maintenant votre <strong>Lettre d'Engagement des 12 Prochains Mois</strong> en suivant strictement ce modèle :</p>
 <p><em>"Moi, [Votre Nom], m'engage formellement à protéger mon attention en exécutant chaque jour [Nom de votre micro-habitude clé]. En contrepartie des distractions toxiques auxquelles je renonce, je m'offre la clarté, la maîtrise de mon temps et l'accomplissement de [Votre projet majeur à 1 an]. Si je faillis, je ne me juge pas : je réinitialise le système dès la micro-action suivante."</em></p>
 <p>Signez, datez ce document, et placez-le à un endroit où vos yeux le poseront chaque matin avant d'allumer le moindre écran.</p>
 </blockquote>
 
-<h3 id="sec-8-5">8.5 8.5 Le mot de la fin : Passez à l'action dès maintenant</h3>
-
-<h3 id="le-mot-de-la-fin-passez-l-action-d-s-maintenant">Le mot de la fin : Passez à l'action dès maintenant</h3>
+<h3 id="sec-8-5">8.5 Le mot de la fin : Passez à l'action dès maintenant</h3>
 
 <p>La connaissance sans exécution est une forme sophistiquée de procrastination. Vous avez désormais entre les mains l'architecture complète pour reprendre le contrôle total de votre attention, structurer vos journées autour de rituels neuro-biologiques précis, et éliminer la friction mentale qui sabotait vos ambitions. Les sept chapitres précédents ne formaient pas une simple théorie de développement personnel ; ils constituaient un protocole chirurgical, validé par les neurosciences comportementales, conçu pour reprogrammer vos boucles neuronales.</p>
 
@@ -2907,7 +2751,7 @@ hr::after {
 <tr>
 <td><strong>Minute 1 à 2</strong></td>
 <td>Ouvrir votre carnet ou l'application dédiée.</td>
-<td>La première micro-tâche est écrite en une ligne.</td>
+<td>La première micro&#8209;tâche est écrite en une ligne.</td>
 <td>Rédiger un plan de dix pages ou un calendrier annuel.</td>
 </tr>
 <tr>
@@ -2920,7 +2764,7 @@ hr::after {
 <td><strong>Heure 24</strong></td>
 <td>Valider la répétition de la même action.</td>
 <td>Le rituel du J+1 est enclenché à heure fixe.</td>
-<td>Changer de micro-habitude parce qu'elle semble trop facile.</td>
+<td>Changer de micro&#8209;habitude parce qu'elle semble trop facile.</td>
 </tr>
 </tbody></table>
 
@@ -2938,13 +2782,10 @@ hr::after {
 <p>Le moment est venu. Les concepts s'effacent, la réalité reprend ses droits. Votre cerveau est prêt. Vos ancrages sont posés.</p>
 
 <blockquote class="callout-box">
-<p>### Action Immédiate</p>
+<div class="callout-header">⚡ Action Immédiate</div>
 <p>Ne lisez pas un mot de plus. Fermez physiquement ce livre, posez-le face contre table, levez-vous de votre siège, et réalisez dès maintenant, dans les cent vingt secondes qui viennent, la toute première micro-tâche de votre liste. Votre nouvelle vie cognitive commence à cet instant précis.</p>
 </blockquote>
-
-<hr>
-
-<h1 id="conclusion-g-n-rale-de-la-ma-trise-des-micro-habitudes-la-souverainet-du-temps">Conclusion Générale : De la Maîtrise des Micro-Habitudes à la Souveraineté du Temps</h1>
+<h1 id="conclusion-g-n-rale-de-la-ma-trise-des-micro-habitudes-la-souverainet-du-temps">Conclusion Générale : De la Maîtrise des Micro&#8209;Habitudes à la Souveraineté du Temps</h1>
 
 <h3 id="le-bilan-du-ma-tre-de-son-attention">Le Bilan du Maître de son Attention</h3>
 
@@ -2969,7 +2810,6 @@ hr::after {
 <p>2. <strong>La loi du 1 % ininterrompu :</strong> Une micro-habitude ridicule de deux minutes répétée chaque jour bâtit des empires neuronaux. La régularité triomphe toujours de l'intensité éphémère.</p>
 <p>3. <strong>La loi de la résistance à la friction :</strong> Rendez les bonnes habitudes évidentes et faciles ; rendez les mauvaises habitudes invisibles et pénibles. L'art de la discipline consiste à concevoir un monde où réussir devient le chemin de moindre résistance.</p>
 
-<hr>
 
 <h1 id="votre-avis-compte">Votre Avis Compte</h1>
 
@@ -2989,7 +2829,6 @@ hr::after {
 
 <p>— <strong>MarkEddy</strong></p>
 
-<hr>
 
 <h1 id="propos-de-l-auteur-markeddy">À Propos de l'Auteur : MarkEddy</h1>
 
@@ -3006,7 +2845,6 @@ hr::after {
 
 <p>À travers ses écrits et ses systèmes, il accompagne les esprits exigeants qui refusent le bruit ambiant et choisissent l'excellence calme de la maîtrise personnelle.</p>
 
-<hr>
 
 <h1 id="remerciements-notes-d-dition">Remerciements & Notes d'Édition</h1>
 
