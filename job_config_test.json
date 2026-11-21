@@ -1,0 +1,16 @@
+{
+  "category": "educational",
+  "model_id": "edu_montessori_etsy",
+  "target_platform": "both",
+  "niche": "Memoire, Logique & Cultures du Monde (3-8 ans)",
+  "book_title": "L'Atelier des Petits Explorateurs : Memoire & Cultures du Monde",
+  "subtitle": "Jeux de Memoire, Casse-Tetes d'Intelligence & Decouvertes Culturelles (3-8 Ans)",
+  "target_audience": "Enfants 3-8 ans & Parents / Educateurs",
+  "custom_brief": "",
+  "paper_type": "white",
+  "format_kdp": "8.5x11",
+  "target_pages": 64,
+  "source_language": "fr",
+  "target_languages": ["en"],
+  "strict_kdp_gate": true
+}
