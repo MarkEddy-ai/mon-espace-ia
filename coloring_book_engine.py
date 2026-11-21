@@ -54,13 +54,13 @@ def generer_svg_mandala(index: int, complexite: int = 8) -> str:
         y1 = cy + int(120 * math.sin(angle))
         x2 = cx + int(r_max * math.cos(angle))
         y2 = cy + int(r_max * math.sin(angle))
-        elements.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#000000" stroke-width="2"/>')
+        elements.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#000000" stroke-width="6"/>')
 
         # Rosaces intermédiaires
         cx_sub = cx + int(450 * math.cos(angle))
         cy_sub = cy + int(450 * math.sin(angle))
         elements.append(f'<circle cx="{cx_sub}" cy="{cy_sub}" r="140" stroke="#000000" stroke-width="2.5" fill="none"/>')
-        elements.append(f'<circle cx="{cx_sub}" cy="{cy_sub}" r="80" stroke="#000000" stroke-width="2" fill="none"/>')
+        elements.append(f'<circle cx="{cx_sub}" cy="{cy_sub}" r="80" stroke="#000000" stroke-width="6" fill="none"/>')
 
     # Motif central sacré
     for r_in in [30, 60, 90]:
@@ -103,13 +103,13 @@ def generer_svg_botanique(index: int) -> str:
 
         # Feuille en amande avec nervures
         elements.append(f'<path d="M {cx} {y_pos} Q {ctrl_x} {y_pos - 150} {end_x} {end_y} Q {ctrl_x} {y_pos + 120} {cx} {y_pos}" stroke="#000000" stroke-width="3" fill="none"/>')
-        elements.append(f'<line x1="{cx}" y1="{y_pos}" x2="{end_x}" y2="{end_y}" stroke="#000000" stroke-width="2"/>')
+        elements.append(f'<line x1="{cx}" y1="{y_pos}" x2="{end_x}" y2="{end_y}" stroke="#000000" stroke-width="6"/>')
 
         # Nervures secondaires
         for nv in [0.3, 0.6]:
             nx = cx + int((end_x - cx) * nv)
             ny = y_pos + int((end_y - y_pos) * nv)
-            elements.append(f'<line x1="{nx}" y1="{ny}" x2="{nx + (cote * 80)}" y2="{ny - 40}" stroke="#000000" stroke-width="1.8"/>')
+            elements.append(f'<line x1="{nx}" y1="{ny}" x2="{nx + (cote * 80)}" y2="{ny - 40}" stroke="#000000" stroke-width="6"/>')
 
     # Grande fleur sommitale
     for pet in range(12):
@@ -121,7 +121,7 @@ def generer_svg_botanique(index: int) -> str:
 
     # Cadre extérieur élégant
     elements.append('<rect x="80" y="80" width="1840" height="1840" stroke="#000000" stroke-width="4" fill="none" rx="20"/>')
-    elements.append('<rect x="110" y="110" width="1780" height="1780" stroke="#000000" stroke-width="1.5" fill="none" rx="15"/>')
+    elements.append('<rect x="110" y="110" width="1780" height="1780" stroke="#000000" stroke-width="6" fill="none" rx="15"/>')
 
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000" width="100%" height="100%">
     <rect width="2000" height="2000" fill="#FFFFFF"/>
@@ -146,11 +146,11 @@ def generer_svg_animal_mystique(index: int) -> str:
             y1 = 800 + int(60 * math.sin(a))
             x2 = eye_cx + int(210 * math.cos(a))
             y2 = 800 + int(210 * math.sin(a))
-            elements.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#000000" stroke-width="2"/>')
+            elements.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#000000" stroke-width="6"/>')
 
     # Bec triangulaire
     elements.append('<polygon points="1000,850 930,1100 1070,1100" stroke="#000000" stroke-width="4" fill="none"/>')
-    elements.append('<line x1="1000" y1="850" x2="1000" y2="1100" stroke="#000000" stroke-width="2"/>')
+    elements.append('<line x1="1000" y1="850" x2="1000" y2="1100" stroke="#000000" stroke-width="6"/>')
 
     # Plumes du torse en écailles superposées
     for row in range(5):
@@ -159,7 +159,7 @@ def generer_svg_animal_mystique(index: int) -> str:
         for col in range(nb_col):
             x_ecaille = 600 + (col * 180) + (40 if row % 2 else 0)
             elements.append(f'<path d="M {x_ecaille} {y_ecaille} Q {x_ecaille + 90} {y_ecaille + 110} {x_ecaille + 180} {y_ecaille}" stroke="#000000" stroke-width="3" fill="none"/>')
-            elements.append(f'<circle cx="{x_ecaille + 90}" cy="{y_ecaille + 50}" r="25" stroke="#000000" stroke-width="2" fill="none"/>')
+            elements.append(f'<circle cx="{x_ecaille + 90}" cy="{y_ecaille + 50}" r="25" stroke="#000000" stroke-width="6" fill="none"/>')
 
     # Oreilles aigrettes pointues
     elements.append('<polygon points="550,600 400,250 750,450" stroke="#000000" stroke-width="4" fill="none"/>')
@@ -186,7 +186,7 @@ def generer_svg_zen_architecture(index: int) -> str:
     elements.append('<circle cx="1000" cy="650" r="380" stroke="#000000" stroke-width="4" fill="none"/>')
     for ray in range(24):
         a = (2 * math.pi / 24) * ray
-        elements.append(f'<line x1="{1000 + int(380*math.cos(a))}" y1="{650 + int(380*math.sin(a))}" x2="{1000 + int(480*math.cos(a))}" y2="{650 + int(480*math.sin(a))}" stroke="#000000" stroke-width="2"/>')
+        elements.append(f'<line x1="{1000 + int(380*math.cos(a))}" y1="{650 + int(380*math.sin(a))}" x2="{1000 + int(480*math.cos(a))}" y2="{650 + int(480*math.sin(a))}" stroke="#000000" stroke-width="6"/>')
 
     # Grand Torii central
     # Poteaux verticaux
@@ -308,7 +308,7 @@ def dessiner_page_titre_pil(titre: str, sous_titre: str, auteur: str = "MarkEddy
         lignes_sub.append(" ".join(curr_s))
 
     for lig_s in lignes_sub:
-        draw.text((w // 2, y_pos), lig_s, fill=(50, 50, 50), font=f_sub, anchor="mm")
+        draw.text((w // 2, y_pos), lig_s, fill=(0, 0, 0), font=f_sub, anchor="mm")
         y_pos += 60
 
     # Filet ornemental
@@ -322,7 +322,7 @@ def dessiner_page_titre_pil(titre: str, sous_titre: str, auteur: str = "MarkEddy
 
     # Boîte de propriétaire
     y_owner = h - 650
-    draw.text((w // 2, y_owner), "Ce livre de coloriage d'art appartient à :", fill=(60, 60, 60), font=f_own, anchor="mm")
+    draw.text((w // 2, y_owner), "Ce livre de coloriage d'art appartient à :", fill=(0, 0, 0), font=f_own, anchor="mm")
     draw.line([(w // 2 - 450, y_owner + 90), (w // 2 + 450, y_owner + 90)], fill=(0, 0, 0), width=3)
 
     return img
@@ -354,7 +354,7 @@ def dessiner_page_copyright_pil(titre: str, auteur: str = "MarkEddy") -> Image.I
     y_pos = h // 2 - 300
     for text, font in lignes:
         if text:
-            draw.text((w // 2, y_pos), text, fill=(50, 50, 50), font=font, anchor="mm")
+            draw.text((w // 2, y_pos), text, fill=(0, 0, 0), font=font, anchor="mm")
         y_pos += 55
 
     return img
@@ -374,7 +374,7 @@ def dessiner_page_nuancier_pil() -> Image.Image:
     f_label = _charger_police("arial.ttf", 24)
 
     draw.text((w // 2, 380), "TEST DE COULEURS & NUANCIER", fill=(0, 0, 0), font=f_titre, anchor="mm")
-    draw.text((w // 2, 460), "Testez vos feutres, crayons et encres ici pour apprécier leur intensité.", fill=(70, 70, 70), font=f_sub, anchor="mm")
+    draw.text((w // 2, 460), "Testez vos feutres, crayons et encres ici pour apprécier leur intensité.", fill=(0, 0, 0), font=f_sub, anchor="mm")
 
     # Grille de 24 cases (4 colonnes x 6 lignes)
     nb_cols = 4
@@ -391,11 +391,11 @@ def dessiner_page_nuancier_pil() -> Image.Image:
             cy = start_y + (r * spacing_y)
 
             # Rectangle conteneur
-            draw.rectangle([(cx - 170, cy - 130), (cx + 170, cy + 130)], outline=(180, 180, 180), width=2)
+            draw.rectangle([(cx - 170, cy - 130), (cx + 170, cy + 130)], outline=(0, 0, 0), width=2)
             # Cercle de test
             draw.ellipse([(cx - 65, cy - 80), (cx + 65, cy + 50)], outline=(0, 0, 0), width=3)
             # Libellé
-            draw.text((cx, cy + 90), f"Nuance #{compteur:02d}", fill=(80, 80, 80), font=f_label, anchor="mm")
+            draw.text((cx, cy + 90), f"Nuance #{compteur:02d}", fill=(0, 0, 0), font=f_label, anchor="mm")
             compteur += 1
 
     return img
@@ -403,7 +403,7 @@ def dessiner_page_nuancier_pil() -> Image.Image:
 
 def dessiner_page_anti_bavure_pil(type_page: str = "guard") -> Image.Image:
     """Génère la page verso de protection anti-bavure pour préserver les illustrations."""
-    img = Image.new("RGB", (LARGEUR_PX_BLEED, HAUTEUR_PX_BLEED), (252, 252, 252))
+    img = Image.new("RGB", (LARGEUR_PX_BLEED, HAUTEUR_PX_BLEED), (255, 255, 255))
     draw = ImageDraw.Draw(img)
     w, h = LARGEUR_PX_BLEED, HAUTEUR_PX_BLEED
 
@@ -417,18 +417,18 @@ def dessiner_page_anti_bavure_pil(type_page: str = "guard") -> Image.Image:
     # Contour en tirets
     dash_len = 25
     for x in range(bx1, bx2, dash_len * 2):
-        draw.line([(x, by1), (min(x + dash_len, bx2), by1)], fill=(160, 160, 160), width=3)
-        draw.line([(x, by2), (min(x + dash_len, bx2), by2)], fill=(160, 160, 160), width=3)
+        draw.line([(x, by1), (min(x + dash_len, bx2), by1)], fill=(0, 0, 0), width=3)
+        draw.line([(x, by2), (min(x + dash_len, bx2), by2)], fill=(0, 0, 0), width=3)
     for y in range(by1, by2, dash_len * 2):
-        draw.line([(bx1, y), (bx1, min(y + dash_len, by2))], fill=(160, 160, 160), width=3)
-        draw.line([(bx2, y), (bx2, min(y + dash_len, by2))], fill=(160, 160, 160), width=3)
+        draw.line([(bx1, y), (bx1, min(y + dash_len, by2))], fill=(0, 0, 0), width=3)
+        draw.line([(bx2, y), (bx2, min(y + dash_len, by2))], fill=(0, 0, 0), width=3)
 
     f_titre = _charger_police("timesbd.ttf", 44, gras=True)
     f_sub = _charger_police("georgia.ttf", 32)
     f_tip = _charger_police("georgia.ttf", 28)
 
     draw.text((w // 2, by1 + 250), "🛡️", fill=(0, 0, 0), font=_charger_police("segoeui.ttf", 70), anchor="mm")
-    draw.text((w // 2, by1 + 400), "PAGE DE PROTECTION ANTI-BAVURE", fill=(40, 40, 40), font=f_titre, anchor="mm")
+    draw.text((w // 2, by1 + 400), "PAGE DE PROTECTION ANTI-BAVURE", fill=(0, 0, 0), font=f_titre, anchor="mm")
 
     lignes = [
         "Cette page a été délibérément laissée vierge pour empêcher l'encre",
@@ -442,7 +442,7 @@ def dessiner_page_anti_bavure_pil(type_page: str = "guard") -> Image.Image:
     y_t = by1 + 520
     for l in lignes:
         font = f_tip if "Astuce" in l else f_sub
-        color = (100, 100, 100) if "Astuce" in l else (70, 70, 70)
+        color = (0, 0, 0) if "Astuce" in l else (0, 0, 0)
         draw.text((w // 2, y_t), l, fill=color, font=font, anchor="mm")
         y_t += 55
 
@@ -483,9 +483,9 @@ def dessiner_page_felicitations_pil() -> Image.Image:
         if "✦" in lig:
             draw.text((w // 2, y), lig, fill=(0, 0, 0), font=f_txt, anchor="mm")
         elif "avis client" in lig or "créativité" in lig:
-            draw.text((w // 2, y), lig, fill=(20, 20, 20), font=f_call, anchor="mm")
+            draw.text((w // 2, y), lig, fill=(0, 0, 0), font=f_call, anchor="mm")
         else:
-            draw.text((w // 2, y), lig, fill=(60, 60, 60), font=f_txt, anchor="mm")
+            draw.text((w // 2, y), lig, fill=(0, 0, 0), font=f_txt, anchor="mm")
         y += 65
 
     return img
@@ -646,7 +646,7 @@ def dessiner_planche_pil(theme: str, index: int, titre: str) -> Image.Image:
 
     # Bas de page : libellé de la planche
     f_footer = _charger_police("arial.ttf", 26)
-    draw.text((cx, h - margin_b + 55), f"PLANCHE {index:02d} • {titre.upper()}", fill=(100, 100, 100), font=f_footer, anchor="mm")
+    draw.text((cx, h - margin_b + 55), f"PLANCHE {index:02d} • {titre.upper()}", fill=(0, 0, 0), font=f_footer, anchor="mm")
 
     return img
 

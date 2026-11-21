@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from pathlib import Path
 from kdp_universal_publishing_engine import compiler_livre_sur_mesure
 
@@ -7,7 +8,8 @@ def convertir_manuscrit_en_pdf(chemin_md="manuscrit_complet.md", sortie_html="li
         chemin_manuscrit=chemin_md,
         chemin_sortie_html=sortie_html,
         format_choisi="6x9",
-        thematique_choisie="NON_FICTION"
+        thematique_choisie="NON_FICTION",
+        titre_livre="LIVRE KDP"
     )
     return Path(sortie_html)
 
@@ -27,7 +29,9 @@ def generer_manuscrit_markdown(draft: dict, chemin_md: str = "manuscrit_complet.
     for c in draft.get("chapitres_rediges", []):
         lignes.append(f"\n# Chapitre {c.get('numero', 1)} : {c.get('titre', '')}\n")
         for s in c.get("sections_redigees", []):
-            lignes.append(f"\n### {s.get('titre', '')}\n\n{s.get('contenu', '')}\n")
+            # H1 (chapitre) -> H2 (section) : hiérarchie uniforme, le H3 est
+            # réservé aux sous-points écrits dans le contenu lui-même.
+            lignes.append(f"\n## {s.get('titre', '')}\n\n{s.get('contenu', '')}\n")
     lignes.append(f"\n# Conclusion\n\n{draft.get('conclusion', '')}\n")
 
     p = Path(chemin_md)
@@ -43,7 +47,18 @@ def generer_livre_html_kdp(draft: dict, chemin_html: str = "livre_kdp_interieur.
     css = """
     @page {
         size: 6in 9in;
-        margin: 0.85in 0.55in 0.80in 0.85in;
+        margin: 0.85in;
+        @bottom-center { content: counter(page); font-size: 9pt; }
+    }
+    /* Gouttière KDP : 0.85in à l'intérieur, 0.55in à l'extérieur. */
+    @page :left {
+        margin-left: 0.55in;
+        margin-right: 0.85in;
+        @bottom-center { content: counter(page); font-size: 9pt; }
+    }
+    @page :right {
+        margin-left: 0.85in;
+        margin-right: 0.55in;
         @bottom-center { content: counter(page); font-size: 9pt; }
     }
     body {
@@ -65,6 +80,17 @@ def generer_livre_html_kdp(draft: dict, chemin_html: str = "livre_kdp_interieur.
     if sous_titre:
         corps_html.append(f"<p style='text-align: center; font-style: italic;'>{sous_titre}</p>")
     corps_html.append(f"<p style='text-align: center; margin-top: 2em;'><b>{auteur}</b></p>")
+
+    # Page de copyright immédiatement après la page de titre (règle KDP).
+    corps_html.append(
+        "<section class='copyright-page' style='page-break-before: always;'>"
+        "<h2>Mentions légales</h2>"
+        f"<p>© {datetime.now().year} {auteur}. Tous droits réservés.</p>"
+        "<p>Aucune partie de cet ouvrage ne peut être reproduite, stockée dans un système "
+        "de recherche ou transmise sous quelque forme que ce soit sans autorisation écrite préalable.</p>"
+        "<p>Édition Amazon KDP — Dépot légal effectué à la publication.</p>"
+        "</section>"
+    )
 
     if draft.get("introduction"):
         corps_html.append(f"<h1>Introduction</h1><p class='lettrine'>{draft.get('introduction')}</p>")

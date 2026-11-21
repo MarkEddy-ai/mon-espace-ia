@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3695 2775" width="100%" height="100%" style="background-color:#0a0f1d; font-family:'Inter', Arial, sans-serif;">
+  <defs>
+    <!-- Pattern de grille technique -->
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#1e293b" stroke-width="1" />
+    </pattern>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#A16207" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fond technique -->
+  <rect width="3695" height="2775" fill="url(#grid)" />
+
+  <!-- Fond Perdu Externe (Zone rouge de coupe) -->
+  <rect x="0" y="0" width="3695" height="2775" fill="none" stroke="#ef4444" stroke-width="4" stroke-dasharray="12,6" />
+
+  <!-- Ligne de Coupe Réelle (Trim Line) -->
+  <rect x="38" y="38" width="3620" height="2700" fill="none" stroke="#f8fafc" stroke-width="2" />
+
+  <!-- Plat 4 (Arrière) -->
+  <rect x="38" y="38" width="1800" height="2700" fill="#0f172a" fill-opacity="0.6" stroke="#334155" stroke-width="1" />
+  <text x="938.0" y="118" fill="#94a3b8" font-size="28" font-weight="700" text-anchor="middle" letter-spacing="4">4ÈME DE COUVERTURE (DOS DU LIVRE)</text>
+
+  <!-- Dos / Tranche (Spine) -->
+  <rect x="1838" y="38" width="20" height="2700" fill="#1e293b" fill-opacity="0.8" stroke="#3b82f6" stroke-width="2" stroke-dasharray="8,4" />
+  <g transform="translate(1848.0, 1388.0) rotate(-90)">
+    <text x="0" y="5" fill="#fde047" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="2">
+      Guide Bestseller N°1 Ultime — Coloring Books Publisher
+    </text>
+  </g>
+
+  <!-- Plat 1 (Face Avant) -->
+  <rect x="1858" y="38" width="1800" height="2700" fill="#0d1527" fill-opacity="0.6" stroke="#d4af37" stroke-width="1.5" />
+  <text x="2758.0" y="118" fill="#d4af37" font-size="28" font-weight="700" text-anchor="middle" letter-spacing="4">1ÈRE DE COUVERTURE (FACE AVANT)</text>
+
+  <!-- Zone de sécurité Plat 1 (Marges texte) -->
+  <rect x="1933" y="112" width="1650" height="2550" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6,6" />
+  <text x="1953" y="152" fill="#10b981" font-size="14" font-weight="600">ZONE SÉCURISÉE TEXTE (MARGE 0.25")</text>
+
+  <!-- Aperçu Titre & Auteur sur Plat 1 -->
+  <text x="2758.0" y="982.9999999999999" fill="url(#goldGrad)" font-size="44" font-weight="800" text-anchor="middle" font-family="'Cinzel', serif">
+    Guide Bestseller N°1 Ultime
+  </text>
+  <text x="2758.0" y="1172.0" fill="#cbd5e1" font-size="20" font-weight="500" text-anchor="middle">
+    Gratuit et Pas Cher
+  </text>
+  <text x="2758.0" y="2252.0" fill="#f8fafc" font-size="24" font-weight="600" text-anchor="middle">
+    Coloring Books Publisher
+  </text>
+
+  <!-- Réserve Code-Barres ISBN (600x360 px) -->
+  <rect x="1125" y="2302" width="600" height="360" fill="#ffffff" stroke="#94a3b8" stroke-width="2" rx="4" />
+  <text x="1425.0" y="2472.0" fill="#0f172a" font-size="18" font-weight="800" text-anchor="middle">RÉSERVE ISBN / CODE-BARRES</text>
+  <text x="1425.0" y="2500.0" fill="#64748b" font-size="14" font-weight="600" text-anchor="middle">600 × 360 px (2.0" × 1.2")</text>
+
+  <!-- Bandeau d'informations techniques en bas -->
+  <rect x="0" y="2715" width="3695" height="60" fill="#030712" fill-opacity="0.9" />
+  <text x="30" y="2750" fill="#94a3b8" font-size="16" font-family="monospace">
+    GABARIT KDP 300 DPI • Format: 6x9 • Pages: 30 • Dos: 0.0676" (1.716 mm) • Wrap Total: 3695 × 2775 px • DOS TROP FIN (PAS DE TEXTE < 79p)
+  </text>
+</svg>

@@ -117,6 +117,23 @@ def init_db():
     # Import du livre pilote si absent
     importer_livre_pilote(admin_id=admin_id)
 
+    # Récupération et remboursement des tâches interrompues par un redémarrage
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, user_id, titre FROM books WHERE statut = 'en_cours'")
+        interrompus = cursor.fetchall()
+        for b in interrompus:
+            cursor.execute(
+                "UPDATE books SET statut = 'erreur', progression = 0, etape_courante = 'Production interrompue suite au redémarrage du serveur. Veuillez relancer la génération.' WHERE id = ?",
+                (b["id"],)
+            )
+            if b["user_id"]:
+                try:
+                    cursor.execute("UPDATE users SET credits = credits + 1 WHERE id = ?", (b["user_id"],))
+                except Exception:
+                    pass
+        conn.commit()
+
 
 def _creer_admin_par_defaut() -> int:
     """Crée l'utilisateur administrateur par défaut s'il n'existe pas encore."""

@@ -8,15 +8,19 @@ Génère tous les actifs commerciaux pour maximiser le taux de conversion et les
 
 import json
 from pathlib import Path
+from typing import Optional
 
 BLUEPRINT_PATH = Path("book_blueprint.json")
 OUTPUT_MARKETING = Path("kdp_marketing_pack.html")
 
-def generer_pack_marketing() -> Path:
-    if not BLUEPRINT_PATH.exists():
-        raise FileNotFoundError(f"❌ {BLUEPRINT_PATH} introuvable. Exécutez d'abord kdp_architect.py.")
+def generer_pack_marketing(blueprint_path: Optional[Path] = None, output_path: Optional[Path] = None) -> Path:
+    bp_p = Path(blueprint_path) if blueprint_path else BLUEPRINT_PATH
+    out_p = Path(output_path) if output_path else OUTPUT_MARKETING
 
-    bp = json.load(open(BLUEPRINT_PATH, "r", encoding="utf-8"))
+    if not bp_p.exists():
+        raise FileNotFoundError(f"❌ {bp_p} introuvable. Exécutez d'abord kdp_architect.py.")
+
+    bp = json.load(open(bp_p, "r", encoding="utf-8"))
     titre = bp.get("titre", "LIVRE SANS TITRE")
     sous_titre = bp.get("sous_titre", "")
     promesse = bp.get("promesse_client", "")
@@ -131,9 +135,10 @@ def generer_pack_marketing() -> Path:
 </body>
 </html>"""
 
-    OUTPUT_MARKETING.write_text(html_content, encoding="utf-8")
-    print(f"🛒 Pack marketing et conversion généré : {OUTPUT_MARKETING.resolve()}")
-    return OUTPUT_MARKETING
+    out_p.parent.mkdir(parents=True, exist_ok=True)
+    out_p.write_text(html_content, encoding="utf-8")
+    print(f"🛒 Pack marketing et conversion généré : {out_p.resolve()}")
+    return out_p
 
 if __name__ == "__main__":
     generer_pack_marketing()

@@ -22,6 +22,18 @@ from kdp_extensions.webhooks import emit_webhook
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def _httpx_get_json(url: str, params: Optional[Dict[str, Any]] = None,
+                    headers: Optional[Dict[str, str]] = None,
+                    timeout: float = 6.0) -> Any:
+    """Unique point de sortie HTTP (mockable dans les tests, zéro appel inline)."""
+    if httpx is None:
+        raise RuntimeError("httpx n'est pas installé")
+    with httpx.Client(timeout=timeout, headers=headers or {"User-Agent": "Mozilla/5.0"}) as client:
+        r = client.get(url, params=params or {})
+        r.raise_for_status()
+        return r.json()
+
+
 class BestsellerWeakness(BaseModel):
     categorie: str
     faiblesse_concurrents: str
@@ -60,19 +72,16 @@ def fetch_google_signals(niche: str, lang: str = "fr") -> Dict[str, Any]:
 
     if httpx is not None:
         seeds = [f"{niche} livre", f"{niche} guide", f"{niche} debutant", niche]
-        try:
-            with httpx.Client(timeout=6.0, headers={"User-Agent": "Mozilla/5.0"}) as client:
-                for seed in seeds:
-                    url = f"https://suggestqueries.google.com/complete/search?client=firefox&hl={lang}&q={quote_plus(seed)}"
-                    r = client.get(url)
-                    if r.status_code == 200:
-                        data = r.json()
-                        if isinstance(data, list) and len(data) > 1 and isinstance(data[1], list):
-                            for item in data[1]:
-                                if isinstance(item, str) and item not in queries:
-                                    queries.append(item)
-        except Exception:
-            pass
+        for seed in seeds:
+            url = f"https://suggestqueries.google.com/complete/search?client=firefox&hl={lang}&q={quote_plus(seed)}"
+            try:
+                data = _httpx_get_json(url)
+                if isinstance(data, list) and len(data) > 1 and isinstance(data[1], list):
+                    for item in data[1]:
+                        if isinstance(item, str) and item not in queries:
+                            queries.append(item)
+            except Exception:
+                pass
 
     if not queries:
         queries = [f"{niche} livre", f"{niche} méthode pratique", f"{niche} guide complet"]
@@ -92,19 +101,36 @@ def fetch_amazon_kdp_suggestions(niche: str, marketplace: str = "fr") -> List[st
     }
     endpoint, mid = mp_config.get(marketplace.lower(), mp_config["fr"])
 
-    try:
-        with httpx.Client(timeout=6.0, headers={"User-Agent": "Mozilla/5.0"}) as client:
-            for prefix in (niche, f"{niche} "):
-                r = client.get(endpoint, params={"mid": mid, "alias": "stripbooks", "prefix": prefix})
-                if r.status_code == 200:
-                    for s in r.json().get("suggestions", []):
-                        val = s.get("value", "").strip()
-                        if val and val not in suggestions:
-                            suggestions.append(val)
-    except Exception:
-        pass
+    for prefix in (niche, f"{niche} "):
+        try:
+            data = _httpx_get_json(
+                endpoint,
+                params={"mid": mid, "alias": "stripbooks", "prefix": prefix},
+            )
+            for s in data.get("suggestions", []):
+                val = s.get("value", "").strip()
+                if val and val not in suggestions:
+                    suggestions.append(val)
+        except Exception:
+            pass
 
     return suggestions[:15] or [f"{niche} livre", f"{niche} guide complet", f"{niche} exercices"]
+
+
+def _sept_mots_cles(mots: List[str], niche: str, amazon: List[str], google: List[str]) -> List[str]:
+    """Garantit exactement 7 mots-clés backend, même en mode fallback hors-ligne."""
+    resultats: List[str] = []
+    for source in (mots or [], amazon or [], google or [],
+                   [f"{niche} livre", f"{niche} guide pratique", f"{niche} pas à pas",
+                    f"{niche} débutant", f"{niche} méthode", f"{niche} exercices",
+                    f"{niche} avancé"]):
+        for mot in source:
+            propre = str(mot).strip().lower()
+            if propre and propre not in resultats:
+                resultats.append(propre)
+            if len(resultats) == 7:
+                return resultats
+    return resultats[:7]
 
 
 def _extract_json_block(text: str) -> Optional[Dict[str, Any]]:
@@ -153,7 +179,13 @@ def analyze_bestsellers_and_gaps(
                 f"must_have_assets (4 items), design_directives (palette, typographie, concept_couverture, mise_en_page_interieure), "
                 f"bestseller_weaknesses (liste d'objets avec categorie, faiblesse_concurrents, contre_attaque_markeddy)."
             )
-            raw_resp = call_ai.ask_ai(prompt) if hasattr(call_ai, "ask_ai") else None
+            system_prompt = "Tu es un Directeur Éditorial & Analyste Amazon KDP d'élite. Réponds uniquement en JSON valide."
+            if hasattr(call_ai, "ask_ai"):
+                raw_resp = call_ai.ask_ai(prompt)
+            elif hasattr(call_ai, "generer_texte_gemini"):
+                raw_resp = call_ai.generer_texte_gemini(system_prompt, prompt)
+            else:
+                raw_resp = None
             if isinstance(raw_resp, str):
                 ai_payload = _extract_json_block(raw_resp)
         except Exception:
@@ -197,7 +229,9 @@ def analyze_bestsellers_and_gaps(
         superior_angle=ai_payload.get("superior_angle", ""),
         recommended_title=ai_payload.get("recommended_title", niche),
         recommended_subtitle_seo=ai_payload.get("recommended_subtitle_seo", ""),
-        backend_keywords_7=ai_payload.get("backend_keywords_7", [])[:7],
+        backend_keywords_7=_sept_mots_cles(
+            ai_payload.get("backend_keywords_7", []), niche, amazon_kw, google_data["google_signals"]
+        ),
         must_have_assets=ai_payload.get("must_have_assets", []),
         design_directives=ai_payload.get("design_directives", {}),
     )

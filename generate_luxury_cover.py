@@ -10,7 +10,9 @@ def generer_couverture_kdp(
     titre="L'INTELLIGENCE FINANCIÈRE PRATIQUE",
     sous_titre="Comprendre ses biais émotionnels, automatiser son épargne...",
     auteur="MarkEddy",
-    bg_image_path=None
+    bg_image_path=None,
+    sortie_pdf_path=None,
+    sortie_jpg_path=None
 ):
     dpi = 300
     bleed_in = 0.125
@@ -175,10 +177,10 @@ def generer_couverture_kdp(
     p_lines = [
         "La majorité des livres de finances personnelles vous noient sous des calculs",
         "arides ou vous demandent de vivre dans une privation permanente stérile.",
-        "L'Intelligence Financière Pratique prend le contre-pied absolu de cette approche.",
+        f"« {titre} » prend le contre-pied absolu de cette approche.",
         "",
         "Inspiré des plus grands travaux sur la psychologie comportementale et",
-        "l'investissement pragmatique, cet ouvrage vous offre une méthode chirurgicale",
+        "l'ingénierie budgétaire moderne, cet ouvrage vous offre une méthode chirurgicale",
         "sans jargon pour reprendre le contrôle total de votre argent en moins de 30 jours."
     ]
     cur_y = back_y + 160
@@ -225,6 +227,11 @@ def generer_couverture_kdp(
     
     # Copie à la racine pour compatibilité directe
     img.save("couverture_kdp_complete.pdf", "PDF", resolution=300.0)
+    img.save("couverture_kdp_complete.jpg", "JPEG", quality=95)
+    if sortie_pdf_path:
+        p_out = Path(sortie_pdf_path)
+        p_out.parent.mkdir(parents=True, exist_ok=True)
+        img.save(str(p_out), "PDF", resolution=300.0)
     print(f"✅ Couverture complète KDP 300 DPI générée : {sortie_pdf.resolve()}")
 
     # =========================================================================
@@ -238,6 +245,10 @@ def generer_couverture_kdp(
     sortie_ebook = dossier_export / "01_amazon_kdp_ebook_cover.jpg"
     face_avant_hd.save(str(sortie_ebook), "JPEG", quality=95)
     face_avant_hd.save("couverture_ebook.jpg", "JPEG", quality=95)
+    if sortie_jpg_path:
+        p_jpg = Path(sortie_jpg_path)
+        p_jpg.parent.mkdir(parents=True, exist_ok=True)
+        face_avant_hd.save(str(p_jpg), "JPEG", quality=95)
     print(f"✅ Couverture eBook Kindle HD générée : {sortie_ebook.resolve()}")
 
     return sortie_pdf

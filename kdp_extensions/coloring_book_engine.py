@@ -48,12 +48,12 @@ def generer_svg_mandala(index: int, complexite: int = 8) -> str:
         y1 = cy + int(120 * math.sin(angle))
         x2 = cx + int(r_max * math.cos(angle))
         y2 = cy + int(r_max * math.sin(angle))
-        elements.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#000000" stroke-width="2"/>')
+        elements.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#000000" stroke-width="6"/>')
 
         cx_sub = cx + int(450 * math.cos(angle))
         cy_sub = cy + int(450 * math.sin(angle))
         elements.append(f'<circle cx="{cx_sub}" cy="{cy_sub}" r="140" stroke="#000000" stroke-width="2.5" fill="none"/>')
-        elements.append(f'<circle cx="{cx_sub}" cy="{cy_sub}" r="80" stroke="#000000" stroke-width="2" fill="none"/>')
+        elements.append(f'<circle cx="{cx_sub}" cy="{cy_sub}" r="80" stroke="#000000" stroke-width="6" fill="none"/>')
 
     for r_in in [30, 60, 90]:
         elements.append(f'<circle cx="{cx}" cy="{cy}" r="{r_in}" stroke="#000000" stroke-width="4" fill="none"/>')
@@ -94,12 +94,12 @@ def generer_svg_botanique(index: int) -> str:
             f'<path d="M {cx} {y_pos} Q {ctrl_x} {y_pos - 150} {end_x} {end_y} '
             f'Q {ctrl_x} {y_pos + 120} {cx} {y_pos}" stroke="#000000" stroke-width="3" fill="none"/>'
         )
-        elements.append(f'<line x1="{cx}" y1="{y_pos}" x2="{end_x}" y2="{end_y}" stroke="#000000" stroke-width="2"/>')
+        elements.append(f'<line x1="{cx}" y1="{y_pos}" x2="{end_x}" y2="{end_y}" stroke="#000000" stroke-width="6"/>')
         for nv in (0.3, 0.6):
             nx = cx + int((end_x - cx) * nv)
             ny = y_pos + int((end_y - y_pos) * nv)
             elements.append(
-                f'<line x1="{nx}" y1="{ny}" x2="{nx + (cote * 80)}" y2="{ny - 40}" stroke="#000000" stroke-width="1.8"/>'
+                f'<line x1="{nx}" y1="{ny}" x2="{nx + (cote * 80)}" y2="{ny - 40}" stroke="#000000" stroke-width="6"/>'
             )
 
     for pet in range(12):
@@ -110,7 +110,7 @@ def generer_svg_botanique(index: int) -> str:
     elements.append(f'<circle cx="{cx}" cy="220" r="85" stroke="#000000" stroke-width="4" fill="none"/>')
 
     elements.append('<rect x="80" y="80" width="1840" height="1840" stroke="#000000" stroke-width="4" fill="none" rx="20"/>')
-    elements.append('<rect x="110" y="110" width="1780" height="1780" stroke="#000000" stroke-width="1.5" fill="none" rx="15"/>')
+    elements.append('<rect x="110" y="110" width="1780" height="1780" stroke="#000000" stroke-width="6" fill="none" rx="15"/>')
 
     return (
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000" width="100%" height="100%">'
@@ -134,10 +134,10 @@ def generer_svg_animal_mystique(index: int) -> str:
             y1 = 800 + int(60 * math.sin(a))
             x2 = eye_cx + int(210 * math.cos(a))
             y2 = 800 + int(210 * math.sin(a))
-            elements.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#000000" stroke-width="2"/>')
+            elements.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#000000" stroke-width="6"/>')
 
     elements.append('<polygon points="1000,850 930,1100 1070,1100" stroke="#000000" stroke-width="4" fill="none"/>')
-    elements.append('<line x1="1000" y1="850" x2="1000" y2="1100" stroke="#000000" stroke-width="2"/>')
+    elements.append('<line x1="1000" y1="850" x2="1000" y2="1100" stroke="#000000" stroke-width="6"/>')
 
     for row in range(5):
         y_ecaille = 1150 + (row * 120)
@@ -148,7 +148,7 @@ def generer_svg_animal_mystique(index: int) -> str:
                 f'<path d="M {x_ec} {y_ecaille} Q {x_ec + 90} {y_ecaille + 110} '
                 f'{x_ec + 180} {y_ecaille}" stroke="#000000" stroke-width="3" fill="none"/>'
             )
-            elements.append(f'<circle cx="{x_ec + 90}" cy="{y_ecaille + 50}" r="25" stroke="#000000" stroke-width="2" fill="none"/>')
+            elements.append(f'<circle cx="{x_ec + 90}" cy="{y_ecaille + 50}" r="25" stroke="#000000" stroke-width="6" fill="none"/>')
 
     elements.append('<polygon points="550,600 400,250 750,450" stroke="#000000" stroke-width="4" fill="none"/>')
     elements.append('<polygon points="1450,600 1600,250 1250,450" stroke="#000000" stroke-width="4" fill="none"/>')
@@ -173,7 +173,7 @@ def generer_svg_zen_architecture(index: int) -> str:
         elements.append(
             f'<line x1="{1000 + int(380 * math.cos(a))}" y1="{650 + int(380 * math.sin(a))}" '
             f'x2="{1000 + int(480 * math.cos(a))}" y2="{650 + int(480 * math.sin(a))}" '
-            f'stroke="#000000" stroke-width="2"/>'
+            f'stroke="#000000" stroke-width="6"/>'
         )
 
     elements.append('<rect x="650" y="550" width="70" height="1100" stroke="#000000" stroke-width="4" fill="none"/>')
@@ -565,7 +565,13 @@ def dessiner_planche_pil(theme: str, index: int, titre: str,
                 draw.line([p1, p2], fill=(0, 0, 0), width=3)
 
     else:  # mandalas (défaut)
-        r_max = int(920 * echelle)
+        # Le rayon est borné par le cadre imprimable : aucun mandala ne doit
+        # déborder du fond perdu ni être rogné à la coupe (contrôle 16 formats).
+        r_max = min(
+            int(920 * echelle),
+            max(40, (larg_px - margin_r - margin_l) // 2 - 20),
+            max(40, (haut_px - margin_b - margin_t) // 2 - 20),
+        )
         for r in range(int(120 * echelle), r_max + 1, max(40, int(100 * echelle))):
             draw.ellipse([(cx - r, cy - r), (cx + r, cy + r)], outline=(0, 0, 0), width=4)
 
@@ -578,8 +584,9 @@ def dessiner_planche_pil(theme: str, index: int, titre: str,
             y2 = cy + int(r_max * math.sin(angle))
             draw.line([(x1, y1), (x2, y2)], fill=(0, 0, 0), width=3)
 
-            cx_sub = cx + int(520 * echelle * math.cos(angle))
-            cy_sub = cy + int(520 * echelle * math.sin(angle))
+            decalage_sub = min(int(520 * echelle), max(0, r_max - int(160 * echelle)))
+            cx_sub = cx + int(decalage_sub * math.cos(angle))
+            cy_sub = cy + int(decalage_sub * math.sin(angle))
             r1 = int(120 * echelle)
             r2 = int(60 * echelle)
             draw.ellipse([(cx_sub - r1, cy_sub - r1), (cx_sub + r1, cy_sub + r1)],

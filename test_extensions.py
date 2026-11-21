@@ -585,6 +585,196 @@ def test_11_app_studio_extensions():
 
 
 # ==============================================================================
+# 6. AUDIT / CORRECTIFS SUPPLÉMENTAIRES (Agent 0, polices, intérieur, QC)
+# ==============================================================================
+
+def test_12_routes_agent0_fonts_webhooks_montees():
+    print("\n🔍 Test 12 : Routeur d'extensions monté (Agent 0 / polices / webhooks)...")
+    import tempfile
+    from fastapi.testclient import TestClient
+    import app_studio
+    import kdp_extensions.pipeline_bridge as pont
+
+    client = TestClient(app_studio.app)
+
+    # /api/kdp/formats reste servi (historique + routeur)
+    r_formats = client.get("/api/kdp/formats")
+    assert r_formats.status_code == 200 and r_formats.json()["total"] == 16
+
+    # /api/fonts/search : catalogue curé avec polices enfants + éditoriales
+    r_fonts = client.get("/api/fonts/search?query=Fredoka")
+    assert r_fonts.status_code == 200, r_fonts.text
+    corps = r_fonts.json()
+    assert corps["count"] >= 1 and any(f["family"] == "Fredoka" for f in corps["fonts"])
+
+    # /api/research/analyze-bestsellers : HTTP/IA mockés (aucun réel)
+    faux_ctx = {
+        "report": {"superior_angle": "Angle test", "trend_score": 71},
+        "report_path": "competitor_gap_report.json",
+        "recommended_title": "TITRE TEST",
+        "recommended_subtitle_seo": "Sous-titre test",
+        "backend_keywords_7": [f"mot-{i}" for i in range(7)],
+        "design_directives": {"palette": "or"},
+        "editorial_directive_block": "DIRECTIVE TEST",
+    }
+    with mock.patch.object(pont, "prepare_competitive_context", return_value=faux_ctx) as prep:
+        r_agent0 = client.post(
+            "/api/research/analyze-bestsellers",
+            json={"niche": "Stoicisme Moderne", "use_ai": False},
+        )
+    assert r_agent0.status_code == 200, r_agent0.text
+    assert r_agent0.json()["report"]["superior_angle"] == "Angle test"
+    assert prep.call_args.kwargs["use_ai"] is False
+
+    # /api/webhooks/logs : 401 sans JWT, 200 avec le compte admin
+    assert client.get("/api/webhooks/logs").status_code == 401
+    r_login = client.post("/api/auth/login", json={"email": "admin@markeddy.com", "password": "Admin123!"})
+    assert r_login.status_code == 200, r_login.text
+    jeton = r_login.json()["token"]
+    r_logs = client.get("/api/webhooks/logs", headers={"Authorization": f"Bearer {jeton}"})
+    assert r_logs.status_code == 200 and r_logs.json()["status"] == "success"
+
+    # Injection dans blueprint : clé réellement consommée + directive
+    with tempfile.TemporaryDirectory() as tmp:
+        bp = Path(tmp) / "book_blueprint.json"
+        bp.write_text(json.dumps({"titre": "TITRE TEST"}), encoding="utf-8")
+        rapport = dict(faux_ctx["report"])
+        rapport["backend_keywords_7"] = faux_ctx["backend_keywords_7"]
+        ok = pont.apply_gap_report_to_blueprint(bp, pont.context_from_report_dict(rapport))
+        donnees = json.loads(bp.read_text(encoding="utf-8"))
+    assert ok is True
+    assert len(donnees["mots_cles_kdp"]) == 7
+    assert "directive_editoriale_agent0" in donnees
+
+    afficher_succes("Routes Agent 0 / polices / webhooks montées + injection blueprint validée")
+
+
+def test_13_agent0_ia_et_sept_mots_cles():
+    print("\n🔍 Test 13 : Agent 0 appelle Gemini et garantit 7 mots-clés...")
+    import tempfile
+    import kdp_extensions.market_intelligence as mi
+
+    assert len(mi._sept_mots_cles(["a", "b"], "Stoicisme", [], [])) == 7
+
+    faux_json = json.dumps({
+        "superior_angle": "Angle IA",
+        "recommended_title": "TITRE IA",
+        "recommended_subtitle_seo": "Sous-titre IA",
+        "backend_keywords_7": ["k1", "k2", "k3", "k4"],
+        "must_have_assets": ["checklist"],
+        "design_directives": {"palette": "noir et or"},
+        "bestseller_weaknesses": [{
+            "categorie": "Fond", "faiblesse_concurrents": "Théorie", "contre_attaque_markeddy": "Cas pratiques"
+        }],
+    })
+    with tempfile.TemporaryDirectory() as tmp:
+        sortie = Path(tmp) / "rapport.json"
+        with mock.patch.object(mi, "fetch_google_signals", return_value={
+            "niche": "Stoicisme", "trend_score": 68, "google_signals": ["stoicisme livre", "stoicisme méthode"]
+        }), mock.patch.object(mi, "fetch_amazon_kdp_suggestions", return_value=["stoicisme guide"]), \
+             mock.patch("kdp_extensions.webhooks.emit_webhook", return_value={"mode": "local_audit_only"}), \
+             mock.patch("call_ai.generer_texte_gemini", return_value=faux_json) as gemini:
+            rapport = mi.analyze_bestsellers_and_gaps(
+                niche="Stoicisme", cible="Débutants", marketplace="fr",
+                output_path=sortie, use_ai=True,
+            )
+        assert gemini.called, "Agent 0 doit utiliser call_ai.generer_texte_gemini"
+    assert rapport.superior_angle == "Angle IA"
+    assert len(rapport.backend_keywords_7) == 7
+
+    afficher_succes("Agent 0 IA actif + exactement 7 mots-clés backend")
+
+
+def test_14_connecteur_polices_filtres_et_live():
+    print("\n🔍 Test 14 : Connecteur Google Fonts (accents, filtres, mode live)...")
+    import kdp_extensions.fonts_connector as fc
+
+    editorial = fc.search_google_fonts(query="editoria")
+    assert editorial["count"] >= 1, editorial
+    assert any(f["family"] in ("Playfair Display", "Cormorant Garamond", "Libre Baskerville")
+               for f in editorial["fonts"])
+    introuvable = fc.search_google_fonts(query="zzz_introuvable_zzz")
+    assert introuvable["count"] == 0, "Un filtre sans résultat ne doit pas renvoyer tout le catalogue"
+    try:
+        fc.search_google_fonts(category="invalide")
+        raise AssertionError("Une catégorie invalide doit lever ValueError")
+    except ValueError:
+        pass
+
+    faux_payload = {"items": [{"family": "Nunito", "category": "sans-serif",
+                               "variants": ["regular"], "subsets": ["latin"], "files": {}}]}
+    with mock.patch.object(fc, "_get_fonts_api_key", return_value="cle_test"), \
+         mock.patch.object(fc, "_httpx_get_json", return_value=faux_payload):
+        live = fc.search_google_fonts(query="nunito")
+    assert live["mode"] == "live" and live["fonts"][0]["family"] == "Nunito"
+
+    afficher_succes("Polices curées/live filtrées sans faux positif")
+
+
+def test_15_interior_layout_master_et_formateur():
+    print("\n🔍 Test 15 : kdp-interior-layout-master + formateur 6x9 réparé...")
+    import tempfile
+    import kdp_formatter
+    from kdp_extensions.interior_layout_master import composer_interieur, choisir_thematique
+
+    assert choisir_thematique(public_cible="Enfants 4-8 ans") == "ENFANT_EDUCATIF"
+    assert choisir_thematique(public_cible="Adultes") == "NON_FICTION"
+
+    with tempfile.TemporaryDirectory() as tmp:
+        md = Path(tmp) / "manuscrit.md"
+        md.write_text("# Mon Livre\n\n## Section Une\n\nTexte de test.\n", encoding="utf-8")
+        html = Path(tmp) / "interieur.html"
+        rapport = composer_interieur(
+            chemin_manuscrit=str(md), chemin_sortie_html=str(html),
+            format_kdp="6x9", titre_livre="MON LIVRE",
+            public_cible="Enfants 4-8 ans", appliquer_correctifs=True,
+        )
+        assert html.exists() and html.stat().st_size > 100
+        assert rapport["thematique"] == "ENFANT_EDUCATIF"
+        contenu = html.read_text(encoding="utf-8")
+        assert "<h1" in contenu and "<h2" in contenu
+
+    # Le formateur historique transmet bien titre_livre (signature obligatoire)
+    with mock.patch("kdp_formatter.compiler_livre_sur_mesure") as comp:
+        kdp_formatter.convertir_manuscrit_en_pdf(
+            chemin_md="manuscrit_test_qa.md",
+            sortie_html="interieur_test_qa.html",
+        )
+        assert comp.call_args.kwargs["titre_livre"] == "LIVRE KDP"
+        assert comp.call_args.kwargs["format_choisi"] == "6x9"
+
+    afficher_succes("Intérieur composer + correctifs pré-presse + formateur non cassé")
+
+
+def test_16_coloriage_noir_blanc_pur_et_bornes():
+    print("\n🔍 Test 16 : Coloriage — zéro gris et mandalas dans le cadre...")
+    from kdp_extensions.coloring_book_engine import (
+        dessiner_planche_pil,
+        GENERATEURS_SVG,
+    )
+
+    # Aucun générateur SVG n'émet de gris (uniquement #000000 / #FFFFFF)
+    couleurs = set()
+    for generateur in GENERATEURS_SVG.values():
+        couleurs.update(re.findall(r"#[0-9a-fA-F]{6}", generateur(0)))
+    assert couleurs <= {"#000000", "#FFFFFF"}, couleurs
+
+    # Aucun tuple gris résiduel dans le moteur racine historique
+    source_racine = Path("coloring_book_engine.py").read_text(encoding="utf-8")
+    for gris in ("(50, 50, 50)", "(100, 100, 100)", "(252, 252, 252)"):
+        assert gris not in source_racine, f"Gris interdit résiduel : {gris}"
+
+    # Mandala 8.5x11 : le noir ne touche jamais le bord de la page
+    image = dessiner_planche_pil("mandalas", 1, "TEST", 2550, 3300)
+    boite = image.convert("L").point(lambda p: 255 if p < 128 else 0).getbbox()
+    assert boite is not None
+    x0, y0, x1, y1 = boite
+    assert x0 > 0 and y0 > 0 and x1 < 2550 - 1 and y1 < 3300 - 1, boite
+
+    afficher_succes("Traits noirs bornés dans le cadre, zéro niveau de gris")
+
+
+# ==============================================================================
 # EXÉCUTION
 # ==============================================================================
 
@@ -608,6 +798,11 @@ def main() -> int:
         ("Line-art binaire zéro gris", test_9_line_art_binaire),
         ("Production livre de coloriage (moteur mocké)", test_10_production_coloriage_mockee),
         ("Intégration app_studio : routes + schéma", test_11_app_studio_extensions),
+        ("Routes Agent 0 / polices / webhooks + blueprint", test_12_routes_agent0_fonts_webhooks_montees),
+        ("Agent 0 IA + 7 mots-clés", test_13_agent0_ia_et_sept_mots_cles),
+        ("Connecteur Google Fonts (filtres/live)", test_14_connecteur_polices_filtres_et_live),
+        ("kdp-interior-layout-master + formateur", test_15_interior_layout_master_et_formateur),
+        ("Coloriage noir/blanc pur + bornes mandala", test_16_coloriage_noir_blanc_pur_et_bornes),
     ]
 
     for nom, func in tests:

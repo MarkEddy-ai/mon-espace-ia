@@ -1,0 +1,44 @@
+{
+  "niche": "Finances Personnelles & Éducation Financière Pratique",
+  "cible": "Salariés, jeunes actifs et débutants souhaitant gérer leur argent et investir sans jargon",
+  "marketplace": "amazon.fr / amazon.com (francophone)",
+  "date_analyse": "2026-11-21",
+  "bestseller_analyse": {
+    "titre_reference": "Père Riche, Père Pauvre (Robert Kiyosaki) & I Will Teach You to Be Rich (Ramit Sethi)",
+    "forces_reconnues": [
+      "Prise de conscience psychologique puissante sur la différence entre actif et passif.",
+      "Promotion de l'automatisation des flux financiers et du désendettement.",
+      "Style d'écriture accessible et déculpabilisant pour le grand public."
+    ],
+    "points_faibles_et_manques_critiques": [
+      {
+        "domaine": "Cadre fiscal et légal (Le décalage géographique)",
+        "critique_lecteurs_amazon": "Inapplicable hors des USA : les chapitres sur le 401(k), le Roth IRA et le crédit immobilier américain à 110% sans apport sont inutilisables en France et en Europe.",
+        "notre_solution_chirurgicale": "Architecture 100% adaptée aux réalités européennes et francophones : optimisation du PEA (Plan d'Épargne en Actions), Assurance-Vie multi-supports, Livret A/LDDS, fiscalité des plus-values (flat tax) et respect du taux d'endettement de 35%."
+      },
+      {
+        "domaine": "Densité de valeur vs Remplissage (Le piège du Fluff)",
+        "critique_lecteurs_amazon": "Répétition permanente de la même idée étirée sur 200 pages avec un storytelling personnel artificiel qui ne sert qu'à gonfler le volume du livre.",
+        "notre_solution_chirurgicale": "Protocole Anti-Fluff absolu : 10 chapitres divisés en 50 sections indépendantes. Zéro digression, chaque section apporte un modèle conceptuel, un calcul précis et une checklist opérationnelle."
+      },
+      {
+        "domaine": "Pragmatisme chiffré pour salaires ordinaires",
+        "critique_lecteurs_amazon": "Conseils de type 'mindset de gourou' déconnectés des salaires de 1 800 € à 3 000 €/mois. Aucun calcul d'amortissement, aucun modèle de budget pas-à-pas.",
+        "notre_solution_chirurgicale": "Études de cas réelles et chiffrées à l'euro près dans chaque section (ex: profil célibataire 1 900 € net, couple 3 600 € avec enfant, désendettement boule de neige chiffré mois par mois)."
+      },
+      {
+        "domaine": "Modernité et Automatisation 2026",
+        "critique_lecteurs_amazon": "Livres écrits il y a 10 à 25 ans ignorant les néobanques, les ETF indiciels (MSCI World / S&P 500) à 0,15% de frais et l'automatisation bancaire moderne.",
+        "notre_solution_chirurgicale": "Le 'Système des Cascades Automatiques' : mise en place d'un écosystème de comptes avec virements automatiques le lendemain de la paie, épargne indicielle passive DCA et sécurité anti-inflation."
+      }
+    ]
+  },
+  "strategie_positionnement_markeddy": {
+    "titre": "L'ARCHITECTE FINANCIER",
+    "sous_titre_seo_a9": "Le Système Automatisé pour Maîtriser son Budget sans Privation, Éliminer ses Dettes et Bâtir un Patrimoine Passif avec un Salaire Ordinaire",
+    "auteur": "MarkEddy",
+    "palette_couleur": "obsidian_gold (#0A0F1D / #D4AF37 / #F8FAFC)",
+    "format_kdp": "6x9 pouces broché avec gouttière de reliure 0.85 po",
+    "volume_cible": "50 sections techniques, 25 000 à 35 000 mots (~140 à 170 pages)"
+  }
+}

@@ -1,0 +1,386 @@
+{
+  "titre": "Systèmes de Productivité et Automatisation par l'IA pour Créateurs et Indépendants",
+  "sous_titre": "Méthodes concrètes, workflows structurés et checklists pratiques pour gagner du temps chaque semaine",
+  "promesse_client": "Concevoir et déployer un écosystème opérationnel automatisé par l'IA pour diviser par deux le temps consacré aux tâches administratives et répétitives.",
+  "auteur_suggere": "MarkEddy",
+  "mots_cles_kdp": [
+    "gestion du temps freelance organisation travail",
+    "outils intelligence artificielle micro entreprise",
+    "automatiser taches repetitives no code debutant",
+    "guide pratique solopreneur business en ligne",
+    "methodes efficacite professionnelle planification",
+    "creer systeme organisation personnel quotidien",
+    "prompts ia workflows creatifs gain de temps"
+  ],
+  "categories_kdp": [
+    "Entreprise et Bourse > Gestion et leadership > Gestion du temps",
+    "Informatique et Internet > Intelligence artificielle et apprentissage automatique > Applications pratiques",
+    "Entreprise et Bourse > Création d'entreprise et PME > Travail indépendant et freelance"
+  ],
+  "chapitres": [
+    {
+      "numero": 1,
+      "titre": "Diagnostic et cartographie de votre temps de travail",
+      "objectif": "Identifier les goulets d'étranglement opérationnels et auditer l'emploi du temps réel du créateur.",
+      "sections": [
+        {
+          "titre": "1.1 Audit flash des 7 derniers jours d’activité",
+          "points_cles": [
+            "Méthode de relevé horaire",
+            "Identification des charges invisibles",
+            "Étude de cas freelance",
+            "Action immédiate de nettoyage"
+          ]
+        },
+        {
+          "titre": "1.2 La matrice Impact vs Complexité des tâches",
+          "points_cles": [
+            "Hiérarchisation des activités",
+            "Délégation vs Automatisation",
+            "Piège du perfectionnisme",
+            "Plan d’action"
+          ]
+        },
+        {
+          "titre": "1.3 Le coût caché du multitasking et des micro-interruptions",
+          "points_cles": [
+            "Effet de dispersion cognitive",
+            "Temps de reconcentration",
+            "Étude scientifique",
+            "Mise en place de blocs de deep work"
+          ]
+        },
+        {
+          "titre": "1.4 Définir sa promesse de libération temporelle",
+          "points_cles": [
+            "Objectif chiffré de gain d’heures",
+            "Alignement personnel",
+            "KPIs de productivité",
+            "Checklist d’engagement"
+          ]
+        },
+        {
+          "titre": "1.5 Préparer son environnement mental et numérique",
+          "points_cles": [
+            "Minimalisme d’outils",
+            "Rupture avec le superflu",
+            "Posture du solopreneur CEO",
+            "Synthèse du chapitre"
+          ]
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "titre": "Fondations d’un système d’information personnel propulsé par l’IA",
+      "objectif": "Structurer un espace de stockage et de gestion des connaissances centralisé.",
+      "sections": [
+        {
+          "titre": "2.1 La méthode PARA réinventée pour l’ère de l’IA",
+          "points_cles": [
+            "Projets, Domaines, Ressources, Archives",
+            "Implémentation numérique",
+            "Exemple concret",
+            "Action immédiate"
+          ]
+        },
+        {
+          "titre": "2.2 Centraliser ses notes et documents de référence",
+          "points_cles": [
+            "Capture rapide d’idées",
+            "Classement sans friction",
+            "Erreurs de structure à éviter",
+            "Protocole de tri"
+          ]
+        },
+        {
+          "titre": "2.3 Transformer l’IA en assistant documentaire personnel",
+          "points_cles": [
+            "Uploader sa base de connaissances",
+            "Requêtes contextuelles",
+            "Limitations et garde-fous",
+            "Prompt type RAG"
+          ]
+        },
+        {
+          "titre": "2.4 La gestion des sources de veille informationnelle",
+          "points_cles": [
+            "Flux RSS et newsletters",
+            "Synthèse automatique par IA",
+            "Filtre anti-infobésité",
+            "Routine hebdomadaire"
+          ]
+        },
+        {
+          "titre": "2.5 Maintenir son système propre sur le long terme",
+          "points_cles": [
+            "Revue hebdomadaire",
+            "Nettoyage des archives",
+            "Évolution des dossiers",
+            "Checklist du vendredi"
+          ]
+        }
+      ]
+    },
+    {
+      "numero": 3,
+      "titre": "Création de contenu automatisée et multicanale",
+      "objectif": "Industrialiser la production de contenus de qualité sans s’épuiser.",
+      "sections": [
+        {
+          "titre": "3.1 La stratégie de l’atomisation de contenu",
+          "points_cles": [
+            "Une idée source, dix formats dérivés",
+            "Matrice de déclinaison",
+            "Étude de cas créateur",
+            "Action immédiate"
+          ]
+        },
+        {
+          "titre": "3.2 Entraîner l’IA à reproduire votre style d’écriture",
+          "points_cles": [
+            "Analyse de vos meilleurs textes",
+            "Création du guide de style",
+            "Tests de fidélité tonale",
+            "Prompt de clone rédactionnel"
+          ]
+        },
+        {
+          "titre": "3.3 Workflow de rédaction de newsletters et d’articles",
+          "points_cles": [
+            "Plan d’action en 3 étapes",
+            "Génération assistée",
+            "Relecture critique humaine",
+            "Publication programmée"
+          ]
+        },
+        {
+          "titre": "3.4 Repurposing de podcasts et vidéos en posts écrits",
+          "points_cles": [
+            "Transcription audio",
+            "Extraction des pépites",
+            "Mise en forme réseaux sociaux",
+            "Template d’automatisation"
+          ]
+        },
+        {
+          "titre": "3.5 Le calendrier éditorial infaillible et résilient",
+          "points_cles": [
+            "Anticipation à 4 semaines",
+            "Tampon de sécurité",
+            "Gestion des imprévus",
+            "Checklist de publication"
+          ]
+        }
+      ]
+    },
+    {
+      "numero": 4,
+      "titre": "Prospection commerciale et relations clients augmentées",
+      "objectif": "Gérer l’acquisition client et le suivi relationnel avec un minimum d’effort.",
+      "sections": [
+        {
+          "titre": "4.1 Définir son ICP (Ideal Customer Profile) précis",
+          "points_cles": [
+            "Critères comportementaux",
+            "Douleurs et désirs profonds",
+            "Génération de personas par IA",
+            "Validation marché"
+          ]
+        },
+        {
+          "titre": "4.2 Prospection sur mesure et personnalisation à grande échelle",
+          "points_cles": [
+            "Scraping éthique et ciblage",
+            "Messages d’approche ultra-personnalisés",
+            "Exemple de séquence",
+            "Action immédiate"
+          ]
+        },
+        {
+          "titre": "4.3 Rédaction de propositions et devis irrésistibles",
+          "points_cles": [
+            "Structure psychologique d’un devis",
+            "Grille tarifaire par valeur",
+            "Génération de templates par IA",
+            "Validation client"
+          ]
+        },
+        {
+          "titre": "4.4 Automatiser le suivi (Follow-up) commercial sans impvrévus",
+          "points_cles": [
+            "Relances douces et professionnelles",
+            "Automatisation des rappels",
+            "Gestion des objections",
+            "Séquence type"
+          ]
+        },
+        {
+          "titre": "4.5 Tableau de bord CRM et pipeline de vente simplifié",
+          "points_cles": [
+            "Suivi des leads",
+            "Indicateurs de conversion",
+            "Outils légers recommandés",
+            "Routine commerciale"
+          ]
+        }
+      ]
+    },
+    {
+      "numero": 5,
+      "titre": "Administration, facturation et gestion financière",
+      "objectif": "Éliminer la charge mentale liée à l’administratif de l’entreprise individuelle.",
+      "sections": [
+        {
+          "titre": "5.1 Centraliser et automatiser sa facturation",
+          "points_cles": [
+            "Rappels de paiement automatiques",
+            "Génération de reçus",
+            "Outils de facturation no-code",
+            "Action immédiate"
+          ]
+        },
+        {
+          "titre": "5.2 Préparation comptable et classement des justificatifs",
+          "points_cles": [
+            "Numérisation instantanée",
+            "Extraction des données par IA",
+            "Transmission au cabinet comptable",
+            "Checklist mensuelle"
+          ]
+        },
+        {
+          "titre": "5.3 Automatiser la gestion des e-mails et du support client",
+          "points_cles": [
+            "Modèles de réponses rapides",
+            "Tri automatique des boîtes de réception",
+            "Règles de filtrage",
+            "Protocole zéro inbox"
+          ]
+        },
+        {
+          "titre": "5.4 Contrats types et sécurisation juridique de base",
+          "points_cles": [
+            "Clauses essentielles pour freelance",
+            "Génération de conditions générales",
+            "Vérification par IA des risques",
+            "Validation"
+          ]
+        },
+        {
+          "titre": "5.5 Le rituel du vendredi après-midi : Bilan et clôture",
+          "points_cles": [
+            "Clôture des dossiers de la semaine",
+            "Paiements validés",
+            "Sérénité du week-end",
+            "Checklist finale"
+          ]
+        }
+      ]
+    },
+    {
+      "numero": 6,
+      "titre": "Workflows No-Code et intégrations inter-outils",
+      "objectif": "Connecter ses applications entre elles pour créer un écosystème fluide.",
+      "sections": [
+        {
+          "titre": "6.1 Introduction au No-Code et aux webhooks pour non-techniciens",
+          "points_cles": [
+            "Principes de base des API",
+            "Outils Make et Zapier",
+            "Cas d’usage concrets",
+            "Action immédiate"
+          ]
+        },
+        {
+          "titre": "6.2 Créer son premier scénario de centralisation de leads",
+          "points_cles": [
+            "De Google Forms vers Notion et Slack",
+            "Étapes de configuration",
+            "Test et validation",
+            "Dépannage"
+          ]
+        },
+        {
+          "titre": "6.3 Automatiser la veille et la curation de contenu",
+          "points_cles": [
+            "Collecte automatique d’articles",
+            "Résumé par IA",
+            "Stockage dans un tableau de bord",
+            "Routine"
+          ]
+        },
+        {
+          "titre": "6.4 Synchronisation du CRM et de l’onboarding client",
+          "points_cles": [
+            "Envoi automatique d’e-mails de bienvenue",
+            "Création des dossiers projets",
+            "Checklist d’accueil",
+            "Exemple complet"
+          ]
+        },
+        {
+          "titre": "6.5 Maintenance et résolution de bugs de vos automatisations",
+          "points_cles": [
+            "Surveillance des scénarios",
+            "Gestion des erreurs d’API",
+            "Bonnes pratiques",
+            "Synthèse"
+          ]
+        }
+      ]
+    },
+    {
+      "numero": 7,
+      "titre": "Pérenniser son système et passer au statut de CEO",
+      "objectif": "Consolider son organisation pour grandir sans s’épuiser.",
+      "sections": [
+        {
+          "titre": "7.1 Le seuil critique : Quand l’IA et le no-code ne suffisent plus",
+          "points_cles": [
+            "Signes de saturation",
+            "Besoin de sous-traitance humaine",
+            "Analyse de la croissance",
+            "Action immédiate"
+          ]
+        },
+        {
+          "titre": "7.2 Créer des SOPs (Standard Operating Procedures) pilotées par l’IA",
+          "points_cles": [
+            "Documenter ses processus",
+            "Instructions claires pour futurs collaborateurs",
+            "Format standard",
+            "Exemple pratique"
+          ]
+        },
+        {
+          "titre": "7.3 Recruter et manager des freelances formés à l’IA",
+          "points_cles": [
+            "Où trouver les bons profils",
+            "Tests de compétences",
+            "Délégation efficace",
+            "Suivi"
+          ]
+        },
+        {
+          "titre": "7.4 Le rôle de CEO de votre propre système",
+          "points_cles": [
+            "Sortir de la technique",
+            "Se consacrer à la stratégie",
+            "Indicateurs clés de direction",
+            "Équilibre de vie"
+          ]
+        },
+        {
+          "titre": "7.5 Conclusion : Votre feuille de route pour les 90 prochains jours",
+          "points_cles": [
+            "Plan d’action immédiat",
+            "Engagement personnel",
+            "Prochaine étape",
+            "Mot de la fin"
+          ]
+        }
+      ]
+    }
+  ]
+}

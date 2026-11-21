@@ -41,6 +41,22 @@ def build_editorial_directive_block(report: CompetitorGapReport) -> str:
     return "\n".join(lignes)
 
 
+def context_from_report_dict(report: Dict[str, Any]) -> Dict[str, Any]:
+    """Convertit un rapport Agent 0 reçu du front en contexte injectable dans le blueprint."""
+    try:
+        from kdp_extensions.market_intelligence import CompetitorGapReport
+        modele = CompetitorGapReport(**report)
+        directive = build_editorial_directive_block(modele)
+    except Exception:
+        directive = f"ANGLE SUPÉRIEUR MARKEDDY : {report.get('superior_angle', '')}"
+    return {
+        "report": report,
+        "backend_keywords_7": list(report.get("backend_keywords_7") or []),
+        "design_directives": dict(report.get("design_directives") or {}),
+        "editorial_directive_block": directive,
+    }
+
+
 def prepare_competitive_context(
     niche: str,
     cible: str = "Lecteurs exigeants cherchant des résultats concrets",
@@ -91,8 +107,22 @@ def apply_gap_report_to_blueprint(blueprint_path: Path, context: Dict[str, Any])
             "design_directives": context.get("design_directives", {}),
         }
         kws = context.get("backend_keywords_7") or []
-        if kws and not bp.get("mots_cles_backend"):
+        if kws:
+            # Clé historique conservée + clé réellement consommée par
+            # kdp_architect / kdp_marketing / kdp_qa / app_studio.
             bp["mots_cles_backend"] = kws[:7]
+            bp["mots_cles_kdp"] = kws[:7]
+        directive = context.get("editorial_directive_block")
+        if directive:
+            bp["directive_editoriale_agent0"] = directive
+        rapport = context.get("report") or {}
+        if rapport:
+            bp_titre = rapport.get("recommended_title")
+            if bp_titre and not bp.get("titre"):
+                bp["titre"] = bp_titre
+            bp_sous_titre = rapport.get("recommended_subtitle_seo")
+            if bp_sous_titre and not bp.get("sous_titre"):
+                bp["sous_titre"] = bp_sous_titre
         blueprint_path.write_text(json.dumps(bp, indent=2, ensure_ascii=False), encoding="utf-8")
         return True
     except Exception:

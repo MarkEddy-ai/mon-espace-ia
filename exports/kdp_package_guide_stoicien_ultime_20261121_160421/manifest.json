@@ -1,0 +1,69 @@
+{
+  "package_id": "kdp_package_guide_stoicien_ultime_20261121_160421",
+  "book_id": "unit_test_pkg_01",
+  "title": "Guide Stoicien Ultime",
+  "author": "MarkEddy",
+  "project_type": "text",
+  "timestamp": "2026-11-21T16:04:23.771618",
+  "studio_version": "MarkEddy KDP Studio v2.0 - Unified Multi-Agent Engine",
+  "prepress_specs": {
+    "format_id": "6x9",
+    "trim_width_in": 6.0,
+    "trim_height_in": 9.0,
+    "paper_type": "white",
+    "page_count_initial": 10,
+    "bonus_pages_injected": 14,
+    "page_count_final": 24,
+    "enforce_24_pages_rule": true,
+    "spine_thickness_in": 0.054048,
+    "spine_thickness_mm": 1.373,
+    "can_print_spine_text": false,
+    "cover_total_width_px": 3691,
+    "cover_total_height_px": 2775,
+    "isbn_reservation_px": "600x360 @ 300 DPI (Plat 4 bas-droite)"
+  },
+  "compliance_status": "KDP_CERTIFIED_PRINT_READY",
+  "compliance_audit": {
+    "status": "success",
+    "verdict": "PASSED",
+    "overall_score": 96.0,
+    "anti_anonymity_score": 100.0,
+    "prepress_score": 100.0,
+    "editorial_score": 100.0,
+    "a9_seo_score": 80.0,
+    "critical_violations": [],
+    "warnings": [
+      "Slot 2 dépasse 50 octets UTF-8.",
+      "Slot 2 répète des termes du titre: guide."
+    ],
+    "passed_checks": [
+      "Titre/sous-titre OK.",
+      "Auteur OK.",
+      "Pages OK (>=24 si broché).",
+      "Format OK: 6x9"
+    ],
+    "timestamp": "2026-11-21T16:04:23.769619"
+  },
+  "files": [
+    {
+      "filename": "interieur_kdp.pdf",
+      "size_bytes": 327065,
+      "sha256": "631b625e8c8c9de0e77af07423ea2a62c3436ae1afba126ed5c7b92e1b234e38"
+    },
+    {
+      "filename": "couverture_calibree.svg",
+      "size_bytes": 3746,
+      "sha256": "0d68755cf41324a1aa3c871fe2386bc816213747fafcf6f182c31c234e42aeff"
+    },
+    {
+      "filename": "metadata_a9.json",
+      "size_bytes": 1632,
+      "sha256": "c66447d6dbef4f393013c2276e58d1009dc9362a5a33a62e4774a3d4c6879867"
+    },
+    {
+      "filename": "interieur_kdp.html",
+      "size_bytes": 16400,
+      "sha256": "584ae3de16d151b77dd478994c8f51e39ec2f95e3c47253fe6f8b914d4ad75cc"
+    }
+  ]
+}

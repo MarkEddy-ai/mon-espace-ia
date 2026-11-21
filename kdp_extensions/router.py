@@ -42,8 +42,8 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 from urllib.parse import urlencode
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field
 
 from kdp_extensions.kdp_dimensions import (
@@ -498,6 +498,171 @@ class ColoringGenerateRequest(BaseModel):
     nb_illustrations: Optional[int] = Field(6, ge=1, le=60, description="Nombre de planches")
     recto_uniquement: Optional[bool] = Field(True, description="Verso blanc anti-bavure après chaque planche")
     paper_type: Optional[str] = Field("white", description="Type de papier KDP")
+
+
+class ColoringSheetRequest(BaseModel):
+    theme: Optional[str] = Field("animaux_mignons", description="Thème de coloriage (enfants ou adultes)")
+    index: Optional[int] = Field(1, ge=1, le=200, description="Numéro d'index de la planche")
+    age_group: Optional[str] = Field("4-8", description="Tranche d'âge cible (ex: 4-6, 4-8, 6-8, adultes)")
+    format_kdp: Optional[str] = Field("8.5x11", description="Format KDP de la planche")
+
+
+class ColoringPackRequest(BaseModel):
+    theme: Optional[str] = Field("animaux_mignons", description="Thème de coloriage")
+    nb_sheets: Optional[int] = Field(10, ge=1, le=60, description="Nombre de planches à générer")
+    age_group: Optional[str] = Field("4-8", description="Tranche d'âge cible")
+    format_kdp: Optional[str] = Field("8.5x11", description="Format KDP")
+
+
+class AnalyzeBestsellersRequest(BaseModel):
+    """Requête de l'Agent 0 (intelligence marchande & autopsie best-sellers)."""
+    niche: str = Field(..., min_length=2, description="Niche / thématique à analyser")
+    cible: str = Field("Lecteurs exigeants cherchant des résultats concrets", description="Public cible")
+    marketplace: str = Field("fr", description="fr | com | uk")
+    use_ai: bool = Field(True, description="Utiliser Gemini si la clé est disponible")
+
+
+class EditorialFrontMatterRequest(BaseModel):
+    niche: Optional[str] = Field("Finances Personnelles", description="Niche du livre")
+    title: Optional[str] = Field(None, description="Titre principal")
+    subtitle: Optional[str] = Field(None, description="Sous-titre")
+    author: Optional[str] = Field("MarkEddy", description="Nom d'auteur")
+    publisher: Optional[str] = Field("MarkEddy Éditions", description="Maison d'édition")
+    isbn: Optional[str] = Field(None, description="Numéro ISBN-13")
+    format_output: Optional[str] = Field("markdown", description="'markdown' ou 'html'")
+
+
+class EditorialBackMatterRequest(BaseModel):
+    niche: Optional[str] = Field("Finances Personnelles", description="Niche du livre")
+    title: Optional[str] = Field(None, description="Titre principal")
+    author: Optional[str] = Field("MarkEddy", description="Nom d'auteur")
+    publisher: Optional[str] = Field("MarkEddy Éditions", description="Maison d'édition")
+    format_output: Optional[str] = Field("markdown", description="'markdown' ou 'html'")
+
+
+class AssembleBookRequest(BaseModel):
+    body_content: str = Field(..., description="Corps principal du manuscrit")
+    niche: Optional[str] = Field("Finances Personnelles", description="Niche du livre")
+    title: Optional[str] = Field("Livre KDP", description="Titre du livre")
+    author: Optional[str] = Field("MarkEddy", description="Nom d'auteur")
+    format_output: Optional[str] = Field("markdown", description="'markdown' ou 'html'")
+
+
+class LayoutCompileRequest(BaseModel):
+    content: str = Field(..., description="Contenu texte ou HTML du livre")
+    niche: Optional[str] = Field("Finances", description="Niche du livre")
+    title: Optional[str] = Field("Livre KDP", description="Titre du livre")
+    author: Optional[str] = Field("MarkEddy Éditions", description="Nom d'auteur")
+    format_id: Optional[str] = Field("6x9", description="Format de coupe KDP")
+    page_count: Optional[int] = Field(150, ge=1, le=8000, description="Nombre de pages estimé")
+    bleed: Optional[bool] = Field(False, description="Fond perdu 0.125 po")
+
+
+class LayoutAuditRequest(BaseModel):
+    html_content: str = Field(..., description="Code HTML complet à auditer")
+
+
+class CoverGeometryRequest(BaseModel):
+    trim_id: Optional[str] = Field("6x9", description="Format de coupe KDP (ex: 6x9, 8.5x11)")
+    page_count: Optional[int] = Field(150, ge=1, le=8000, description="Nombre de pages de l'ouvrage")
+    paper_type: Optional[str] = Field("white", description="white | cream | color_standard | color_premium")
+    bleed: Optional[float] = Field(0.125, ge=0.0, le=1.0, description="Fond perdu en pouces (défaut: 0.125)")
+    dpi: Optional[int] = Field(300, ge=72, le=600, description="Résolution d'impression (défaut: 300 DPI)")
+
+
+class PuzzleCollectionRequest(BaseModel):
+    book_title: str = "Grand Livre de Puzzles, Mots & Logique"
+    theme: str = "general"
+    age_group: str = "6-9"
+    puzzle_types: Optional[List[str]] = None
+    puzzles_per_type: int = Field(default=2, ge=1, le=20)
+    custom_words: Optional[List[str]] = None
+    secret_phrase: str = "BRAVO TU AS REUSSI"
+    seed: int = 123
+    language: str = Field(default="fr", description="Langue des puzzles (en, fr, es, de, ar)")
+
+
+class SeoAuditKeywordsRequest(BaseModel):
+    slots: List[str] = Field(default_factory=list, description="Les 7 slots de mots-clés backend")
+    language: str = Field(default="fr", description="Langue cible (en, fr, es, de, ar)")
+    title: str = Field(default="", description="Titre du livre pour détecter les doublons")
+    subtitle: str = Field(default="", description="Sous-titre du livre")
+
+
+class SeoOptimizeKeywordsRequest(BaseModel):
+    title: str = Field(..., description="Titre du livre")
+    subtitle: str = Field(default="", description="Sous-titre")
+    niche: str = Field(default="Finances", description="Niche ou thématique")
+    language: str = Field(default="fr", description="Langue cible (en, fr, es, de, ar)")
+    target_audience: str = Field(default="", description="Public visé")
+
+
+class MultilingualComplianceRequest(BaseModel):
+    html_content: str = Field(..., description="Contenu HTML complet du livre")
+    metadata: Dict[str, Any] = Field(default_factory=dict, description="Métadonnées du livre")
+    language: str = Field(default="fr", description="Langue (en, fr, es, de, ar)")
+    format_id: str = Field(default="6x9", description="Format KDP")
+    page_count: int = Field(default=150, description="Nombre de pages")
+    cover_type: str = Field(default="paperback", description="Type de couverture (paperback / ebook)")
+
+
+class ComplianceAuditRequest(BaseModel):
+    title: str = Field(..., description="Titre du livre")
+    subtitle: str = Field(default="", description="Sous-titre")
+    author: str = Field(default="MarkEddy", description="Nom d'auteur")
+    keywords: Optional[List[str]] = Field(default=None, description="Mots-clés A9")
+    page_count: int = Field(default=24, ge=1, le=8000, description="Nombre de pages")
+    format_id: str = Field(default="6x9", description="Format KDP")
+    paper_type: str = Field(default="white", description="Type de papier (white, cream, color_standard, color_premium)")
+    content_text_or_html: Optional[str] = Field(default=None, description="Contenu texte ou HTML")
+    has_copyright: bool = Field(default=True, description="Mention copyright présente")
+    has_disclaimer: bool = Field(default=True, description="Clause de non-responsabilité présente")
+    has_author_bio: bool = Field(default=True, description="Biographie auteur présente")
+    has_colophon: bool = Field(default=True, description="Colophon / achevé d'imprimer présent")
+    cover_specs: Optional[Dict[str, Any]] = Field(default=None, description="Spécifications de couverture")
+    project_type: str = Field(default="text", description="Type de projet (text, coloring_book, puzzle)")
+    binding: str = Field(default="paperback", description="Type de reliure (paperback, hardcover)")
+
+
+class KdpExportPackageRequest(BaseModel):
+    book_id: str = "default_book"
+    title: str = "Grand Guide KDP"
+    author: str = "MarkEddy"
+    subtitle: str = "Méthode Pas-à-Pas & Exercices Concrets"
+    project_type: str = "text"
+    format_id: str = "6x9"
+    paper_type: str = "white"
+    initial_pages: int = Field(default=12, ge=1, le=1000)
+    html_content: Optional[str] = None
+    raw_markdown: Optional[str] = None
+    puzzle_config: Optional[Dict[str, Any]] = None
+    coloring_config: Optional[Dict[str, Any]] = None
+    keywords: Optional[List[str]] = None
+    niche: str = "general"
+    description_html: Optional[str] = None
+    target_audience: str = "Tous publics"
+    enforce_24_pages: bool = True
+
+
+class SocialTrendRequest(BaseModel):
+    niche: str = Field("Finances Personnelles", description="Niche ou thématique du livre")
+    language: str = Field("fr", description="fr | en")
+
+
+class DeepSourcesRequest(BaseModel):
+    topic: str = Field("Finances Personnelles", description="Sujet ou niche de l'ouvrage")
+    chapter_outline: List[str] = Field(default_factory=lambda: [
+        "1. Les Fondations et le Rapport Psychologique à l'Argent",
+        "2. Le Cadre Opératoire : Budget Sans Privation",
+        "3. Stratégies d'Investissement Passif et Bourse"
+    ], description="Liste des titres de chapitres")
+    language: str = Field("fr", description="fr | en")
+
+
+class VerifyHumanizeRequest(BaseModel):
+    text: str = Field(..., description="Texte du manuscrit ou de section à humaniser")
+    author_voice: str = Field("expert_pedagogue", description="expert_pedagogue | praticien_terrain | storyteller")
+    research_pack: Optional[Dict[str, Any]] = Field(None, description="Dossier de recherche éventuel pour la bibliographie")
 
 
 # ==============================================================================
@@ -1007,6 +1172,594 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
             "result": resultat,
         })
 
+    @router.get("/api/coloring/themes", summary="Liste des thèmes de coloriage disponibles (enfants & adultes)")
+    def api_liste_themes_coloriage():
+        from kdp_extensions.coloring_generator import list_coloring_themes
+        return JSONResponse(content={"status": "success", "themes": list_coloring_themes()})
+
+    @router.post("/api/coloring/generate-sheet", summary="Génère une planche de coloriage vectorielle haute précision")
+    def api_generer_planche_coloriage(req: ColoringSheetRequest):
+        from kdp_extensions.coloring_generator import generate_coloring_sheet
+        try:
+            planche = generate_coloring_sheet(
+                theme=req.theme or "animaux_mignons",
+                index=req.index or 1,
+                age_group=req.age_group or "4-8",
+                format_kdp=req.format_kdp or "8.5x11",
+            )
+            return JSONResponse(content={"status": "success", "sheet": planche})
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Échec de génération de la planche : {e}")
+
+    @router.post("/api/coloring/generate-pack", summary="Génère un pack complet de planches de coloriage")
+    def api_generer_pack_coloriage(req: ColoringPackRequest):
+        from kdp_extensions.coloring_generator import generate_coloring_pack
+        try:
+            pack = generate_coloring_pack(
+                theme=req.theme or "animaux_mignons",
+                nb_sheets=req.nb_sheets or 10,
+                age_group=req.age_group or "4-8",
+                format_kdp=req.format_kdp or "8.5x11",
+            )
+            return JSONResponse(content={"status": "success", "pack": pack})
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Échec de génération du pack : {e}")
+
+    # ------------------------------------------------------------------
+    # 9. AGENT 0 — INTELLIGENCE MARCHÉ & AUTOPSIE BEST-SELLERS
+    # ------------------------------------------------------------------
+    @router.post("/api/research/analyze-bestsellers",
+                 summary="Agent 0 : signaux Google/Amazon + faiblesses best-sellers")
+    def api_analyser_bestsellers(req: AnalyzeBestsellersRequest):
+        """Analyse concurrentielle utilisée pour pré-remplir titre/SEO et le blueprint."""
+        from kdp_extensions.pipeline_bridge import prepare_competitive_context
+
+        niche = (req.niche or "").strip()
+        if len(niche) < 2:
+            raise HTTPException(status_code=422, detail="La niche doit contenir au moins 2 caractères.")
+        marketplace = (req.marketplace or "fr").strip().lower()
+        if marketplace not in ("fr", "com", "uk"):
+            raise HTTPException(status_code=422, detail="marketplace acceptées : fr, com, uk")
+
+        try:
+            contexte = prepare_competitive_context(
+                niche=niche,
+                cible=req.cible,
+                marketplace=marketplace,
+                output_dir=None,
+                use_ai=bool(req.use_ai),
+            )
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Échec Agent 0 : {e}")
+
+        return JSONResponse(content={
+            "status": "success",
+            "report": contexte["report"],
+            "report_path": contexte["report_path"],
+            "recommended_title": contexte["recommended_title"],
+            "recommended_subtitle_seo": contexte["recommended_subtitle_seo"],
+            "backend_keywords_7": contexte["backend_keywords_7"],
+            "design_directives": contexte["design_directives"],
+            "editorial_directive_block": contexte["editorial_directive_block"],
+        })
+
+    # ------------------------------------------------------------------
+    # 10. CONNECTEUR GOOGLE FONTS (catalogue curé hors-ligne en repli)
+    # ------------------------------------------------------------------
+    @router.get("/api/fonts/search", summary="Recherche de polices Google Fonts curées/KDP")
+    def api_rechercher_polices(
+        query: str = Query("", description="Recherche (ex : enfant, editorial, Fredoka)"),
+        category: Optional[str] = Query(None, description="serif | sans-serif | display | handwriting | monospace"),
+        sort: str = Query("popularity", description="Tri Google Fonts API"),
+        limit: int = Query(12, ge=1, le=50),
+    ):
+        from kdp_extensions.fonts_connector import search_google_fonts
+
+        try:
+            resultat = search_google_fonts(query=query, category=category, sort=sort, limit=limit)
+        except ValueError as e:
+            raise HTTPException(status_code=422, detail=str(e))
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Échec connecteur polices : {e}")
+        return JSONResponse(content={"status": "success", **resultat})
+
+    # ------------------------------------------------------------------
+    # 11. JOURNAL DES WEBHOOKS (audit n8n / Hermes)
+    # ------------------------------------------------------------------
+    @router.get("/api/webhooks/logs", summary="Journal d'audit des webhooks émis")
+    def api_journal_webhooks(
+        limit: int = Query(50, ge=1, le=500),
+        current_user: Optional[Dict[str, Any]] = Depends(dependance),
+    ):
+        from kdp_extensions.webhooks import WEBHOOK_LOG_FILE
+
+        entrees: List[Dict[str, Any]] = []
+        try:
+            if WEBHOOK_LOG_FILE.exists():
+                lignes = WEBHOOK_LOG_FILE.read_text(encoding="utf-8").splitlines()
+                for ligne in lignes[-limit:]:
+                    try:
+                        entrees.append(json.loads(ligne))
+                    except Exception:
+                        continue
+        except Exception:
+            entrees = []
+        entrees.reverse()
+        return JSONResponse(content={
+            "status": "success",
+            "total": len(entrees),
+            "events": entrees,
+        })
+
+    # ------------------------------------------------------------------
+    # 12. PAIRINGS TYPOGRAPHIQUES ÉDITORIAUX & GOOGLE FONTS
+    # ------------------------------------------------------------------
+    @router.get("/api/fonts/pairings", summary="Collection des 7 pairings éditoriaux de prestige")
+    def api_liste_pairings():
+        from kdp_extensions.fonts_connector import list_editorial_pairings
+        return JSONResponse(content={"status": "success", "pairings": list_editorial_pairings()})
+
+    @router.get("/api/fonts/recommend-pairing", summary="Recommande le pairing typographique adapté à une niche")
+    def api_recommander_pairing(
+        niche: str = Query("Finances", description="Niche ou thématique du livre"),
+        cible: Optional[str] = Query(None, description="Public cible"),
+    ):
+        from kdp_extensions.fonts_connector import recommend_font_pairing
+        pairing = recommend_font_pairing(niche, cible)
+        return JSONResponse(content={"status": "success", "pairing": pairing})
+
+    # ------------------------------------------------------------------
+    # 13. VEILLE TRI-PLATEFORME (Google Trends + Amazon KDP + Pinterest)
+    # ------------------------------------------------------------------
+    @router.get("/api/trends/market", summary="Veille tri-plateforme en direct (Google, Amazon, Pinterest)")
+    def api_veille_tri_plateforme(
+        niche: str = Query(..., min_length=2, description="Niche ou thématique du livre"),
+        cible: Optional[str] = Query(None, description="Public visé"),
+        marketplace: str = Query("fr", description="fr | com | uk | de"),
+    ):
+        from kdp_extensions.market_trends_agent import analyze_market_trends
+        try:
+            rapport = analyze_market_trends(niche=niche, target_audience=cible, marketplace=marketplace)
+            return JSONResponse(content={"status": "success", "trends": rapport})
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Erreur lors de la veille de marché : {e}")
+
+    # ------------------------------------------------------------------
+    # 14. FRONT-MATTER & BACK-MATTER ÉDITORIAL
+    # ------------------------------------------------------------------
+    @router.post("/api/editorial/front-matter", summary="Générateur de Front-Matter d'édition KDP")
+    def api_editorial_front_matter(req: EditorialFrontMatterRequest):
+        from kdp_extensions.editorial_structure import (
+            get_default_editorial_metadata,
+            generate_front_matter_markdown,
+            generate_front_matter_html,
+        )
+        meta = get_default_editorial_metadata(
+            niche=req.niche or "Finances",
+            title=req.title,
+            author=req.author or "MarkEddy",
+            publisher=req.publisher or "MarkEddy Éditions",
+            isbn=req.isbn,
+        )
+        if req.subtitle:
+            meta["subtitle"] = req.subtitle
+
+        if (req.format_output or "markdown").lower() == "html":
+            rendu = generate_front_matter_html(meta)
+        else:
+            rendu = generate_front_matter_markdown(meta)
+
+        return JSONResponse(content={
+            "status": "success",
+            "format": req.format_output,
+            "content": rendu,
+            "metadata": meta,
+        })
+
+    @router.post("/api/editorial/back-matter", summary="Générateur de Back-Matter d'édition KDP")
+    def api_editorial_back_matter(req: EditorialBackMatterRequest):
+        from kdp_extensions.editorial_structure import (
+            get_default_editorial_metadata,
+            generate_back_matter_markdown,
+            generate_back_matter_html,
+        )
+        meta = get_default_editorial_metadata(
+            niche=req.niche or "Finances",
+            title=req.title,
+            author=req.author or "MarkEddy",
+            publisher=req.publisher or "MarkEddy Éditions",
+        )
+        if (req.format_output or "markdown").lower() == "html":
+            rendu = generate_back_matter_html(meta)
+        else:
+            rendu = generate_back_matter_markdown(meta)
+
+        return JSONResponse(content={
+            "status": "success",
+            "format": req.format_output,
+            "content": rendu,
+            "metadata": meta,
+        })
+
+    @router.post("/api/editorial/assemble", summary="Assemble Front-Matter + Manuscrit + Back-Matter")
+    def api_editorial_assemble(req: AssembleBookRequest):
+        from kdp_extensions.editorial_structure import (
+            get_default_editorial_metadata,
+            assemble_complete_book,
+        )
+        meta = get_default_editorial_metadata(
+            niche=req.niche or "Finances",
+            title=req.title,
+            author=req.author or "MarkEddy",
+        )
+        livre_complet = assemble_complete_book(
+            body_content=req.body_content,
+            metadata=meta,
+            output_format=req.format_output or "markdown",
+        )
+        return JSONResponse(content={
+            "status": "success",
+            "format": req.format_output,
+            "full_book": livre_complet,
+        })
+
+    # ------------------------------------------------------------------
+    # 15. MOTEUR CSS PAGED MEDIA PRO & AUDIT
+    # ------------------------------------------------------------------
+    @router.post("/api/layout/paged-css", summary="Génère la feuille de style CSS Paged Media W3C pour un format")
+    def api_paged_css(
+        format_id: str = Query("6x9", description="Format KDP"),
+        page_count: int = Query(150, ge=1, le=8000),
+        bleed: bool = Query(False),
+        niche: str = Query("Business"),
+    ):
+        from kdp_extensions.layout_engine_pro import generate_paged_media_css
+        from kdp_extensions.fonts_connector import recommend_font_pairing
+        pairing = recommend_font_pairing(niche)
+        css = generate_paged_media_css(
+            format_id=format_id,
+            page_count=page_count,
+            bleed=bleed,
+            font_pairing=pairing,
+        )
+        return Response(content=css, media_type="text/css")
+
+    @router.post("/api/layout/compile", summary="Compile le document complet en HTML Paged Media")
+    def api_paged_compile(req: LayoutCompileRequest):
+        from kdp_extensions.layout_engine_pro import compile_paged_interior_html
+        from kdp_extensions.editorial_structure import get_default_editorial_metadata
+        meta = get_default_editorial_metadata(
+            niche=req.niche or "Finances",
+            title=req.title,
+            author=req.author or "MarkEddy Éditions",
+        )
+        html = compile_paged_interior_html(
+            content=req.content,
+            metadata=meta,
+            format_id=req.format_id or "6x9",
+            page_count=req.page_count or 150,
+            bleed=req.bleed or False,
+        )
+        return HTMLResponse(content=html)
+
+    @router.post("/api/layout/audit", summary="Audit prépresse de conformité CSS Paged Media")
+    def api_paged_audit(req: LayoutAuditRequest):
+        from kdp_extensions.layout_engine_pro import audit_paged_css_compliance
+        rapport = audit_paged_css_compliance(req.html_content)
+        return JSONResponse(content={"status": "success", "audit": rapport})
+
+    # ------------------------------------------------------------------
+    # 16. CALCULATEUR COUVERTURE & GABARIT SVG VECTORIEL
+    # ------------------------------------------------------------------
+    @router.get("/api/cover/calculator", summary="Calcul au micron de la géométrie de couverture KDP")
+    def api_cover_calculator(
+        trim_id: str = Query("6x9", description="Format de coupe KDP (16 formats)"),
+        page_count: int = Query(150, ge=1, le=8000),
+        paper_type: str = Query("white", description="white | cream | color_standard | color_premium"),
+        bleed: float = Query(0.125, ge=0.0, le=1.0),
+        dpi: int = Query(300, ge=72, le=600),
+    ):
+        from kdp_extensions.cover_calculator import calculate_cover_dimensions
+        try:
+            specs = calculate_cover_dimensions(
+                trim_id=trim_id,
+                page_count=page_count,
+                paper_type=paper_type,
+                bleed=bleed,
+                dpi=dpi,
+            )
+            return JSONResponse(content={"status": "success", "specs": specs})
+        except ValueError as e:
+            raise HTTPException(status_code=422, detail=str(e))
+
+    @router.get("/api/cover/template-svg", summary="Génère un gabarit de couverture interactif SVG 300 DPI")
+    def api_cover_template_svg(
+        trim_id: str = Query("6x9", description="Format de coupe KDP"),
+        page_count: int = Query(150, ge=1, le=8000),
+        paper_type: str = Query("white"),
+        title: str = Query("TITRE DU LIVRE"),
+        author: str = Query("NOM DE L'AUTEUR"),
+        subtitle: str = Query("SOUS-TITRE ÉDITORIAL"),
+    ):
+        from kdp_extensions.cover_calculator import calculate_cover_dimensions, generate_cover_template_svg
+        try:
+            specs = calculate_cover_dimensions(
+                trim_id=trim_id,
+                page_count=page_count,
+                paper_type=paper_type,
+            )
+            svg = generate_cover_template_svg(
+                specs_or_trim=specs,
+                book_title=title,
+                author_name=author,
+                subtitle=subtitle,
+            )
+            return Response(content=svg, media_type="image/svg+xml")
+        except ValueError as e:
+            raise HTTPException(status_code=422, detail=str(e))
+
+        # ==============================================================================
+        # PUZZLES & JEUX DE MOTS (8 FORMATS + SOLUTIONNAIRE)
+        # ==============================================================================
+
+    @router.post("/api/puzzles/generate-collection", summary="Génère une collection multi-jeux de puzzles et mots")
+    @router.post("/api/puzzles/collection", summary="Alias collection puzzles")
+    def api_generate_puzzle_collection(req: PuzzleCollectionRequest):
+        from kdp_extensions.puzzle_generator import generate_full_puzzle_collection
+        return generate_full_puzzle_collection(
+            book_title=req.book_title,
+            theme=req.theme,
+            age_group=req.age_group,
+            puzzle_types=req.puzzle_types,
+            puzzles_per_type=req.puzzles_per_type,
+            custom_words=req.custom_words,
+            secret_phrase=req.secret_phrase,
+            seed=req.seed,
+        )
+
+    @router.post("/api/puzzles/export-pdf", summary="Exporte la collection de puzzles en PDF prépresse")
+    def api_export_puzzle_pdf(req: PuzzleCollectionRequest):
+        import re
+        from pathlib import Path
+        from datetime import datetime
+        from kdp_extensions.puzzle_generator import generate_full_puzzle_collection
+
+        res = generate_full_puzzle_collection(
+            book_title=req.book_title,
+            theme=req.theme,
+            age_group=req.age_group,
+            puzzle_types=req.puzzle_types,
+            puzzles_per_type=req.puzzles_per_type,
+            custom_words=req.custom_words,
+            secret_phrase=req.secret_phrase,
+            seed=req.seed,
+        )
+
+        out_dir = BASE_DIR / "output_puzzles"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        slug = re.sub(r"[^a-zA-Z0-9_-]+", "_", req.book_title.strip().lower()).strip("_") or "puzzles"
+        stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        html_path = out_dir / f"{slug}_{stamp}.html"
+        pdf_path = out_dir / f"{slug}_{stamp}.pdf"
+        html_path.write_text(res["html"], encoding="utf-8")
+
+        pdf_generated = False
+        pdf_error = None
+        try:
+            from playwright.sync_api import sync_playwright
+            with sync_playwright() as p:
+                try:
+                    browser = p.chromium.launch()
+                except Exception:
+                    browser = p.chromium.launch(channel="msedge")
+                page = browser.new_page()
+                page.set_content(res["html"], wait_until="load")
+                page.pdf(
+                    path=str(pdf_path),
+                    format="Letter",
+                    print_background=True,
+                    margin={"top": "0.6in", "bottom": "0.6in", "left": "0.6in", "right": "0.6in"},
+                )
+                browser.close()
+            pdf_generated = pdf_path.exists()
+        except Exception as exc:
+            pdf_error = str(exc)
+
+        return {
+            "status": "success",
+            "book_title": res["book_title"],
+            "total_puzzles": res["total_puzzles"],
+            "html_path": str(html_path),
+            "pdf_path": str(pdf_path) if pdf_generated else None,
+            "pdf_generated": pdf_generated,
+            "pdf_error": pdf_error,
+        }
+
+    # ==============================================================================
+    # EXPORT PACK KDP 1-CLIC & TÉLÉCHARGEMENT ZIP (AVEC RÈGLE PRÉPRESSE 24 PAGES)
+    # ==============================================================================
+
+    @router.post("/api/kdp/export-package", summary="Génère un package KDP 1-clic complet (PDF, SVG, Métadonnées A9, Manifeste et ZIP)")
+    def api_kdp_export_package(req: KdpExportPackageRequest):
+        try:
+            from kdp_extensions.kdp_export_orchestrator import build_kdp_export_package
+            res = build_kdp_export_package(
+                book_id=req.book_id,
+                title=req.title,
+                author=req.author,
+                subtitle=req.subtitle,
+                project_type=req.project_type,
+                format_id=req.format_id,
+                paper_type=req.paper_type,
+                initial_pages=req.initial_pages,
+                html_content=req.html_content,
+                raw_markdown=req.raw_markdown,
+                puzzle_config=req.puzzle_config,
+                coloring_config=req.coloring_config,
+                keywords=req.keywords,
+                niche=req.niche,
+                description_html=req.description_html,
+                target_audience=req.target_audience,
+                enforce_24_pages=req.enforce_24_pages,
+            )
+            return res
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur d'export KDP : {exc}")
+
+    @router.get("/api/kdp/download-package/{package_name}", summary="Télécharge l'archive ZIP du package KDP 1-clic")
+    def api_kdp_download_package(package_name: str):
+        # Sécurité anti-traversal
+        clean_name = Path(package_name).name
+        if clean_name != package_name or ".." in package_name or "/" in package_name or "\\" in package_name:
+            raise HTTPException(status_code=400, detail="Nom de package invalide")
+        if not package_name.lower().endswith(".zip"):
+            raise HTTPException(status_code=400, detail="Seules les archives .zip sont autorisées")
+
+        exports_dir = BASE_DIR / "exports"
+        target_file = (exports_dir / package_name).resolve()
+        if not target_file.is_file() or not str(target_file).startswith(str(exports_dir.resolve())):
+            raise HTTPException(status_code=404, detail="Archive KDP introuvable")
+
+        return FileResponse(
+            path=str(target_file),
+            media_type="application/zip",
+            filename=package_name,
+        )
+
+    # ==============================================================================
+    # CHAÎNE D'INTELLIGENCE ÉDITORIALE (AGENTS 1, 2 & 3)
+    # ==============================================================================
+
+    @router.post("/api/research/social-trends", summary="Agent 1 : Veille Tendances Sociales, Questions réelles & 3 Concepts de Livres")
+    def api_research_social_trends(req: SocialTrendRequest):
+        try:
+            from kdp_extensions.social_trend_hunter import harvest_market_ideas
+            return harvest_market_ideas(niche=req.niche, language=req.language)
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur Agent Veille Sociale : {exc}")
+
+    @router.post("/api/research/deep-sources", summary="Agent 2 : Recherche Documentaire, Académique & Presse (Evidence Pack)")
+    def api_research_deep_sources(req: DeepSourcesRequest):
+        try:
+            from kdp_extensions.deep_research_agent import build_chapter_evidence_pack
+            return build_chapter_evidence_pack(
+                topic=req.topic,
+                chapter_outline=req.chapter_outline,
+                language=req.language,
+            )
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur Agent Recherche Documentaire : {exc}")
+
+    @router.post("/api/editorial/verify-humanize", summary="Agent 3 : Synthèse Fact-Checking, Élimination des Tics IA & Humanisation")
+    def api_editorial_verify_humanize(req: VerifyHumanizeRequest):
+        try:
+            from kdp_extensions.editorial_humanizer_agent import humanize_manuscript, synthesize_and_verify
+            verification_summary = None
+            if req.research_pack:
+                verification_summary = synthesize_and_verify(req.research_pack)
+            humanized_res = humanize_manuscript(
+                text=req.text,
+                author_voice=req.author_voice,
+                research_pack=req.research_pack,
+            )
+            return {
+                **humanized_res,
+                "verification_audit": verification_summary,
+            }
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur Agent Humanisation & Fact-Checking : {exc}")
+
+    # ==============================================================================
+    # MULTILINGUAL I18N, SEO A9 & SUPERVISEUR DE CONFORMITÉ (5 LANGUES)
+    # ==============================================================================
+
+    @router.get("/api/i18n/languages", summary="Registre des 5 langues supportées (EN, FR, ES, DE, AR)")
+    def api_i18n_languages():
+        from kdp_extensions.i18n_config import get_supported_languages, LANGUAGE_CONFIGS
+        return {
+            "status": "success",
+            "supported_codes": ["fr", "en", "es", "de", "ar"],
+            "languages": LANGUAGE_CONFIGS,
+        }
+
+    @router.get("/api/i18n/language/{code}", summary="Détails de configuration pour une langue")
+    def api_i18n_language_detail(code: str):
+        from kdp_extensions.i18n_config import get_language_config, normalize_language
+        try:
+            clean_code = normalize_language(code)
+            return {
+                "status": "success",
+                "language": get_language_config(clean_code),
+            }
+        except ValueError as exc:
+            raise HTTPException(status_code=404, detail=str(exc))
+
+    @router.post("/api/seo/audit-keywords", summary="Agent SEO A9 : Audit chirurgical des 7 slots (UTF-8 50 octets & mots interdits)")
+    def api_seo_audit_keywords(req: SeoAuditKeywordsRequest):
+        try:
+            from kdp_extensions.seo_a9_agent import audit_7_slots_a9
+            return audit_7_slots_a9(
+                slots=req.slots,
+                language=req.language,
+                title=req.title,
+                subtitle=req.subtitle,
+            )
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur d'audit SEO A9 : {exc}")
+
+    @router.post("/api/seo/optimize-keywords", summary="Agent SEO A9 : Génération des 7 slots d'intention stratégique (Règle 05)")
+    def api_seo_optimize_keywords(req: SeoOptimizeKeywordsRequest):
+        try:
+            from kdp_extensions.seo_a9_agent import optimize_7_slots_a9
+            return optimize_7_slots_a9(
+                title=req.title,
+                subtitle=req.subtitle,
+                niche=req.niche,
+                language=req.language,
+                target_audience=req.target_audience,
+            )
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur d'optimisation SEO A9 : {exc}")
+
+    @router.post("/api/compliance/audit-multilingual", summary="Superviseur : Audit de conformité KDP multilingue, RTL & alerte Arabe")
+    def api_compliance_audit_multilingual(req: MultilingualComplianceRequest):
+        try:
+            from kdp_extensions.kdp_compliance_supervisor import audit_multilingual_kdp_project
+            return audit_multilingual_kdp_project(
+                html_content=req.html_content,
+                metadata=req.metadata,
+                language=req.language,
+                format_id=req.format_id,
+                page_count=req.page_count,
+                cover_type=req.cover_type,
+            )
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur du superviseur de conformité : {exc}")
+
+    @router.post("/api/compliance/audit", summary="Agent 4 : Contrôle Lois KDP, Anti-Anonymat & Porte Qualité")
+    def api_compliance_audit(req: ComplianceAuditRequest):
+        try:
+            from kdp_extensions.kdp_compliance_supervisor import audit_kdp_compliance
+            return audit_kdp_compliance(
+                title=req.title,
+                subtitle=req.subtitle,
+                author=req.author,
+                keywords=req.keywords,
+                page_count=req.page_count,
+                format_id=req.format_id,
+                paper_type=req.paper_type,
+                content_text_or_html=req.content_text_or_html,
+                has_copyright=req.has_copyright,
+                has_disclaimer=req.has_disclaimer,
+                has_author_bio=req.has_author_bio,
+                has_colophon=req.has_colophon,
+                cover_specs=req.cover_specs,
+                project_type=req.project_type,
+                binding=req.binding,
+            )
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur du superviseur de conformité : {exc}")
+
     return router
 
 
@@ -1022,4 +1775,13 @@ __all__ = [
     "lire_jetons_canva",
     "CANVA_TOKENS_FILE",
     "CANVA_REDIRECT_URI_DEFAUT",
+    "PuzzleCollectionRequest",
+    "KdpExportPackageRequest",
+    "SocialTrendRequest",
+    "DeepSourcesRequest",
+    "VerifyHumanizeRequest",
+    "SeoAuditKeywordsRequest",
+    "SeoOptimizeKeywordsRequest",
+    "MultilingualComplianceRequest",
+    "ComplianceAuditRequest",
 ]

@@ -243,7 +243,7 @@ Formats officiels supportés : `5x8`, `5.06x7.81`, `5.25x8`, `5.5x8.5`, `6x9`,
 Le skill **`kdp-visual-pipeline`** documente l'ensemble du pipeline : 16 formats,
 connecteurs média, moteur de coloriage, routes HTTP et contrôle qualité.
 
-### Routes API d'extension (`app_studio.py`)
+### Routes API d'extension (`app_studio.py` / `kdp_extensions/router.py`)
 
 | Route | Rôle |
 | :--- | :--- |
@@ -253,9 +253,15 @@ connecteurs média, moteur de coloriage, routes HTTP et contrôle qualité.
 | `GET /api/canva/callback` | Échange du code → `canva_tokens.json` |
 | `GET /api/canva/template/{book_id}` | Gabarit PNG 300 DPI |
 | `GET /api/canva/export/{book_id}` | Export design (live) ou gabarit local (fallback) |
+| `POST /api/puzzles/generate-collection` | Génération de cahiers de 8 jeux vectoriels KDP |
+| `POST /api/kdp/export-package` | Pack KDP 1-clic complet (PDF broché, SVG dos, A9, ZIP) |
+| `GET /api/kdp/download-package/{name}` | Téléchargement direct de l'archive ZIP |
+| `POST /api/research/social-trends` | **Agent 1** : Veille sociale Reddit, Google Trends, 3 concepts |
+| `POST /api/research/deep-sources` | **Agent 2** : Preuves documentaires, études DOI, cas terrain |
+| `POST /api/editorial/verify-humanize` | **Agent 3** : Fact-checking, suppression tics IA, bibliographie |
 
 Champs **optionnels** ajoutés à `POST /api/books/create` (valeurs par défaut,
-compatibilité totale) : `project_type` (`non_fiction` | `coloring_book`),
+compatibilité totale) : `project_type` (`non_fiction` | `coloring_book` | `puzzle`),
 `cover_image_url`, `single_sided`.
 
 ---
@@ -265,9 +271,10 @@ compatibilité totale) : `project_type` (`non_fiction` | `coloring_book`),
 Sur **Windows 11**, toute exécution passe par le virtualenv du projet :
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest test_suite.py test_extensions.py
+.\.venv\Scripts\python.exe -m pytest test_suite.py test_extensions.py test_new_extensions.py
 ```
 
 * `test_suite.py` : suite historique — **24/24 sans aucune modification** (non-régression).
 * `test_extensions.py` : validations des extensions (16 formats, specs 300 DPI,
   connecteurs HTTP **mockés** Unsplash/Pixabay, Canva **mocké**, moteur de coloriage **mocké**).
+* `test_new_extensions.py` : validations des extensions avancées (Google Fonts, veille tri-plateforme, Front/Back Matter, Paged Media CSS, cover SVG, 8 formats de puzzles, orchestrateur d'export ZIP avec règle prépresse KDP 24 pages, Agent 1 veille sociale, Agent 2 recherche documentaire, Agent 3 fact-checking & humanisation, et routes API associées).

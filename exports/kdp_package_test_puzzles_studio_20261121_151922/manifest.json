@@ -1,0 +1,48 @@
+{
+  "package_id": "kdp_package_test_puzzles_studio_20261121_151922",
+  "book_id": "test123",
+  "title": "Test Puzzles Studio",
+  "author": "MarkEddy",
+  "project_type": "puzzle",
+  "timestamp": "2026-11-21T15:19:26.466819",
+  "studio_version": "MarkEddy KDP Studio v2.0 - Unified Multi-Agent Engine",
+  "prepress_specs": {
+    "format_id": "6x9",
+    "trim_width_in": 6.0,
+    "trim_height_in": 9.0,
+    "paper_type": "white",
+    "page_count_initial": 18,
+    "bonus_pages_injected": 6,
+    "page_count_final": 24,
+    "enforce_24_pages_rule": true,
+    "spine_thickness_in": 0.054048,
+    "spine_thickness_mm": 1.373,
+    "can_print_spine_text": false,
+    "cover_total_width_px": 3691,
+    "cover_total_height_px": 2775,
+    "isbn_reservation_px": "600x360 @ 300 DPI (Plat 4 bas-droite)"
+  },
+  "compliance_status": "KDP_CERTIFIED_PRINT_READY",
+  "files": [
+    {
+      "filename": "interieur_kdp.pdf",
+      "size_bytes": 473390,
+      "sha256": "ba496fc8efd7859c0b843f14eb445af183499a726d8239646290b8a765cfc91c"
+    },
+    {
+      "filename": "couverture_calibree.svg",
+      "size_bytes": 3741,
+      "sha256": "5ca5bf2457e243b5d58263b6024ff3b237356041f90838a93118d9b3d7e8c888"
+    },
+    {
+      "filename": "metadata_a9.json",
+      "size_bytes": 1625,
+      "sha256": "2d81effb8b122a528b3e96144a84956fe382827c3953e1012094f8e087c3af40"
+    },
+    {
+      "filename": "interieur_kdp.html",
+      "size_bytes": 137871,
+      "sha256": "716b501a97ed150496c104e61a6e0be5bb66bff730c9213e07652ccefb3d025d"
+    }
+  ]
+}

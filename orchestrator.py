@@ -14,7 +14,14 @@ import shutil
 import argparse
 import time
 import re
+import os
 from pathlib import Path
+
+# Force UTF-8 encoding for output on Windows
+if sys.platform == "win32":
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 # Imports directs des modules agents et du design system
 from kdp_architect import concevoir_livre_kdp, sauvegarder_blueprint

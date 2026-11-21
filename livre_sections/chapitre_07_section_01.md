@@ -1,37 +1,40 @@
+### 7.1 Comparatif stratégique : PEA, Assurance-Vie et Compte-Titres
 
-### 7.1 Résidence principale vs investissement locatif : briser le dogme
+Dans l'ingénierie financière patrimoniale, il existe une distinction vitale que 90 % des débutants ne maîtrisent pas : la différence absolue entre **le véhicule d'investissement** (l'enveloppe fiscale) et **les actifs qui y sont logés** (les moteurs de performance). Beaucoup de personnes affirment : « J'ai investi dans une Assurance-Vie » ou « Je n'aime pas le PEA », comme s'il s'agissait d'un produit financier homogène. C'est une confusion conceptuelle comparable à confondre une valise avec les vêtements que vous y rangez.
 
-Dans la mémoire collective française et européenne, acheter sa résidence principale est considéré comme l'alpha et l'oméga de la réussite patrimoniale. On répète à longueur de repas de famille que *« payer un loyer, c'est jeter l'argent par les fenêtres »*. C'est l'un des dogmes les plus coûteux de l'histoire financière moderne.
+Le PEA, l'Assurance-Vie et le Compte-Titres Ordinaire (CTO) ne sont que des **boîtes juridiques et fiscales** créées par le législateur. Votre devoir d'Architecte consiste à choisir la bonne boîte pour le bon projet, en fonction de son horizon temporel, de sa flexibilité de retrait et de son régime d'imposition sur les plus-values.
 
-Financièrement parlant, votre résidence principale n'est pas un actif qui met de l'argent dans votre poche : c'est un **centre de coût personnel**. Elle génère chaque mois des dépenses incompressibles : intérêts d'emprunt bancaire, taxe foncière, charges de copropriété non récupérables, travaux de rafraîchissement et assurance propriétaire. 
+#### La Matrice Comparative des 3 Grandes Enveloppes
 
-De plus, l'achat d'un bien immobilier est grevé de **droits de mutation (frais de notaire) représentant 7 % à 8 % du montant d'acquisition dans l'ancien**. Pour un bien de 300 000 €, 24 000 € disparaissent instantanément en taxes et honoraires le jour de la signature. Si vous devez déménager ou vous séparer avant 7 ans, l'opération est presque mathématiquement déficitaire.
+1. **Le Plan d'Épargne en Actions (PEA) :** C'est le paradis fiscal légal du résident fiscal européen et français. Conçu pour encourager l'investissement dans les entreprises, il offre une exonération totale d'impôt sur le revenu sur l'ensemble de vos gains après **5 ans de détention**. Plafond de versement : **150 000 €** par personne (300 000 € pour un couple).
+2. **L'Assurance-Vie (Nouvelle Génération) :** Le couteau suisse de l'épargne patrimoniale. Elle permet de mixer du capital garanti (fonds en euros) et des actifs plus dynamiques (unités de compte indiciels). Fiscalité adoucie après **8 ans** avec un abattement annuel sur les plus-values de **4 600 € pour un célibataire et 9 200 € pour un couple**, assortie d'un cadre successoral incomparable. Zéro plafond de versement.
+3. **Le Compte-Titres Ordinaire (CTO) :** L'enveloppe de liberté absolue. Aucun plafond, aucune contrainte géographique (accès aux actions du monde entier, obligations, matières premières, produits dérivés), liquidité à tout moment. En contrepartie, il ne bénéficie d'aucun avantage fiscal : chaque plus-value ou dividende est assujetti immédiatement à la **Flat Tax de 30 %** (ou au barème de l'impôt).
 
-#### Démonstration Chiffrée : Acheter vs Rester Locataire et Investir la Différence
+#### Étude de Cas Chiffrée : L'Arbitrage Patrimonial de Nicolas (35 ans)
 
-Comparons deux personnes sur une durée de 10 ans dans une grande métropole :
-* **Cas A (Achat Résidence Principale) :** Achat d'un appartement de 250 000 € avec 30 000 € d'apport. Mensualité de prêt : 1 250 € + 250 € de charges de copro/taxe foncière = 1 500 € / mois.
-* **Cas B (Locataire Investisseur) :** Location d'un bien équivalent pour 950 € / mois. L'apport initial de 30 000 € est placé sur un ETF World à 7 % net annuel, et la différence mensuelle d'effort financier ($1 500 - 950 = 550\text{ €}$) est investie chaque mois en DCA indiciel.
+Nicolas dispose d'une capacité d'investissement de **450 € par mois** et d'un capital initial de 10 000 €. Il hésitait sur la répartition de ses fonds. Voici l'architecture optimisée mise en place :
 
-| Bilan après 10 ans | Cas A : Propriétaire Occupant | Cas B : Locataire Investisseur |
-| :--- | :--- | :--- |
-| **Effort financier mensuel total** | 1 500 € / mois | 1 500 € / mois |
-| **Frais de notaire & intérêts perdus** | ~75 000 € de frais irrécupérables | Zéro (loyer pur de 114 000 €) |
-| **Capital Net Final Détenu** | **~92 000 €** (Capital amorti net) | **~154 000 €** (Portefeuille liquide à 7%) |
-| **Mobilité géographique** | Bloquée (frais lourds de revente) | Totale (préavis de départ de 1 à 3 mois) |
+* **PEA (Cœur de stratégie long terme à 15 ans) :** Allocation de **300 € / mois** en ETF indiciel mondial (capitalisation pure, zéro impôt sur les gains au terme des 5 ans).
+* **Assurance-Vie en ligne (Épargne de moyen terme à 6-8 ans) :** Allocation de **100 € / mois** (dont 50 % en fonds en euros garanti pour financer un futur apport immobilier sans risque).
+* **CTO (Opportunités spécifiques) :** Réservé pour plus tard, une fois le plafond du PEA saturé.
 
-Le locataire investisseur se retrouve avec **62 000 € de plus en patrimoine net liquide** que le propriétaire occupant, tout en ayant conservé une totale agilité professionnelle.
+| Caractéristique | Plan d'Épargne en Actions (PEA) | Assurance-Vie Multi-supports | Compte-Titres Ordinaire (CTO) |
+| :--- | :--- | :--- | :--- |
+| **Plafond légal de versement** | 150 000 € (300 000 € couple) | Aucun plafond | Aucun plafond |
+| **Fiscalité des plus-values** | **0 % d'impôt après 5 ans** (seuls 17,2 % PS) | Abattement après 8 ans (4 600 € / an) | 30 % forfaitaire dès le premier euro |
+| **Sortie avant 5 ans** | Clôture (sauf cas légaux stricts) | Retraits partiels toujours possibles | Retraits 100 % libres à tout moment |
+| **Univers d'investissement** | Actions UE + ETF synthétiques Monde | Fonds en euros + Unités de compte | Marchés mondiaux illimités |
+| **Mission stratégique** | **Enrichissement & Indépendance** | **Projets à moyen terme & Transmission** | **Diversification avancée** |
 
 #### Le Piège Fréquent & La Parade
 
-> ❌ **Le piège fatal :** Acheter sa résidence principale au maximum de son taux d'endettement à 25 ans sous la pression des parents ou de la société, se privant de toute capacité d'emprunt pour de l'investissement locatif productif.  
+> ❌ **Le piège classique :** Ouvrir une Assurance-Vie auprès de sa banque physique traditionnelle avec 2,5 % de frais sur chaque versement et 1 % de frais de gestion annuels. Ces frais éliminent la quasi-totalité de l'avantage fiscal.  
 >  
-> ✅ **La contre-mesure :** N'achetez votre résidence principale que si vous avez la certitude de rester dans le même lieu pendant **au moins 8 à 10 ans**, ou utilisez d'abord votre capacité de crédit pour acquérir des actifs locatifs rentables.
+> ✅ **La contre-mesure de l'Architecte :** Ouvrez exclusivement des contrats en ligne dits « 0 % » (zéro frais sur versement, zéro frais d'arbitrage, frais de gestion réduits au minimum).
 
 ---
 
 > ⚡ **Action Immédiate (Moins de 24 Heures) :**
 >
-> 1. Si vous êtes locataire, calculez la différence mensuelle entre votre loyer actuel et la mensualité théorique d'un emprunt pour acheter le même logement.
-> 2. Prenez l'engagement d'investir scrupuleusement cet écart chaque mois en bourse ou épargne productrice.
-> 3. Cessez de culpabiliser à l'idée d'être locataire : c'est un choix stratégique d'agilité financière.
+> 1. Si vous n'avez pas encore de **Plan d'Épargne en Actions (PEA)**, faites une demande d'ouverture en ligne dès aujourd'hui chez un courtier moderne réputé.
+> 2. Déposez le montant minimal légal (souvent 10 € à 50 €) : cette démarche simple déclenche immédiatement le décompte des 5 ans pour débloquer l'avantage fiscal royal au plus tôt.

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000" width="100%" height="100%">
+  <rect width="2000" height="2000" fill="#FFFFFF"/>
+  <rect x="90" y="90" width="1820" height="1820" stroke="#000000" stroke-width="4" fill="none" rx="20"/>
+<rect x="120" y="120" width="1760" height="1760" stroke="#000000" stroke-width="6" fill="none" rx="15"/>
+
+  <polygon points="400,1650 650,1100 850,1100 1100,1650" stroke="#000000" stroke-width="2" fill="#FFFFFF"/>
+  <ellipse cx="750" cy="1100" rx="100" ry="25" stroke="#000000" stroke-width="2" fill="#FFFFFF"/>
+  <path d="M 750 1075 Q 700 900 650 850 M 750 1075 Q 800 920 860 870 M 750 1075 Q 750 930 740 840" stroke="#000000" stroke-width="1" stroke-dasharray="14,10" fill="none"/>
+  <path d="M 1300 450 Q 1340 380 1420 400 Q 1480 340 1560 380 Q 1640 350 1680 420 Q 1750 450 1720 520 Q 1750 600 1660 620 L 1320 620 Q 1250 580 1260 510 Q 1240 450 1300 450 Z" stroke="#000000" stroke-width="2" fill="#FFFFFF"/>
+  <ellipse cx="1100" cy="1400" rx="320" ry="260" stroke="#000000" stroke-width="4" fill="#FFFFFF"/>
+  <path d="M 850 1200 Q 750 1000 800 800 Q 820 650 950 620 Q 1120 620 1150 780 Q 1160 950 1250 1150" stroke="#000000" stroke-width="4" fill="#FFFFFF"/>
+  <circle cx="950" cy="720" r="42" stroke="#000000" stroke-width="4" fill="#000000"/>
+  <circle cx="936" cy="708" r="14" fill="#FFFFFF"/>
+  <path d="M 830 750 Q 930 830 1020 760" stroke="#000000" stroke-width="4" fill="none"/>
+  <path d="M 980 950 Q 1005 900 1030 950" stroke="#000000" stroke-width="4" fill="#FFFFFF"/>
+  <path d="M 1045 1000 Q 1070 950 1095 1000" stroke="#000000" stroke-width="4" fill="#FFFFFF"/>
+  <path d="M 1110 1050 Q 1135 1000 1160 1050" stroke="#000000" stroke-width="4" fill="#FFFFFF"/>
+  <path d="M 1175 1100 Q 1200 1050 1225 1100" stroke="#000000" stroke-width="4" fill="#FFFFFF"/>
+  <path d="M 1240 1150 Q 1265 1100 1290 1150" stroke="#000000" stroke-width="4" fill="#FFFFFF"/>
+  <path d="M 930 1600 L 930 1720 L 1050 1720 L 1050 1600" stroke="#000000" stroke-width="4" fill="#FFFFFF"/>
+  <path d="M 1150 1600 L 1150 1720 L 1270 1720 L 1270 1600" stroke="#000000" stroke-width="4" fill="#FFFFFF"/>
+  <path d="M 1380 1350 Q 1650 1400 1700 1250 Q 1600 1550 1320 1520" stroke="#000000" stroke-width="4" fill="#FFFFFF"/>
+  <line x1="180" y1="1720" x2="1820" y2="1720" stroke="#000000" stroke-width="4"/>
+</svg>

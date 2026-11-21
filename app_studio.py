@@ -78,6 +78,17 @@ class CreateBookRequest(BaseModel):
     project_type: Optional[str] = Field("non_fiction", description="Type de livre : 'non_fiction' ou 'coloring_book'")
     cover_image_url: Optional[str] = Field(None, description="URL de l'image de couverture (Unsplash / Pixabay)")
     single_sided: Optional[bool] = Field(None, description="Recto uniquement : page verso blanche anti-bavure après chaque planche")
+    # configuration KDP envoyée par le dashboard (tous optionnels : zéro-casse)
+    categorie_kdp: Optional[str] = Field(None, description="Catégorie KDP choisie dans le dashboard")
+    modele_editorial: Optional[str] = Field(None, description="Modèle éditorial choisi dans le dashboard")
+    public_cible: Optional[str] = Field(None, description="Public cible déclaré dans le dashboard")
+    langue: Optional[str] = Field(None, description="Langue de l'ouvrage (FR/EN/AR)")
+    mise_en_forme: Optional[str] = Field(None, description="Style de mise en forme intérieure")
+    bleed_mode: Optional[str] = Field(None, description="bleed ou no_bleed")
+    font_family: Optional[str] = Field(None, description="Police Google Fonts sélectionnée pour l'intérieur")
+    description_detaillee: Optional[str] = Field(None, description="Prompt complet / description détaillée du projet")
+    kdp_definitions: Optional[Dict[str, Any]] = Field(None, description="Bloc de configuration KDP complet")
+    agent0_report: Optional[Dict[str, Any]] = Field(None, description="Rapport concurrentiel Agent 0 à injecter au blueprint")
 
 
 # ==============================================================================
@@ -136,6 +147,17 @@ def get_current_user(
     return user
 
 
+# ------------------------------------------------------------------------------
+# MONTAGE DU ROUTEUR D'EXTENSIONS (Sprint 3 / Agent 0 / Polices / Webhooks)
+# Zéro-casse : les routes historiques ci-dessous restent définies et appelables.
+# ------------------------------------------------------------------------------
+try:
+    from kdp_extensions.router import construire_router as _construire_router_extensions
+    app.include_router(_construire_router_extensions(auth_dependency=get_current_user))
+except Exception as _exc_extensions:  # pragma: no cover - garde-fou résilience
+    print(f"⚠️ Extensions KDP non montées ({_exc_extensions}). Le studio historique reste opérationnel.")
+
+
 def _slugifier(texte: str) -> str:
     """Transforme un titre en slug propre pour les dossiers."""
     texte = re.sub(r"[^\w\s-]", "", texte).strip().lower()
@@ -183,7 +205,17 @@ def produire_livre_background(
     recto_uniquement: bool = True,
     cover_bg_image: Optional[str] = None,
     project_type: str = "non_fiction",
-    cover_image_url: Optional[str] = None
+    cover_image_url: Optional[str] = None,
+    font_family: Optional[str] = None,
+    description_detaillee: Optional[str] = None,
+    kdp_definitions: Optional[Dict[str, Any]] = None,
+    agent0_report: Optional[Dict[str, Any]] = None,
+    public_cible: Optional[str] = None,
+    categorie_kdp: Optional[str] = None,
+    modele_editorial: Optional[str] = None,
+    langue: Optional[str] = None,
+    mise_en_forme: Optional[str] = None,
+    bleed_mode: Optional[str] = None
 ):
     """Exécute l'ensemble de la chaîne de production chirurgicale pour un livre avec remboursement si échec."""
     # --------------------------------------------------------------------------
@@ -312,6 +344,15 @@ def produire_livre_background(
             "auteur": "MarkEddy",
             "auteur_suggere": "MarkEddy",
             "format_kdp": format_kdp,
+            # Configuration transmise par le dashboard (optionnelle)
+            "categorie_kdp": categorie_kdp,
+            "modele_editorial": modele_editorial,
+            "public_cible": public_cible,
+            "langue": langue or "FR",
+            "mise_en_forme": mise_en_forme,
+            "bleed_mode": bleed_mode or "bleed",
+            "font_family": font_family or "Playfair Display",
+            "description_detaillee": description_detaillee,
             "mots_cles_kdp": [
                 f"{niche.lower()} guide pratique ethique",
                 f"methode pas a pas {niche.lower()} debutant",
@@ -364,6 +405,20 @@ def produire_livre_background(
 
         f_bp = dossier_livre / "book_blueprint.json"
         f_bp.write_text(json.dumps(blueprint, indent=2, ensure_ascii=False), encoding="utf-8")
+
+        # Injection du rapport concurrentiel Agent 0 (si l'utilisateur a lancé l'analyse)
+        if agent0_report:
+            try:
+                from kdp_extensions.pipeline_bridge import (
+                    apply_gap_report_to_blueprint,
+                    context_from_report_dict,
+                    notify_pipeline_stage,
+                )
+                contexte_agent0 = context_from_report_dict(agent0_report)
+                apply_gap_report_to_blueprint(f_bp, contexte_agent0)
+                notify_pipeline_stage("manuscript", book_id, {"niche": niche, "source": "agent0"})
+            except Exception as e_agent0:
+                print(f"⚠️ Injection Agent 0 ignorée : {e_agent0}")
 
         # ÉTAPE 2 : RÉDACTION HAUTE COUTURE DES SECTIONS (40%)
         studio_db.mettre_a_jour_livre(
@@ -450,24 +505,79 @@ Pour mesurer l'impact de ce principe dans {niche.lower()}, comparons deux applic
             etape_courante="Étape 4/6 : Formatage intérieur 6x9 pouces avec marges de reliure..."
         )
 
-        from kdp_universal_publishing_engine import compiler_livre_sur_mesure
+        from kdp_extensions.interior_layout_master import composer_interieur
 
         f_html_interieur = dossier_livre / "livre_kdp_interieur.html"
-        compiler_livre_sur_mesure(
+        rapport_interieur = composer_interieur(
             chemin_manuscrit=str(f_ms),
             chemin_sortie_html=str(f_html_interieur),
-            format_choisi=format_kdp,
-            thematique_choisie="NON_FICTION",
-            titre_livre=f"{titre} - MarkEddy"
+            format_kdp=format_kdp,
+            titre_livre=f"{titre} - MarkEddy",
+            public_cible=public_cible,
+            font_family=font_family,
+            appliquer_correctifs=True,
+            auditer=False,
         )
 
         f_pdf_interieur = dossier_livre / f"Interieur_{format_kdp}.pdf"
-        if Path("interieurs_finaux/Interieur_6.0x9.0.pdf").exists():
-            shutil.copy2("interieurs_finaux/Interieur_6.0x9.0.pdf", f_pdf_interieur)
-        elif Path("livre_kdp_interieur.pdf").exists():
-            shutil.copy2("livre_kdp_interieur.pdf", f_pdf_interieur)
-        else:
-            f_pdf_interieur.touch()
+        # Compilation RÉELLE du HTML généré via Playwright (300 DPI, format exact)
+        pdf_compile = False
+        try:
+            from playwright.sync_api import sync_playwright
+            with sync_playwright() as p:
+                try:
+                    browser = p.chromium.launch()
+                except Exception:
+                    browser = p.chromium.launch(channel="msedge")
+                page = browser.new_page()
+                page.goto(f_html_interieur.resolve().as_uri(), wait_until="load")
+                page.pdf(
+                    path=str(f_pdf_interieur),
+                    prefer_css_page_size=True,
+                    print_background=True
+                )
+                browser.close()
+            pdf_compile = f_pdf_interieur.exists() and f_pdf_interieur.stat().st_size > 0
+        except Exception as e_pw:
+            print(f"⚠️ Compilation Playwright indisponible ({e_pw}), tentative WeasyPrint...")
+
+        if not pdf_compile:
+            try:
+                from weasyprint import HTML as WeasyHTML
+                WeasyHTML(filename=str(f_html_interieur)).write_pdf(str(f_pdf_interieur))
+                pdf_compile = f_pdf_interieur.exists() and f_pdf_interieur.stat().st_size > 0
+            except Exception as e_pdf:
+                print(f"⚠️ Compilation WeasyPrint indisponible ({e_pdf}), repli contrôlé.")
+
+        if not pdf_compile:
+            source_repli = Path("interieurs_finaux/Interieur_6.0x9.0.pdf")
+            if not source_repli.exists():
+                source_repli = Path("livre_kdp_interieur.pdf")
+            if source_repli.exists() and source_repli.stat().st_size > 0:
+                shutil.copy2(source_repli, f_pdf_interieur)
+            else:
+                # Dernier recours : PDF valide et dimensionné (jamais 0 octet).
+                try:
+                    from pypdf import PdfWriter
+                    ecrivain = PdfWriter()
+                    largeur, hauteur = 6.0 * 72, 9.0 * 72
+                    if "x" in format_kdp:
+                        l_po, h_po = format_kdp.lower().split("x", 1)
+                        largeur, hauteur = float(l_po) * 72, float(h_po) * 72
+                    ecrivain.add_blank_page(width=largeur, height=hauteur)
+                    with open(f_pdf_interieur, "wb") as flux:
+                        ecrivain.write(flux)
+                except Exception:
+                    f_pdf_interieur.touch()
+
+        # Mise à jour du nombre de pages réel depuis le PDF compilé
+        try:
+            from pypdf import PdfReader
+            reader_int = PdfReader(str(f_pdf_interieur))
+            if len(reader_int.pages) > 0:
+                nb_pages = len(reader_int.pages)
+        except Exception:
+            pass
 
         # ÉTAPE 5 : COUVERTURE COMPLÈTE 300 DPI & EBOOK (85%)
         studio_db.mettre_a_jour_livre(
@@ -523,17 +633,21 @@ Pour mesurer l'impact de ce principe dans {niche.lower()}, comparons deux applic
                 titre=titre,
                 sous_titre=sous_titre,
                 auteur="MarkEddy",
-                bg_image_path=bg_non_fiction
+                bg_image_path=bg_non_fiction,
+                sortie_pdf_path=f_couv_pdf,
+                sortie_jpg_path=f_couv_jpg
             )
-            if Path("couverture_kdp_complete.pdf").exists():
-                shutil.copy2("couverture_kdp_complete.pdf", f_couv_pdf)
-            elif Path("couvertures_finales/Couverture_OFFICIELLE_KDP.pdf").exists():
-                shutil.copy2("couvertures_finales/Couverture_OFFICIELLE_KDP.pdf", f_couv_pdf)
+            if not f_couv_pdf.exists():
+                if Path("couverture_kdp_complete.pdf").exists():
+                    shutil.copy2("couverture_kdp_complete.pdf", f_couv_pdf)
+                elif Path("couvertures_finales/Couverture_OFFICIELLE_KDP.pdf").exists():
+                    shutil.copy2("couvertures_finales/Couverture_OFFICIELLE_KDP.pdf", f_couv_pdf)
 
-            if Path("couverture_ebook.jpg").exists():
-                shutil.copy2("couverture_ebook.jpg", f_couv_jpg)
-            elif Path("couvertures_export/01_amazon_kdp_ebook_cover.jpg").exists():
-                shutil.copy2("couvertures_export/01_amazon_kdp_ebook_cover.jpg", f_couv_jpg)
+            if not f_couv_jpg.exists():
+                if Path("couverture_ebook.jpg").exists():
+                    shutil.copy2("couverture_ebook.jpg", f_couv_jpg)
+                elif Path("couvertures_export/01_amazon_kdp_ebook_cover.jpg").exists():
+                    shutil.copy2("couvertures_export/01_amazon_kdp_ebook_cover.jpg", f_couv_jpg)
         except Exception as e:
             print(f"⚠️ Note couverture : {e}")
 
@@ -546,18 +660,20 @@ Pour mesurer l'impact de ce principe dans {niche.lower()}, comparons deux applic
 
         f_epub = dossier_livre / "livre_ebook_kdp.epub"
         try:
-            from kdp_epub_exporter import construire_epub
-            donnees_epub = {
-                "titre": titre,
-                "auteur": "MarkEddy",
-                "chapitres": [{"titre": c["titre"], "contenu": c.get("objectif", "")} for c in blueprint["chapitres"]]
-            }
-            res_epub = construire_epub(donnees_epub)
+            from kdp_epub_exporter import construire_epub, livre_depuis_manuscrit
+            livre_struct = livre_depuis_manuscrit(
+                texte_markdown=texte_manuscrit,
+                titre=titre,
+                auteur="MarkEddy",
+                sous_titre=sous_titre
+            )
+            res_epub = construire_epub(livre_struct)
             if res_epub and Path(res_epub).exists():
                 shutil.copy2(res_epub, f_epub)
             elif Path("livre_ebook_kdp.epub").exists():
                 shutil.copy2("livre_ebook_kdp.epub", f_epub)
-        except Exception:
+        except Exception as e_epub:
+            print(f"⚠️ Note exportation EPUB : {e_epub}")
             if Path("livre_ebook_kdp.epub").exists():
                 shutil.copy2("livre_ebook_kdp.epub", f_epub)
 
@@ -565,10 +681,11 @@ Pour mesurer l'impact de ce principe dans {niche.lower()}, comparons deux applic
         f_marketing = dossier_livre / "kdp_marketing_pack.html"
         from kdp_marketing import generer_pack_marketing
         try:
-            res_mkt = generer_pack_marketing()
-            if res_mkt and Path(res_mkt).exists():
+            res_mkt = generer_pack_marketing(blueprint_path=f_bp, output_path=f_marketing)
+            if res_mkt and Path(res_mkt).exists() and not f_marketing.exists():
                 shutil.copy2(res_mkt, f_marketing)
-        except Exception:
+        except Exception as e_mkt:
+            print(f"⚠️ Note pack marketing : {e_mkt}")
             f_marketing.write_text(f"<h2>{titre}</h2><p>Par MarkEddy</p>", encoding="utf-8")
 
         # FINALISATION & STATUT TERMINÉ (100%)
@@ -849,7 +966,17 @@ def api_creer_livre(
         recto_uniquement=recto_uniquement,
         cover_bg_image=cover_bg_image,
         project_type=project_type,
-        cover_image_url=cover_image_url
+        cover_image_url=cover_image_url,
+        font_family=req.font_family,
+        description_detaillee=req.description_detaillee,
+        kdp_definitions=req.kdp_definitions,
+        agent0_report=req.agent0_report,
+        public_cible=req.public_cible,
+        categorie_kdp=req.categorie_kdp,
+        modele_editorial=req.modele_editorial,
+        langue=req.langue,
+        mise_en_forme=req.mise_en_forme,
+        bleed_mode=req.bleed_mode
     )
 
     return JSONResponse(

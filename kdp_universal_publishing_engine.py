@@ -6,6 +6,8 @@ Thèmes supportés   : NON_FICTION, ROMAN, SCIENTIFIQUE, ENFANT_EDUCATIF, COLORI
 
 import sys
 import argparse
+import re
+from datetime import datetime
 from pathlib import Path
 import markdown
 
@@ -135,9 +137,12 @@ def construire_css(format_cle: str, thematique_cle: str) -> str:
     fmt = FORMATS_LIVRES.get(format_cle, FORMATS_LIVRES["6x9"])
     sty = THEMATIQUES_STYLES.get(thematique_cle, THEMATIQUES_STYLES["NON_FICTION"])
 
+    larg_str = f"{int(fmt['largeur_in'])}in" if fmt['largeur_in'].is_integer() else f"{fmt['largeur_in']}in"
+    haut_str = f"{int(fmt['hauteur_in'])}in" if fmt['hauteur_in'].is_integer() else f"{fmt['hauteur_in']}in"
+
     css = f"""
     @page {{
-        size: {fmt['largeur_in']}in {fmt['hauteur_in']}in;
+        size: {larg_str} {haut_str};
         margin-top: {fmt['marge_haut_in']}in;
         margin-bottom: {fmt['marge_bas_in']}in;
         @bottom-center {{
@@ -197,6 +202,7 @@ def construire_css(format_cle: str, thematique_cle: str) -> str:
         page-break-before: always;
         string-set: titre-chapitre content();
         font-family: {sty['font_titre']};
+        font-size: 19pt;
         text-align: center;
         color: {sty['couleur_primaire']};
         margin-top: 1.8in;
@@ -205,9 +211,19 @@ def construire_css(format_cle: str, thematique_cle: str) -> str:
 
     h2 {{
         font-family: {sty['font_titre']};
+        font-size: 13pt;
         color: {sty['couleur_primaire']};
         margin-top: 1.6em;
         margin-bottom: 0.6em;
+        page-break-after: avoid;
+    }}
+
+    h3 {{
+        font-family: {sty['font_titre']};
+        font-size: 11.5pt;
+        color: {sty['couleur_primaire']};
+        margin-top: 1.2em;
+        margin-bottom: 0.45em;
         page-break-after: avoid;
     }}
 
@@ -309,6 +325,27 @@ def compiler_livre_sur_mesure(chemin_manuscrit: str, chemin_sortie_html: str, fo
 
     html_corps = markdown.markdown(texte_source, extensions=["extra", "tables", "smarty"])
     css_genere = construire_css(format_choisi, thematique_choisie)
+
+    # Filet de sécurité éditorial : si le manuscrit n'intègre pas déjà le front
+    # matter MarkEddy, on insère la page de copyright juste après la page de
+    # titre. Aucune duplication lorsque kdp_toc_and_frontmatter a été utilisé.
+    deja_copyright = bool(re.search(
+        r"Tous droits réservés|Mentions légales|Mentions Légales",
+        html_corps,
+        flags=re.IGNORECASE,
+    ))
+    if not deja_copyright:
+        auteur_livre = "MarkEddy"
+        html_corps = (
+            '<section class="page-copyright" style="page-break-before: always;">'
+            "<h2>Mentions légales</h2>"
+            f"<p>© {datetime.now().year} {auteur_livre}. Tous droits réservés.</p>"
+            "<p>Aucune partie de cet ouvrage ne peut être reproduite, stockée dans un "
+            "système de recherche ou transmise sous quelque forme que ce soit sans "
+            "autorisation écrite préalable.</p>"
+            "<p>Édition Amazon KDP — Dépôt légal effectué à la publication.</p>"
+            "</section>\n" + html_corps
+        )
 
     document = f"""<!DOCTYPE html>
 <html lang="fr">

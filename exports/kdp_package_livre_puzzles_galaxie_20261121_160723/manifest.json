@@ -1,0 +1,85 @@
+{
+  "package_id": "kdp_package_livre_puzzles_galaxie_20261121_160723",
+  "book_id": "test_api_book_88",
+  "title": "Livre Puzzles Galaxie",
+  "author": "MarkEddy",
+  "project_type": "puzzle",
+  "timestamp": "2026-11-21T16:07:25.916879",
+  "studio_version": "MarkEddy KDP Studio v2.0 - Unified Multi-Agent Engine",
+  "prepress_specs": {
+    "format_id": "8.5x11",
+    "trim_width_in": 8.5,
+    "trim_height_in": 11.0,
+    "paper_type": "white",
+    "page_count_initial": 18,
+    "bonus_pages_injected": 6,
+    "page_count_final": 24,
+    "enforce_24_pages_rule": true,
+    "spine_thickness_in": 0.054048,
+    "spine_thickness_mm": 1.373,
+    "can_print_spine_text": false,
+    "cover_total_width_px": 5191,
+    "cover_total_height_px": 3375,
+    "isbn_reservation_px": "600x360 @ 300 DPI (Plat 4 bas-droite)"
+  },
+  "compliance_status": "KDP_CERTIFIED_PRINT_READY",
+  "compliance_audit": {
+    "status": "success",
+    "verdict": "PASSED",
+    "overall_score": 98.0,
+    "anti_anonymity_score": 100.0,
+    "prepress_score": 100.0,
+    "editorial_score": 100.0,
+    "a9_seo_score": 90.0,
+    "critical_violations": [],
+    "warnings": [
+      "Slot 2 dépasse 50 caractères (51 car.) : risque de troncature A9."
+    ],
+    "passed_checks": [
+      "Titre et sous-titre conformes aux règles de propriété intellectuelle et TOS KDP.",
+      "Nom d'auteur conforme et certifié non-descriptif : 'MarkEddy'.",
+      "Pagination prépresse conforme : 24 pages (minimum 24 p. respecté).",
+      "Format de coupe officiel Amazon KDP validé : 8.5x11.",
+      "Hygiène textuelle validée : zéro présence de TODO, Lorem ipsum ou bug de rendu.",
+      "Réserve normalisée ISBN (600x360 px @ 300 DPI) confirmée.",
+      "Score Anti-Anonymat & Transparence Éditoriale excellent : 100.0/100."
+    ],
+    "audit_details": {
+      "title": "Livre Puzzles Galaxie",
+      "author": "MarkEddy",
+      "page_count": 24,
+      "format_id": "8.5x11",
+      "anonymity_breakdown": {
+        "copyright_present": true,
+        "disclaimer_present": true,
+        "author_bio_present": true,
+        "colophon_present": true
+      },
+      "project_type": "puzzle"
+    },
+    "timestamp": "2026-11-21T16:07:25.913668",
+    "supervisor": "Agent 4 : KDP Compliance & Anti-Anonymity Gatekeeper"
+  },
+  "files": [
+    {
+      "filename": "interieur_kdp.pdf",
+      "size_bytes": 471388,
+      "sha256": "48374bef540fca7575b6e799af07ee685491f8471b5d5f791f05b12aca53dbfa"
+    },
+    {
+      "filename": "couverture_calibree.svg",
+      "size_bytes": 3722,
+      "sha256": "224237195a0093f823b1eed89290f2668f24283dcec384986922f754d3030322"
+    },
+    {
+      "filename": "metadata_a9.json",
+      "size_bytes": 1596,
+      "sha256": "d3ed19ed0c47582794ada8fc8da29e7867d8308df5359195da4c5f568e5eb84c"
+    },
+    {
+      "filename": "interieur_kdp.html",
+      "size_bytes": 137929,
+      "sha256": "430e1608da18f9b2a194b7be39fd17bfd3a147f7d99b7a1209c85f83d73f9793"
+    }
+  ]
+}

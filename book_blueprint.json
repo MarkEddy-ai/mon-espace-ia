@@ -1,542 +1,293 @@
 {
-  "titre": "L'INTELLIGENCE FINANCIÈRE PRATIQUE",
-  "sous_titre": "Comprendre vos biais émotionnels, automatiser votre épargne et investir sereinement pour bâtir votre liberté financière sans privation : la méthode pas-à-pas en 10 étapes",
-  "promesse_client": "Le lecteur aura complètement désamorcé ses blocages et biais émotionnels avec l'argent, automatisé son épargne au jour J+1, éliminé ses dettes toxiques et mis en place une stratégie d'investissement indiciel passif en moins de 30 jours, sans privation.",
+  "titre": "L'ARCHITECTE FINANCIER",
+  "sous_titre": "Le Système Automatisé pour Maîtriser son Budget sans Privation, Éliminer ses Dettes et Bâtir un Patrimoine Passif avec un Salaire Ordinaire",
+  "promesse_client": "Mettre en place en 30 jours un système financier automatisé à l'épreuve des crises, qui gère vos dépenses sans frustration, liquide vos dettes et fait fructifier votre épargne chaque mois sans y passer plus de 15 minutes.",
   "auteur": "MarkEddy",
   "auteur_suggere": "MarkEddy",
-  "thematique": "FINANCE",
-  "palette_preferee": "obsidian_gold",
+  "bio_auteur": "MarkEddy est investisseur indépendant, ingénieur de formation et spécialiste de l'optimisation financière personnelle. Il conçoit des systèmes pragmatiques, chiffrés et automatisés pour permettre à chacun de reprendre le contrôle absolu de son argent.",
   "mots_cles_kdp": [
-    "sortir du decouvert bancaire fin de mois difficile",
+    "gestion argent epargne de precaution livret a",
+    "investir bourse debutant etf msci world pea",
     "methode enveloppes virtuelles regle 50 30 20",
-    "investir en bourse petit budget etf pea passif",
-    "constituer epargne de precaution matelas securite",
-    "guide financier jeune actif debutant etudiant",
-    "rembourser credit consommation methode boule de neige",
-    "independance financiere rentier revenus passifs"
+    "remboursement credit consommation boule de neige",
+    "liberte financiere rentier revenus dividendes",
+    "anticiper retraite jeune actif placement immobilier",
+    "optimiser compte bancaire interets composes"
   ],
   "categories_kdp": [
-    "BUSINESS & ECONOMICS / Personal Finance / Money Management",
-    "BUSINESS & ECONOMICS / Investments & Securities / General"
+    "Économie et Gestion > Finances personnelles > Gestion de budget et épargne",
+    "Économie et Gestion > Investissements et Bourse > Guides pratiques pour débutants"
   ],
+  "palette_recommandee": "obsidian_gold",
+  "format_recommande": "6x9",
   "chapitres": [
     {
       "numero": 1,
-      "titre": "Le Piège de l'Émotion Bancaire : Pourquoi les Maths ne Suffisent Pas",
-      "objectif": "Comprendre les forces psychologiques et les biais cognitifs qui dictent vos décisions financières à votre insu.",
+      "titre": "L'Autopsie Financière et la Fin de l'Anxiété Bancaire",
+      "objectif": "Poser un diagnostic impitoyable et sans jugement sur l'état réel de ses comptes pour supprimer la peur du découvert.",
       "sections": [
         {
-          "titre": "Le paradoxe du compte bancaire : pourquoi l'émotion bat toujours les mathématiques",
-          "points_cles": [
-            "La distinction fondamentale entre intelligence comptable et intelligence comportementale",
-            "Étude de cas chiffrée : Julien (4 800 €/mois) vs Sophie (2 400 €/mois) sur 10 ans",
-            "Le piège mortel d'attendre la fin du mois pour épargner le résiduel",
-            "Action immédiate : calculer son Ratio de Survie Actuel sous 24h"
-          ]
+          "titre": "Le mythe des revenus élevés et la réalité du reste à vivre",
+          "points_cles": ["Différence fondamentale entre revenu brut, net et reste à vivre réel", "L'illusion de l'enrichissement par l'augmentation de salaire", "Étude de cas : Thomas (4 200 €/mois, découvert permanent) vs Sarah (2 100 €/mois, 450 € d'épargne)", "Action 24h : Calculer son reste à vivre net disponible"]
         },
         {
-          "titre": "La comparaison sociale et le coût invisible du regard des autres",
-          "points_cles": [
-            "L'illusion du statut social financé à crédit dans l'économie moderne",
-            "Étude de cas : l'impact financier réel d'un leasing automobile haut de gamme sur 5 ans",
-            "Le piège : confondre dépense ostentatoire et richesse nette réelle",
-            "Action immédiate : auditer ses 3 plus grosses dépenses influencées par la pression sociale"
-          ]
+          "titre": "La cartographie chirurgicale des flux d'argent sur 90 jours",
+          "points_cles": ["Pourquoi analyser 1 mois est insuffisant en raison des dépenses trimestrielles", "Extraction et classification des 3 derniers relevés bancaires", "Étude de cas : La découverte de 480 € d'abonnements oubliés et frais bancaires", "Action 24h : Télécharger ses 3 derniers relevés et surligner en 3 couleurs"]
         },
         {
-          "titre": "L'effet d'ancrage et la dérive du train de vie (Lifestyle Creep)",
-          "points_cles": [
-            "Pourquoi chaque augmentation salariale est absorbée par une hausse des dépenses",
-            "Modélisation chiffrée : neutraliser 50% de toute augmentation future pour l'épargne",
-            "Le piège cognitif de l'adaptation hédonique permanente",
-            "Action immédiate : fixer un plafond de confort incompressible pour vos charges fixes"
-          ]
+          "titre": "Identifier et colmater les 7 micro-fuites invisibles",
+          "points_cles": ["Les 7 fuites classiques : abonnements dormants, frais bancaires, assurances doublons, repas sur le pouce", "Le calcul du coût cumulé sur 10 ans d'une dépense quotidienne de 4,50 €", "Étude de cas : Récupération de 175 €/mois sans baisse de niveau de vie", "Action 24h : Résilier 2 prélèvements inutiles avant ce soir"]
         },
         {
-          "titre": "La dopamine d'achat face à la sérénité du patrimoine net",
-          "points_cles": [
-            "Le circuit neurobiologique de l'achat impulsif en ligne",
-            "Étude comparative : pic de dopamine éphémère vs paix mentale d'un matelas financier",
-            "Le piège du soulagement émotionnel par la consommation compensatoire",
-            "Action immédiate : instaurer le délai de décantation obligatoire de 72 heures"
-          ]
+          "titre": "Mesurer sa valeur nette réelle sans illusion",
+          "points_cles": ["Définition et formule de la Valeur Nette = Actifs réels - Passifs totaux", "Pourquoi votre voiture n'est pas un actif financier", "Étude de cas : Bilan patrimonial chiffré d'un ménage à 30 ans", "Action 24h : Remplir la fiche de calcul de valeur nette"]
         },
         {
-          "titre": "Diagnostic personnel : identifier son profil financier émotionnel",
-          "points_cles": [
-            "La matrice des 4 profils : l'Écureuil anxieux, le Flambeur insouciant, le Dénégateur et l'Arbitre rationnel",
-            "Cas pratique : diagnostic croisé d'un couple aux profils opposés",
-            "Le piège : chercher à changer sa personnalité plutôt que de changer son environnement de décision",
-            "Action immédiate : passer le test d'auto-évaluation en 10 questions"
-          ]
+          "titre": "Établir son point zéro et reprogrammer ses réflexes monétaires",
+          "points_cles": ["Le déclic psychologique du 'Plus Jamais Ça'", "Sortir de la culpabilité pour entrer dans l'ingénierie financière", "Étude de cas : Le contrat d'engagement financier personnel", "Action 24h : Fixer son plafond de compte courant de sécurité"]
         }
       ]
     },
     {
       "numero": 2,
-      "titre": "L'Audit Brut de Réalité : Savoir Exactement Où Va Chaque Euro",
-      "objectif": "Mesurer avec une précision chirurgicale sa situation financière actuelle sans faux-semblant.",
+      "titre": "La Psychologie de la Dépense et le Plaisir Déculpabilisé",
+      "objectif": "Construire une relation sereine avec l'argent en éliminant la privation toxique au profit de choix de dépenses conscients.",
       "sections": [
         {
-          "titre": "Calculer son patrimoine net réel sans se mentir",
-          "points_cles": [
-            "La formule du patrimoine net : Actifs réels liquides et illiquides moins Passifs stricts",
-            "Étude de cas : déconstruction du patrimoine d'un propriétaire lourdement endetté",
-            "Le piège d'inclure des biens de consommation dépréciatifs comme actifs",
-            "Action immédiate : dresser son bilan patrimonial net sur une feuille unique"
-          ]
+          "titre": "Pourquoi les budgets restrictifs échouent toujours",
+          "points_cles": ["Le parallèle entre régime drastique et budget privatif : l'effet rebond", "La fatigue décisionnelle liée aux micro-arbitrages quotidiens", "Étude de cas : L'échec programmé du tableur Excel à 45 catégories", "Action 24h : Supprimer les règles punitives de son quotidien"]
         },
         {
-          "titre": "Traquer les micro-fuites financières invisibles",
-          "points_cles": [
-            "L'accumulation silencieuse des micro-dépenses récurrentes (abonnements, frais bancaires, options cachées)",
-            "Chiffrage réel : comment 4,50 €/jour représentent 1 642 €/an et 32 000 € sur 15 ans avec intérêts",
-            "Le piège de la minimisation psychologique des montants inférieurs à 10 €",
-            "Action immédiate : imprimer les 3 derniers relevés bancaires et surligner en rouge les micro-fuites"
-          ]
+          "titre": "La méthode des dépenses conscientes : couper sans pitié pour profiter sans retenue",
+          "points_cles": ["Le principe de Ramit Sethi adapté : sur-dépenser sur ce qui compte, éliminer le reste", "Identifier ses 2 piliers de plaisir non négociables", "Étude de cas : Réallouer 300 € gaspillés vers une passion authentique", "Action 24h : Définir ses 2 postes de dépenses coup de cœur"]
         },
         {
-          "titre": "La fin du budget manuel : pourquoi Excel échoue pour 80% des personnes",
-          "points_cles": [
-            "La fatigue décisionnelle et le découragement inhérents à la saisie manuelle permanente",
-            "L'alternative pragmatique : les systèmes automatisés de flux par agrégation bancaire",
-            "Le piège de la complexité algorithmique excessive pour gérer un foyer",
-            "Action immédiate : supprimer les tableurs chronophages au profit d'une règle de flux globale"
-          ]
+          "titre": "Neutraliser la comparaison sociale et l'inflation du mode de vie",
+          "points_cles": ["Le piège du regard des autres et des réseaux sociaux sur le niveau de vie", "La loi de Parkinson appliquée à l'argent : les dépenses augmentent toujours au niveau des revenus", "Étude de cas : Comment Marc a bloqué son train de vie après une promotion de 600 €", "Action 24h : Mettre en pause 3 comptes réseaux sociaux déclencheurs d'envies"]
         },
         {
-          "titre": "La règle 50/30/20 réinventée pour le coût de la vie actuel",
-          "points_cles": [
-            "Décomposition opérationnelle : 50% Besoins vitaux, 30% Plaisirs conscients, 20% Investissement pour sa liberté",
-            "Ajustements pour zones urbaines à loyers élevés (adaptation 60/20/20)",
-            "Le piège de la culpabilisation sur les dépenses de plaisir",
-            "Action immédiate : ventiler son dernier mois de revenus selon la grille 50/30/20"
-          ]
+          "titre": "La règle des 72 heures et le pare-feu contre les achats impulsifs",
+          "points_cles": ["Le mécanisme neurobiologique de la dopamine lors de l'achat en ligne", "Mettre en place un sas de décompression obligatoire de 72h pour tout achat > 50 €", "Étude de cas : Économie nette de 1 450 € sur un an grâce à la liste d'attente", "Action 24h : Créer sa liste de désirs '72 heures' dans son smartphone"]
         },
         {
-          "titre": "Protocole : configurer son tableau de bord financier en 45 minutes",
-          "points_cles": [
-            "Les 4 métriques fondamentales à surveiller chaque mois : Taux d'épargne, Patrimoine net, Matelas, Dettes restantes",
-            "Étude de cas : la routine mensuelle de 15 minutes d'un investisseur autonome",
-            "Le piège de la consultation quotidienne anxiogène des marchés",
-            "Action immédiate : créer son tableau de bord 1-Page synthétique"
-          ]
+          "titre": "Créer un compte plaisir sanctuarisé à 100%",
+          "points_cles": ["La nécessité absolue d'une enveloppe de liberté totale sans justificatif", "Fixer le pourcentage idéal (10% à 15% des revenus nets)", "Étude de cas : L'utilisation d'une carte secondaire sans découvert pour les sorties", "Action 24h : Allouer le montant mensuel de son enveloppe plaisir"]
         }
       ]
     },
     {
       "numero": 3,
-      "titre": "L'Éradication Chirurgicale des Dettes : Sortir du Rouge Définitivement",
-      "objectif": "Éliminer méthodiquement toute dette à la consommation et retrouver une capacité d'épargne souveraine.",
+      "titre": "L'Architecture en Cascades : Automatiser ses Comptes",
+      "objectif": "Mettre en place une tuyauterie bancaire intelligente où chaque euro est alloué automatiquement dès le lendemain de la paie.",
       "sections": [
         {
-          "titre": "La distinction vitale entre dette toxique et dette productive",
-          "points_cles": [
-            "Définition mathématique du taux d'usure et de la dette destructrice de valeur",
-            "Comparaison chiffrée : crédit renouvelable à 18% vs emprunt immobilier à 3,5%",
-            "Le piège de rationaliser un achat de confort par un paiement en 4 fois",
-            "Action immédiate : lister toutes ses dettes classées par taux d'intérêt décroissant"
-          ]
+          "titre": "Le principe du paiement à soi-même dès le premier jour",
+          "points_cles": ["Inverser la formule classique : Épargne = Revenus - Dépenses devient Dépenses = Revenus - Épargne", "Pourquoi attendre la fin du mois garantit un solde nul", "Étude de cas : Virement de 300 € exécuté à J+1 du virement de salaire", "Action 24h : Programmer un virement d'épargne automatique à date fixe"]
         },
         {
-          "titre": "L'arbitrage : Méthode Boule de Neige vs Méthode Avalanche",
-          "points_cles": [
-            "Psychologie contre Mathématiques : rembourser les plus petits soldes ou les plus gros taux",
-            "Étude de cas : remboursement de 14 000 € de crédits en 18 mois avec la Boule de Neige",
-            "Le piège de s'éparpiller en remboursant un peu de chaque prêt simultanément",
-            "Action immédiate : choisir sa stratégie d'attaque et concentrer 100% du surplus sur la première cible"
-          ]
+          "titre": "La structure tripartite : Compte fixe, Compte de vie, Compte d'avenir",
+          "points_cles": ["Séparer physiquement les engagements fixes des dépenses variables", "Architecture détaillée des 3 comptes bancaires", "Étude de cas : Schéma complet des flux pour un salaire de 2 400 €", "Action 24h : Répartir ses dépenses dans les 3 compartiments"]
         },
         {
-          "titre": "Négocier avec sa banque : script de renégociation mot à mot",
-          "points_cles": [
-            "Les leviers de négociation auprès de son conseiller bancaire pour restructurer ses encours",
-            "Script textuel exact pour demander la suppression des agios et frais de rejet",
-            "Le piège de l'évitement et du silence face aux courriers de relance",
-            "Action immédiate : envoyer le modèle de lettre pour renégocier les frais de dossier"
-          ]
+          "titre": "Configurer les virements automatiques en cascade le 2 du mois",
+          "points_cles": ["La mécanique de la cascade : du compte principal vers les sous-comptes et livrets", "Calendrier temporel précis des prélèvements pour éviter les rejets", "Étude de cas : L'organigramme automatisé d'un couple avec 2 salaires", "Action 24h : Paramétrer le calendrier de ses virements récurrents"]
         },
         {
-          "titre": "Fermer les crédits renouvelables (revolving) sans pénalité",
-          "points_cles": [
-            "Le mécanisme pervers des réserves de crédit associées aux cartes de fidélité",
-            "Procédure légale pour exiger la clôture définitive d'une ligne de crédit",
-            "Le piège de garder une réserve ouverte 'au cas où'",
-            "Action immédiate : résilier immédiatement toutes les réserves de crédit inactives"
-          ]
+          "titre": "La gestion dynamique du compte tampon anti-découvert",
+          "points_cles": ["Le rôle du matelas tampon de 500 € à 1 000 € sur le compte courant", "Supprimer définitivement les frais d'agios et commissions d'intervention", "Étude de cas : Comment un solde tampon permanent a fait économiser 240 €/an d'agios", "Action 24h : Définir le solde plancher en dessous duquel ne jamais descendre"]
         },
         {
-          "titre": "Plan d'assainissement de trésorerie sur 90 jours",
-          "points_cles": [
-            "La mise en place d'un moratoire personnel de dépenses non essentielles",
-            "Générer une injection de liquidités par la vente des actifs dormants du foyer",
-            "Le piège de la rechute dès le premier mois de soulagement",
-            "Action immédiate : identifier 3 objets inutilisés à mettre en vente ce week-end"
-          ]
+          "titre": "La routine de contrôle mensuel en 15 minutes chrono",
+          "points_cles": ["Remplacer les heures d'angoisse par un rituel mensuel simple", "La checklist en 5 points à vérifier le premier dimanche du mois", "Étude de cas : Le tableau de bord en 4 chiffres clés", "Action 24h : Bloquer 15 minutes récurrentes dans son agenda mensuel"]
         }
       ]
     },
     {
       "numero": 4,
-      "titre": "Le Système d'Épargne Inconsciente : Payer Soi-Même en Premier",
-      "objectif": "Mettre en place une mécanique bancaire infaillible qui épargne automatiquement avant toute dépense.",
+      "titre": "La Forteresse de Sécurité : L'Épargne de Précaution",
+      "objectif": "Bâtir un rempart inébranlable contre les imprévus pour ne plus jamais recourir au crédit ou piocher dans ses investissements.",
       "sections": [
         {
-          "titre": "La règle d'or de Babylone appliquée au XXIe siècle",
-          "points_cles": [
-            "Pourquoi payer les factures avant soi-même garantit la pauvreté durable",
-            "Le principe de la dîme personnelle : réserver 10% minimum de chaque euro gagné",
-            "Le piège de considérer l'épargne comme un sacrifice plutôt qu'un paiement pour son avenir",
-            "Action immédiate : déterminer son pourcentage incompressible de prélèvement personnel"
-          ]
+          "titre": "Différence vitale entre épargne d'urgence et épargne de projet",
+          "points_cles": ["Ne jamais mélanger l'argent des vacances avec l'argent de la panne moteur", "Définition stricte de ce qui constitue une urgence véritable", "Étude de cas : La séparation de 2 livrets distincts pour clarifier son épargne", "Action 24h : Nommer explicitement ses différents livrets bancaires"]
         },
         {
-          "titre": "L'architecture des 3 comptes bancaires étanches",
-          "points_cles": [
-            "La triade stratégique : Compte Courant Fixe, Compte Plaisir Quotidien, Compte d'Investissement & Sécurité",
-            "Éliminer la porosité psychologique entre dépenses de survie et argent de poche",
-            "Le piège de garder toutes ses liquidités sur un compte unique avec carte sans contact",
-            "Action immédiate : ouvrir un compte secondaire sans frais dédié aux dépenses discrétionnaires"
-          ]
+          "titre": "Calculer au centime près le matelas de sécurité indispensable",
+          "points_cles": ["La règle des 3 à 6 mois de dépenses incompressibles selon le profil (CDI, freelance, fonctionnaire)", "Calcul du montant plancher et du montant plafond pour éviter de sur-épargner", "Étude de cas : Calcul complet pour une famille avec 2 200 € de charges fixes", "Action 24h : Calculer son chiffre d'urgence cible"]
         },
         {
-          "titre": "L'automatisation totale des virements au jour J+1 du salaire",
-          "points_cles": [
-            "L'automatisation comme bouclier contre l'hésitation humaine et la procrastination",
-            "Programmation du calendrier bancaire : Salaire le 28, virements automatiques le 29",
-            "Le piège de régler manuellement ses virements d'épargne chaque mois",
-            "Action immédiate : programmer un virement permanent récurrent à J+1"
-          ]
+          "titre": "Où loger son fonds de secours : arbitrer sécurité, liquidité et rendement",
+          "points_cles": ["Les critères non négociables : disponibilité à J+0, garantie de capital par l'État, exonération fiscale", "Comparatif des supports : Livret A, LDDS, LEP (le placement imbattable sous condition de ressources)", "Étude de cas : Répartition optimale de 9 000 € d'épargne d'urgence", "Action 24h : Vérifier son éligibilité au Livret d'Épargne Populaire (LEP)"]
         },
         {
-          "titre": "Gérer les dépenses imprévues sans toucher aux investissements",
-          "points_cles": [
-            "La distinction entre vraie urgence imprévisible et dépense prévisible mais non planifiée (Noël, impôts, révision auto)",
-            "La création des sous-poches d'amortissement annuelles mensualisées",
-            "Le piège de casser un placement long terme pour financer une dépense annuelle connue",
-            "Action immédiate : mensualiser le coût total de ses dépenses annuelles fixes"
-          ]
+          "titre": "Les règles d'or pour puiser dans la réserve sans culpabilité",
+          "points_cles": ["Le protocole d'activation du fonds de secours lors d'un coup dur", "Considérer le fonds comme un airbag : s'il se déclenche, il a parfaitement rempli son rôle", "Étude de cas : Prise en charge d'une facture de réparation automobile de 1 200 €", "Action 24h : Rédiger sa charte d'utilisation du fonds d'urgence"]
         },
         {
-          "titre": "Le test du mois blanc : éliminer 15% de charges fixes superflues",
-          "points_cles": [
-            "Le protocole du jeûne consumériste de 30 jours",
-            "Faire le tri entre besoins réels et habitudes d'achat automatiques",
-            "Le piège de la privation punitive qui conduit au craquage compulsif",
-            "Action immédiate : suspendre ou résilier 2 abonnements numériques dès aujourd'hui"
-          ]
+          "titre": "Le protocole de reconstitution automatique après un imprévu",
+          "points_cles": ["Mettre en pause temporaire les investissements pour recharger l'airbag", "Le virement accéléré de remise à niveau sur 3 à 6 mois", "Étude de cas : Reconstitution de 1 500 € en 4 mois sans douleur", "Action 24h : Définir le mode 'recharge prioritaire' dans son budget"]
         }
       ]
     },
     {
       "numero": 5,
-      "titre": "La Forteresse du Matelas de Sécurité : Dormir sur ses Deux Oreilles",
-      "objectif": "Constituer un fonds de réserve liquide et inattaquable pour éliminer toute anxiété financière.",
+      "titre": "L'Opération Éradication : Liquider les Dettes Toxiques",
+      "objectif": "Mettre en place un plan de bataille chirurgical pour détruire les crédits à la consommation et les dettes coûteuses.",
       "sections": [
         {
-          "titre": "Combien faut-il réellement ? La formule mathématique des 3 à 6 mois",
-          "points_cles": [
-            "Le dimensionnement exact du matelas selon son statut professionnel (CDI, fonctionnaire, indépendant, entrepreneur)",
-            "Calcul : Charges incompressibles x Coefficient de volatilité professionnelle",
-            "Le piège de calculer son matelas sur ses revenus plutôt que sur ses charges réelles",
-            "Action immédiate : calculer la somme cible exacte de son fonds d'urgence"
-          ]
+          "titre": "Distinguer la bonne dette productive de la dette prédatrice",
+          "points_cles": ["La dette qui enrichit (crédit immobilier à rendement supérieur au taux d'emprunt) vs la dette qui appauvrit (crédits renouvelables à 18%)", "Le calcul du coût total réel des crédits à la consommation", "Étude de cas : Un crédit auto de 12 000 € qui coûte en réalité 16 800 €", "Action 24h : Lister toutes ses dettes avec solde restant, mensualité et TAEG"]
         },
         {
-          "titre": "Où placer son fonds d'urgence : liquidité vs rendement",
-          "points_cles": [
-            "Les supports réglementés sans risque de capital et immédiatement mobilisables (Livret A, LDDS)",
-            "Pourquoi le matelas de sécurité n'a pas pour vocation d'enrichir mais d'assurer",
-            "Le piège de bloquer son fonds d'urgence sur des placements spéculatifs ou illiquides",
-            "Action immédiate : vérifier la répartition de ses liquidités sur ses livrets défiscalisés"
-          ]
+          "titre": "Le duel stratégique : Méthode Boule de Neige vs Méthode Avalanche",
+          "points_cles": ["Boule de neige (Dave Ramsey) : rembourser le plus petit solde d'abord pour le boost psychologique", "Avalanche : rembourser le taux d'intérêt le plus élevé pour l'optimisation mathématique", "Étude de cas : Comparaison chiffrée sur un panier de 3 crédits (gain de temps vs gain d'intérêts)", "Action 24h : Choisir sa stratégie d'attaque entre Boule de Neige et Avalanche"]
         },
         {
-          "titre": "Les erreurs courantes : le sur-dimensionnement du livret",
-          "points_cles": [
-            "Le coût d'opportunité d'un excès de liquidités face à l'érosion par l'inflation",
-            "L'erreur de conserver 50 000 € sur des livrets à faible rendement par peur panique",
-            "Le piège de la fausse sécurité bancaire qui grignote le pouvoir d'achat futur",
-            "Action immédiate : identifier le surplus liquide excédant les 6 mois de charges fixes"
-          ]
+          "titre": "Négocier, regrouper ou solder ses crédits à la consommation",
+          "points_cles": ["Les techniques pour renégocier les taux auprès des organismes de crédit", "Le rachat de crédit : quand est-il réellement avantageux et quels sont les pièges", "Étude de cas : Baisse des mensualités de 650 € à 380 € par regroupement stratégique", "Action 24h : Contacter son banquier pour demander un état détaillé des pénalités de remboursement anticipé"]
         },
         {
-          "titre": "Définir contractuellement ce qui constitue une 'urgence réelle'",
-          "points_cles": [
-            "La charte personnelle de déblocage des fonds : critères objectifs d'une urgence",
-            "Les 3 critères stricts : Imprévu, Nécessaire, Urgent (ex: santé, panne chaudière, perte d'emploi)",
-            "Le piège d'utiliser le matelas pour saisir une opportunité de vacances ou de soldes",
-            "Action immédiate : rédiger et signer sa charte personnelle de mobilisation d'urgence"
-          ]
+          "titre": "Trouver 300 € de trésorerie immédiate pour accélérer le désendettement",
+          "points_cles": ["La méthode du grand débarras : transformer les objets inutilisés de la maison en cash", "Les missions ponctuelles et micro-services pour générer un apport coup de poing", "Étude de cas : Vente d'équipements inutilisés rapportant 1 100 € injectés directement sur un crédit", "Action 24h : Mettre en vente 3 objets sur une plateforme de seconde main"]
         },
         {
-          "titre": "Protocole de reconstitution automatique après une dépense imprévue",
-          "points_cles": [
-            "L'interruption temporaire des investissements offensifs pour renflouer la forteresse",
-            "Le calendrier de retour à la normale sur 3 à 6 mois",
-            "Le piège de la panique et de l'abandon de sa discipline après un choc financier",
-            "Action immédiate : configurer la règle de bascule automatique vers le matelas en cas de brèche"
-          ]
+          "titre": "La célébration de la délivrance et le verrouillage anti-rechute",
+          "points_cles": ["La psychologie post-endettement : éviter le piège de la récompense immédiate par un nouveau crédit", "Rediriger l'intégralité de l'ancienne mensualité de crédit vers l'investissement passif", "Étude de cas : La métamorphose d'une mensualité de 400 € de crédit devenue 400 €/mois d'épargne indicielle", "Action 24h : Détruire physiquement les cartes de crédit revolving"]
         }
       ]
     },
     {
       "numero": 6,
-      "titre": "Démystifier la Bourse & les ETF : L'Investissement Passif d'Élite",
-      "objectif": "Faire croître son patrimoine sur les marchés financiers sans stress et sans analyse technique complexe.",
+      "titre": "Les Fondations de l'Investissement Passif et Résilient",
+      "objectif": "Comprendre les mécanismes universels des marchés financiers pour faire fructifier son argent sans stress et sans spéculation.",
       "sections": [
         {
-          "titre": "Pourquoi 95% des traders actifs perdent face à un indice passif",
-          "points_cles": [
-            "Les études SPIVA et les données historiques de Wall Street sur la gestion active",
-            "Le coût dévastateur des frais de courtage et de la fiscalité sur les allers-retours boursiers",
-            "Le piège de se croire plus malin que le consensus des marchés mondiaux",
-            "Action immédiate : renoncer définitivement au stock-picking individuel et au trading d'émotion"
-          ]
+          "titre": "Pourquoi laisser dormir son argent sur un compte courant est une ruine programmée",
+          "points_cles": ["L'érosion silencieuse de l'inflation : la perte de pouvoir d'achat mesurée sur 10 et 20 ans", "Calcul chiffré : que deviennent 10 000 € laissés à 0% avec une inflation à 2,5%", "Étude de cas : La comparaison entre épargner sous le matelas et investir sur l'économie mondiale", "Action 24h : Calculer la perte annuelle d'inflation sur ses liquidités dormantes"]
         },
         {
-          "titre": "Comprendre les ETF (Trackers) en langage clair",
-          "points_cles": [
-            "Le fonctionnement d'un fonds indiciel coté : acheter 1 500 entreprises mondiales en une seule part",
-            "La dispersion maximale du risque de faillite d'une entreprise individuelle",
-            "Le piège des ETF sectoriels trop concentrés ou à effet de levier destructeur",
-            "Action immédiate : analyser la fiche technique d'un ETF MSCI World standard"
-          ]
+          "titre": "La magie exponentielle des intérêts composés expliquée simplement",
+          "points_cles": ["La formule d'Albert Einstein : 'La 8ème merveille du monde'", "L'impact colossal du facteur temps par rapport au montant initial investi", "Étude de cas : Investir 150 €/mois dès 25 ans vs 300 €/mois à partir de 40 ans à rendement égal", "Action 24h : Simuler son capital à 20 ans sur un calculateur d'intérêts composés"]
         },
         {
-          "titre": "La magie mathématique des intérêts composés et du Dollar-Cost Averaging (DCA)",
-          "points_cles": [
-            "La simulation chiffrée : investir 200 €/mois à 7% annuel sur 20 et 30 ans",
-            "Le Dollar-Cost Averaging : transformer la volatilité des baisses de marché en opportunité d'achat",
-            "Le piège d'attendre le 'bon moment' pour entrer sur le marché (Market Timing)",
-            "Action immédiate : simuler la trajectoire de son investissement mensuel avec une calculatrice d'intérêts composés"
-          ]
+          "titre": "L'investissement passif indiciel : battre 90% des professionnels sans stress",
+          "points_cles": ["Les études académiques (SPIVA) : pourquoi les gérants de fonds actifs sous-performent le marché", "L'avantage massif des frais ultra-bas (0,15% vs 2,5% par an)", "Étude de cas : L'impact d'une différence de 2% de frais sur un capital de 50 000 € sur 25 ans (perte de plus de 40 000 €)", "Action 24h : Vérifier les frais de gestion des produits proposés par sa banque traditionnelle"]
         },
         {
-          "titre": "Choisir son enveloppe fiscale optimale (PEA vs Compte-Titres vs Assurance-Vie)",
-          "points_cles": [
-            "La fiscalité avantageuse du Plan d'Épargne en Actions (exonération d'impôt sur les plus-values après 5 ans)",
-            "Le rôle complémentaire de l'Assurance-Vie pour la transmission et les fonds euros",
-            "Le piège des frais de gestion sur encours cachés des banques traditionnelles",
-            "Action immédiate : initier l'ouverture d'un PEA chez un courtier en ligne à frais réduits"
-          ]
+          "titre": "Les ETF décryptés : comment posséder 1 500 grandes entreprises avec 50 €",
+          "points_cles": ["Qu'est-ce qu'un ETF (Exchange Traded Fund) ou tracker indiciel", "Le principe de la réplication physique et synthétique", "Étude de cas : La composition réelle d'un ETF MSCI World (Apple, Microsoft, LVMH, Nestlé...)", "Action 24h : Consulter la fiche d'information clé pour l'investisseur (DICI/KID) d'un ETF mondial"]
         },
         {
-          "titre": "Construire un portefeuille 'World' en 1 clic par mois",
-          "points_cles": [
-            "La stratégie mono-ETF mondiale : simplicité maximale, zéro arbitrage manuel requis",
-            "Le protocole d'exécution mensuel : 3 minutes le 5 du mois pour passer son ordre d'achat",
-            "Le piège de la sur-diversification inutile qui complexifie la gestion fiscale",
-            "Action immédiate : planifier son premier achat d'une fraction d'ETF diversifié"
-          ]
+          "titre": "Démystifier le risque : volatilité temporaire vs perte définitive",
+          "points_cles": ["Comprendre que la bourse n'est pas un casino quand on a un horizon long terme (> 8-10 ans)", "L'analyse historique des crises : aucun investisseur diversifié sur le monde n'a perdu sur un horizon de 15 ans", "Étude de cas : Les performances des marchés après les crises de 2000, 2008 et 2020", "Action 24h : Évaluer son horizon de placement personnel pour chaque projet"]
         }
       ]
     },
     {
       "numero": 7,
-      "titre": "L'Immobilier Pragmatique : Bâtir de la Pierre sans Cauchemar",
-      "objectif": "Comprendre comment mobiliser le crédit bancaire et l'immobilier sans sacrifier son temps libre.",
+      "titre": "Les Véhicules et Enveloppes Fiscales Optimales",
+      "objectif": "Sélectionner les meilleures enveloppes juridiques et fiscales pour investir sans se faire dévorer par les impôts.",
       "sections": [
         {
-          "titre": "Résidence principale vs investissement locatif : briser le dogme",
-          "points_cles": [
-            "La comparaison chiffrée : achat de sa résidence principale vs rester locataire et investir la différence",
-            "L'impact de la mobilité géographique et des frais de notaire sur la rentabilité à 7 ans",
-            "Le piège culturel de croire que 'louer c'est jeter l'argent par les fenêtres'",
-            "Action immédiate : calculer le coût complet réel de son logement actuel sur 12 mois"
-          ]
+          "titre": "Comparatif stratégique : PEA, Assurance-Vie et Compte-Titres",
+          "points_cles": ["La matrice de décision : fiscalité, univers d'investissement, plafonds et liquidité", "Pourquoi le cumul des enveloppes est la stratégie des investisseurs avisés", "Étude de cas : Le triptyque optimal d'un épargnant moderne", "Action 24h : Déterminer quelle enveloppe ouvrir en priorité selon ses objectifs"]
         },
         {
-          "titre": "Le calcul du rendement locatif net-net (frais réels, vacance, charges)",
-          "points_cles": [
-            "La formule sans concession : Rendement brut vs Rendement net de charges, taxes et fiscalité",
-            "Intégrer les provisions pour travaux, la vacance locative et l'assurance loyers impayés",
-            "Le piège des annonces immobilières affichant des rendements bruts mirobolants et irréalistes",
-            "Action immédiate : réaliser le calcul net-net d'un bien immobilier réel en vente"
-          ]
+          "titre": "Pourquoi le PEA est la reine des enveloppes pour l'investisseur européen",
+          "points_cles": ["L'avantage fiscal royal après 5 ans : 0% d'impôt sur les plus-values (seuls les prélèvements sociaux de 17,2% s'appliquent)", "L'astuce légale des ETF synthétiques pour loger du MSCI World ou du S&P 500 dans un PEA", "Étude de cas : Comparatif de gain net d'impôt après 10 ans entre un PEA et un compte-titres ordinaire", "Action 24h : Prendre date sur un PEA en versant le minimum requis (10 à 50 €)"]
         },
         {
-          "titre": "Emprunter malin : optimiser son dossier pour obtenir un crédit bancaire",
-          "points_cles": [
-            "Les critères d'octroi du HCSF : taux d'endettement à 35% et tenue exemplaire des comptes bancaires",
-            "Préparer ses 3 mois de relevés bancaires 'propres' (zéro commission d'intervention, zéro découvert)",
-            "Le piège de multiplier les demandes de prêts sans soigner son profil d'épargnant",
-            "Action immédiate : auditer son relevé bancaire sous le regard d'un analyste de risques bancaires"
-          ]
+          "titre": "Sélectionner les meilleurs courtiers à frais microscopiques",
+          "points_cles": ["Fuir les banques traditionnelles et leurs frais de garde exorbitants", "Les critères pour choisir un courtier en ligne fiable (agrément ACPR/AMF, frais d'ordre < 0,5%, gratuité des droits de garde)", "Étude de cas : Comparaison des frais réels annuels entre banque historique et courtier moderne", "Action 24h : Vérifier la grille tarifaire de son établissement actuel"]
         },
         {
-          "titre": "La délégation de gestion : quand et comment externaliser",
-          "points_cles": [
-            "Le coût horaire de la gestion en direct vs la tranquillité d'une agence de gestion professionnelle",
-            "Sélectionner et auditer son gestionnaire de biens (grille de contrôle des mandats)",
-            "Le piège de s'improviser bricoleur du dimanche et gestionnaire de litiges locatifs",
-            "Action immédiate : définir le seuil de rentabilité à partir duquel déléguer est impératif"
-          ]
+          "titre": "L'Assurance-Vie moderne : fonds en euros et unités de compte performantes",
+          "points_cles": ["L'Assurance-Vie nouvelle génération sans frais d'entrée ni frais sur versements", "Le rôle du fonds en euros pour sécuriser des capitaux avec un rendement garanti", "Étude de cas : L'optimisation fiscale après 8 ans et l'abattement annuel de 4 600 € / 9 200 €", "Action 24h : Identifier si son contrat d'assurance-vie actuel facture des frais sur versement"]
         },
         {
-          "titre": "Les alternatives sans contrainte de gestion (SCPI, crowdfunding immobilier)",
-          "points_cles": [
-            "La 'pierre-papier' : percevoir des loyers trimestriels sans aucun souci de locataire ni de travaux",
-            "Le crowdfunding immobilier : financer des promotions sur 12 à 24 mois à coupon fixe",
-            "Le piège des frais d'entrée élevés en SCPI et de la liquidité en période de baisse des prix",
-            "Action immédiate : comparer le rendement historique de 2 grandes SCPI diversifiées européennes"
-          ]
+          "titre": "La fiscalité des plus-values simplifiée : maîtriser la Flat Tax",
+          "points_cles": ["Le Prélèvement Forfaitaire Unique (PFU) à 30% décrypté (12,8% impôt + 17,2% prélèvements sociaux)", "L'option pour le barème progressif de l'impôt sur le revenu quand on est non imposable", "Étude de cas : Déclaration fiscale d'un retrait partiel sans erreur", "Action 24h : Vérifier sa tranche marginale d'imposition (TMI)"]
         }
       ]
     },
     {
       "numero": 8,
-      "titre": "L'Optimisation Fiscale & Légale : Conserver ce que l'on Gagne",
-      "objectif": "Mettre en place des structures juridiques et fiscales légales pour protéger son patrimoine.",
+      "titre": "Construire son Portefeuille Tout-Terrain",
+      "objectif": "Mettre en place une allocation d'actifs robuste, simple à gérer et capable de traverser toutes les tempêtes économiques.",
       "sections": [
         {
-          "titre": "La différence fondamentale entre évasion fiscale et optimisation légale",
-          "points_cles": [
-            "Le cadre légal : utiliser les incitations fiscales prévues par le législateur pour orienter l'épargne",
-            "La transparence et l'éthique comme gages de pérennité patrimoniale",
-            "Le piège des montages exotiques opaques qui attirent les redressements fiscaux majeurs",
-            "Action immédiate : identifier les 2 dispositifs fiscaux officiels adaptés à son foyer"
-          ]
+          "titre": "La règle du DCA (Dollar Cost Averaging) : investir sans jamais regarder la météo boursière",
+          "points_cles": ["Le principe d'investir un montant fixe à date fixe chaque mois", "Pourquoi le DCA élimine le stress du 'bon moment' pour acheter", "Étude de cas : Simulation comparée d'un investisseur régulier vs un investisseur qui tente de timer le marché", "Action 24h : Choisir le jour du mois pour son versement programmé"]
         },
         {
-          "titre": "Tirer profit des niches fiscales et des déductions oubliées",
-          "points_cles": [
-            "Les déductions liées à l'épargne retraite (PER) et aux dons ou investissements d'utilité publique",
-            "L'arbitrage de la déduction fiscale à l'entrée selon sa tranche marginale d'imposition (TMI)",
-            "Le piège d'acheter un mauvais produit d'investissement uniquement 'pour défiscaliser'",
-            "Action immédiate : calculer sa Tranche Marginale d'Imposition exacte"
-          ]
+          "titre": "Le portefeuille 'Cœur & Satellite' : solidité mondiale et conviction",
+          "points_cles": ["La répartition 85/15 : 85% sur un moteur indiciel mondial ultra-solide, 15% sur des thématiques choisies", "Éviter la dispersion inutile dans des dizaines de lignes de portefeuille", "Étude de cas : Portefeuille complet à 2 lignes géré en 5 minutes par an", "Action 24h : Dessiner son allocation cible sur une feuille"]
         },
         {
-          "titre": "Structurer son patrimoine selon sa situation familiale",
-          "points_cles": [
-            "L'impact du régime matrimonial (communauté réduite aux acquêts vs séparation de biens) sur la protection du conjoint",
-            "L'anticipation des risques professionnels et de l'étanchéité des patrimoines privé et professionnel",
-            "Le piège de ne jamais mettre à jour sa convention matrimoniale après une évolution de carrière",
-            "Action immédiate : faire le point sur la clause bénéficiaire de ses contrats d'assurance-vie"
-          ]
+          "titre": "Le choix de l'ETF mondial (MSCI World vs S&P 500) : critères de sélection",
+          "points_cles": ["Comparatif détaillé : diversification géographique sur 23 pays développés vs concentration sur les 500 leaders américains", "Encours sous gestion (> 500 millions €), politique de distribution (capitalisant de préférence), éligibilité PEA", "Étude de cas : Sélection précise des codes ISIN de référence", "Action 24h : Noter le code ISIN de l'ETF correspondant à sa stratégie"]
         },
         {
-          "titre": "Préparer la transmission sans pénaliser la descendance",
-          "points_cles": [
-            "Les abattements légaux renouvelables tous les 15 ans (donations parents-enfants)",
-            "L'utilisation stratégique du démembrement de propriété (nue-propriété vs usufruit)",
-            "Le piège d'attendre un âge très avancé pour organiser la transmission de son vivant",
-            "Action immédiate : évaluer les droits de succession théoriques de son patrimoine actuel"
-          ]
+          "titre": "L'intégration raisonnée des métaux précieux et de la diversification",
+          "points_cles": ["L'or physique comme assurance contre les crises monétaires systémiques", "Quelle part accorder aux actifs alternatifs (5% à 10% maximum du patrimoine)", "Étude de cas : Le comportement de l'or en période de stagflation et de crise géopolitique", "Action 24h : Évaluer l'opportunité d'une couverture en or selon son profil"]
         },
         {
-          "titre": "Checklist annuelle de revue fiscale",
-          "points_cles": [
-            "Le protocole en 5 étapes pour préparer sa déclaration de revenus sans stress ni omission",
-            "Vérifier la déclaration des comptes détenus à l'étranger (néobanques, courtiers internationaux)",
-            "Le piège de la déclaration à la dernière minute génératrice d'erreurs coûteuses",
-            "Action immédiate : créer un dossier numérique dédié pour centraliser tous ses justificatifs fiscaux"
-          ]
+          "titre": "Le rééquilibrage annuel sans prise de tête",
+          "points_cles": ["Pourquoi et quand rééquilibrer : vendre ce qui a trop monté pour racheter ce qui a baissé", "La méthode douce par les nouveaux apports pour éviter tout frottement fiscal", "Étude de cas : Rééquilibrage réussi d'un portefeuille 80/20 après une année de hausse boursière", "Action 24h : Planifier une date fixe de rééquilibrage dans son calendrier"]
         }
       ]
     },
     {
       "numero": 9,
-      "titre": "La Psychologie du Maintien de Richesse : Éviter l'Autodestruction",
-      "objectif": "Développer la résilience mentale et les garde-fous pour protéger et pérenniser son capital accumulé.",
+      "titre": "L'Optimisation Fiscale et la Protection du Patrimoine",
+      "objectif": "Sécuriser les acquis, réduire la friction fiscale légale et protéger son foyer contre tous les aléas de la vie.",
       "sections": [
         {
-          "titre": "Pourquoi tant de gagnants du loto et d'héritiers finissent ruinés",
-          "points_cles": [
-            "L'incapacité psychologique à gérer une richesse soudaine non construite par l'effort",
-            "Le syndrome de l'argent facile et la vulnérabilité aux sollicitations de l'entourage",
-            "Le piège de confondre capacité de dépense immédiate et capital productif pérenne",
-            "Action immédiate : instaurer la règle du 'silence patrimonial' avec les personnes extérieures"
-          ]
+          "titre": "Réduire légalement sa facture fiscale : les niches et leviers accessibles",
+          "points_cles": ["Défiscalisation utile vs fausse bonne idée : ne jamais investir uniquement pour défiscaliser", "Le Plan d'Épargne Retraite (PER) : pour qui est-il vraiment rentable (TMI >= 30%)", "Étude de cas : Déduction fiscale d'un versement de 3 000 € sur un PER pour un cadre", "Action 24h : Calculer l'économie d'impôt potentielle d'un versement PER"]
         },
         {
-          "titre": "La règle du 'Assez' : définir son seuil de satiété financière",
-          "points_cles": [
-            "La loi des rendements marginaux décroissants du bonheur lié à l'accumulation financière",
-            "Définir son 'Chiffre d'Or' personnel : le montant à partir duquel le travail devient un choix pur",
-            "Le piège de la course perpétuelle du rat et du déplacement infini de la ligne d'arrivée",
-            "Action immédiate : chiffrer son coût de la vie idéal sans superflu pour fixer son cap de liberté"
-          ]
+          "titre": "Protéger son foyer : prévoyance, assurances utiles et superflues",
+          "points_cles": ["Auditer ses assurances : résilier les garanties doublons (extensions de garantie d'appareils, assurances mobiles hors de prix)", "Souscrire les protections indispensables : prévoyance invalidité/décès pour les indépendants et soutiens de famille", "Étude de cas : Économie de 420 €/an en nettoyant les contrats d'assurance futiles", "Action 24h : Faire l'inventaire de toutes ses cotisations d'assurance"]
         },
         {
-          "titre": "Résister aux sirènes des promesses de gains rapides",
-          "points_cles": [
-            "L'anatomie des arnaques financières : promesse de rendements garantis élevés et urgence artificielle",
-            "Le filtre de Munger : si une offre paraît trop belle pour être vraie, elle est mathématiquement fausse",
-            "Le piège du FOMO (Fear Of Missing Out) amplifié par les réseaux sociaux et influenceurs d'apparence",
-            "Action immédiate : appliquer le filtre des 3 questions éliminatoires avant tout placement spéculatif"
-          ]
+          "titre": "Organiser la transmission et la protection de son partenaire",
+          "points_cles": ["Les différences fondamentales de protection entre concubinage, PACS et mariage", "La clause bénéficiaire de l'Assurance-Vie : l'outil suprême de transmission hors succession", "Étude de cas : Rédaction d'une clause bénéficiaire sur-mesure pour protéger son conjoint", "Action 24h : Relire la clause bénéficiaire de son assurance-vie"]
         },
         {
-          "titre": "Transmettre une éducation financière saine à ses enfants",
-          "points_cles": [
-            "L'apprentissage de la valeur du travail, de l'effort différé et de la gestion de l'argent de poche",
-            "Éviter le piège de la surprotection financière ou au contraire de la culpabilité matérielle",
-            "Le piège de tabouiser l'argent au sein de la cellule familiale",
-            "Action immédiate : initier le rituel des 3 tirelires (Épargne, Dépense, Partage) avec ses enfants"
-          ]
+          "titre": "La gestion des primes, augmentations et rentrées d'argent exceptionnelles",
+          "points_cles": ["La règle du 50/50 pour les bonus, héritages ou primes d'intéressement", "Affecter 50% à l'accélération patrimoniale et 50% au plaisir immédiat", "Étude de cas : Répartition intelligente d'une prime annuelle de 4 000 €", "Action 24h : Définir sa règle écrite de gestion des rentrées exceptionnelles"]
         },
         {
-          "titre": "Le rapport à l'argent et le bonheur véritable : la sérénité du choix",
-          "points_cles": [
-            "L'argent comme outil d'autonomie et de temps disponible, jamais comme fin en soi",
-            "La liberté de dire 'non' aux situations abusives ou aux emplois toxiques (le 'Fuck You Money')",
-            "Le piège d'être le plus riche du cimetière en ayant sacrifié sa santé et ses relations",
-            "Action immédiate : identifier 2 activités non marchandes qui apportent la plus grande satisfaction personnelle"
-          ]
+          "titre": "L'état d'esprit de l'abondance discrète et la longévité financière",
+          "points_cles": ["Le concept du 'Stealth Wealth' (richesse discrète) : être riche plutôt que paraître riche", "La liberté de temps comme véritable indicateur de succès patrimonial", "Étude de cas : Le témoignage d'un investisseur ordinaire devenu libre à 48 ans", "Action 24h : Écrire sa propre définition de la liberté financière"]
         }
       ]
     },
     {
       "numero": 10,
-      "titre": "Le Plan d'Action Perpétuel sur 10 Ans : La Feuille de Route",
-      "objectif": "Synthétiser l'ensemble des protocoles en un calendrier de bord pérenne et évolutif.",
+      "titre": "Le Plan d'Action Intégral sur 30 Jours",
+      "objectif": "Déployer concrètement l'ensemble du système jour après jour grâce à une feuille de route guidée et sans ambiguïté.",
       "sections": [
         {
-          "titre": "Les jalons patrimoniaux : 1 an, 3 ans, 5 ans, 10 ans",
-          "points_cles": [
-            "La trajectoire par paliers : Palier 1 Sécurité absolue, Palier 2 Consolidation indicielle, Palier 3 Effet de levier, Palier 4 Liberté totale",
-            "Définir des indicateurs de progrès chiffrés plutôt que de vagues résolutions",
-            "Le piège de sous-estimer ce que l'on peut accomplir en 10 ans tout en surestimant 1 an",
-            "Action immédiate : consigner ses 4 jalons temporels sur une feuille scellée"
-          ]
+          "titre": "Semaine 1 : Le grand nettoyage des relevés et la clôture des frais inutiles",
+          "points_cles": ["Checklist des 7 jours d'audit : identification des fuites, résiliations des abonnements dormants", "La lettre type de résiliation et contestation de frais bancaires", "Étude de cas : Bilan de la semaine 1 avec 140 €/mois de trésorerie libérée immédiatement", "Action 24h : Compléter l'étape 1 de la checklist 30 jours"]
         },
         {
-          "titre": "Le rituel trimestriel de bilan financier (30 minutes chrono)",
-          "points_cles": [
-            "La checklist d'évaluation tous les 3 mois : actualisation du patrimoine net, revue du taux d'épargne, rééquilibrage",
-            "Le protocole anti-dérive pour corriger les petits écarts avant qu'ils ne deviennent critiques",
-            "Le piège de la fixation obsessionnelle quotidienne vs le désintérêt total",
-            "Action immédiate : bloquer dès maintenant sur son agenda la date du prochain bilan trimestriel"
-          ]
+          "titre": "Semaine 2 : L'ouverture des comptes modernes et le calibrage des plafonds",
+          "points_cles": ["Sélection de la banque en ligne ou néobanque sans frais pour les dépenses courantes", "Mise en place des comptes de compartimentage et fixation des plafonds de carte", "Étude de cas : Ouverture réussie d'un compte secondaire en 8 minutes chrono", "Action 24h : Lancer l'ouverture du compte secondaire de gestion"]
         },
         {
-          "titre": "Adapter sa stratégie aux cycles économiques (inflation, récession)",
-          "points_cles": [
-            "Pourquoi la méthode indicielle passive traverse les crises sans nécessiter de deviner l'avenir",
-            "Maintenir le cap de son DCA pendant les krachs boursiers et les phases de panique médiatique",
-            "Le piège fatal de capituler et de vendre ses actifs au pire moment lors d'une baisse temporaire",
-            "Action immédiate : relire le pacte de sang de l'investisseur passif : ne jamais vendre dans la panique"
-          ]
+          "titre": "Semaine 3 : Le câblage des virements automatiques et de l'épargne d'urgence",
+          "points_cles": ["Programmation des virements permanents vers le livret d'urgence et le compte de dépenses fixes", "Vérification des dates de prélèvement pour un flux sans frottement", "Étude de cas : Le premier cycle bancaire automatisé avec succès", "Action 24h : Activer la cascade de virements automatiques"]
         },
         {
-          "titre": "Le passage de la phase d'accumulation à la phase de rente",
-          "points_cles": [
-            "La règle des 4% (Trinity Study) : comment décaisser durablement sans entamer son capital principal",
-            "La transition progressive d'un portefeuille offensif vers des actifs plus stabilisateurs",
-            "Le piège de conserver une allocation trop agressive à l'approche de la retraite",
-            "Action immédiate : calculer son capital cible nécessaire pour générer 1 500 €/mois de rente passive"
-          ]
+          "titre": "Semaine 4 : Le premier ordre d'investissement programmé",
+          "points_cles": ["Ouverture effective du PEA ou de l'Assurance-Vie moderne", "Passation du premier ordre d'achat sur un ETF indiciel mondial pour démystifier l'acte d'investir", "Étude de cas : L'émotion du premier achat d'action à 50 € et la mise en place du versement mensuel", "Action 24h : Exécuter son tout premier ordre d'investissement programmé"]
         },
         {
-          "titre": "Le Manifeste de la Liberté Financière Durable",
-          "points_cles": [
-            "Les 10 commandements de l'investisseur serein et souverain",
-            "La synthèse philosophique et opérationnelle de votre transformation",
-            "Le contrat d'engagement moral envers soi-même et ses proches",
-            "Action immédiate : signer solennellement la dernière page et entamer votre jour 1"
-          ]
+          "titre": "Le tableau de bord de bord de suivi à vie et la checklist annuelle",
+          "points_cles": ["Le fichier de pilotage ultra-simplifié en 1 page : évolution du patrimoine net mois par mois", "La routine annuelle de révision des contrats et d'ajustement du train de vie", "Étude de cas : L'impact sur 10 ans de l'application rigoureuse du système de l'Architecte Financier", "Action 24h : Télécharger et initialiser son tableau de bord de suivi patrimonial"]
         }
       ]
     }
