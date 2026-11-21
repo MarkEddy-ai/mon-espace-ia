@@ -1,0 +1,137 @@
+{
+  "package_id": "kdp_package_guide_stoicien_ultime_20261121_161732",
+  "book_id": "unit_test_pkg_01",
+  "title": "Guide Stoicien Ultime",
+  "author": "MarkEddy",
+  "project_type": "text",
+  "timestamp": "2026-11-21T16:17:43.585390",
+  "studio_version": "MarkEddy KDP Studio v2.0 - Unified Multi-Agent Engine",
+  "prepress_specs": {
+    "format_id": "6x9",
+    "trim_width_in": 6.0,
+    "trim_height_in": 9.0,
+    "paper_type": "white",
+    "page_count_initial": 10,
+    "bonus_pages_injected": 14,
+    "page_count_final": 24,
+    "enforce_24_pages_rule": true,
+    "spine_thickness_in": 0.054048,
+    "spine_thickness_mm": 1.373,
+    "can_print_spine_text": false,
+    "cover_total_width_px": 3691,
+    "cover_total_height_px": 2775,
+    "isbn_reservation_px": "600x360 @ 300 DPI (Plat 4 bas-droite)"
+  },
+  "compliance_status": "KDP_CERTIFIED_PRINT_READY",
+  "compliance_audit": {
+    "status": "success",
+    "verdict": "PASSED",
+    "overall_score": 96.0,
+    "anti_anonymity_score": 100.0,
+    "prepress_score": 100.0,
+    "editorial_score": 100.0,
+    "a9_seo_score": 80.0,
+    "critical_violations": [],
+    "warnings": [
+      "Slot 2 dépasse 50 caractères (51 car.) : risque de troncature A9.",
+      "Slot 2 répète des termes déjà indexés dans le titre/sous-titre : guide (gaspillage d'espace de recherche)."
+    ],
+    "passed_checks": [
+      "Titre et sous-titre conformes aux règles de propriété intellectuelle et TOS KDP.",
+      "Nom d'auteur conforme et certifié non-descriptif : 'MarkEddy'.",
+      "Pagination prépresse conforme : 24 pages (minimum 24 p. respecté).",
+      "Format de coupe officiel Amazon KDP validé : 6x9.",
+      "Hygiène textuelle validée : zéro présence de TODO, Lorem ipsum ou bug de rendu.",
+      "Réserve normalisée ISBN (600x360 px @ 300 DPI) confirmée.",
+      "Score Anti-Anonymat & Transparence Éditoriale excellent : 100.0/100."
+    ],
+    "audit_details": {
+      "title": "Guide Stoicien Ultime",
+      "author": "MarkEddy",
+      "page_count": 24,
+      "format_id": "6x9",
+      "anonymity_breakdown": {
+        "copyright_present": true,
+        "disclaimer_present": true,
+        "author_bio_present": true,
+        "colophon_present": true
+      },
+      "project_type": "text"
+    },
+    "timestamp": "2026-11-21T16:17:43.532175",
+    "supervisor": "Agent 4 : KDP Compliance & Anti-Anonymity Gatekeeper"
+  },
+  "supervision_report": {
+    "status": "success",
+    "verdict": "APPROVED_FOR_KDP",
+    "approved": true,
+    "kdp_compliance_passed": true,
+    "excellence_score": 100.0,
+    "score_anti_anonymat_100": 100.0,
+    "excellence_score_breakdown": {
+      "promesse_unique_20": 20,
+      "preuves_valeur_20": 20,
+      "voix_humaine_20": 20,
+      "structure_editoriale_20": 20,
+      "packaging_lisibilite_20": 20,
+      "total_100": 100
+    },
+    "anti_anonymat_breakdown_20_each": {
+      "promesse_unique_20": 20,
+      "preuves_valeur_20": 20,
+      "voix_humaine_20": 20,
+      "structure_editoriale_20": 20,
+      "packaging_lisibilite_20": 20,
+      "total_100": 100
+    },
+    "blocking_violations": [],
+    "warnings": [
+      "Slot 2 dépasse 50 caractères (51 car.) : risque de troncature A9.",
+      "Slot 2 répète des termes déjà indexés dans le titre/sous-titre : guide (gaspillage d'espace de recherche)."
+    ],
+    "ai_disclosure_summary": "Création humaine originale sans génération autonome directe d'IA.",
+    "anti_ordinary_recommendations": [
+      "Ouvrage de niveau Best-Seller : architecture éditoriale, respect des TOS KDP et packaging exemplaires."
+    ],
+    "checks": {
+      "keyword_stuffing_checked": true,
+      "title_200_chars_checked": true,
+      "trademarks_checked": true,
+      "disclaimer_required_by_niche": false,
+      "ai_transparency_declared": false,
+      "min_24_pages_paperback_ok": true,
+      "spine_text_rule_ok": true,
+      "arabic_paperback_alert": false
+    },
+    "timestamp": "2026-11-21T16:17:43.537194",
+    "supervisor": "Agent 4 : Superviseur de Conformité Amazon KDP & Anti-Anonymat"
+  },
+  "excellence_score": 100.0,
+  "files": [
+    {
+      "filename": "interieur_kdp.pdf",
+      "size_bytes": 327065,
+      "sha256": "0936f3fc01f0ab9bdafc88e24448e64d5078240019a4680911b360551accdf8b"
+    },
+    {
+      "filename": "couverture_calibree.svg",
+      "size_bytes": 3746,
+      "sha256": "0d68755cf41324a1aa3c871fe2386bc816213747fafcf6f182c31c234e42aeff"
+    },
+    {
+      "filename": "metadata_a9.json",
+      "size_bytes": 1632,
+      "sha256": "c66447d6dbef4f393013c2276e58d1009dc9362a5a33a62e4774a3d4c6879867"
+    },
+    {
+      "filename": "interieur_kdp.html",
+      "size_bytes": 16400,
+      "sha256": "584ae3de16d151b77dd478994c8f51e39ec2f95e3c47253fe6f8b914d4ad75cc"
+    },
+    {
+      "filename": "kdp_supervision_report.json",
+      "size_bytes": 1594,
+      "sha256": "6dfae41593c9a050ac34b1906f2ed806851ba1523ab272ea801620698239c9ac"
+    }
+  ]
+}

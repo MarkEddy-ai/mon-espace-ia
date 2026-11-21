@@ -646,7 +646,7 @@ def build_kdp_export_package(
     meta_file.write_text(json.dumps(metadata, indent=2, ensure_ascii=False), encoding="utf-8")
 
     # --- 5b. Audit de Conformité KDP & Superviseur Anti-Anonymat (Agent 4) ---
-    from kdp_extensions.kdp_compliance_supervisor import audit_kdp_compliance
+    from kdp_extensions.kdp_compliance_supervisor import audit_kdp_compliance, supervise_kdp_book
 
     lower_html = final_html.lower() if final_html else ""
     has_copyright = True if not html_content else ("copyright" in lower_html or "©" in lower_html or "droits réservés" in lower_html)
@@ -672,7 +672,43 @@ def build_kdp_export_package(
         project_type=ptype,
     )
 
-    if compliance_report.get("verdict") == "REJECTED":
+    book_payload_for_supervision = {
+        "title": title,
+        "subtitle": subtitle,
+        "author": author,
+        "keywords": effective_keywords,
+        "page_count": final_page_count,
+        "binding": "paperback",
+        "format_id": fid,
+        "paper_type": paper_type,
+        "niche": niche,
+        "content": final_html,
+        "has_copyright": has_copyright,
+        "has_disclaimer": has_disclaimer,
+        "has_author_bio": has_author_bio,
+        "has_colophon": has_colophon,
+        "has_toc": True if not html_content else ("sommaire" in lower_html or "table des matières" in lower_html or "chapitre" in lower_html),
+        "has_spine_text": cover_specs["spine_spec"]["can_print_text"] and (final_page_count >= 79),
+        "cover_specs": cover_specs,
+        "project_type": ptype,
+        "has_cover": True,
+        "isbn": True,
+    }
+    supervision_report = supervise_kdp_book(book_payload_for_supervision)
+
+    is_blocked = False
+    blocking_reasons: List[str] = []
+    if strict_gate:
+        if compliance_report.get("verdict") == "REJECTED":
+            is_blocked = True
+            blocking_reasons.extend(compliance_report.get("critical_violations", []))
+        if supervision_report.get("blocking_violations"):
+            is_blocked = True
+            for v in supervision_report.get("blocking_violations", []):
+                if v not in blocking_reasons:
+                    blocking_reasons.append(v)
+
+    if is_blocked:
         return {
             "status": "rejected",
             "verdict": "REJECTED",
@@ -684,13 +720,18 @@ def build_kdp_export_package(
             "bonus_pages_injected": bonus_added,
             "spine_thickness_in": cover_specs["spine_spec"]["width_in"],
             "spine_thickness_mm": cover_specs["spine_spec"]["width_mm"],
-            "critical_violations": compliance_report.get("critical_violations", []),
+            "critical_violations": blocking_reasons,
+            "blocking_violations": blocking_reasons,
             "compliance_report": compliance_report,
-            "error": f"Export KDP bloqué par le Superviseur de Conformité (Agent 4) : {'; '.join(compliance_report.get('critical_violations', []))}",
+            "supervision_report": supervision_report,
+            "error": f"Export KDP bloqué par le Superviseur de Conformité (Agent 4) : {'; '.join(blocking_reasons)}",
         }
 
+    supervision_file = work_dir / "kdp_supervision_report.json"
+    supervision_file.write_text(json.dumps(supervision_report, indent=2, ensure_ascii=False), encoding="utf-8")
+
     # --- 6. Génération de manifest.json (Contrôle d'Intégrité) ---
-    files_to_hash = [pdf_file, svg_file, meta_file, html_file]
+    files_to_hash = [pdf_file, svg_file, meta_file, html_file, supervision_file]
     files_info = []
     for f in files_to_hash:
         if f.exists():
@@ -725,8 +766,10 @@ def build_kdp_export_package(
             "cover_total_height_px": cover_specs["units"]["pixels"]["total_height"],
             "isbn_reservation_px": "600x360 @ 300 DPI (Plat 4 bas-droite)",
         },
-        "compliance_status": "KDP_CERTIFIED_PRINT_READY" if compliance_report.get("verdict") == "PASSED" else "KDP_PASSED_WITH_WARNINGS",
+        "compliance_status": "KDP_CERTIFIED_PRINT_READY" if (compliance_report.get("verdict") == "PASSED" and supervision_report.get("verdict") == "APPROVED_FOR_KDP") else "KDP_PASSED_WITH_WARNINGS",
         "compliance_audit": compliance_report,
+        "supervision_report": supervision_report,
+        "excellence_score": supervision_report.get("excellence_score"),
         "files": files_info,
     }
     manifest_file = work_dir / "manifest.json"
@@ -741,6 +784,7 @@ def build_kdp_export_package(
         zf.write(meta_file, arcname="metadata_a9.json")
         zf.write(manifest_file, arcname="manifest.json")
         zf.write(html_file, arcname="interieur_kdp.html")
+        zf.write(supervision_file, arcname="kdp_supervision_report.json")
 
     return {
         "status": "success",
@@ -753,8 +797,10 @@ def build_kdp_export_package(
         "bonus_pages_injected": bonus_added,
         "spine_thickness_in": cover_specs["spine_spec"]["width_in"],
         "spine_thickness_mm": cover_specs["spine_spec"]["width_mm"],
-        "files_included": [f.name for f in [pdf_file, svg_file, meta_file, manifest_file, html_file]],
+        "files_included": [f.name for f in [pdf_file, svg_file, meta_file, manifest_file, html_file, supervision_file]],
         "manifest": manifest,
         "pdf_note": pdf_note,
         "compliance_report": compliance_report,
+        "supervision_report": supervision_report,
+        "excellence_score": supervision_report.get("excellence_score"),
     }

@@ -642,6 +642,7 @@ class KdpExportPackageRequest(BaseModel):
     description_html: Optional[str] = None
     target_audience: str = "Tous publics"
     enforce_24_pages: bool = True
+    strict_gate: bool = True
 
 
 class SocialTrendRequest(BaseModel):
@@ -1601,6 +1602,7 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
                 description_html=req.description_html,
                 target_audience=req.target_audience,
                 enforce_24_pages=req.enforce_24_pages,
+                strict_gate=req.strict_gate,
             )
             return res
         except Exception as exc:
@@ -1759,6 +1761,14 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
             )
         except Exception as exc:
             raise HTTPException(status_code=500, detail=f"Erreur du superviseur de conformité : {exc}")
+
+    @router.post("/api/kdp/supervise-audit", summary="Agent 4 : Superviseur Conformité Amazon KDP & Excellence Anti-Anonymat")
+    def api_kdp_supervise_audit(req: Dict[str, Any] = Body(...)):
+        try:
+            from kdp_extensions.kdp_compliance_supervisor import supervise_kdp_book
+            return supervise_kdp_book(req)
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur du superviseur KDP : {exc}")
 
     return router
 

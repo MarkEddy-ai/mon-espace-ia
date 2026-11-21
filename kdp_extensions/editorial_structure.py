@@ -417,8 +417,10 @@ def assemble_complete_book(
 # 3. STRUCTURE ÉDITORIALE SPÉCIFIQUE ENFANTS & COLORIAGE KDP
 # ==============================================================================
 
-def generate_coloring_front_matter_html(meta: Dict[str, Any]) -> str:
-    """Génère le Front-Matter spécifique pour livre de coloriage enfants."""
+def generate_coloring_front_matter_html(meta: Dict[str, Any], language: str = "fr") -> str:
+    """Génère le Front-Matter spécifique pour livre de coloriage enfants (multilingue 5 langues)."""
+    lang = normalize_language(meta.get("language") or language)
+    labels = get_editorial_labels(lang)
     t = meta.get("title", "LIVRE DE COLORIAGE")
     st = meta.get("subtitle", "Planches d'art grand format pour enfants")
     author = meta.get("author", "Éditions MarkEddy")
@@ -426,15 +428,17 @@ def generate_coloring_front_matter_html(meta: Dict[str, Any]) -> str:
     year = meta.get("year", 2026)
     isbn = meta.get("isbn", "979-8-0000-0000-0")
 
+    belongs_title = labels.get("this_book_belongs_to", "🌟 Ce livre appartient à :")
+    color_test_title = labels.get("color_test", "🎨 Mon Nuancier de Feutres & Crayons")
+
     return f"""
     <!-- COLORIAGE FRONT-MATTER 1 : CE LIVRE APPARTIENT À -->
     <section class="front-matter belongs-to-page">
-      <h1 class="belongs-to-title">🌟 Ce livre appartient à :</h1>
+      <h1 class="belongs-to-title">{belongs_title}</h1>
       <div style="font-size: 16pt; margin: 30pt 0 10pt 0; text-align: left; max-width: 70%; margin-left: auto; margin-right: auto;">
-        <p><strong>Prénom :</strong> ____________________________________</p>
-        <p style="margin-top: 25pt;"><strong>Âge :</strong> _______ ans</p>
-        <p style="margin-top: 25pt;"><strong>Couleur préférée :</strong> _________________________</p>
-        <p style="margin-top: 25pt;"><strong>Date de début :</strong> ____ / ____ / {year}</p>
+        <p><strong>Nom / Name :</strong> ____________________________________</p>
+        <p style="margin-top: 25pt;"><strong>Âge / Age :</strong> _______ </p>
+        <p style="margin-top: 25pt;"><strong>Date :</strong> ____ / ____ / {year}</p>
       </div>
     </section>
 
@@ -449,22 +453,19 @@ def generate_coloring_front_matter_html(meta: Dict[str, Any]) -> str:
     <!-- COLORIAGE FRONT-MATTER 3 : COPYRIGHT & CONSEILS AUX PARENTS -->
     <section class="front-matter copyright-page" style="font-size: 9pt; color: #475569; padding-top: 2in;">
       <p><strong>{t}</strong></p>
-      <p>© {year} {author}. Tous droits réservés.</p>
-      <p>Publié par <em>{pub}</em>.</p>
+      <p>© {year} {author}. {labels.get('copyright_notice', 'Tous droits réservés.')}</p>
+      <p>{labels.get('by_author', 'Par')} <em>{pub}</em>.</p>
       <p>ISBN : {isbn}</p>
       <p style="margin-top: 20pt; border: 1pt dashed #cbd5e1; padding: 12pt; border-radius: 8pt; background: #f8fafc;">
-        🖍️ <strong>Conseil aux Artistes et aux Parents :</strong><br>
-        Chaque illustration est imprimée uniquement sur le recto, avec une page verso blanche anti-bavure.
-        Si vous utilisez des feutres très liquides ou à alcool, nous vous conseillons de glisser une feuille
-        blanche supplémentaire sous la page pour une protection absolue.
+        🖍️ <strong>{labels.get('disclaimer_title', 'Conseil aux Artistes et aux Parents')} :</strong><br>
+        {labels.get('disclaimer_text', 'Chaque illustration est imprimée uniquement sur le recto, avec une page verso blanche anti-bavure.')}
       </p>
-      <p style="margin-top: 20pt;">Première édition : {year} — Imprimé par Amazon KDP.</p>
+      <p style="margin-top: 20pt;">{labels.get('colophon', 'Imprimé par Amazon KDP.')}</p>
     </section>
 
     <!-- COLORIAGE FRONT-MATTER 4 : TEST DE COULEURS -->
     <section class="front-matter color-test-page">
-      <h2 class="color-test-title">🎨 Mon Nuancier de Feutres & Crayons</h2>
-      <p style="font-size: 11pt; color: #64748b; margin-bottom: 30pt;">Essaie toutes tes couleurs ici avant de colorier tes dessins !</p>
+      <h2 class="color-test-title">{color_test_title}</h2>
       <div class="color-test-grid">
         <div class="color-test-circle"></div>
         <div class="color-test-circle"></div>
@@ -487,89 +488,93 @@ def generate_coloring_front_matter_html(meta: Dict[str, Any]) -> str:
     """
 
 
-def generate_coloring_back_matter_html(meta: Dict[str, Any]) -> str:
-    """Génère le Back-Matter spécifique pour livre de coloriage (Diplôme d'artiste + Avis)."""
+def generate_coloring_back_matter_html(meta: Dict[str, Any], language: str = "fr") -> str:
+    """Génère le Back-Matter spécifique pour livre de coloriage (Diplôme d'artiste + Avis multilingue)."""
+    lang = normalize_language(meta.get("language") or language)
+    labels = get_editorial_labels(lang)
     t = meta.get("title", "ce livre de coloriage")
-    author = meta.get("author", "MarkEddy")
+    diploma_title = labels.get("super_artist_diploma", "🏆 DIPLÔME OFFICIEL DU SUPER ARTISTE 🏆")
+    review_title = labels.get("review_request_title", "⭐️ Chers Parents, Votre Avis Est Précieux !")
+    review_text = labels.get("review_request_text", "Si cet album vous a plu, prenez une minute pour déposer un commentaire sur Amazon.")
 
     return f"""
     <!-- COLORIAGE BACK-MATTER 1 : DIPLÔME DU SUPER ARTISTE -->
     <section class="back-matter diploma-page">
       <div style="border: 3pt solid #0f172a; padding: 25pt; border-radius: 12pt; background: #ffffff;">
-        <h1 class="diploma-title">🏆 DIPLÔME OFFICIEL 🏆</h1>
-        <h2 style="font-size: 18pt; color: #d4af37; margin-bottom: 20pt;">DU SUPER ARTISTE EN HERBE</h2>
-        <p style="font-size: 14pt; margin: 20pt 0;">Ce certificat d'excellence est décerné avec fierté à :</p>
+        <h1 class="diploma-title">{diploma_title}</h1>
         <p style="font-size: 20pt; font-weight: bold; border-bottom: 2pt solid #0f172a; display: inline-block; min-width: 60%; margin: 15pt 0;">&nbsp;</p>
         <p style="font-size: 13pt; line-height: 1.6; margin: 20pt 0;">
-          Pour avoir colorié avec patience, créativité et imagination<br>
-          l'intégralité de l'album <strong>{t}</strong> !
+          <strong>{t}</strong>
         </p>
         <div style="margin-top: 40pt; display: flex; justify-content: space-around; font-size: 12pt;">
           <div>
             <p><strong>Date :</strong> ____ / ____ / ________</p>
           </div>
           <div>
-            <p><strong>Signature du Grand Artiste :</strong></p>
+            <p><strong>Signature :</strong></p>
             <p style="border-bottom: 1.5pt solid #94a3b8; width: 140pt; margin: 10pt auto 0 auto;">&nbsp;</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- COLORIAGE BACK-MATTER 2 : MOT POUR LES PARENTS -->
+    <!-- COLORIAGE BACK-MATTER 2 : AVIS AMAZON -->
     <section class="back-matter review-request-page" style="text-align: center; padding-top: 1.5in;">
       <div style="max-width: 80%; margin: 0 auto; border: 1pt solid #e2e8f0; padding: 25pt; border-radius: 10pt; background: #f8fafc;">
-        <h2 style="font-size: 18pt; color: #0f172a; margin-bottom: 10pt;">⭐️ Chers Parents, Votre Avis Est Précieux !</h2>
+        <h2 style="font-size: 18pt; color: #0f172a; margin-bottom: 10pt;">{review_title}</h2>
         <p style="font-size: 11pt; line-height: 1.6; color: #475569; margin-bottom: 15pt;">
-          Nous espérons de tout cœur que votre enfant a passé des heures merveilleuses et créatives à donner vie à ces dessins.
+          {review_text}
         </p>
-        <p style="font-size: 11pt; line-height: 1.6; color: #475569; margin-bottom: 15pt;">
-          Si cet album vous a plu, pourriez-vous prendre <strong>une minute pour déposer un commentaire sur Amazon</strong> ?
-          Votre soutien permet à notre petite équipe indépendante de continuer à créer de beaux livres pour nos enfants.
-        </p>
-        <p style="font-size: 12pt; font-weight: bold; color: #a16207;">Merci infiniment pour votre confiance !</p>
       </div>
     </section>
     """
 
 
-def generate_coloring_front_matter_markdown(meta: Dict[str, Any]) -> str:
-    """Génère le Front-Matter coloriage au format Markdown."""
+def generate_coloring_front_matter_markdown(meta: Dict[str, Any], language: str = "fr") -> str:
+    """Génère le Front-Matter coloriage au format Markdown (multilingue 5 langues)."""
+    lang = normalize_language(meta.get("language") or language)
+    labels = get_editorial_labels(lang)
     t = meta.get("title", "LIVRE DE COLORIAGE")
     author = meta.get("author", "Auteur")
     pub = meta.get("publisher", "Éditeur")
     year = meta.get("year", 2026)
     isbn = meta.get("isbn", "979-8-0000-0000-0")
+    belongs_title = labels.get("this_book_belongs_to", "🌟 CE LIVRE APPARTIENT À :")
+    color_title = labels.get("color_test", "🎨 Mon Nuancier de Feutres & Crayons")
 
     return (
-        f"# 🌟 CE LIVRE APPARTIENT À :\n\n"
-        f"**Prénom :** ____________________________________  \n"
-        f"**Âge :** _______ ans  \n"
+        f"# {belongs_title}\n\n"
+        f"**Nom / Name :** ____________________________________  \n"
         f"**Date :** ____ / ____ / {year}  \n\n"
         f"<div class=\"page-break\"></div>\n\n"
         f"# {t}\n\n"
         f"**{author}** — *{pub}*\n\n"
         f"<div class=\"page-break\"></div>\n\n"
         f"© {year} {author}. ISBN : {isbn}.  \n"
-        f"🖍️ *Chaque illustration est imprimée au recto avec un verso blanc anti-bavure.*\n\n"
+        f"{labels.get('colophon', 'Imprimé par Amazon KDP.')}\n\n"
         f"<div class=\"page-break\"></div>\n\n"
-        f"## 🎨 Mon Nuancier de Feutres & Crayons\n\n"
-        f"*(Teste tes couleurs ici !)*\n\n"
-        f"<div class=\"page-break\"></div>\n"
+        f"## {color_title}\n\n"
+        f"<div class=\"page-break\"></div>\n\n"
     )
 
 
-def generate_coloring_back_matter_markdown(meta: Dict[str, Any]) -> str:
-    """Génère le Back-Matter coloriage au format Markdown."""
+def generate_coloring_back_matter_markdown(meta: Dict[str, Any], language: str = "fr") -> str:
+    """Génère le Back-Matter coloriage au format Markdown (multilingue 5 langues)."""
+    lang = normalize_language(meta.get("language") or language)
+    labels = get_editorial_labels(lang)
     t = meta.get("title", "ce livre")
+    diploma_title = labels.get("super_artist_diploma", "🏆 DIPLÔME DU SUPER ARTISTE 🏆")
+    review_title = labels.get("review_request_title", "⭐️ Chers Parents, Votre Avis Est Précieux !")
+    review_text = labels.get("review_request_text", "Merci de laisser une évaluation sur Amazon pour encourager nos créateurs !")
+
     return (
         f"<div class=\"page-break\"></div>\n\n"
-        f"# 🏆 DIPLÔME DU SUPER ARTISTE 🏆\n\n"
+        f"# {diploma_title}\n\n"
         f"Décerné à : ____________________________________  \n"
-        f"Pour avoir colorié avec brio l'intégralité de **{t}** !\n\n"
+        f"Pour avoir colorié l'intégralité de **{t}** !\n\n"
         f"<div class=\"page-break\"></div>\n\n"
-        f"## ⭐️ Chers Parents, Votre Avis Est Précieux !\n\n"
-        f"Si votre enfant a aimé ce livre, merci de laisser une évaluation sur Amazon pour encourager nos artistes !\n"
+        f"## {review_title}\n\n"
+        f"{review_text}\n"
     )
 
 
