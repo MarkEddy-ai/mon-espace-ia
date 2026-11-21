@@ -1305,8 +1305,6 @@ def transcreate_book_content_html(
 # ==============================================================================
 
 def produce_single_transcreated_edition(
-    # Sécurisation création dossiers de sortie avant écriture SVG/HTML/JSON
-    Path(output_dir).mkdir(parents=True, exist_ok=True)
     master_book: Dict[str, Any],
     target_language: str,
     output_dir: Path,
@@ -1588,6 +1586,9 @@ def produce_multilang_bundle(
         for ed in editions:
             l = ed["language"]
             for ftype, abs_path in ed["files"].items():
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    for _sub in ("en", "es", "de", "ar", "fr"):
+        (Path(output_dir) / _sub).mkdir(parents=True, exist_ok=True)
                 p = Path(abs_path)
                 if p.exists():
                     arc_name = f"{l}/{p.name}"
