@@ -1670,6 +1670,7 @@ def test_26_enhance_brief_endpoint():
     resp_api_rand = client.post("/api/kdp/enhance-brief", json={
         "niche": "Stoïcisme & Sérénité",
         "book_type": "non-fiction",
+        "target_audience": "Adultes Débutants",
         "current_brief": "",
         "mode": "random",
         "language": "fr"
@@ -1679,11 +1680,48 @@ def test_26_enhance_brief_endpoint():
     assert data_rand["status"] == "success"
     assert data_rand["mode"] == "random"
     assert len(data_rand["brief"]) > 50
+    assert data_rand["large_print_recommended"] is False
 
-    # 4. Test API POST /api/kdp/enhance-brief (mode enhance en anglais)
+    # 4. Test unitaire et API avec cible Seniors (Grands Caractères / Large Print)
+    res_senior = enhance_kdp_brief(
+        niche="Mots Croisés & Logique",
+        book_type="puzzle",
+        target_audience="Seniors 60+ (Grands Caractères / Large Print)",
+        mode="random",
+        language="fr"
+    )
+    assert res_senior["large_print_recommended"] is True
+    assert "Grands Caractères" in res_senior["brief"] or "Large Print" in res_senior["brief"]
+
+    resp_api_senior = client.post("/api/kdp/enhance-brief", json={
+        "niche": "Santé & Mémoire",
+        "book_type": "non-fiction",
+        "target_audience": "Seniors 60+ (Grands Caractères / Large Print)",
+        "current_brief": "exercices quotidiens mémoire",
+        "mode": "enhance",
+        "language": "fr"
+    })
+    assert resp_api_senior.status_code == 200
+    data_senior = resp_api_senior.json()
+    assert data_senior["large_print_recommended"] is True
+    assert "Grands Caractères" in data_senior["brief"] or "Large Print" in data_senior["brief"]
+
+    # 5. Test avec cible Enfants
+    res_kids = enhance_kdp_brief(
+        niche="Animaux de la Savane",
+        book_type="coloriage",
+        target_audience="Enfants 6–8 ans (Primaire)",
+        mode="random",
+        language="fr"
+    )
+    assert res_kids["large_print_recommended"] is False
+    assert "Enfants" in res_kids["brief"]
+
+    # 6. Test API POST /api/kdp/enhance-brief (mode enhance en anglais)
     resp_api_enh = client.post("/api/kdp/enhance-brief", json={
         "niche": "Mindfulness & Sleep",
         "book_type": "non-fiction",
+        "target_audience": "Adults & Busy Professionals",
         "current_brief": "practical routine for better sleep without pills",
         "mode": "enhance",
         "language": "en"
