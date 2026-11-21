@@ -428,35 +428,139 @@
           <span class="text-xs px-2 py-0.5 rounded bg-gold-500/20 text-gold-400 border border-gold-500/40 font-mono">1 Crédit</span>
         </div>
 
-        <!-- SÉLECTEUR DE TYPE DE LIVRE (MODE 1 vs MODE 2 vs MODE 3) -->
-        <div class="grid grid-cols-3 gap-1.5 mb-4 p-1 bg-obsidian-950 rounded-xl border border-obsidian-700/80">
-          <button 
-            type="button" 
-            id="tab-mode-nonfiction" 
-            onclick="switchProjectMode('non-fiction')" 
-            class="py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gold-500 text-obsidian-950 shadow-sm"
-          >
-            <span>📖</span>
-            <span>Non-Fiction</span>
-          </button>
-          <button 
-            type="button" 
-            id="tab-mode-coloriage" 
-            onclick="switchProjectMode('coloriage')" 
-            class="py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200"
-          >
-            <span>🎨</span>
-            <span>Coloriage</span>
-          </button>
-          <button 
-            type="button" 
-            id="tab-mode-puzzles" 
-            onclick="switchProjectMode('puzzles')" 
-            class="py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200"
-          >
-            <span>🧩</span>
-            <span>Puzzles &amp; Jeux</span>
-          </button>
+        <!-- SÉLECTEUR DE CATÉGORIES & MODÈLES KDP + ETSY (CATALOGUE 2 NIVEAUX) -->
+        <div class="mb-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+              1. Catégorie d'Ouvrage (KDP + Etsy)
+            </label>
+            <span id="badge-catalog-engine" class="text-[10px] px-2 py-0.5 rounded-full bg-obsidian-800 text-gold-400 border border-gold-500/30 font-mono">Non-Fiction</span>
+          </div>
+
+          <!-- Grille 2 lignes x 4 colonnes (8 Catégories Principales) -->
+          <div class="grid grid-cols-4 gap-1.5 p-1 bg-obsidian-950 rounded-xl border border-obsidian-700/80">
+            <button 
+              type="button" 
+              id="cat-btn-non_fiction" 
+              onclick="selectCatalogCategory('non_fiction')" 
+              class="cat-pill py-2 px-1 text-[11px] font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-0.5 bg-gold-500 text-obsidian-950 shadow-sm cursor-pointer"
+              title="Guides pratiques, Méthodes, Business, IA & Développement personnel"
+            >
+              <span class="text-sm">📖</span>
+              <span class="truncate max-w-full">Non-Fiction</span>
+            </button>
+            <button 
+              type="button" 
+              id="cat-btn-coloring" 
+              onclick="selectCatalogCategory('coloring')" 
+              class="cat-pill py-2 px-1 text-[11px] font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-0.5 text-slate-400 hover:text-slate-200 cursor-pointer"
+              title="Coloriage Enfants, Bold & Easy Cozy, Mandalas & Zen Adultes"
+            >
+              <span class="text-sm">🎨</span>
+              <span class="truncate max-w-full">Coloriage</span>
+            </button>
+            <button 
+              type="button" 
+              id="cat-btn-puzzles" 
+              onclick="selectCatalogCategory('puzzles')" 
+              class="cat-pill py-2 px-1 text-[11px] font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-0.5 text-slate-400 hover:text-slate-200 cursor-pointer"
+              title="Mots Mêlés, Mots Croisés, Sudoku, Labyrinthes & Multi-Jeux"
+            >
+              <span class="text-sm">🧩</span>
+              <span class="truncate max-w-full">Puzzles</span>
+            </button>
+            <button 
+              type="button" 
+              id="cat-btn-educational" 
+              onclick="selectCatalogCategory('educational')" 
+              class="cat-pill py-2 px-1 text-[11px] font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-0.5 text-slate-400 hover:text-slate-200 cursor-pointer"
+              title="Handwriting, Cahiers d'exercices Maths/Sciences, Vacances & Montessori"
+            >
+              <span class="text-sm">🎓</span>
+              <span class="truncate max-w-full">Éducatif</span>
+            </button>
+            <button 
+              type="button" 
+              id="cat-btn-planners_journals" 
+              onclick="selectCatalogCategory('planners_journals')" 
+              class="cat-pill py-2 px-1 text-[11px] font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-0.5 text-slate-400 hover:text-slate-200 cursor-pointer"
+              title="Planners Quotidiens/Hebdo, Journaux Guidés, Trackers & Carnets de bord"
+            >
+              <span class="text-sm">📅</span>
+              <span class="truncate max-w-full">Planners</span>
+            </button>
+            <button 
+              type="button" 
+              id="cat-btn-workbooks" 
+              onclick="selectCatalogCategory('workbooks')" 
+              class="cat-pill py-2 px-1 text-[11px] font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-0.5 text-slate-400 hover:text-slate-200 cursor-pointer"
+              title="Workbooks de Coaching, Bilans d'Action & Kits d'Organisation"
+            >
+              <span class="text-sm">📋</span>
+              <span class="truncate max-w-full">Workbooks</span>
+            </button>
+            <button 
+              type="button" 
+              id="cat-btn-cookbooks" 
+              onclick="selectCatalogCategory('cookbooks')" 
+              class="cat-pill py-2 px-1 text-[11px] font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-0.5 text-slate-400 hover:text-slate-200 cursor-pointer"
+              title="Livres de Recettes Thématiques & Carnets de Cuisine Vierges"
+            >
+              <span class="text-sm">🍳</span>
+              <span class="truncate max-w-full">Cuisine</span>
+            </button>
+            <button 
+              type="button" 
+              id="cat-btn-fiction_kids" 
+              onclick="selectCatalogCategory('fiction_kids')" 
+              class="cat-pill py-2 px-1 text-[11px] font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-0.5 text-slate-400 hover:text-slate-200 cursor-pointer"
+              title="Contes Illustrés Enfants, Histoires du Soir & Livres-Jeux Interactifs"
+            >
+              <span class="text-sm">🧚</span>
+              <span class="truncate max-w-full">Jeunesse</span>
+            </button>
+          </div>
+
+          <!-- Modèle Précis & Canal Cible (2 colonnes) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+            <!-- Modèle Précis -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="book-model-select" class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+                  2. Modèle Précis
+                </label>
+                <div id="badge-low-content" class="hidden text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/35 font-medium">
+                  🏷️ Low-Content KDP
+                </div>
+              </div>
+              <select 
+                id="book-model-select" 
+                onchange="handleCatalogModelChange()" 
+                class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-2.5 py-2 text-xs text-slate-100 focus:outline-none focus:border-gold-500 transition-colors"
+              >
+                <!-- Rempli dynamiquement par JS -->
+              </select>
+            </div>
+
+            <!-- Canal Cible -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="book-target-platform" class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+                  3. Canal Cible
+                </label>
+                <span id="badge-platform-tip" class="text-[10px] text-slate-400 font-mono">📦 Broché KDP</span>
+              </div>
+              <select 
+                id="book-target-platform" 
+                onchange="handlePlatformChange()" 
+                class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-2.5 py-2 text-xs text-slate-100 focus:outline-none focus:border-gold-500 transition-colors"
+              >
+                <option value="kdp" selected>📦 Amazon KDP (Broché / Relié)</option>
+                <option value="etsy">🌿 Etsy Printable (A4 + US Letter)</option>
+                <option value="both">🚀 Multi-Canal : KDP + Etsy</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <form id="form-create-book" onsubmit="handleCreateBook(event)" class="space-y-4">
@@ -599,7 +703,7 @@
                 <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
                   Format KDP
                 </label>
-                <select id="select-format" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
+                <select id="select-format" onchange="updateRealtimeMeasurements()" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
                   <option value="6x9" selected>Broché 6" × 9" (Standard)</option>
                   <option value="5x8">5" × 8"</option>
                   <option value="5.06x7.81">5.06" × 7.81"</option>
@@ -626,6 +730,35 @@
                   <option value="5">5 chapitres (Rapide)</option>
                   <option value="10" selected>10 chapitres (Élite KDP)</option>
                   <option value="12">12 chapitres (Volume fort)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Options supplémentaires : Pagination Cible & Papier KDP -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                  Nombre de Pages Cible
+                </label>
+                <input 
+                  type="number" 
+                  id="input-page-count" 
+                  value="120" 
+                  min="24" 
+                  max="828" 
+                  oninput="updateRealtimeMeasurements()" 
+                  class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500 font-mono"
+                >
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+                  Type de Papier KDP
+                </label>
+                <select id="select-paper-type" onchange="updateRealtimeMeasurements()" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
+                  <option value="white">⚪ Blanc Standard (50 lb)</option>
+                  <option value="cream" selected>📜 Crème Noble (55 lb)</option>
+                  <option value="color_standard">🎨 Couleur Standard (50 lb)</option>
+                  <option value="color_premium">💎 Couleur Premium (60 lb)</option>
                 </select>
               </div>
             </div>
@@ -701,7 +834,7 @@
                 <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
                   Nb de Planches
                 </label>
-                <select id="select-coloriage-planches" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
+                <select id="select-coloriage-planches" onchange="handleColoringPlanchesChange()" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
                   <option value="15">15 planches (~35 p.)</option>
                   <option value="25">25 planches (~55 p.)</option>
                   <option value="30" selected>30 planches (~65 p.)</option>
@@ -712,7 +845,7 @@
                 <label class="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
                   Format KDP
                 </label>
-                <select id="select-format-coloriage" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
+                <select id="select-format-coloriage" onchange="updateRealtimeMeasurements()" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-gold-500">
                   <option value="8.5x11" selected>8.5" × 11" (Grand Format Enfant)</option>
                   <option value="8.5x8.5">8.5" × 8.5" (Carré Populaire)</option>
                   <option value="8.25x8.25">8.25" × 8.25"</option>
@@ -746,7 +879,7 @@
 
             <!-- Option Recto Uniquement (Single-Sided) -->
             <div class="p-3 rounded-xl bg-obsidian-900/80 border border-obsidian-700/60 flex items-start space-x-2.5">
-              <input type="checkbox" id="check-recto-uniquement" checked class="mt-1 rounded bg-obsidian-800 border-obsidian-600 text-gold-500 focus:ring-gold-500">
+              <input type="checkbox" id="check-recto-uniquement" checked onchange="handleColoringPlanchesChange()" class="mt-1 rounded bg-obsidian-800 border-obsidian-600 text-gold-500 focus:ring-gold-500">
               <label for="check-recto-uniquement" class="text-xs text-slate-300 cursor-pointer">
                 <span class="font-bold text-slate-100">Pages Recto Uniquement (Anti-bavure)</span><br>
                 <span class="text-[11px] text-slate-400">Insère une page verso blanche après chaque dessin pour empêcher les feutres de traverser.</span>
@@ -781,52 +914,68 @@
             </div>
           </div>
 
-          <!-- ================= BLOC DÉPLIABLE : VISUEL COUVERTURE (UNSPLASH / PIXABAY) ================= -->
-          <details id="block-visuel-couverture" class="pt-2 border-t border-obsidian-700/60 group" open>
-            <summary class="flex items-center justify-between cursor-pointer list-none select-none">
-              <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                Visuel Couverture (Unsplash / Pixabay)
-              </label>
-              <span class="text-[11px] text-gold-400 font-medium flex items-center space-x-1">
-                <span>Stock Pro 300 DPI</span>
-                <span class="text-slate-500 group-open:rotate-180 transition-transform">▾</span>
+          <!-- ENCART COMPACT : MÉTRAGE KDP CALCULÉ EN TEMPS RÉEL -->
+          <div id="realtime-measurements-card" class="p-3 rounded-xl bg-obsidian-900/90 border border-gold-500/30 text-xs shadow-inner">
+            <div class="flex items-center justify-between mb-2 pb-1.5 border-b border-obsidian-700/60">
+              <span class="font-bold text-gold-400 text-[11px] uppercase tracking-wider flex items-center space-x-1.5">
+                <span>📐</span>
+                <span>Métrage KDP Calculé en Temps Réel</span>
               </span>
-            </summary>
-
-            <div class="mt-2 space-y-2">
-              <!-- Bouton Sélecteur Stock -->
-              <button 
-                type="button" 
-                onclick="ouvrirStockModal()" 
-                class="w-full py-2 px-3 rounded-xl bg-obsidian-900 hover:bg-obsidian-800 border border-obsidian-700 hover:border-gold-500/50 text-xs text-slate-200 transition flex items-center justify-center space-x-2"
-              >
-                <span>🖼️</span>
-                <span>Choisir une Image Stock (Unsplash / Pixabay)</span>
-              </button>
-
-              <!-- Badge Image Sélectionnée (Caché au départ) -->
-              <div id="selected-stock-preview" class="hidden p-2 rounded-xl bg-obsidian-900 border border-gold-500/40 flex items-center justify-between">
-                <div class="flex items-center space-x-2.5 min-w-0">
-                  <img id="selected-stock-thumb" src="" alt="Thumbnail" class="w-10 h-10 rounded-lg object-cover border border-gold-500/30 flex-shrink-0">
-                  <div class="min-w-0">
-                    <div id="selected-stock-title" class="text-xs font-semibold text-slate-200 truncate">Image sélectionnée</div>
-                    <div id="selected-stock-source" class="text-[10px] text-gold-400">300 DPI Prepress Ready</div>
-                  </div>
-                </div>
-                <button type="button" onclick="retirerStockImage()" class="text-slate-400 hover:text-rose-400 p-1 text-sm" title="Retirer l'image">✕</button>
+              <span id="badge-spine-text" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-500/40">
+                Texte dos : Autorisé
+              </span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+              <div class="bg-obsidian-950/60 p-2 rounded-lg border border-obsidian-800">
+                <div class="text-slate-400 text-[10px]">Intérieur</div>
+                <div id="metric-interior" class="font-mono font-semibold text-slate-200">6" × 9" (152.4 × 228.6 mm)</div>
               </div>
+              <div class="bg-obsidian-950/60 p-2 rounded-lg border border-obsidian-800">
+                <div class="text-slate-400 text-[10px]">Gouttière (Gutter)</div>
+                <div id="metric-gutter" class="font-mono font-semibold text-amber-300">0.50" (12.7 mm)</div>
+              </div>
+              <div class="bg-obsidian-950/60 p-2 rounded-lg border border-obsidian-800">
+                <div class="text-slate-400 text-[10px]">Dos / Spine</div>
+                <div id="metric-spine" class="font-mono font-semibold text-gold-300">0.30" (7.62 mm)</div>
+              </div>
+              <div class="bg-obsidian-950/60 p-2 rounded-lg border border-obsidian-800">
+                <div class="text-slate-400 text-[10px]">Couverture 300 DPI</div>
+                <div id="metric-cover-px" class="font-mono font-semibold text-slate-200">3765 × 2775 px</div>
+              </div>
+            </div>
+            <!-- Zone d'alertes dynamiques de validation -->
+            <div id="measurements-warning-box" class="hidden mt-2 p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 text-[10px] text-amber-300 flex items-start space-x-1.5">
+              <span>⚠️</span>
+              <span id="measurements-warning-text">Avertissement</span>
+            </div>
+          </div>
 
-              <!-- Connexion Canva -->
+          <!-- ================= INDICATEUR DISCRET : MOTEUR VISUEL AUTONOME ================= -->
+          <div id="block-visuel-autonome" class="pt-2 border-t border-obsidian-700/60">
+            <div class="p-2.5 rounded-xl bg-obsidian-900/80 border border-obsidian-700/60 flex items-center justify-between text-xs">
+              <div class="flex items-center space-x-2 text-slate-300">
+                <span class="text-emerald-400 text-sm">🤖</span>
+                <span class="font-medium text-[11px] text-slate-300">
+                  Moteur Visuel Autonome : <strong class="text-slate-100 font-semibold">Unsplash · Pixabay · Canva</strong>
+                  <span class="text-emerald-400 font-semibold ml-1">(Actif en arrière-plan)</span>
+                </span>
+              </div>
               <button 
                 type="button" 
                 onclick="ouvrirCanvaConnect()" 
-                class="w-full py-2 px-3 rounded-xl bg-obsidian-900 hover:bg-obsidian-800 border border-obsidian-700 hover:border-fuchsia-500/50 text-xs text-slate-200 transition flex items-center justify-center space-x-2"
+                class="text-[10px] text-slate-400 hover:text-gold-400 underline underline-offset-2 transition ml-2 flex-shrink-0"
+                title="Configuration Admin API (OAuth Canva / Clés Unsplash & Pixabay)"
               >
-                <span>🎨</span>
-                <span>Connecter mon compte Canva</span>
+                Paramètres API
               </button>
             </div>
-          </details>
+            <!-- Éléments masqués pour rétrocompatibilité DOM JS -->
+            <div id="selected-stock-preview" class="hidden">
+              <img id="selected-stock-thumb" src="" alt="" class="hidden">
+              <div id="selected-stock-title" class="hidden"></div>
+              <div id="selected-stock-source" class="hidden"></div>
+            </div>
+          </div>
 
           <!-- Notice Normes & Quota -->
           <div class="p-3 rounded-xl bg-obsidian-900/60 border border-obsidian-700/50 text-[11px] text-slate-400 space-y-1">
@@ -2069,35 +2218,392 @@
     let currentProjectMode = "non-fiction";
     let selectedCoverBg = null;
     let currentStockSource = "all";
+    let currentCatalogCategory = "non_fiction";
+    let currentCatalogModelId = "guide_pratique";
+    let clientCatalog = null;
 
-    // Gestion du Mode de Projet (Non-Fiction 6x9 vs Coloriage 8.5x11 vs Puzzles)
-    function switchProjectMode(mode) {
-      currentProjectMode = mode;
-      const btnNonFiction = document.getElementById("tab-mode-nonfiction");
-      const btnColoriage = document.getElementById("tab-mode-coloriage");
-      const btnPuzzles = document.getElementById("tab-mode-puzzles");
+    // Référentiel des 8 catégories d'ouvrages Amazon KDP + Etsy
+    const BOOK_CATEGORIES_DATA = {
+      non_fiction: {
+        id: "non_fiction",
+        label: "Non-Fiction",
+        icon: "📖",
+        engine: "text",
+        default_format: "6x9",
+        models: [
+          { id: "guide_pratique", label: "Guide pratique & Méthode terrain", default_format: "6x9", low_content_flag: false, suggested_audience: "Adultes Débutants", engine: "text", placeholder: "Ex: Psychologie de l'argent, Stoïcisme..." },
+          { id: "developpement_personnel", label: "Développement personnel & Neuro-habitudes", default_format: "6x9", low_content_flag: false, suggested_audience: "Adultes Débutants", engine: "text", placeholder: "Ex: Micro-habitudes, Vaincre la procrastination..." },
+          { id: "business_finances", label: "Business, Stratégie & Finances", default_format: "6x9", low_content_flag: false, suggested_audience: "Adultes Confirmés / Professionnels", engine: "text", placeholder: "Ex: Trésorerie d'entreprise, Investissement ETF..." },
+          { id: "tech_ia", label: "Intelligence Artificielle & Technologies", default_format: "6x9", low_content_flag: false, suggested_audience: "Adultes Confirmés / Professionnels", engine: "text", placeholder: "Ex: Maîtriser le Prompt Engineering, IA au travail..." },
+          { id: "sante_bien_etre", label: "Santé, Sommeil & Bien-être", default_format: "6x9", low_content_flag: false, suggested_audience: "Tous publics", engine: "text", placeholder: "Ex: Protocole Sommeil profond, Jeûne intermittent..." }
+        ]
+      },
+      coloring: {
+        id: "coloring",
+        label: "Coloriage",
+        icon: "🎨",
+        engine: "coloring",
+        default_format: "8.5x11",
+        models: [
+          { id: "enfants_traits_epais", label: "Enfants 3-8 ans (Traits Épais Anti-débordement)", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Enfants 3–5 ans (Éveil / Maternelle)", engine: "coloring", placeholder: "Animaux mignons de la savane..." },
+          { id: "bold_easy_cozy", label: "Bold & Easy / Cozy (Tendance TikTok)", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Tous publics", engine: "coloring", placeholder: "Moments cocooning, café et petites douceurs..." },
+          { id: "mandalas_zen_adultes", label: "Mandalas & Art-Thérapie Zen Adultes", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Adultes Débutants", engine: "coloring", placeholder: "Rosaces sacrées et motifs géométriques anti-stress..." },
+          { id: "botanique_architecture", label: "Botanique & Architecture d'Artisan", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Adultes Débutants", engine: "coloring", placeholder: "Serres botaniques, fleurs sauvages et maisons victoriennes..." },
+          { id: "pack_etsy_printable", label: "Pack PDF Coloriage Etsy Printable", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Tous publics", engine: "coloring", placeholder: "Pack 30 planches à imprimer A4/Letter..." }
+        ]
+      },
+      puzzles: {
+        id: "puzzles",
+        label: "Puzzles",
+        icon: "🧩",
+        engine: "puzzles",
+        default_format: "8.5x11",
+        models: [
+          { id: "mots_meles", label: "Mots Mêlés Thématiques (Word Search)", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Tous publics", engine: "puzzles", placeholder: "Vocabulaire Nature, Villes du Monde, Histoire..." },
+          { id: "mots_croises_melanges", label: "Mots Croisés & Mots Mélangés", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Adultes Confirmés / Professionnels", engine: "puzzles", placeholder: "Grilles croisées et échelles de mots..." },
+          { id: "labyrinthes_immersifs", label: "Labyrinthes Vectoriels Multi-niveaux", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Enfants 6–8 ans (Primaire)", engine: "puzzles", placeholder: "Labyrinthes d'aventure et châteaux..." },
+          { id: "sudoku_logique", label: "Sudoku & Grilles de Déduction", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Adultes Débutants", engine: "puzzles", placeholder: "Sudoku 9x9 symétriques et logiques..." },
+          { id: "cryptogrammes_enigmes", label: "Cryptogrammes & Énigmes à Clés", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Adultes Confirmés / Professionnels", engine: "puzzles", placeholder: "Citations célèbres et codes secrets..." },
+          { id: "points_a_relier", label: "Points à Relier & Chiffres Cachés", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Enfants 6–8 ans (Primaire)", engine: "puzzles", placeholder: "Dessins point par point de 1 à 100..." },
+          { id: "cahier_multi_jeux", label: "Cahier Multi-Jeux (8 Variantes Réunies)", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Tous publics", engine: "puzzles", placeholder: "Recueil géant de jeux de réflexion variés..." },
+          { id: "seniors_grands_caracteres", label: "Grands Caractères Seniors (Large Print)", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Seniors 60+ (Grands Caractères / Large Print)", engine: "puzzles", placeholder: "Jeux de mémoire et grilles aérées pour seniors..." }
+        ]
+      },
+      educational: {
+        id: "educational",
+        label: "Éducatif",
+        icon: "🎓",
+        engine: "workbook",
+        default_format: "8.5x11",
+        models: [
+          { id: "trace_lettres_chiffres", label: "Tracé Lettres & Chiffres (Handwriting)", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Enfants 3–5 ans (Éveil / Maternelle)", engine: "workbook", placeholder: "Apprentissage de l'écriture cursive et majuscules..." },
+          { id: "exercices_maths_sciences", label: "Exercices Maths & Logique", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Enfants 6–8 ans (Primaire)", engine: "workbook", placeholder: "Calcul mental, petits problèmes et géométrie..." },
+          { id: "cahier_de_vacances", label: "Cahier de Vacances Ludo-éducatif", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Enfants 6–8 ans (Primaire)", engine: "workbook", placeholder: "Révisions d'été CP-CE1, jeux et découvertes..." },
+          { id: "fiches_montessori_flashcards_etsy", label: "Fiches Montessori & Flashcards (Etsy)", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Parents & Éducateurs", engine: "workbook", placeholder: "Cartes d'autonomie et fiches éducatives découpables..." },
+          { id: "cahier_bilingue", label: "Cahier d'Apprentissage Bilingue", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Enfants 9–12 ans (Collège)", engine: "workbook", placeholder: "Anglais débutant avec fiches visuelles..." }
+        ]
+      },
+      planners_journals: {
+        id: "planners_journals",
+        label: "Planners",
+        icon: "📅",
+        engine: "workbook",
+        default_format: "8.5x11",
+        models: [
+          { id: "planner_quotidien_hebdo", label: "Planner Quotidien & Hebdomadaire Non-Daté", default_format: "8.5x11", low_content_flag: true, suggested_audience: "Adultes Débutants", engine: "workbook", placeholder: "Organisation du temps, priorités et to-do list..." },
+          { id: "journal_guide_gratitude", label: "Journal Guidé de Gratitude & Réflexion", default_format: "6x9", low_content_flag: true, suggested_audience: "Adultes Débutants", engine: "workbook", placeholder: "3 minutes le matin, pensées positives et bilan..." },
+          { id: "tracker_budget_habitudes", label: "Tracker de Budget, Épargne & Habitudes", default_format: "8.5x11", low_content_flag: true, suggested_audience: "Adultes Débutants", engine: "workbook", placeholder: "Budget mensuel, épargne de sécurité et routines..." },
+          { id: "carnet_de_bord_thematique", label: "Carnet de Bord & Logbook Spécialisé", default_format: "6x9", low_content_flag: true, suggested_audience: "Tous publics", engine: "workbook", placeholder: "Carnet de fitness, logbook de plongée, carnet de tir..." },
+          { id: "planner_digital_etsy", label: "Planner Digital GoodNotes & Notability (Etsy)", default_format: "8.5x11", low_content_flag: true, suggested_audience: "Adultes Débutants", engine: "workbook", placeholder: "Agenda hyperlié pour tablette et stylet..." }
+        ]
+      },
+      workbooks: {
+        id: "workbooks",
+        label: "Workbooks",
+        icon: "📋",
+        engine: "workbook",
+        default_format: "8.5x11",
+        models: [
+          { id: "workbook_coaching", label: "Workbook de Coaching & Action", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Adultes Confirmés / Professionnels", engine: "workbook", placeholder: "Plan de transformation professionnelle en 12 étapes..." },
+          { id: "cahier_exercices_bilans", label: "Cahier d'Exercices, Audits & Bilans", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Adultes Débutants", engine: "workbook", placeholder: "Grilles d'introspection et exercices guidés..." },
+          { id: "kit_printable_organisation_etsy", label: "Kit Printable Organisation (Etsy)", default_format: "8.5x11", low_content_flag: false, suggested_audience: "Parents & Éducateurs", engine: "workbook", placeholder: "Kits de gestion du foyer, ménage et plannings..." }
+        ]
+      },
+      cookbooks: {
+        id: "cookbooks",
+        label: "Cuisine",
+        icon: "🍳",
+        engine: "text",
+        default_format: "7x10",
+        models: [
+          { id: "livre_recettes_thematique", label: "Livre de Recettes Thématique Illustré", default_format: "7x10", low_content_flag: false, suggested_audience: "Tous publics", engine: "text", placeholder: "Recettes Air Fryer faciles, batch cooking sain..." },
+          { id: "carnet_recettes_a_remplir", label: "Carnet de Recettes Vierge à Remplir", default_format: "7x10", low_content_flag: true, suggested_audience: "Tous publics", engine: "workbook", placeholder: "Mon cahier de recettes secrètes de famille..." },
+          { id: "meal_planner_courses_etsy", label: "Meal Planner & Listes de Courses (Etsy)", default_format: "8.5x11", low_content_flag: true, suggested_audience: "Adultes Débutants", engine: "workbook", placeholder: "Menus de la semaine et organisation des repas..." }
+        ]
+      },
+      fiction_kids: {
+        id: "fiction_kids",
+        label: "Jeunesse",
+        icon: "🧚",
+        engine: "text",
+        default_format: "8.5x8.5",
+        models: [
+          { id: "contes_illustres_enfants", label: "Contes Illustrés pour Enfants", default_format: "8.5x8.5", low_content_flag: false, suggested_audience: "Enfants 3–5 ans (Éveil / Maternelle)", engine: "text", placeholder: "Le petit hérisson courageux de la forêt..." },
+          { id: "histoires_du_soir", label: "Histoires Courtes d'Endormissement", default_format: "6x9", low_content_flag: false, suggested_audience: "Enfants 6–8 ans (Primaire)", engine: "text", placeholder: "Contes apaisants pour s'endormir avec le sourire..." },
+          { id: "roman_court_recueil", label: "Roman Court ou Recueil de Nouvelles", default_format: "5x8", low_content_flag: false, suggested_audience: "Adolescents 12–17 ans", engine: "text", placeholder: "L'énigme du manoir oublié, aventure ados..." },
+          { id: "livre_jeu_interactif", label: "Livre-Jeu Interactif (Héros)", default_format: "5.5x8.5", low_content_flag: false, suggested_audience: "Enfants 9–12 ans (Collège)", engine: "text", placeholder: "La quête du médaillon perdu dont tu es le héros..." }
+        ]
+      }
+    };
+
+    // Sélection de la catégorie principale
+    function selectCatalogCategory(catId) {
+      const cat = (clientCatalog && clientCatalog[catId]) || BOOK_CATEGORIES_DATA[catId] || BOOK_CATEGORIES_DATA.non_fiction;
+      currentCatalogCategory = cat.id || catId;
+      currentProjectMode = (cat.id === "coloring") ? "coloriage" : "non-fiction";
+
+      // Mise à jour visuelle des 8 boutons de catégories
+      Object.keys(BOOK_CATEGORIES_DATA).forEach(k => {
+        const btn = document.getElementById("cat-btn-" + k);
+        if (btn) {
+          if (k === currentCatalogCategory) {
+            btn.className = "cat-pill py-2 px-1 text-[11px] font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-0.5 bg-gold-500 text-obsidian-950 shadow-sm cursor-pointer";
+          } else {
+            btn.className = "cat-pill py-2 px-1 text-[11px] font-bold rounded-lg transition-all flex flex-col items-center justify-center space-y-0.5 text-slate-400 hover:text-slate-200 cursor-pointer";
+          }
+        }
+      });
+
+      // Mise à jour de l'étiquette moteur
+      const badgeEngine = document.getElementById("badge-catalog-engine");
+      if (badgeEngine) {
+        const engineLabels = {
+          text: "Moteur : Non-Fiction / Savoir",
+          coloring: "Moteur : Coloriage 300 DPI",
+          puzzles: "Moteur : Puzzles & Jeux",
+          workbook: "Moteur : Workbook & Activités"
+        };
+        badgeEngine.textContent = engineLabels[cat.engine || cat.primary_engine] || `Moteur : ${cat.label}`;
+      }
+
+      // Remplissage du select de modèles précis
+      const selectModel = document.getElementById("book-model-select");
+      if (selectModel) {
+        selectModel.innerHTML = "";
+        (cat.models || []).forEach((m, idx) => {
+          const opt = document.createElement("option");
+          opt.value = m.id;
+          opt.textContent = m.label;
+          if (idx === 0) opt.selected = true;
+          selectModel.appendChild(opt);
+        });
+      }
+
+      // Bascule de section d'affichage (Coloriage vs Non-Fiction)
       const secNonFiction = document.getElementById("section-nonfiction");
       const secColoriage = document.getElementById("section-coloriage");
       const btnSubmitText = document.querySelector(".btn-submit-label");
 
-      if (btnNonFiction) btnNonFiction.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200";
-      if (btnColoriage) btnColoriage.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200";
-      if (btnPuzzles) btnPuzzles.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200";
-
-      if (mode === "puzzles") {
-        if (btnPuzzles) btnPuzzles.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-sm";
-        switchMainTab("puzzles");
-      } else if (mode === "coloriage") {
-        if (btnColoriage) btnColoriage.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gradient-to-r from-fuchsia-600 to-amber-500 text-white shadow-sm";
+      if (currentCatalogCategory === "coloring") {
         if (secNonFiction) secNonFiction.classList.add("hidden");
         if (secColoriage) secColoriage.classList.remove("hidden");
         if (btnSubmitText) btnSubmitText.textContent = "Générer l'Album Coloriage (1 Crédit)";
         autoSuggestColoringTitle();
       } else {
-        if (btnNonFiction) btnNonFiction.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gold-500 text-obsidian-950 shadow-sm";
         if (secNonFiction) secNonFiction.classList.remove("hidden");
         if (secColoriage) secColoriage.classList.add("hidden");
         if (btnSubmitText) btnSubmitText.textContent = "Lancer la Production (1 Crédit)";
+      }
+
+      handleCatalogModelChange();
+    }
+
+    function handleCatalogModelChange() {
+      const selectModel = document.getElementById("book-model-select");
+      const modelId = selectModel ? selectModel.value : null;
+      currentCatalogModelId = modelId;
+
+      const cat = (clientCatalog && clientCatalog[currentCatalogCategory]) || BOOK_CATEGORIES_DATA[currentCatalogCategory] || BOOK_CATEGORIES_DATA.non_fiction;
+      const model = (cat.models || []).find(m => m.id === modelId) || (cat.models || [])[0];
+      if (!model) return;
+
+      // 1. Pré-sélection du format KDP recommandé
+      if (model.default_format) {
+        const selFormat = document.getElementById("select-format");
+        if (selFormat) {
+          const optMatch = Array.from(selFormat.options).find(o => o.value === model.default_format);
+          if (optMatch) selFormat.value = model.default_format;
+        }
+      }
+
+      // 2. Gestion du badge Low-Content KDP
+      const badgeLowContent = document.getElementById("badge-low-content");
+      if (badgeLowContent) {
+        badgeLowContent.classList.toggle("hidden", !model.low_content_flag);
+      }
+
+      // 3. Pré-sélection de l'audience recommandée si l'utilisateur n'a pas personnalisé
+      if (model.suggested_audience) {
+        const selAud = document.getElementById("book-target-audience");
+        if (selAud && (selAud.value === "Adultes Débutants" || selAud.value === "Tous publics")) {
+          const matchingOpt = Array.from(selAud.options).find(o => o.value.includes(model.suggested_audience) || model.suggested_audience.includes(o.value));
+          if (matchingOpt) {
+            selAud.value = matchingOpt.value;
+            handleTargetAudienceChange();
+          }
+        }
+      }
+
+      // 4. Mise à jour d'un placeholder inspirant
+      const inputNiche = document.getElementById("input-niche");
+      if (inputNiche && model.placeholder) {
+        inputNiche.placeholder = model.placeholder;
+      }
+
+      // 5. Pré-sélection de la pagination et du type de papier recommandés
+      if (model.default_pages) {
+        const inpPages = document.getElementById("input-page-count");
+        if (inpPages) inpPages.value = model.default_pages;
+      }
+      if (model.default_paper_type) {
+        const selPaper = document.getElementById("select-paper-type");
+        if (selPaper) selPaper.value = model.default_paper_type;
+      }
+
+      // 6. Recalcul instantané du métrage KDP & Etsy
+      updateRealtimeMeasurements();
+    }
+
+    function handlePlatformChange() {
+      const selPlatform = document.getElementById("book-target-platform");
+      const tipBadge = document.getElementById("badge-platform-tip");
+      const val = selPlatform ? selPlatform.value : "kdp";
+      if (!tipBadge) return;
+
+      if (val === "etsy") {
+        tipBadge.textContent = "🌿 PDF A4 + US Letter";
+        tipBadge.className = "text-[10px] text-emerald-400 font-mono";
+      } else if (val === "both") {
+        tipBadge.textContent = "🚀 KDP + Etsy Printables";
+        tipBadge.className = "text-[10px] text-gold-400 font-mono";
+      } else {
+        tipBadge.textContent = "📦 Broché 300 DPI KDP";
+        tipBadge.className = "text-[10px] text-slate-400 font-mono";
+      }
+
+      updateRealtimeMeasurements();
+    }
+
+    // Récupération dynamique du catalogue depuis l'API backend
+    async function fetchCatalogCategories() {
+      try {
+        const res = await fetch('/api/kdp/catalog');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.categories) {
+            clientCatalog = data.categories;
+            selectCatalogCategory(currentCatalogCategory || 'non_fiction');
+          }
+        }
+      } catch (err) {
+        console.warn("Utilisation du catalogue KDP local par défaut", err);
+      }
+    }
+
+    // Calculateur de métrage dynamique en temps réel (0 ms local + validation API backend)
+    async function updateRealtimeMeasurements() {
+      const modelId = document.getElementById("book-model-select")?.value || "guide_pratique";
+      const formatKdp = (currentCatalogCategory === "coloring")
+        ? (document.getElementById("select-format-coloriage")?.value || "8.5x11")
+        : (document.getElementById("select-format")?.value || "6x9");
+      const paperType = document.getElementById("select-paper-type")?.value || "cream";
+      const pageInput = document.getElementById("input-page-count");
+      const pageCount = parseInt(pageInput?.value) || 120;
+      const platform = document.getElementById("book-target-platform")?.value || "kdp";
+
+      // 1. Calcul prédictif local instantané
+      try {
+        const coeffMap = { white: 0.002252, cream: 0.0025, color_standard: 0.002349, color_premium: 0.0025 };
+        const coeff = coeffMap[paperType] || 0.002252;
+        const spineIn = (pageCount * coeff).toFixed(4);
+        const spineMm = (spineIn * 25.4).toFixed(2);
+        const spineAllowed = pageCount >= 79;
+
+        const badgeSpine = document.getElementById("badge-spine-text");
+        if (badgeSpine) {
+          if (spineAllowed) {
+            badgeSpine.className = "px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-500/40";
+            badgeSpine.textContent = "Texte dos : Autorisé";
+          } else {
+            badgeSpine.className = "px-2 py-0.5 rounded text-[10px] font-bold bg-amber-950/80 text-amber-400 border border-amber-500/40";
+            badgeSpine.textContent = "Texte dos : Interdit (< 79 p.)";
+          }
+        }
+        const elSpine = document.getElementById("metric-spine");
+        if (elSpine) elSpine.textContent = `${spineIn}" (${spineMm} mm)`;
+      } catch (_) {}
+
+      // 2. Appel au moteur backend officiel certifié KDP
+      try {
+        const res = await fetch("/api/kdp/calculate-measurements", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model_id: modelId,
+            page_count: pageCount,
+            format_kdp: formatKdp,
+            paper_type: paperType,
+            platform: platform
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.status === "success" && data.measurements) {
+            applyMeasurementsToUI(data.measurements);
+          }
+        }
+      } catch (err) {
+        console.warn("Calcul mesures en mode local", err);
+      }
+    }
+
+    function applyMeasurementsToUI(m) {
+      const elInterior = document.getElementById("metric-interior");
+      const elGutter = document.getElementById("metric-gutter");
+      const elSpine = document.getElementById("metric-spine");
+      const elCoverPx = document.getElementById("metric-cover-px");
+      const badgeSpine = document.getElementById("badge-spine-text");
+      const warnBox = document.getElementById("measurements-warning-box");
+      const warnText = document.getElementById("measurements-warning-text");
+
+      if (elInterior && m.interior_inches && m.interior_mm) {
+        elInterior.textContent = `${m.interior_inches.width}" × ${m.interior_inches.height}" (${m.interior_mm.width} × ${m.interior_mm.height} mm)`;
+      }
+      if (elGutter) {
+        elGutter.textContent = `${m.gutter_inches}" (${m.gutter_mm} mm)`;
+      }
+      if (elSpine) {
+        elSpine.textContent = `${m.spine_inches}" (${m.spine_mm} mm)`;
+      }
+      if (elCoverPx && Array.isArray(m.cover_300dpi_px)) {
+        elCoverPx.textContent = `${m.cover_300dpi_px[0]} × ${m.cover_300dpi_px[1]} px`;
+      }
+      if (badgeSpine) {
+        if (m.spine_text_allowed) {
+          badgeSpine.className = "px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-500/40";
+          badgeSpine.textContent = "Texte dos : Autorisé";
+        } else {
+          badgeSpine.className = "px-2 py-0.5 rounded text-[10px] font-bold bg-amber-950/80 text-amber-400 border border-amber-500/40";
+          badgeSpine.textContent = "Texte dos : Interdit (< 79 p.)";
+        }
+      }
+      if (warnBox && warnText) {
+        if (m.validation_warnings && m.validation_warnings.length > 0) {
+          warnBox.classList.remove("hidden");
+          warnText.innerHTML = m.validation_warnings.join("<br>");
+        } else {
+          warnBox.classList.add("hidden");
+        }
+      }
+    }
+
+    function handleColoringPlanchesChange() {
+      const nbPlanches = parseInt(document.getElementById("select-coloriage-planches")?.value) || 30;
+      const rectoOnly = document.getElementById("check-recto-uniquement")?.checked;
+      const estimatedPages = rectoOnly ? (nbPlanches * 2) + 4 : nbPlanches + 4;
+      const pageInput = document.getElementById("input-page-count");
+      if (pageInput) pageInput.value = estimatedPages;
+      updateRealtimeMeasurements();
+    }
+
+    // Gestion du Mode de Projet rétrocompatible (Non-Fiction vs Coloriage vs Puzzles)
+    function switchProjectMode(mode) {
+      if (mode === "coloriage" || mode === "coloring") {
+        selectCatalogCategory("coloring");
+      } else if (mode === "puzzles" || mode === "puzzle") {
+        selectCatalogCategory("puzzles");
+      } else {
+        selectCatalogCategory("non_fiction");
       }
     }
 
@@ -2752,11 +3258,6 @@
                     <span>👁️</span>
                     <span>Consulter</span>
                   </button>
-                  ${estTermine ? `
-                  <button onclick="exporterVersCanva(${book.id})" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-fuchsia-950/70 text-fuchsia-200 hover:bg-fuchsia-500 hover:text-white border border-fuchsia-500/40 transition flex items-center space-x-1" title="Exporter la couverture vers Canva">
-                    <span>🎨</span>
-                    <span>Exporter vers Canva</span>
-                  </button>` : ``}
                   <button onclick="supprimerLivre(${book.id})" class="p-1.5 rounded-lg text-xs text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/30 transition" title="Supprimer">
                     🗑️
                   </button>
@@ -2840,6 +3341,25 @@
           cover_bg_image: selectedCoverBg || null,
           cover_image_url: selectedCoverBg || null
         };
+      }
+
+      // Attachement du catalogue, du modèle précis et du canal cible
+      payload.category = currentCatalogCategory || "non_fiction";
+      const modelSelectEl = document.getElementById("book-model-select");
+      if (modelSelectEl && modelSelectEl.value) {
+        payload.model_id = modelSelectEl.value;
+      }
+      const platformSelectEl = document.getElementById("book-target-platform");
+      if (platformSelectEl && platformSelectEl.value) {
+        payload.target_platform = platformSelectEl.value;
+      }
+      const pageCountInput = document.getElementById("input-page-count");
+      if (pageCountInput && pageCountInput.value) {
+        payload.page_count = parseInt(pageCountInput.value) || 120;
+      }
+      const paperTypeInput = document.getElementById("select-paper-type");
+      if (paperTypeInput && paperTypeInput.value) {
+        payload.paper_type = paperTypeInput.value;
       }
 
       const customBriefVal = document.getElementById("book-custom-brief")?.value?.trim() || "";
@@ -4302,6 +4822,10 @@
 
       const savedLang = localStorage.getItem('kdp_studio_lang') || 'fr';
       setGlobalLanguage(savedLang);
+
+      // Initialisation du catalogue KDP + Etsy
+      selectCatalogCategory('non_fiction');
+      fetchCatalogCategories();
     });
   </script>
 

@@ -52,24 +52,16 @@ def get_masterpiece_css():
 
     @page {
         size: 6in 9in;
-        margin-top: 0.70in;
-        margin-bottom: 0.70in;
+        margin-top: 0.65in;
+        margin-bottom: 0.65in;
+        margin-left: 0.50in;
+        margin-right: 0.50in;
         @bottom-center {
             content: counter(page);
             font-family: 'Garamond', 'Georgia', 'Constantia', serif;
             font-size: 9pt;
             color: #64748B;
         }
-    }
-
-    @page :right {
-        margin-left: 0.75in;
-        margin-right: 0.45in;
-    }
-
-    @page :left {
-        margin-left: 0.45in;
-        margin-right: 0.75in;
     }
 
     hr {
@@ -105,7 +97,8 @@ def get_masterpiece_css():
     /* 1. Page de Faux-Titre */
     .half-title-page {
         page-break-before: always;
-        height: 7.4in;
+        height: 7.2in;
+        width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -121,6 +114,8 @@ def get_masterpiece_css():
         text-transform: uppercase;
         color: #0F172A;
         font-weight: 700;
+        width: 100%;
+        text-align: center;
     }
 
     .half-title-ornament {
@@ -128,6 +123,8 @@ def get_masterpiece_css():
         font-size: 11pt;
         color: #D4AF37;
         letter-spacing: 8px;
+        width: 100%;
+        text-align: center;
     }
 
     /* 2. Page Blanche noble */
@@ -142,9 +139,16 @@ def get_masterpiece_css():
         text-align: center;
         padding-top: 1.0in;
         height: 7.2in;
+        width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        align-items: center;
+    }
+
+    .title-page > div {
+        width: 100%;
+        text-align: center;
     }
 
     .title-main {
@@ -246,7 +250,7 @@ def get_masterpiece_css():
         page-break-before: always;
         padding-top: 2.0in;
         text-align: center;
-        max-width: 4.5in;
+        width: 100%;
         margin: 0 auto;
     }
 
@@ -256,6 +260,8 @@ def get_masterpiece_css():
         line-height: 1.5;
         color: #1E293B;
         margin-bottom: 8px;
+        text-align: center;
+        width: 100%;
     }
 
     .epigraph-author {
@@ -265,6 +271,8 @@ def get_masterpiece_css():
         text-transform: uppercase;
         color: #64748B;
         margin-bottom: 30px;
+        text-align: center;
+        width: 100%;
     }
 
     .dedication-text {
@@ -276,12 +284,15 @@ def get_masterpiece_css():
         border-top: 1px solid #E2E8F0;
         border-bottom: 1px solid #E2E8F0;
         padding: 22px 14px;
+        text-align: center;
+        width: 100%;
     }
 
     /* 6. Sommaire Métrique & Structuré (Table des Matières) */
     .toc-page {
         page-break-before: always;
         padding-top: 0.2in;
+        width: 100%;
     }
 
     .toc-title {
@@ -292,17 +303,20 @@ def get_masterpiece_css():
         text-align: center;
         color: #0F172A;
         margin-bottom: 22px;
+        width: 100%;
     }
 
     .toc-grid {
         display: flex;
         flex-direction: column;
         gap: 12px;
+        width: 100%;
     }
 
     .toc-chapter-item {
         margin-bottom: 11px;
         page-break-inside: avoid;
+        width: 100%;
     }
 
     .toc-chapter-header {
@@ -315,6 +329,7 @@ def get_masterpiece_css():
         color: #0F172A;
         border-bottom: 1px dotted #CBD5E1;
         padding-bottom: 3px;
+        width: 100%;
     }
 
     .toc-chapter-num {
@@ -329,6 +344,7 @@ def get_masterpiece_css():
         font-size: 9.2pt;
         color: #475569;
         line-height: 1.48;
+        width: 100%;
     }
 
     .toc-subsections-list li {
@@ -443,15 +459,16 @@ def get_masterpiece_css():
     .slide-header {
         background: #0F172A;
         color: #F8FAFC;
-        padding: 8px 12px;
+        padding: 7px 10px;
         font-family: 'Cinzel', 'Garamond', serif;
-        font-size: 8.5pt;
-        letter-spacing: 0.6px;
+        font-size: 7.8pt;
+        letter-spacing: 0.5px;
         text-transform: uppercase;
         font-weight: 700;
+        line-height: 1.35;
         hyphens: none !important;
         -webkit-hyphens: none !important;
-        word-break: normal !important;
+        word-break: keep-all !important;
         text-align: center !important;
     }
 
@@ -459,10 +476,13 @@ def get_masterpiece_css():
         color: #D4AF37;
         display: block;
         text-align: center !important;
+        hyphens: none !important;
+        -webkit-hyphens: none !important;
+        word-break: keep-all !important;
     }
 
     .slide-table-wrapper {
-        padding: 6px 6px;
+        padding: 6px 4px;
         background: #FFFFFF;
         overflow-x: hidden;
         width: 100%;
@@ -471,54 +491,80 @@ def get_masterpiece_css():
     table.table-slide {
         width: 100%;
         border-collapse: collapse;
-        font-size: 8.0pt;
-        line-height: 1.28;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-size: 7.4pt;
+        line-height: 1.25;
         margin: 2px 0;
         table-layout: auto;
         hyphens: none !important;
         -webkit-hyphens: none !important;
-        word-break: normal !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
     }
 
     table.table-slide th {
         background: #F1F5F9;
         color: #0F172A;
-        font-family: 'Cinzel', 'Garamond', serif;
-        font-size: 7.2pt;
-        letter-spacing: 0.2px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-size: 6.8pt;
+        letter-spacing: 0.1px;
         text-transform: uppercase;
         font-weight: 700;
-        padding: 6px 4px;
+        padding: 5px 3px;
         border-bottom: 1.5pt solid #CBD5E1;
         text-align: center !important;
         hyphens: none !important;
         -webkit-hyphens: none !important;
-        word-break: normal !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
         vertical-align: middle;
     }
 
     table.table-slide th:first-child {
-        text-align: center !important;
-        padding-left: 4px;
+        text-align: left !important;
+        padding-left: 6px;
     }
 
     table.table-slide td {
-        padding: 5px 4px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        padding: 4.5px 3px;
         border-bottom: 1px solid #E2E8F0;
         color: #1E293B;
         font-variant-numeric: tabular-nums lining-nums;
-        text-align: center;
+        text-align: center !important;
         hyphens: none !important;
         -webkit-hyphens: none !important;
-        word-break: normal !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
         vertical-align: middle;
     }
 
     table.table-slide td:first-child {
-        text-align: left;
+        text-align: left !important;
         padding-left: 6px;
         font-weight: 600;
         color: #0F172A;
+        hyphens: none !important;
+        -webkit-hyphens: none !important;
+        word-break: keep-all !important;
+    }
+
+    /* Modélisations denses (5 colonnes et plus) */
+    table.table-slide-dense th {
+        font-size: 5.8pt !important;
+        padding: 4px 1.5px !important;
+        letter-spacing: 0 !important;
+        line-height: 1.15 !important;
+    }
+
+    table.table-slide-dense td {
+        font-size: 6.3pt !important;
+        padding: 3.5px 1.5px !important;
+        line-height: 1.18 !important;
+    }
+
+    table.table-slide-dense td:first-child {
+        padding-left: 3px !important;
     }
 
     table.table-slide tr:nth-child(even) td {
@@ -535,7 +581,7 @@ def get_masterpiece_css():
         background: #F8FAFC;
         border-top: 1px solid #E2E8F0;
         padding: 6px 12px;
-        font-size: 8.2pt;
+        font-size: 8.0pt;
         font-style: italic;
         color: #475569;
         line-height: 1.35;
@@ -590,20 +636,29 @@ def get_masterpiece_css():
     .card-action-header {
         background: #0F172A;
         color: #D4AF37;
-        padding: 8px 14px;
+        padding: 7px 12px;
         font-family: 'Cinzel', 'Garamond', serif;
-        font-size: 9.2pt;
-        letter-spacing: 1px;
+        font-size: 8.2pt;
+        letter-spacing: 0.6px;
         text-transform: uppercase;
         font-weight: 700;
         border-bottom: 2px solid #D4AF37;
         hyphens: none !important;
         -webkit-hyphens: none !important;
-        word-break: normal !important;
+        word-break: keep-all !important;
+        white-space: nowrap;
     }
 
     .card-action-body {
-        padding: 12px 14px;
+        padding: 10px 14px;
+        hyphens: none !important;
+        -webkit-hyphens: none !important;
+    }
+
+    .card-action-body p, .card-action-body li {
+        hyphens: none !important;
+        -webkit-hyphens: none !important;
+        word-break: normal !important;
     }
 
     .card-action-24h ul {
@@ -671,7 +726,9 @@ def get_masterpiece_css():
         border: 1px solid #E2E8F0;
         border-radius: 4px;
         padding: 14px 10px;
-        max-width: 4.6in;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .diagram-title {
@@ -1084,7 +1141,12 @@ def transform_manuscript_to_luxury_html(raw_markdown):
             case_clean = f"Modélisation Financière Section {c_num}.{s_num}"
 
         t_html = m.group(1)
-        t_html = t_html.replace("<table>", '<table class="table-slide">')
+        # Détection du nombre de colonnes pour appliquer le mode dense si >= 5 colonnes
+        cols = len(re.findall(r'<th\b', t_html, re.IGNORECASE))
+        if cols >= 5:
+            t_html = t_html.replace("<table>", '<table class="table-slide table-slide-dense">')
+        else:
+            t_html = t_html.replace("<table>", '<table class="table-slide">')
         
         return f"""
 <div class="executive-slide-card">

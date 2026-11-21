@@ -507,6 +507,9 @@ def build_kdp_export_package(
     strict_gate: bool = True,
     language: str = "fr",
     custom_brief: Optional[str] = "",
+    category: Optional[str] = None,
+    model_id: Optional[str] = None,
+    target_platform: str = "kdp",
 ) -> Dict[str, Any]:
     """
     Point d'entrée unique de production du Pack KDP 1-Clic.
@@ -615,17 +618,46 @@ def build_kdp_export_package(
     )
 
     # --- 4. Génération de la Couverture Calibrée (SVG Vectoriel 300 DPI) ---
+    # Résolution et recalcul de métrage dynamique (2ème passe sur le nombre réel de pages du PDF)
+    from kdp_extensions.book_catalog import compute_model_measurements, normalize_catalog_selection
+    resolved_cat = normalize_catalog_selection(
+        category=category,
+        model_id=model_id,
+        legacy_project_type=ptype
+    )
+    active_model_id = resolved_cat["model"]["id"] if resolved_cat.get("model") else "guide_pratique"
+
+    # Détection précise du nombre réel de pages du PDF compilé pour calibrage exact au millimètre
+    actual_pdf_pages = 0
+    try:
+        import pypdf
+        reader = pypdf.PdfReader(str(pdf_file))
+        actual_pdf_pages = len(reader.pages)
+    except Exception:
+        pass
+
+    real_pages_cover = actual_pdf_pages if actual_pdf_pages >= 1 else final_page_count
+
+    # 2ème passe de calcul dynamique de métrage sur la pagination exacte du PDF
+    measurements_2nd_pass = compute_model_measurements(
+        model_id=active_model_id,
+        page_count=real_pages_cover,
+        format_kdp=fid,
+        paper_type=paper_type,
+        platform=target_platform
+    )
+
     is_ar_rtl = language.strip().lower() in ("ar", "arabic", "العربية")
     cover_specs = calculate_cover_dimensions(
         trim_id=fid,
-        page_count=final_page_count,
+        page_count=real_pages_cover,
         paper_type=paper_type,
         language=language,
         is_rtl=is_ar_rtl,
     )
     svg_cover = generate_cover_template_svg(
         specs_or_trim=cover_specs,
-        page_count=final_page_count,
+        page_count=real_pages_cover,
         paper_type=paper_type,
         book_title=title,
         author_name=author,
@@ -635,6 +667,31 @@ def build_kdp_export_package(
     )
     svg_file = work_dir / "couverture_calibree.svg"
     svg_file.write_text(svg_cover, encoding="utf-8")
+
+    # --- 4b. Moteur Visuel Autonome 100% Arrière-Plan (Unsplash, Pixabay, Canva, Local 300 DPI) ---
+    try:
+        from kdp_extensions.autonomous_visual_agent import build_autonomous_visuals
+        autonomous_visuals = build_autonomous_visuals(
+            title=title,
+            subtitle=subtitle,
+            niche=niche,
+            category=category or ptype,
+            target_audience=target_audience,
+            format_kdp=fid,
+            page_count=real_pages_cover,
+            paper_type=paper_type,
+            language=language,
+            output_dir=work_dir,
+        )
+    except Exception as exc:
+        print(f"⚠️ Note moteur visuel autonome : {exc}")
+        autonomous_visuals = {
+            "status": "fallback",
+            "cover_asset_path": str(svg_file),
+            "interior_illustrations": [],
+            "sources_used": ["local_300dpi"],
+            "canva_background_status": "offline_or_local_fallback",
+        }
 
     # --- 5. Génération de metadata_a9.json ---
     metadata = generate_kdp_a9_metadata(
@@ -780,6 +837,9 @@ def build_kdp_export_package(
         "project_type": ptype,
         "timestamp": datetime.now().isoformat(),
         "studio_version": "MarkEddy KDP Studio v2.0 - Unified Multi-Agent Engine",
+        "category": category or resolved_cat.get("category_id"),
+        "model_id": active_model_id,
+        "target_platform": target_platform,
         "prepress_specs": {
             "format_id": fid,
             "trim_width_in": trim_w,
@@ -795,12 +855,14 @@ def build_kdp_export_package(
             "cover_total_width_px": cover_specs["units"]["pixels"]["total_width"],
             "cover_total_height_px": cover_specs["units"]["pixels"]["total_height"],
             "isbn_reservation_px": "600x360 @ 300 DPI (Plat 4 bas-droite)",
+            "dynamic_measurements": measurements_2nd_pass,
         },
         "compliance_status": "KDP_CERTIFIED_PRINT_READY" if (compliance_report.get("verdict") == "PASSED" and supervision_report.get("verdict") == "APPROVED_FOR_KDP") else "KDP_PASSED_WITH_WARNINGS",
         "compliance_audit": compliance_report,
         "supervision_report": supervision_report,
         "excellence_score": supervision_report.get("excellence_score"),
         "seo_package": seo_ready,
+        "visual_assets": autonomous_visuals,
         "files": files_info,
     }
     manifest_file = work_dir / "manifest.json"
@@ -818,6 +880,14 @@ def build_kdp_export_package(
         zf.write(supervision_file, arcname="kdp_supervision_report.json")
         zf.write(seo_file, arcname="seo_amazon_ready.json")
         zf.write(desc_amazon_file, arcname="description_amazon.html")
+        # Ajout des illustrations intérieures produites en arrière-plan
+        for illu in autonomous_visuals.get("interior_illustrations", []):
+            try:
+                ipath = Path(illu.get("file_path", ""))
+                if ipath.exists():
+                    zf.write(ipath, arcname=f"illustrations_interieures/{ipath.name}")
+            except Exception:
+                pass
 
     return {
         "status": "success",
@@ -831,6 +901,11 @@ def build_kdp_export_package(
         "spine_thickness_in": cover_specs["spine_spec"]["width_in"],
         "spine_thickness_mm": cover_specs["spine_spec"]["width_mm"],
         "files_included": [f.name for f in [pdf_file, svg_file, meta_file, manifest_file, html_file, supervision_file, seo_file, desc_amazon_file]],
+        "category": category or resolved_cat.get("category_id"),
+        "model_id": active_model_id,
+        "target_platform": target_platform,
+        "measurements": measurements_2nd_pass,
+        "autonomous_visuals": autonomous_visuals,
         "manifest": manifest,
         "language": language,
         "pdf_note": pdf_note,

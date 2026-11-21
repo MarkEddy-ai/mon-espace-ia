@@ -666,15 +666,40 @@ class KdpExportPackageRequest(BaseModel):
     strict_gate: bool = True
     language: str = Field(default="fr", description="Langue de l'ouvrage (en, fr, es, de, ar)")
     custom_brief: Optional[str] = Field(default="", description="Brief éditorial personnalisé / prompt libre")
+    category: Optional[str] = Field(default=None, description="Catégorie du catalogue (ex: non_fiction, coloring, puzzles, educational...)")
+    model_id: Optional[str] = Field(default=None, description="Modèle précis du catalogue (ex: guide_pratique, mandalas_zen...)")
+    target_platform: Optional[str] = Field(default="kdp", description="Canal cible : 'kdp', 'etsy', 'both'")
+
+
+class KdpCalculateMeasurementsRequest(BaseModel):
+    model_id: Optional[str] = Field("guide_pratique", description="Identifiant unique du modèle de livre")
+    page_count: Optional[int] = Field(120, ge=1, le=1000, description="Nombre de pages de l'ouvrage")
+    format_kdp: Optional[str] = Field("6x9", description="Format de coupe KDP (ex: 6x9, 8.5x11)")
+    paper_type: Optional[str] = Field("white", description="Type de papier (white, cream, color_standard, color_premium)")
+    platform: Optional[str] = Field("kdp", description="Canal cible : 'kdp', 'etsy', 'both'")
 
 
 class EnhanceBriefRequest(BaseModel):
     niche: Optional[str] = Field("Finances Personnelles", description="Niche ou thématique du livre")
     book_type: Optional[str] = Field("non-fiction", description="Type de livre : non-fiction, coloriage, puzzle")
+    category: Optional[str] = Field(None, description="Catégorie du catalogue (non_fiction, coloring, puzzles, ...)")
+    model_id: Optional[str] = Field(None, description="Identifiant du modèle de livre")
     target_audience: Optional[str] = Field("Adultes Débutants", description="Cible ou audience visée")
     current_brief: Optional[str] = Field("", description="Brouillon ou texte actuel du brief de l'utilisateur")
     mode: Optional[str] = Field("random", description="Mode : 'random' (angle aléatoire) ou 'enhance' (enrichir les détails)")
     language: Optional[str] = Field("fr", description="Langue : fr, en, es, de, ar")
+
+
+class AutonomousVisualsRequest(BaseModel):
+    title: str = Field("Mon Livre Best-Seller", description="Titre de l'ouvrage")
+    subtitle: Optional[str] = Field("", description="Sous-titre")
+    niche: Optional[str] = Field("general", description="Niche ou thématique")
+    category: Optional[str] = Field("non_fiction", description="Catégorie (non_fiction, coloring, puzzles, educational...)")
+    target_audience: Optional[str] = Field("Tous publics", description="Public cible")
+    format_kdp: Optional[str] = Field("6x9", description="Format KDP (6x9, 8.5x11...)")
+    page_count: Optional[int] = Field(100, description="Pagination totale")
+    paper_type: Optional[str] = Field("white", description="Type de papier (white, cream, color_standard, color_premium)")
+    language: Optional[str] = Field("fr", description="Langue de l'ouvrage")
 
 
 class SocialTrendRequest(BaseModel):
@@ -1645,6 +1670,9 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
                 strict_gate=req.strict_gate,
                 language=req.language,
                 custom_brief=req.custom_brief,
+                category=req.category,
+                model_id=req.model_id,
+                target_platform=req.target_platform or "kdp",
             )
             return res
         except Exception as exc:
@@ -1883,9 +1911,24 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
         """
         try:
             from kdp_extensions.brief_enhancer import enhance_kdp_brief
+            resolved_btype = req.book_type or "non-fiction"
+            if req.model_id or req.category:
+                try:
+                    from kdp_extensions.book_catalog import normalize_catalog_selection
+                    sel = normalize_catalog_selection(category=req.category, model_id=req.model_id)
+                    eng = sel.get("engine")
+                    if eng == "coloring":
+                        resolved_btype = "coloriage"
+                    elif eng == "puzzles":
+                        resolved_btype = "puzzle"
+                    elif eng:
+                        resolved_btype = eng
+                except Exception:
+                    pass
+
             return enhance_kdp_brief(
                 niche=req.niche or "Finances Personnelles",
-                book_type=req.book_type or "non-fiction",
+                book_type=resolved_btype,
                 target_audience=req.target_audience or "Adultes Débutants",
                 current_brief=req.current_brief or "",
                 mode=req.mode or "random",
@@ -1893,6 +1936,65 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
             )
         except Exception as exc:
             raise HTTPException(status_code=500, detail=f"Erreur enrichissement brief KDP : {exc}")
+
+    @router.get("/api/kdp/catalog")
+    def api_get_kdp_catalog():
+        """Retourne le catalogue complet des 8 catégories et de leurs modèles KDP + Etsy."""
+        try:
+            from kdp_extensions.book_catalog import get_catalog
+            cat = get_catalog()
+            return {
+                "status": "success",
+                "categories": cat,
+                "total_categories": len(cat)
+            }
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur chargement catalogue KDP : {exc}")
+
+    @router.post("/api/kdp/calculate-measurements", summary="Calculateur dynamique en temps réel du métrage KDP & Etsy")
+    def api_calculate_measurements(req: KdpCalculateMeasurementsRequest):
+        """
+        Calcule en temps réel le métrage exact pour un modèle et une pagination donnée :
+        dos, marge de reliure, dimensions intérieures avec bleed, couverture 300 DPI,
+        formats Etsy et alertes de conformité KDP.
+        """
+        try:
+            from kdp_extensions.book_catalog import compute_model_measurements
+            measurements = compute_model_measurements(
+                model_id=req.model_id or "guide_pratique",
+                page_count=req.page_count or 120,
+                format_kdp=req.format_kdp or "6x9",
+                paper_type=req.paper_type or "white",
+                platform=req.platform or "kdp"
+            )
+            return {
+                "status": "success",
+                "measurements": measurements
+            }
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=f"Erreur calcul des mesures : {exc}")
+
+    @router.post("/api/visuals/autonomous-build", summary="Production 100% arrière-plan des visuels (Unsplash, Pixabay, Canva, Local 300 DPI)")
+    def api_build_autonomous_visuals(req: AutonomousVisualsRequest):
+        """
+        Génère silencieusement en arrière-plan la couverture et les illustrations intérieures
+        sans aucune interaction manuelle utilisateur sur Canva.
+        """
+        try:
+            from kdp_extensions.autonomous_visual_agent import build_autonomous_visuals
+            return build_autonomous_visuals(
+                title=req.title,
+                subtitle=req.subtitle or "",
+                niche=req.niche or "general",
+                category=req.category or "non_fiction",
+                target_audience=req.target_audience or "Tous publics",
+                format_kdp=req.format_kdp or "6x9",
+                page_count=req.page_count or 100,
+                paper_type=req.paper_type or "white",
+                language=req.language or "fr"
+            )
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur moteur visuel autonome : {exc}")
 
     return router
 
@@ -1911,6 +2013,7 @@ __all__ = [
     "CANVA_REDIRECT_URI_DEFAUT",
     "PuzzleCollectionRequest",
     "KdpExportPackageRequest",
+    "KdpCalculateMeasurementsRequest",
     "SocialTrendRequest",
     "DeepSourcesRequest",
     "VerifyHumanizeRequest",
@@ -1921,4 +2024,5 @@ __all__ = [
     "MultilingualComplianceRequest",
     "ComplianceAuditRequest",
     "EnhanceBriefRequest",
+    "AutonomousVisualsRequest",
 ]

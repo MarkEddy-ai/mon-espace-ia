@@ -221,6 +221,14 @@ Formats officiels supportés : `5x8`, `5.06x7.81`, `5.25x8`, `5.5x8.5`, `6x9`,
 * Compilation **PDF 300 DPI via Playwright** (repli automatique `msedge`)
 * Couverture **calibrée via [`cover_artisan_agent.py`](file:///c:/Users/acer/OneDrive/Desktop/mon-espace-ia/cover_artisan_agent.py)** (tranche au micron, fond photo injectable)
 
+### 6.4. Agent Visuel Autonome 100% Arrière-Plan — [`autonomous_visual_agent.py`](file:///c:/Users/acer/OneDrive/Desktop/mon-espace-ia/kdp_extensions/autonomous_visual_agent.py)
+
+* Fonctionne de bout en bout sans aucune intervention manuelle de l'utilisateur :
+  * Recherche silencieuse d'arrière-plans HD (Unsplash + Pixabay + catalogue curé) enrichie par la niche et l'audience cible ;
+  * Préparation 300 DPI (`download_and_prepare_cover_bg`) anti-hotlinking et conversion d'illustrations intérieures N&B ;
+  * Exécution silencieuse upload asset -> autofill -> export Canva Connect en arrière-plan si des jetons sont présents ;
+  * Repli local haute définition garanti (gabarit SVG 300 DPI, Plat 1 + Dos + Plat 4 + réserve ISBN 600×360 px).
+
 ---
 
 ## 🤖 7. Subagents OpenCode & Skill Dédié
@@ -263,10 +271,16 @@ connecteurs média, moteur de coloriage, routes HTTP et contrôle qualité.
 | `POST /api/seo/optimize-a9` | **Agent 5** : Optimisation Complète Amazon A9/A10, Catégories, HTML & Ads |
 | `POST /api/kdp/transcreate-book` | **Agent 6** : Transcréation multilingue 5 langues (EN, FR, ES, DE, AR) & bundle |
 | `GET /api/kdp/download-multilang-bundle/{name}` | Téléchargement du Bundle Multilingue (ZIP global ou `?lang=...`) |
+| `GET /api/kdp/catalog` | Référentiel des 8 catégories & 33 modèles spécialisés KDP + Etsy |
+| `POST /api/kdp/calculate-measurements` | Calculateur dynamique temps réel (dos, gouttière, couverture 300 DPI, alertes KDP) |
+| `POST /api/kdp/enhance-brief` | Assistant d'angle éditorial & d'enrichissement de prompt libre |
+| `POST /api/visuals/autonomous-build` | **Agent Visuel Autonome** : Pipeline 100% arrière-plan (Unsplash, Pixabay, Canva, Local 300 DPI) |
 
 Champs **optionnels** ajoutés à `POST /api/books/create` (valeurs par défaut,
 compatibilité totale) : `project_type` (`non_fiction` | `coloring_book` | `puzzle`),
-`cover_image_url`, `single_sided`.
+`category`, `model_id`, `target_platform` (`kdp` | `etsy` | `both`), `target_audience`,
+`custom_brief`, `paper_type` (`white` | `cream` | `color_standard` | `color_premium`),
+`target_pages`, `cover_image_url`, `single_sided`.
 
 ---
 
@@ -275,10 +289,11 @@ compatibilité totale) : `project_type` (`non_fiction` | `coloring_book` | `puzz
 Sur **Windows 11**, toute exécution passe par le virtualenv du projet :
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest test_suite.py test_extensions.py test_new_extensions.py
+.\.venv\Scripts\python.exe -m pytest test_suite.py test_extensions.py test_new_extensions.py test_multilingual_kdp.py
 ```
 
 * `test_suite.py` : suite historique — **24/24 sans aucune modification** (non-régression).
 * `test_extensions.py` : validations des extensions (16 formats, specs 300 DPI,
   connecteurs HTTP **mockés** Unsplash/Pixabay, Canva **mocké**, moteur de coloriage **mocké**).
-* `test_new_extensions.py` : validations des extensions avancées (Google Fonts, veille tri-plateforme, Front/Back Matter, Paged Media CSS, cover SVG, 8 formats de puzzles, orchestrateur d'export ZIP avec règle prépresse KDP 24 pages, Agent 1 veille sociale, Agent 2 recherche documentaire, Agent 3 fact-checking & humanisation, et routes API associées).
+* `test_new_extensions.py` : validations des extensions avancées (Google Fonts, veille tri-plateforme, Front/Back Matter, Paged Media CSS, cover SVG, 8 formats de puzzles, orchestrateur d'export ZIP avec règle prépresse KDP 24 pages, Agent 1 veille sociale, Agent 2 recherche documentaire, Agent 3 fact-checking & humanisation, Agent 4 conformité & anti-anonymat, Agent 5 SEO A9/A10, Agent 6 transcréation multilingue, catalogue 8 catégories, et calculateur dynamique de métrage).
+* `test_multilingual_kdp.py` : validation des profils multilingues (FR, EN, ES, DE, AR), scripts RTL, césures et audit A9 multilingue.

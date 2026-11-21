@@ -41,6 +41,8 @@ from . import deep_research_agent
 from . import editorial_humanizer_agent
 from . import multilingual_transcreator
 from . import brief_enhancer
+from . import book_catalog
+from . import autonomous_visual_agent
 
 __all__ = [
     "kdp_dimensions",
@@ -59,4 +61,6 @@ __all__ = [
     "editorial_humanizer_agent",
     "multilingual_transcreator",
     "brief_enhancer",
+    "book_catalog",
+    "autonomous_visual_agent",
 ]

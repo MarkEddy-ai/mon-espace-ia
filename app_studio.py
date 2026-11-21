@@ -88,6 +88,12 @@ class CreateBookRequest(BaseModel):
     font_family: Optional[str] = Field(None, description="Police Google Fonts sélectionnée pour l'intérieur")
     description_detaillee: Optional[str] = Field(None, description="Prompt complet / description détaillée du projet")
     custom_brief: Optional[str] = Field("", description="Brief éditorial personnalisé / prompt libre de l'auteur")
+    category: Optional[str] = Field(None, description="Catégorie du catalogue (ex: non_fiction, coloring, puzzles, educational...)")
+    model_id: Optional[str] = Field(None, description="Modèle précis du catalogue (ex: guide_pratique, mandalas_zen...)")
+    target_platform: Optional[str] = Field("kdp", description="Canal cible : 'kdp', 'etsy', 'both'")
+    target_audience: Optional[str] = Field("Adultes Débutants", description="Cible ou audience visée")
+    paper_type: Optional[str] = Field("white", description="Type de papier KDP : 'white', 'cream', 'color_standard', 'color_premium'")
+    target_pages: Optional[int] = Field(100, description="Nombre de pages cible")
     kdp_definitions: Optional[Dict[str, Any]] = Field(None, description="Bloc de configuration KDP complet")
     agent0_report: Optional[Dict[str, Any]] = Field(None, description="Rapport concurrentiel Agent 0 à injecter au blueprint")
 
@@ -918,6 +924,12 @@ def api_creer_livre(
     est_coloriage_ext = (project_type == "coloring_book")
     if est_coloriage_ext:
         type_projet = "coloriage"
+
+    if req.category or req.model_id:
+        from kdp_extensions.book_catalog import normalize_catalog_selection
+        cat_info = normalize_catalog_selection(req.category, req.model_id, project_type)
+        if cat_info.get("engine") == "coloring":
+            type_projet = "coloriage"
 
     if type_projet == "coloriage":
         format_kdp_final = req.format_kdp or "8.5x11"

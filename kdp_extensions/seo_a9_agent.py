@@ -213,7 +213,7 @@ def optimize_7_slots_a9(
     lang_code = normalize_language(language)
 
     # Banques de templates d'intention par langue (Problem, Method, Action, Safety, Target, Obstacle, Outcome)
-    INTENT_TEMPLATES: Dict[str, List[str]] = {
+    FINANCE_TEMPLATES: Dict[str, List[str]] = {
         "fr": [
             "sortir du decouvert bancaire fin de mois",     # 1. Problème / Douleur
             "methode enveloppes virtuelles regle 50 30 20", # 2. Méthode
@@ -260,6 +260,60 @@ def optimize_7_slots_a9(
             "تحقيق الاستقلال المالي والحرية والثروة",       # 7. الهدف
         ],
     }
+
+    ACTIVITY_TEMPLATES: Dict[str, List[str]] = {
+        "fr": [
+            "cahier activites safari vacances",
+            "labyrinthes mots meles enigmes",
+            "jeux logique concentration primaire",
+            "animaux sauvages decouvertes safari",
+            "cadeau enfant 6 7 8 ans garcon fille",
+            "developper motricite fine reflexion",
+            "occuper sans ecran apprentissage",
+        ],
+        "en": [
+            "safari wildlife activity book kids",
+            "fun mazes word search logic puzzles",
+            "educational screen free travel game",
+            "elementary school workbook ages 6 8",
+            "brain teaser games for boys girls",
+            "fine motor skills problem solving",
+            "stem nature animal facts challenge",
+        ],
+        "es": [
+            "cuaderno actividades safari animales",
+            "laberintos sopas de letras pasatiempos",
+            "juegos logica atencion ninos primaria",
+            "aprender animales salvajes naturaleza",
+            "regalo nino nina 6 7 8 anos creativo",
+            "desarrollar concentracion sin pantallas",
+            "viaje safari vacaciones entretenimiento",
+        ],
+        "de": [
+            "safari tiere beschaeftigung kinder",
+            "labyrinthe suchsel logikraetsel",
+            "denksport konzentration grundschule",
+            "wilde tiere lernen naturforscher",
+            "geschenk junge maedchen 6 7 8 jahre",
+            "feinmotorik foerdern ohne bildschirm",
+            "raetselheft ferien reisespiel urlaub",
+        ],
+        "ar": [
+            "كتاب انشطة وسفاري حيوانات السافانا",
+            "متاهات كلمات متقاطعة والغاز ذكية",
+            "تنمية مهارات التفكير والتركيز للاطفال",
+            "عالم الحيوانات البرية والطبيعة المشوقة",
+            "هدية تعليمية مميزة للاطفال ٦ ٧ ٨ سنوات",
+            "العاب ورقية بدون شاشات الكترونية",
+            "دفتر تسلية والغاز لرحلات السفر والعطلات",
+        ],
+    }
+
+    n_lower = str(niche or "").lower()
+    if any(k in n_lower for k in ("savane", "savannah", "safari", "puzzle", "coloriage", "activite", "enfant", "kids")):
+        INTENT_TEMPLATES = ACTIVITY_TEMPLATES
+    else:
+        INTENT_TEMPLATES = FINANCE_TEMPLATES
 
     raw_candidates = INTENT_TEMPLATES.get(lang_code, INTENT_TEMPLATES["en"])
     title_words = tokenize_clean_words(title) | tokenize_clean_words(subtitle)
