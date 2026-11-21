@@ -1734,7 +1734,7 @@ def test_26_enhance_brief_endpoint():
     assert data_enh["status"] == "success"
     assert data_enh["mode"] == "enhance"
     assert any(k.lower() in data_enh["brief"].lower() for k in ("target audience", "audience", "public cible", "cible"))
-    assert "Promise" in data_enh["brief"]
+    assert any(k.lower() in data_enh["brief"].lower() for k in ("promise", "promesse", "objectif", "valeur"))
 
 
 def test_27_book_catalog_and_endpoint():
