@@ -24,6 +24,22 @@ from kdp_extensions.i18n_config import (
     normalize_language,
 )
 
+try:
+    from kdp_extensions.kdp_compliance_supervisor import (
+        FORBIDDEN_TITLE_TERMS,
+        NOTORIOUS_TRADEMARKS,
+    )
+except ImportError:
+    FORBIDDEN_TITLE_TERMS = [
+        "bestseller", "best-seller", "best seller", "#1", "n°1", "numéro 1", "numero 1",
+        "gratuit", "free", "promo", "promotion", "pas cher", "prix cassé", "solde", "soldes",
+        "illimité", "unlimited",
+    ]
+    NOTORIOUS_TRADEMARKS = [
+        "disney", "marvel", "pokémon", "pokemon", "lego", "minecraft", "star wars",
+        "harry potter",
+    ]
+
 
 def calculate_utf8_bytes(text: str) -> int:
     """Calcule la taille exacte d'une chaîne en octets UTF-8."""
@@ -281,6 +297,391 @@ def optimize_7_slots_a9(
     }
 
 
+CATEGORIES_DB: Dict[str, Dict[str, Any]] = {
+    "finances": {
+        "volume_category": "Livres > Entreprise et Bourse > Finances personnelles",
+        "volume_bisac": "BUS027000",
+        "niche_categories": [
+            "Livres > Entreprise et Bourse > Gestion et Comptabilité > Budget",
+            "Boutique Kindle > Ebooks Kindle > Économie et Entreprise > Investissement",
+        ],
+        "niche_bisac_codes": ["BUS006000", "BUS036000"],
+    },
+    "immobilier": {
+        "volume_category": "Livres > Entreprise et Bourse > Immobilier",
+        "volume_bisac": "BUS054000",
+        "niche_categories": [
+            "Livres > Entreprise et Bourse > Investissements et Titres > Immobilier locatif",
+            "Boutique Kindle > Ebooks Kindle > Droit et Fiscalité > Fiscalité immobilière",
+        ],
+        "niche_bisac_codes": ["BUS036050", "LAW014000"],
+    },
+    "productivite": {
+        "volume_category": "Livres > Santé, Forme et Diététique > Développement personnel > Efficacité",
+        "volume_bisac": "SEL000000",
+        "niche_categories": [
+            "Livres > Entreprise et Bourse > Efficacité professionnelle > Gestion du temps",
+            "Boutique Kindle > Ebooks Kindle > Développement personnel > Motivation",
+        ],
+        "niche_bisac_codes": ["BUS041000", "SEL021000"],
+    },
+    "coloriage": {
+        "volume_category": "Livres > Livres pour enfants > Jeux, arts et création > Coloriages",
+        "volume_bisac": "JUV054000",
+        "niche_categories": [
+            "Livres > Livres pour enfants > Animaux et Nature",
+            "Livres > Art, Musique et Cinéma > Dessin et Peinture",
+        ],
+        "niche_bisac_codes": ["JUV002000", "ART010000"],
+    },
+    "puzzle": {
+        "volume_category": "Livres > Jeux et énigmes > Mots croisés et jeux de lettres",
+        "volume_bisac": "GAM001000",
+        "niche_categories": [
+            "Livres > Jeux et énigmes > Casse-têtes, énigmes et logique",
+            "Livres > Livres pour enfants > Jeux de mots et remue-méninges",
+        ],
+        "niche_bisac_codes": ["GAM005000", "JUV053000"],
+    },
+    "sante": {
+        "volume_category": "Livres > Santé, Forme et Diététique > Bien-être et Santé",
+        "volume_bisac": "HEA000000",
+        "niche_categories": [
+            "Livres > Santé, Forme et Diététique > Nutrition et Régimes",
+            "Boutique Kindle > Ebooks Kindle > Famille et Santé > Prévention",
+        ],
+        "niche_bisac_codes": ["HEA017000", "HEA028000"],
+    },
+    "general": {
+        "volume_category": "Livres > Société et Sciences humaines",
+        "volume_bisac": "SOC000000",
+        "niche_categories": [
+            "Livres > Pratique et Vie quotidienne",
+            "Boutique Kindle > Ebooks Kindle > Non-fiction",
+        ],
+        "niche_bisac_codes": ["REF000000", "NON000000"],
+    },
+}
+
+
+def generate_kdp_categories(
+    niche: str = "",
+    book_type: str = "text",
+    language: str = "fr",
+) -> Dict[str, Any]:
+    """Génère la structure des 3 catégories Amazon KDP (1 volume + 2 niches) et codes BISAC."""
+    n_lower = f"{niche} {book_type}".lower()
+    cat_key = "general"
+    if any(k in n_lower for k in ("financ", "argent", "bourse", "budget", "patrimoine")):
+        cat_key = "finances"
+    elif any(k in n_lower for k in ("immo", "locatif", "lmnp", "pierre")):
+        cat_key = "immobilier"
+    elif any(k in n_lower for k in ("productiv", "temps", "habit", "mindset", "focus")):
+        cat_key = "productivite"
+    elif any(k in n_lower for k in ("coloriag", "coloring", "dessin", "mandala")):
+        cat_key = "coloriage"
+    elif any(k in n_lower for k in ("puzzle", "mots", "grille", "labyrinthe", "enigme")):
+        cat_key = "puzzle"
+    elif any(k in n_lower for k in ("sante", "bien-etre", "nutrition", "forme")):
+        cat_key = "sante"
+
+    entry = CATEGORIES_DB.get(cat_key, CATEGORIES_DB["general"])
+    lang_code = normalize_language(language)
+    marketplace = get_language_config(lang_code).get("amazon_marketplace", "amazon.fr")
+
+    vol = entry["volume_category"]
+    niches = list(entry["niche_categories"])
+
+    # Si marché anglophone ou autre, adapter préfixes de base
+    if lang_code == "en":
+        vol = vol.replace("Livres >", "Books >").replace("Boutique Kindle >", "Kindle Store >")
+        niches = [n.replace("Livres >", "Books >").replace("Boutique Kindle >", "Kindle Store >") for n in niches]
+
+    return {
+        "volume_category": vol,
+        "volume_bisac": entry["volume_bisac"],
+        "niche_categories": niches,
+        "niche_bisac_codes": list(entry["niche_bisac_codes"]),
+        "categories_list": [vol] + niches,
+        "marketplace_hint": marketplace,
+        "category_key": cat_key,
+    }
+
+
+def generate_amazon_description_html(
+    title: str,
+    subtitle: str = "",
+    niche: str = "",
+    target_audience: str = "",
+    language: str = "fr",
+) -> str:
+    """
+    Rédige une description de vente persuasive conforme aux règles de balisage Amazon KDP.
+    Balises permises uniquement : <h2>, <h3>, <h4>, <b>, <i>, <p>, <br>, <ul>, <li>.
+    Longueur maximale : 4 000 caractères.
+    """
+    lang = normalize_language(language)
+    t = title.strip() or "LE GUIDE D'EXCELLENCE"
+    st = subtitle.strip() or "La méthode pas-à-pas concrète pour réussir"
+
+    if lang == "fr":
+        html_content = f"""<h2>{t}</h2>
+<h3>{st}</h3>
+
+<p>Marre des ouvrages théoriques remplis de jargon inaccessible et de conseils génériques ? Ce manuel pratique a été conçu avec une seule exigence : <b>l'efficacité concrète sur le terrain</b>.</p>
+
+<p>Que vous soyez débutant complet ou praticien désireux de structurer votre méthode, ce guide vous donne les clés exactes pour passer à l'action dès aujourd'hui.</p>
+
+<p><b>Ce que vous allez maîtriser dans cet ouvrage :</b></p>
+<ul>
+  <li><b>La Méthode Pas-à-Pas :</b> Un cadre clair pour avancer sans hésitation ni confusion.</li>
+  <li><b>Études de Cas Chiffrées :</b> Des exemples réels, transparents et immédiatement applicables.</li>
+  <li><b>Les Pièges à Éviter :</b> Les erreurs coûteuses commises par 90% des débutants et les contre-mesures.</li>
+  <li><b>Protocoles 24 Heures :</b> Des fiches d'action rapide pour valider vos progrès à chaque chapitre.</li>
+</ul>
+
+<p><b>À qui s'adresse ce livre ?</b><br>
+Cet ouvrage s'adresse à : {target_audience or "toute personne désireuse de développer ses compétences avec rigueur et autonomie"}.</p>
+
+<p><i>Ne laissez plus le hasard décider de vos résultats. Équipez-vous d'une méthode éprouvée et transformez votre approche dès aujourd'hui.</i></p>
+
+<p><b>👉 Commandez votre exemplaire maintenant et commencez votre transformation !</b></p>"""
+    elif lang == "es":
+        html_content = f"""<h2>{t}</h2>
+<h3>{st}</h3>
+
+<p>¿Cansado de libros teóricos llenos de relleno y fórmulas genéricas? Este manual práctico ha sido diseñado con un único objetivo: <b>resultados reales y directos</b>.</p>
+
+<p><b>Lo que aprenderás en este libro :</b></p>
+<ul>
+  <li><b>El Método Paso a Paso :</b> Una estructura clara y sin rodeos.</li>
+  <li><b>Casos Prácticos Reales :</b> Cálculos y ejemplos concretos aplicables hoy mismo.</li>
+  <li><b>Errores Críticos a Evitar :</b> Las trampas habituales y cómo sortearlas.</li>
+  <li><b>Plan de Acción 24h :</b> Pasos específicos para validar cada etapa de aprendizaje.</li>
+</ul>
+
+<p><i>Diseñado para : {target_audience or "lectores exigentes que buscan claridad y resultados tangibles"}.</i></p>
+
+<p><b>👉 ¡Consigue tu ejemplar hoy mismo y toma el control!</b></p>"""
+    elif lang == "de":
+        html_content = f"""<h2>{t}</h2>
+<h3>{st}</h3>
+
+<p>Schluss mit langwierigen Theorien ohne praktischen Nutzen. Dieser Leitfaden bietet Ihnen ein <b>klares, praxisorientiertes System</b> für messbare Erfolge.</p>
+
+<p><b>Ihre Vorteile mit diesem Leitfaden :</b></p>
+<ul>
+  <li><b>Schritt-für-Schritt-Methode :</b> Präzise Anleitungen ohne Fachchinesisch.</li>
+  <li><b>Praxiserprobte Fallstudien :</b> Echte Berechnungen und handfeste Beispiele.</li>
+  <li><b>Vermeidung teurer Anfängerfehler :</b> Bewährte Gegenmaßnahmen für dauerhafte Sicherheit.</li>
+  <li><b>24-Stunden-Aktionsplan :</b> Sofort umsetzbare Checklisten für jeden Tag.</li>
+</ul>
+
+<p><b>👉 Sichern Sie sich Ihr Exemplar jetzt und starten Sie sofort durch!</b></p>"""
+    elif lang == "ar":
+        html_content = f"""<h2>{t}</h2>
+<h3>{st}</h3>
+
+<p>دليل عملي شامل مصمم بعناية ليقدم لك <b>خطوات تنفيذية واضحة ومباشرة</b> دون حشو أو تعقيد.</p>
+
+<p><b>أبرز ما ستتعلمه في هذا الكتاب :</b></p>
+<ul>
+  <li><b>منهجية تدريجية واضحة :</b> خطوات عملية وسهلة التطبيق من اليوم الأول.</li>
+  <li><b>أمثلة وحالات دراسية حقيقية :</b> حسابات واقعية ونتائج ملموسة.</li>
+  <li><b>تجنب الأخطاء الشائعة :</b> كيفية تفادي العثرات التي يقع فيها أغلب المبتدئين.</li>
+  <li><b>خطة عمل فورية :</b> قوائم مراجعة عملية لكل فصل.</li>
+</ul>
+
+<p><b>👉 اطلب نسختك الآن وابدأ رحلتك بثقة ووضوح !</b></p>"""
+    else:
+        html_content = f"""<h2>{t}</h2>
+<h3>{st}</h3>
+
+<p>Tired of generic theories and fluff? This comprehensive guide was crafted with one standard in mind: <b>practical, field-tested effectiveness</b>.</p>
+
+<p><b>What you will discover inside :</b></p>
+<ul>
+  <li><b>Step-by-step Framework :</b> A clear methodology designed for immediate execution.</li>
+  <li><b>Real-world Case Studies :</b> Realistic numbers, practical scenarios, and zero fluff.</li>
+  <li><b>Costly Pitfalls to Avoid :</b> Common mistakes made by 90% of beginners and how to bypass them.</li>
+  <li><b>Action Checklists :</b> Direct exercises you can complete in under 24 hours.</li>
+</ul>
+
+<p><b>Target Audience :</b> {target_audience or "Anyone seeking actionable clarity and measurable progress"}.</p>
+
+<p><b>👉 Grab your copy today and accelerate your progress!</b></p>"""
+
+    # Nettoyage strict et garantie limite 4000 caractères
+    return sanitize_kdp_html(html_content)
+
+
+def sanitize_kdp_html(html_str: str) -> str:
+    """
+    Nettoie et valide une description HTML selon les règles strictes d'Amazon KDP.
+    - Élimine tout script, balise div, span, a, etc.
+    - Convertit <h1> en <h2> (Amazon réserve <h1> au titre du produit).
+    - Conserve uniquement : <h2>, <h3>, <h4>, <h5>, <h6>, <b>, <i>, <u>, <em>, <strong>, <p>, <br>, <ul>, <ol>, <li>.
+    - Tronque proprement à 4 000 caractères si nécessaire.
+    """
+    if not html_str:
+        return ""
+    # 1. Éliminer les scripts et styles avec leur contenu
+    content = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", html_str, flags=re.DOTALL | re.IGNORECASE)
+    # 2. Remplacer h1 par h2
+    content = re.sub(r"<h1\b[^>]*>", "<h2>", content, flags=re.IGNORECASE)
+    content = re.sub(r"</h1>", "</h2>", content, flags=re.IGNORECASE)
+    # 3. Supprimer toutes les balises non autorisées par Amazon KDP
+    content = re.sub(r"<(?!/?(h2|h3|h4|h5|h6|b|i|u|em|strong|p|br|ul|ol|li)\b)[^>]*>", "", content, flags=re.IGNORECASE)
+    # 4. Limite stricte de 4000 caractères
+    if len(content) > 4000:
+        content = content[:3996] + "..."
+    return content.strip()
+
+
+def generate_amazon_ads_blueprint(
+    title: str,
+    subtitle: str = "",
+    niche: str = "",
+    backend_keywords: Optional[List[str]] = None,
+    language: str = "fr",
+) -> Dict[str, Any]:
+    """
+    Génère la structure de campagnes Amazon Advertising (PPC Sponsored Products) prêtes à lancer.
+    Comprend : Exact, Phrase, Large, Ciblage Produits (ASIN) et Mots-clés Négatifs.
+    """
+    lang = normalize_language(language)
+    kws = list(backend_keywords or [])
+    clean_kws = [k.strip() for k in kws if k.strip()]
+
+    exact_terms = clean_kws[:4] if clean_kws else [f"{niche} guide", f"methode {niche}"]
+    phrase_terms = clean_kws[2:6] if len(clean_kws) >= 4 else clean_kws
+    broad_terms = [niche] if niche else ["guide pratique"]
+
+    campaign_prefix = re.sub(r"[^a-zA-Z0-9]+", "_", title.strip())[:20]
+
+    return {
+        "status": "success",
+        "language": lang,
+        "broad": broad_terms,
+        "phrase": phrase_terms,
+        "exact": exact_terms,
+        "campaigns": [
+            {
+                "campaign_name": f"SP_EXACT_{campaign_prefix}",
+                "targeting_type": "Manual - Keyword Exact",
+                "target_acos": 25.0,
+                "suggested_bid_eur": 0.65,
+                "daily_budget_eur": 10.0,
+                "keywords": exact_terms,
+                "match_type": "EXACT",
+                "strategy": "Top of Search Placement (+20% modifier)",
+            },
+            {
+                "campaign_name": f"SP_PHRASE_{campaign_prefix}",
+                "targeting_type": "Manual - Keyword Phrase",
+                "target_acos": 30.0,
+                "suggested_bid_eur": 0.45,
+                "daily_budget_eur": 8.0,
+                "keywords": phrase_terms,
+                "match_type": "PHRASE",
+                "strategy": "Dynamic Bids - Down Only",
+            },
+            {
+                "campaign_name": f"SP_BROAD_{campaign_prefix}",
+                "targeting_type": "Manual - Keyword Broad",
+                "target_acos": 35.0,
+                "suggested_bid_eur": 0.35,
+                "daily_budget_eur": 5.0,
+                "keywords": broad_terms,
+                "match_type": "BROAD",
+                "strategy": "Harvesting new search terms weekly",
+            },
+            {
+                "campaign_name": f"SP_ASIN_{campaign_prefix}",
+                "targeting_type": "Product Targeting (Competitor ASINs)",
+                "target_acos": 28.0,
+                "suggested_bid_eur": 0.50,
+                "daily_budget_eur": 7.0,
+                "target_niche": niche,
+                "strategy": "Target high-ranking competitor product pages",
+            },
+        ],
+        "negative_keywords": [
+            "gratuit",
+            "free",
+            "pdf",
+            "torrent",
+            "occasion",
+            "telecharger",
+            "crack",
+            "pirate",
+            "kindle unlimited gratuit",
+        ],
+        "recommended_daily_budget_total_eur": 30.0,
+    }
+
+
+def generate_a_plus_blueprint(
+    title: str,
+    subtitle: str = "",
+    niche: str = "",
+    language: str = "fr",
+) -> Dict[str, Any]:
+    """Génère le gabarit complet des modules Amazon A+ Content (Informations de l'éditeur)."""
+    lang = normalize_language(language)
+    t = title or "LIVRE DE RÉFÉRENCE"
+    st = subtitle or f"Le manuel d'excellence sur {niche}"
+
+    return {
+        "status": "success",
+        "language": lang,
+        "blueprint_version": "Amazon KDP A+ Standard 3-Module Layout",
+        "modules": [
+            {
+                "slot": 1,
+                "module_type": "standard_image_header_with_text",
+                "name": "Bannière Hero d'Autorité",
+                "headline": t,
+                "body_text": st,
+                "recommended_image_size": "970x300 px ou 970x600 px @ 300 DPI",
+            },
+            {
+                "slot": 2,
+                "module_type": "standard_three_image_text",
+                "name": "Les 3 Piliers Majeurs",
+                "features": [
+                    {
+                        "headline": "Méthode Pas-à-Pas",
+                        "body_text": "Zéro jargon théorique : des étapes chronologiques immédiatement actionnables.",
+                        "recommended_image_size": "300x300 px @ 300 DPI",
+                    },
+                    {
+                        "headline": "Études de Cas Chiffrées",
+                        "body_text": "Des montants réels, des calculs transparents et des scénarios complets.",
+                        "recommended_image_size": "300x300 px @ 300 DPI",
+                    },
+                    {
+                        "headline": "Protocoles 24 Heures",
+                        "body_text": "Des plans d'action rapides pour valider vos acquis sans attendre.",
+                        "recommended_image_size": "300x300 px @ 300 DPI",
+                    },
+                ],
+            },
+            {
+                "slot": 3,
+                "module_type": "standard_comparison_table",
+                "name": "Pourquoi Cet Ouvrage Surclasse la Concurrence",
+                "comparison_metrics": [
+                    "Excellence Typographique 6x9 pouces avec marges de reliure (Gutter)",
+                    "Zéro Remplissage Artificiel (Anti-Fluff garanti)",
+                    "Checklists et Fiches d'Action Téléchargeables",
+                    "Avertissements Légaux & Déclaration de Transparence KDP",
+                ],
+            },
+        ],
+    }
+
+
 def optimize_kdp_seo(
     book_title: str,
     subtitle: str,
@@ -298,7 +699,8 @@ def optimize_kdp_seo(
       - categories: 3 Amazon categories (1 volume + 2 niches)
       - description_html (<=4000 chars, only allowed KDP tags)
       - a_plus_blueprint
-      - ppc_clusters
+      - ppc_clusters & amazon_ads_campaigns
+      - marketplace
     """
     lang_code = normalize_language(language)
     lang_cfg = get_language_config(lang_code)
@@ -317,96 +719,176 @@ def optimize_kdp_seo(
     else:
         seeds = [str(seed_keywords).strip()]
 
-    # Build slots from optimizer (uses intent templates) then try to inject seeds if helpful
+    # Build slots from optimizer (uses intent templates)
     opt = optimize_7_slots_a9(title=title, subtitle=sub, niche=niche, language=lang_code, target_audience=target_audience)
-    slots = list(opt.get("optimized_slots") or [])
+    template_slots = list(opt.get("optimized_slots") or [])
 
-    # If seeds provided, try to merge some into slots (respect byte limit and no title dup)
+    # Intelligently merge seed keywords without title duplicate words & respecting 50 bytes UTF-8
     title_words = tokenize_clean_words(title) | tokenize_clean_words(sub)
-    if seeds:
-        for s in seeds:
-            if len(slots) >= 7:
-                break
-            # ensure not duplicate words with title
-            if tokenize_clean_words(s) & title_words:
+    merged_slots: List[str] = []
+    used_words: Set[str] = set()
+
+    # Filter high-quality seeds
+    for s in seeds:
+        if len(merged_slots) >= 7:
+            break
+        # Ignore if repeats title words
+        if tokenize_clean_words(s) & title_words:
+            continue
+        clean_seed = " ".join(s.split())
+        s_words = tokenize_clean_words(clean_seed)
+        if s_words & used_words:
+            retained = [w for w in clean_seed.split() if not (tokenize_clean_words(w) & (title_words | used_words))]
+            if not retained:
                 continue
-            candidate = " ".join(s.split())[:120]
-            # fit into a new slot if possible
-            if calculate_utf8_bytes(candidate) <= 50:
-                # avoid exact duplicates
-                if candidate.lower() not in [x.lower() for x in slots]:
-                    slots.append(candidate)
-        # pad to 7
-        while len(slots) < 7:
-            slots.append("")
-        slots = slots[:7]
-        # re-audit
-        audit = audit_7_slots_a9(slots, language=lang_code, title=title, subtitle=sub)
-    else:
-        audit = opt.get("audit") or audit_7_slots_a9(slots, language=lang_code, title=title, subtitle=sub)
+            clean_seed = " ".join(retained)
+            s_words = tokenize_clean_words(clean_seed)
 
-    # Categories (simple heuristic)
-    marketplace = lang_cfg.get("amazon_marketplace", "amazon.com")
-    categories = {
-        "volume_category": f"Books > {niche}" if niche else "Books > General",
-        "niche_categories": [
-            f"Books > {book_type}" if book_type else f"Books > {niche}",
-            f"Kindle Store > {niche}" if niche else "Kindle Store > General",
-        ],
-        "marketplace_hint": marketplace,
-    }
+        if calculate_utf8_bytes(clean_seed) <= 50 and clean_seed.lower() not in [x.lower() for x in merged_slots]:
+            merged_slots.append(clean_seed)
+            used_words.update(s_words)
 
-    # Description HTML (allowed tags only): <h4>, <b>, <i>, <p>, <br>, <ul>, <li>
-    desc_parts = [
-        f"<h4>{title}</h4>" if title else "<h4>Discover this book</h4>",
-        f"<p><b>{sub}</b></p>" if sub else "",
-        f"<p>{niche} — {target_audience}</p>" if (niche or target_audience) else "",
-        "<p><b>What you will learn</b></p>",
-        "<ul>",
-        "<li>Practical steps you can apply immediately.</li>",
-        "<li>Clear frameworks to avoid common mistakes.</li>",
-        "<li>Actionable checklists for fast progress.</li>",
-        "</ul>",
-        f"<p><i>Optimized for {marketplace}.</i></p>",
-    ]
-    description_html = "\n".join([p for p in desc_parts if p])
-    # enforce <= 4000 chars
-    if len(description_html) > 4000:
-        description_html = description_html[:3997] + "..."
+    # Fill remaining slots from template_slots without word-level duplication
+    for ts in template_slots:
+        if len(merged_slots) >= 7:
+            break
+        ts_tokens = ts.split()
+        retained = [w for w in ts_tokens if not (tokenize_clean_words(w) & (title_words | used_words))]
+        if retained:
+            clean_ts = " ".join(retained)
+            if calculate_utf8_bytes(clean_ts) <= 50 and clean_ts.lower() not in [x.lower() for x in merged_slots]:
+                merged_slots.append(clean_ts)
+                used_words.update(tokenize_clean_words(clean_ts))
+        elif ts and ts.lower() not in [x.lower() for x in merged_slots]:
+            merged_slots.append(ts)
 
-    # A+ blueprint (simple)
-    a_plus_blueprint = {
-        "modules": [
-            {"type": "headline", "content": title or "Key benefits"},
-            {"type": "image_text", "content": "Who this book is for and what problem it solves."},
-            {"type": "bullets", "content": ["Benefit 1", "Benefit 2", "Benefit 3"]},
-        ]
-    }
+    # Pad with template slots if needed
+    while len(merged_slots) < 7:
+        merged_slots.append("")
+    merged_slots = merged_slots[:7]
 
-    # PPC clusters
+    # Audit the final 7 slots
+    audit = audit_7_slots_a9(merged_slots, language=lang_code, title=title, subtitle=sub)
+
+    # Categories (3 catégories Amazon KDP 1 volume + 2 niches + codes BISAC)
+    categories = generate_kdp_categories(niche=niche, book_type=book_type, language=lang_code)
+    marketplace = categories.get("marketplace_hint") or lang_cfg.get("amazon_marketplace", "amazon.fr")
+
+    # Description HTML persuasive conforme KDP
+    description_html = generate_amazon_description_html(
+        title=title,
+        subtitle=sub,
+        niche=niche,
+        target_audience=target_audience,
+        language=lang_code,
+    )
+
+    # A+ blueprint
+    a_plus_blueprint = generate_a_plus_blueprint(
+        title=title,
+        subtitle=sub,
+        niche=niche,
+        language=lang_code,
+    )
+
+    # PPC / Amazon Ads campaigns
+    ads_campaigns = generate_amazon_ads_blueprint(
+        title=title,
+        subtitle=sub,
+        niche=niche,
+        backend_keywords=merged_slots,
+        language=lang_code,
+    )
+
     ppc_clusters = {
-        "broad": seeds[:3] if seeds else [niche] if niche else ["general"],
-        "phrase": slots[:3],
-        "exact": slots[3:6] if len(slots) >= 6 else slots[:3],
+        "broad": ads_campaigns["broad"],
+        "phrase": ads_campaigns["phrase"],
+        "exact": ads_campaigns["exact"],
+    }
+
+    # Audit complet pour la note sur 100 et vérifications chirurgicales
+    audit_score = audit.get("score_a9", 100)
+    byte_counts = [calculate_utf8_bytes(s) for s in merged_slots]
+    total_b = sum(byte_counts)
+
+    title_words = tokenize_clean_words(title) | tokenize_clean_words(sub)
+    has_dup = any(tokenize_clean_words(s) & title_words for s in merged_slots)
+
+    forb_terms = [t for t in FORBIDDEN_TITLE_TERMS if any(re.search(rf"\b{re.escape(t)}\b", s.lower()) for s in merged_slots)]
+    trademarks = [t for t in NOTORIOUS_TRADEMARKS if any(re.search(rf"\b{re.escape(t)}\b", s.lower()) for s in merged_slots)]
+
+    seo_audit = {
+        "score_a9_100": audit_score,
+        "score": audit_score,
+        "byte_count_per_slot": byte_counts,
+        "total_bytes": total_b,
+        "zero_title_duplicates": not has_dup,
+        "zero_forbidden_terms": len(forb_terms) == 0,
+        "zero_trademarks": len(trademarks) == 0,
+        "html_valid": len(description_html) <= 4000 and not any(tag in description_html.lower() for tag in ["<script", "<div", "<span", "<h1", "<a "]),
+        "details": audit,
     }
 
     result = {
         "status": "success",
         "language": lang_code,
+        # Nouveaux champs explicites demandés par l'utilisateur (Agent 5) :
+        "optimized_title": title,
+        "optimized_subtitle": sub,
+        "backend_keywords_7": merged_slots,
+        "categories_3": categories.get("categories_list", [categories.get("volume_category", "")] + categories.get("niche_categories", [])),
+        "amazon_description_html": description_html,
+        "aplus_content_blueprint": a_plus_blueprint,
+        "ppc_launch_keywords": ppc_clusters,
+        "seo_audit": seo_audit,
+        # Rétrocompatibilité totale Zéro-Casse :
         "book_title": title,
         "subtitle": sub,
         "title_subtitle_char_count": ts_count,
         "title_subtitle_over_200": ts_count > 200,
-        "backend_keywords": slots,
+        "backend_keywords": merged_slots,
         "backend_keywords_audit": audit,
         "categories": categories,
         "description_html": description_html,
         "description_html_char_count": len(description_html),
         "a_plus_blueprint": a_plus_blueprint,
         "ppc_clusters": ppc_clusters,
+        "amazon_ads_campaigns": ads_campaigns,
         "marketplace": marketplace,
+        "seo_package_ready": True,
     }
     return result
+
+
+def build_seo_package(
+    book_title: str,
+    subtitle: str = "",
+    niche: str = "general",
+    book_type: str = "text",
+    target_audience: str = "Tous publics",
+    seed_keywords: Any = None,
+    language: str = "fr",
+) -> Dict[str, Any]:
+    """Point d'entrée chirurgical pour la production du pack SEO Amazon KDP complet (Agent 5)."""
+    seo_data = optimize_kdp_seo(
+        book_title=book_title,
+        subtitle=subtitle,
+        niche=niche,
+        book_type=book_type,
+        target_audience=target_audience,
+        seed_keywords=seed_keywords,
+        language=language,
+    )
+    return {
+        "status": "success",
+        "seo_amazon_ready": seo_data,
+        "description_amazon_html": seo_data["description_html"],
+        "backend_keywords": seo_data["backend_keywords"],
+        "categories": seo_data["categories"],
+        "ppc_clusters": seo_data["ppc_clusters"],
+        "amazon_ads_campaigns": seo_data["amazon_ads_campaigns"],
+        "a_plus_blueprint": seo_data["a_plus_blueprint"],
+    }
 
 
 __all__ = [
@@ -416,4 +898,11 @@ __all__ = [
     "audit_7_slots_a9",
     "optimize_7_slots_a9",
     "optimize_kdp_seo",
+    "generate_kdp_categories",
+    "generate_amazon_description_html",
+    "sanitize_kdp_html",
+    "generate_amazon_ads_blueprint",
+    "generate_a_plus_blueprint",
+    "build_seo_package",
+    "CATEGORIES_DB",
 ]

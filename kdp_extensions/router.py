@@ -42,7 +42,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional
 from urllib.parse import urlencode
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
+from fastapi import APIRouter, Body, Depends, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field
 
@@ -498,6 +498,7 @@ class ColoringGenerateRequest(BaseModel):
     nb_illustrations: Optional[int] = Field(6, ge=1, le=60, description="Nombre de planches")
     recto_uniquement: Optional[bool] = Field(True, description="Verso blanc anti-bavure après chaque planche")
     paper_type: Optional[str] = Field("white", description="Type de papier KDP")
+    language: Optional[str] = Field("fr", description="Langue des titres et textes (en, fr, es, de, ar)")
 
 
 class ColoringSheetRequest(BaseModel):
@@ -505,6 +506,7 @@ class ColoringSheetRequest(BaseModel):
     index: Optional[int] = Field(1, ge=1, le=200, description="Numéro d'index de la planche")
     age_group: Optional[str] = Field("4-8", description="Tranche d'âge cible (ex: 4-6, 4-8, 6-8, adultes)")
     format_kdp: Optional[str] = Field("8.5x11", description="Format KDP de la planche")
+    language: Optional[str] = Field("fr", description="Langue des titres et textes (en, fr, es, de, ar)")
 
 
 class ColoringPackRequest(BaseModel):
@@ -512,6 +514,7 @@ class ColoringPackRequest(BaseModel):
     nb_sheets: Optional[int] = Field(10, ge=1, le=60, description="Nombre de planches à générer")
     age_group: Optional[str] = Field("4-8", description="Tranche d'âge cible")
     format_kdp: Optional[str] = Field("8.5x11", description="Format KDP")
+    language: Optional[str] = Field("fr", description="Langue des titres et textes (en, fr, es, de, ar)")
 
 
 class AnalyzeBestsellersRequest(BaseModel):
@@ -520,6 +523,7 @@ class AnalyzeBestsellersRequest(BaseModel):
     cible: str = Field("Lecteurs exigeants cherchant des résultats concrets", description="Public cible")
     marketplace: str = Field("fr", description="fr | com | uk")
     use_ai: bool = Field(True, description="Utiliser Gemini si la clé est disponible")
+    language: Optional[str] = Field("fr", description="Langue d'analyse (fr, en, es, de, ar)")
 
 
 class EditorialFrontMatterRequest(BaseModel):
@@ -530,6 +534,7 @@ class EditorialFrontMatterRequest(BaseModel):
     publisher: Optional[str] = Field("MarkEddy Éditions", description="Maison d'édition")
     isbn: Optional[str] = Field(None, description="Numéro ISBN-13")
     format_output: Optional[str] = Field("markdown", description="'markdown' ou 'html'")
+    language: Optional[str] = Field("fr", description="Langue cible (en, fr, es, de, ar)")
 
 
 class EditorialBackMatterRequest(BaseModel):
@@ -538,6 +543,7 @@ class EditorialBackMatterRequest(BaseModel):
     author: Optional[str] = Field("MarkEddy", description="Nom d'auteur")
     publisher: Optional[str] = Field("MarkEddy Éditions", description="Maison d'édition")
     format_output: Optional[str] = Field("markdown", description="'markdown' ou 'html'")
+    language: Optional[str] = Field("fr", description="Langue cible (en, fr, es, de, ar)")
 
 
 class AssembleBookRequest(BaseModel):
@@ -546,6 +552,7 @@ class AssembleBookRequest(BaseModel):
     title: Optional[str] = Field("Livre KDP", description="Titre du livre")
     author: Optional[str] = Field("MarkEddy", description="Nom d'auteur")
     format_output: Optional[str] = Field("markdown", description="'markdown' ou 'html'")
+    language: Optional[str] = Field("fr", description="Langue cible (en, fr, es, de, ar)")
 
 
 class LayoutCompileRequest(BaseModel):
@@ -556,6 +563,7 @@ class LayoutCompileRequest(BaseModel):
     format_id: Optional[str] = Field("6x9", description="Format de coupe KDP")
     page_count: Optional[int] = Field(150, ge=1, le=8000, description="Nombre de pages estimé")
     bleed: Optional[bool] = Field(False, description="Fond perdu 0.125 po")
+    language: Optional[str] = Field("fr", description="Langue cible (en, fr, es, de, ar)")
 
 
 class LayoutAuditRequest(BaseModel):
@@ -595,6 +603,16 @@ class SeoOptimizeKeywordsRequest(BaseModel):
     niche: str = Field(default="Finances", description="Niche ou thématique")
     language: str = Field(default="fr", description="Langue cible (en, fr, es, de, ar)")
     target_audience: str = Field(default="", description="Public visé")
+
+
+class SeoOptimizeA9Request(BaseModel):
+    book_title: str = Field(..., description="Titre du livre")
+    subtitle: str = Field(default="", description="Sous-titre")
+    niche: str = Field(default="general", description="Niche ou thématique")
+    book_type: str = Field(default="text", description="Type de livre (text, coloring_book, puzzle)")
+    target_audience: str = Field(default="Tous publics", description="Public visé")
+    seed_keywords: Optional[List[str]] = Field(default=None, description="Mots-clés initiaux / suggestions")
+    language: str = Field(default="fr", description="Langue cible (en, fr, es, de, ar)")
 
 
 class MultilingualComplianceRequest(BaseModel):
@@ -643,6 +661,7 @@ class KdpExportPackageRequest(BaseModel):
     target_audience: str = "Tous publics"
     enforce_24_pages: bool = True
     strict_gate: bool = True
+    language: str = Field(default="fr", description="Langue de l'ouvrage (en, fr, es, de, ar)")
 
 
 class SocialTrendRequest(BaseModel):
@@ -664,6 +683,14 @@ class VerifyHumanizeRequest(BaseModel):
     text: str = Field(..., description="Texte du manuscrit ou de section à humaniser")
     author_voice: str = Field("expert_pedagogue", description="expert_pedagogue | praticien_terrain | storyteller")
     research_pack: Optional[Dict[str, Any]] = Field(None, description="Dossier de recherche éventuel pour la bibliographie")
+
+
+class TranscreateBookRequest(BaseModel):
+    master_book: Optional[Dict[str, Any]] = Field(None, description="Livre maître validé dans la langue source")
+    master_payload: Optional[Dict[str, Any]] = Field(None, description="Alias optionnel pour master_book")
+    source_language: Optional[str] = Field("fr", description="Langue source (ex: 'fr', 'en')")
+    target_languages: Optional[List[str]] = Field(None, description="Liste des langues cibles")
+    bundle_name: Optional[str] = Field(None, description="Nom optionnel du bundle")
 
 
 # ==============================================================================
@@ -1603,6 +1630,7 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
                 target_audience=req.target_audience,
                 enforce_24_pages=req.enforce_24_pages,
                 strict_gate=req.strict_gate,
+                language=req.language,
             )
             return res
         except Exception as exc:
@@ -1723,6 +1751,22 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
         except Exception as exc:
             raise HTTPException(status_code=500, detail=f"Erreur d'optimisation SEO A9 : {exc}")
 
+    @router.post("/api/seo/optimize-a9", summary="Agent 5 : Optimisation Complète Amazon A9/A10 & Conversion")
+    def api_seo_optimize_a9(req: SeoOptimizeA9Request):
+        try:
+            from kdp_extensions.seo_a9_agent import optimize_kdp_seo
+            return optimize_kdp_seo(
+                book_title=req.book_title,
+                subtitle=req.subtitle,
+                niche=req.niche,
+                book_type=req.book_type,
+                target_audience=req.target_audience,
+                seed_keywords=req.seed_keywords,
+                language=req.language,
+            )
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur d'optimisation SEO A9 complète : {exc}")
+
     @router.post("/api/compliance/audit-multilingual", summary="Superviseur : Audit de conformité KDP multilingue, RTL & alerte Arabe")
     def api_compliance_audit_multilingual(req: MultilingualComplianceRequest):
         try:
@@ -1763,12 +1807,58 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
             raise HTTPException(status_code=500, detail=f"Erreur du superviseur de conformité : {exc}")
 
     @router.post("/api/kdp/supervise-audit", summary="Agent 4 : Superviseur Conformité Amazon KDP & Excellence Anti-Anonymat")
+    @router.post("/api/compliance/supervise-book", summary="Agent 4 : Superviseur de Conformité KDP & Score Anti-Anonymat")
     def api_kdp_supervise_audit(req: Dict[str, Any] = Body(...)):
         try:
             from kdp_extensions.kdp_compliance_supervisor import supervise_kdp_book
             return supervise_kdp_book(req)
         except Exception as exc:
             raise HTTPException(status_code=500, detail=f"Erreur du superviseur KDP : {exc}")
+
+    # ==============================================================================
+    # AGENT 6 : TRANSCRÉATION MULTILINGUE IDIOMATIQUE (5 LANGUES) & BUNDLE KDP
+    # ==============================================================================
+
+    @router.post("/api/kdp/transcreate-book", summary="Agent 6 : Transcréateur Multilingue Idiomatique 5 Langues (EN, FR, ES, DE, AR)")
+    def api_kdp_transcreate_book(req: TranscreateBookRequest):
+        try:
+            from kdp_extensions.multilingual_transcreator import produce_multilang_bundle, transcreate_book_package
+            master = req.master_book or req.master_payload or {}
+            source_lang = req.source_language or master.get("language") or "fr"
+            master["language"] = source_lang
+            if req.target_languages is not None:
+                res = produce_multilang_bundle(
+                    master_book=master,
+                    target_languages=req.target_languages,
+                    bundle_name=req.bundle_name,
+                )
+            else:
+                res = transcreate_book_package(
+                    master_payload=master,
+                    source_language=source_lang,
+                    target_languages=None,
+                    bundle_name=req.bundle_name,
+                )
+            return res
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur Transcréateur Multilingue : {exc}")
+
+    @router.get("/api/kdp/download-multilang-bundle/{bundle_name}", summary="Téléchargement du Bundle Multilingue KDP (ZIP global ou par langue)")
+    def api_kdp_download_multilang_bundle(bundle_name: str, lang: Optional[str] = Query(None, description="Code langue optionnel (ex: 'de', 'ar')")):
+        try:
+            from kdp_extensions.multilingual_transcreator import resolve_bundle_download_path
+            target_zip = resolve_bundle_download_path(bundle_name, lang=lang)
+            if not target_zip or not target_zip.is_file():
+                raise HTTPException(status_code=404, detail=f"Archive multilingue '{bundle_name}' introuvable (lang={lang}).")
+            return FileResponse(
+                path=str(target_zip),
+                media_type="application/zip",
+                filename=target_zip.name,
+            )
+        except HTTPException:
+            raise
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur de téléchargement du bundle : {exc}")
 
     return router
 
@@ -1790,8 +1880,10 @@ __all__ = [
     "SocialTrendRequest",
     "DeepSourcesRequest",
     "VerifyHumanizeRequest",
+    "TranscreateBookRequest",
     "SeoAuditKeywordsRequest",
     "SeoOptimizeKeywordsRequest",
+    "SeoOptimizeA9Request",
     "MultilingualComplianceRequest",
     "ComplianceAuditRequest",
 ]

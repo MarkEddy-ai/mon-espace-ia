@@ -101,7 +101,7 @@ LANGUAGE_CONFIGS: Dict[str, Dict[str, Any]] = {
             "puzzle_title": "MOTS MÊLÉS THÉMATIQUES",
             "puzzle_solutions": "SOLUTIONS DES GRILLES",
             "this_book_belongs_to": "Ce livre appartient à :",
-            "color_test": "Nuancier & Test de Couleurs",
+            "color_test": "Mon Nuancier de Feutres & Test de Couleurs",
             "super_artist_diploma": "Diplôme Officiel du Super Artiste",
             "maze_start": "Entrée",
             "maze_exit": "Sortie",
@@ -563,9 +563,17 @@ def get_forbidden_keywords(lang: Optional[str] = "fr") -> List[str]:
     return get_language_config(lang)["forbidden_keywords"]
 
 
+get_forbidden_kdp_terms = get_forbidden_keywords
+
+
 def get_paperback_warning(lang: Optional[str] = "fr") -> Optional[str]:
     """Retourne l'alerte éventuelle liée au format Paperback pour la langue."""
     return get_language_config(lang)["paperback_warning"]
+
+
+def get_marketplace(lang: Optional[str] = "fr") -> str:
+    """Retourne la marketplace Amazon principale pour la langue."""
+    return get_language_config(lang)["amazon_marketplace"]
 
 
 def get_language_profile(lang: Optional[str] = "fr") -> Dict[str, Any]:

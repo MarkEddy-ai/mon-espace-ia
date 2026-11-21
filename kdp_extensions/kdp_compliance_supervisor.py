@@ -1,4 +1,4 @@
-﻿"""
+"""
 kdp_extensions/kdp_compliance_supervisor.py — Superviseur Qualité & Conformité KDP Multilingue & Anti-Anonymat (Agent 4).
 (Règles 01, 02, 03, 04, 05 de l'Écosystème KDP Haute Couture).
 
@@ -390,10 +390,11 @@ def check_a9_keywords_compliance(
             warn.append(f"Slot {idx} ('{clean_kw}') contient de la ponctuation inutile qui réduit la combinatoire A9.")
 
         # Longueur maximale recommandée
-        if len(clean_kw) > 50:
-            warn.append(f"Slot {idx} dépasse 50 caractères ({len(clean_kw)} car.) : risque de troncature A9.")
+        byte_len = len(clean_kw.encode("utf-8"))
+        if byte_len > 50 or len(clean_kw) > 50:
+            warn.append(f"Slot {idx} dépasse 50 octets/caractères ({byte_len} octets UTF-8) : risque de troncature A9.")
 
-        # Répétition des mots du titre/sous-titre
+        # Répétition des mots du titre/sous-titre (Cannibalisation de quota A9)
         kw_words = set(re.findall(r"\b\w{4,}\b", clean_kw.lower()))
         repeated = kw_words.intersection(title_words)
         if repeated:
@@ -401,6 +402,17 @@ def check_a9_keywords_compliance(
                 f"Slot {idx} répète des termes déjà indexés dans le titre/sous-titre : {', '.join(repeated)} "
                 f"(gaspillage d'espace de recherche)."
             )
+
+        # Proscription absolue des termes interdits KDP dans les mots-clés (Bestseller, Gratuit, etc.)
+        lower_kw = clean_kw.lower()
+        for forb in FORBIDDEN_TITLE_TERMS:
+            if re.search(rf"\b{re.escape(forb)}\b", lower_kw):
+                crit.append(f"Slot {idx} contient un terme promotionnel prohibé par Amazon KDP : '{forb}'.")
+
+        # Proscription absolue des marques notoires dans les mots-clés (Zéro marque KDP)
+        for tm in NOTORIOUS_TRADEMARKS:
+            if re.search(rf"\b{re.escape(tm)}\b", lower_kw):
+                crit.append(f"Slot {idx} contient une marque notoire protégée : '{tm}'.")
 
     return crit, warn
 
@@ -809,6 +821,7 @@ def supervise_kdp_book(book_payload: Dict[str, Any]) -> Dict[str, Any]:
         "warnings": warnings,
         "ai_disclosure_summary": ai_summary,
         "anti_ordinary_recommendations": recommendations,
+        "seo_a9_compliant": len(crit_kw) == 0,
         "checks": {
             "keyword_stuffing_checked": True,
             "title_200_chars_checked": combined_title_len <= 200,
@@ -818,6 +831,12 @@ def supervise_kdp_book(book_payload: Dict[str, Any]) -> Dict[str, Any]:
             "min_24_pages_paperback_ok": (not is_paperback) or (page_count >= 24 if page_count else True),
             "spine_text_rule_ok": (not has_spine_text) or (page_count >= 79 if page_count else False),
             "arabic_paperback_alert": (normalize_language(language) == "ar" and is_paperback),
+            "seo_a9_audit": {
+                "keywords_checked": True,
+                "critical_violations": crit_kw,
+                "warnings": warn_kw,
+                "score_conforme": len(crit_kw) == 0,
+            },
         },
         "timestamp": datetime.now().isoformat(),
         "supervisor": "Agent 4 : Superviseur de Conformité Amazon KDP & Anti-Anonymat",

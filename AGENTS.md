@@ -259,6 +259,10 @@ connecteurs média, moteur de coloriage, routes HTTP et contrôle qualité.
 | `POST /api/research/social-trends` | **Agent 1** : Veille sociale Reddit, Google Trends, 3 concepts |
 | `POST /api/research/deep-sources` | **Agent 2** : Preuves documentaires, études DOI, cas terrain |
 | `POST /api/editorial/verify-humanize` | **Agent 3** : Fact-checking, suppression tics IA, bibliographie |
+| `POST /api/compliance/supervise-book` | **Agent 4** : Superviseur de Conformité KDP & Score Anti-Anonymat |
+| `POST /api/seo/optimize-a9` | **Agent 5** : Optimisation Complète Amazon A9/A10, Catégories, HTML & Ads |
+| `POST /api/kdp/transcreate-book` | **Agent 6** : Transcréation multilingue 5 langues (EN, FR, ES, DE, AR) & bundle |
+| `GET /api/kdp/download-multilang-bundle/{name}` | Téléchargement du Bundle Multilingue (ZIP global ou `?lang=...`) |
 
 Champs **optionnels** ajoutés à `POST /api/books/create` (valeurs par défaut,
 compatibilité totale) : `project_type` (`non_fiction` | `coloring_book` | `puzzle`),

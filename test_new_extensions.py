@@ -573,6 +573,9 @@ def test_09_kdp_export_orchestrator_and_zip():
         assert "metadata_a9.json" in names
         assert "manifest.json" in names
         assert "interieur_kdp.html" in names
+        assert "kdp_supervision_report.json" in names
+        assert "seo_amazon_ready.json" in names
+        assert "description_amazon.html" in names
 
         # Vérification du manifeste d'audit KDP
         manifest_raw = zf.read("manifest.json").decode("utf-8")
@@ -995,6 +998,464 @@ def test_16_export_blocked_on_rejection():
     assert len(data_reject["critical_violations"]) >= 2
 
 
+# ==============================================================================
+# TEST 17 : SUPERVISEUR GATEKEEPER KDP & EXCELLENCE ANTI-ANONYMAT (AGENT 4)
+# ==============================================================================
+
+def test_17_supervise_kdp_book_gatekeeper():
+    from kdp_extensions.kdp_compliance_supervisor import supervise_kdp_book
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+    from kdp_extensions.router import router
+
+    # 1. Rejet automatique : Keyword Stuffing nom d'auteur
+    res_kw = supervise_kdp_book({
+        "title": "Livre de Coloriage Mignon",
+        "author": "Coloring Books For Kids Publisher",
+        "page_count": 50,
+        "binding": "paperback",
+    })
+    assert res_kw["verdict"] == "REJECTED_FOR_REVISION"
+    assert res_kw["approved"] is False
+    assert any("bourrage de mots-clés" in v or "keyword" in v.lower() for v in res_kw["blocking_violations"])
+
+    # 2. Rejet automatique : Marque déposée notoire
+    res_tm = supervise_kdp_book({
+        "title": "Livre Lego et Marvel Magique",
+        "subtitle": "Aventures amusantes pour enfants",
+        "author": "Jean Dupont",
+        "page_count": 50,
+        "binding": "paperback",
+    })
+    assert res_tm["verdict"] == "REJECTED_FOR_REVISION"
+    assert res_tm["approved"] is False
+    assert any("Marque déposée notoire" in v or "Lego" in v or "Marvel" in v for v in res_tm["blocking_violations"])
+
+    # 3. Rejet automatique : Livre broché < 24 pages
+    res_p24 = supervise_kdp_book({
+        "title": "Manuel Succinct",
+        "subtitle": "Guide minimaliste pour débuter",
+        "author": "Pierre Martin",
+        "page_count": 16,
+        "binding": "paperback",
+    })
+    assert res_p24["verdict"] == "REJECTED_FOR_REVISION"
+    assert res_p24["approved"] is False
+    assert any("24 pages" in v for v in res_p24["blocking_violations"])
+
+    # 4. Rejet : Livre générique / ordinaire (Score < 85/100)
+    res_gen = supervise_kdp_book({
+        "title": "Simple Livre",
+        "author": "Jean Dupont",
+        "page_count": 80,
+        "binding": "paperback",
+    })
+    assert res_gen["excellence_score"] < 85.0
+    assert res_gen["verdict"] == "REJECTED_FOR_REVISION"
+    assert res_gen["approved"] is False
+    assert len(res_gen["anti_ordinary_recommendations"]) > 0
+
+    # 5. Approbation : Ouvrage conforme et complet (Score >= 85/100, 0 infraction)
+    good_book = {
+        "title": "Psychologie de l'Épargne Pro",
+        "subtitle": "La méthode concrète pour bâtir un patrimoine durable",
+        "author": "Marc Dupont",
+        "keywords": [
+            "gestion budget debutant",
+            "epargne de securite matelas",
+            "bourse etf pea passif",
+            "liberte financiere jeune actif",
+            "sortir du decouvert bancaire",
+            "finances personnelles saines",
+            "education financiere pratique"
+        ],
+        "page_count": 120,
+        "binding": "paperback",
+        "niche": "finances personnelles",
+        "content": "<p>Avertissement : Ce livre n'est pas un conseil financier individuel.</p><p>Biographie de l'auteur : Marc Dupont est expert en gestion patrimoniale.</p>",
+        "has_copyright": True,
+        "has_disclaimer": True,
+        "has_author_bio": True,
+        "has_colophon": True,
+        "has_toc": True,
+        "has_cover": True,
+        "isbn": True,
+        "ai_transparency_declared": True,
+    }
+    res_good = supervise_kdp_book(good_book)
+    assert res_good["excellence_score"] >= 85.0
+    assert len(res_good["blocking_violations"]) == 0
+    assert res_good["verdict"] == "APPROVED_FOR_KDP"
+    assert res_good["approved"] is True
+    assert res_good["kdp_compliance_passed"] is True
+    assert "excellence_score_breakdown" in res_good
+
+    # 6. Test de l'endpoint POST /api/kdp/supervise-audit
+    app = FastAPI()
+    app.include_router(router)
+    client = TestClient(app)
+
+    # Appel rejeté via API
+    api_bad = client.post("/api/kdp/supervise-audit", json={
+        "title": "Livre Lego Gratuit",
+        "author": "Coloring Books Publisher",
+        "page_count": 12,
+        "binding": "paperback"
+    })
+    assert api_bad.status_code == 200
+    bad_data = api_bad.json()
+    assert bad_data["verdict"] == "REJECTED_FOR_REVISION"
+    assert bad_data["approved"] is False
+    assert len(bad_data["blocking_violations"]) >= 1
+
+    # Appel approuvé via API
+    api_good = client.post("/api/kdp/supervise-audit", json=good_book)
+    assert api_good.status_code == 200
+    good_data = api_good.json()
+    assert good_data["verdict"] == "APPROVED_FOR_KDP"
+    assert good_data["approved"] is True
+    assert good_data["excellence_score"] >= 85.0
+
+
+# ==============================================================================
+# TEST 18 : AGENT 6 — TRANSCRÉATEUR MULTILINGUE IDIOMATIQUE (5 LANGUES) & BUNDLE
+# ==============================================================================
+
+def test_18_multilingual_transcreator_agent():
+    import zipfile
+    from pathlib import Path
+    import kdp_extensions.multilingual_transcreator as mt
+
+    master_book = {
+        "title": "L'Architecte Financier",
+        "subtitle": "Bâtir son indépendance financière sans spéculer",
+        "author": "MarkEddy",
+        "publisher": "Éditions MarkEddy",
+        "niche": "finances",
+        "language": "fr",
+        "format_id": "6x9",
+        "paper_type": "white",
+        "year": 2026,
+        "isbn": "979-8-1234-5678-9",
+        "seed_keywords": ["budget", "epargne", "bourse passive"],
+    }
+
+    # Génération du bundle complet pour les 5 langues
+    bundle_res = mt.produce_multilang_bundle(
+        master_book=master_book,
+        target_languages=["en", "fr", "es", "de", "ar"],
+    )
+
+    assert bundle_res["status"] == "success"
+    assert bundle_res["editions_count"] == 5
+    manifest = bundle_res["manifest"]
+    assert manifest["total_editions"] == 5
+    assert len(manifest["editions"]) == 5
+
+    # Vérification comparative détaillée des 5 éditions
+    editions_by_lang = {ed["language"]: ed for ed in manifest["editions"]}
+    for lang in ["en", "fr", "es", "de", "ar"]:
+        assert lang in editions_by_lang
+        ed = editions_by_lang[lang]
+        assert ed["real_page_count"] >= 24, f"L'édition {lang} doit respecter le minimum de 24 pages KDP"
+        assert ed["spine_thickness_mm"] > 0
+        assert ed["spine_thickness_in"] > 0
+        assert ed["seo_score"] >= 80.0
+        assert ed["anti_anonymity_score"] >= 85.0
+        assert ed["kdp_verdict"] in ("APPROVED_FOR_KDP", "PASSED")
+        # Vérification des fichiers générés
+        for ftype, fpath in ed["files"].items():
+            assert Path(fpath).is_file(), f"Le fichier {ftype} ({fpath}) doit exister sur disque"
+
+    # Vérification spécifique Arabe (RTL)
+    ar_ed = editions_by_lang["ar"]
+    assert ar_ed["direction"] == "rtl"
+    assert ar_ed["marketplace"] in ("amazon.ae", "amazon.sa")
+    assert "المهندس" in ar_ed["title"]
+
+    # Vérification de l'archive ZIP globale
+    global_zip = Path(bundle_res["global_zip_path"])
+    assert global_zip.is_file()
+    with zipfile.ZipFile(global_zip, "r") as zf:
+        namelist = zf.namelist()
+        assert "bundle_manifest.json" in namelist
+        assert any(n.startswith("ar/") for n in namelist)
+        assert any(n.startswith("en/") for n in namelist)
+        assert any(n.startswith("de/") for n in namelist)
+
+    # Vérification des archives ZIP individuelles
+    assert len(bundle_res["per_language_zips"]) == 5
+    for lang, lzip in bundle_res["per_language_zips"].items():
+        assert Path(lzip).is_file()
+        with zipfile.ZipFile(lzip, "r") as zf_lang:
+            assert "edition_manifest.json" in zf_lang.namelist()
+
+
+# ==============================================================================
+# TEST 19 : ENDPOINTS API TRANSCRÉATION & TÉLÉCHARGEMENT BUNDLE
+# ==============================================================================
+
+def test_19_transcreate_book_and_download_routes():
+    from fastapi import FastAPI
+    from kdp_extensions.router import router
+
+    app = FastAPI()
+    app.include_router(router)
+    client = TestClient(app)
+
+    master_book = {
+        "title": "Stoïcisme Quotidien",
+        "subtitle": "La méthode pratique pour dompter le stress en 30 jours",
+        "author": "MarkEddy",
+        "publisher": "Éditions MarkEddy",
+        "niche": "productivite",
+        "language": "fr",
+        "format_id": "6x9",
+        "seed_keywords": ["stoicisme", "focus", "serenite"],
+    }
+
+    # 1. POST /api/kdp/transcreate-book pour 3 langues
+    resp = client.post("/api/kdp/transcreate-book", json={
+        "master_book": master_book,
+        "target_languages": ["en", "de", "ar"],
+        "bundle_name": "bundle_test_fastapi",
+    })
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    assert data["status"] == "success"
+    assert data["bundle_name"] == "bundle_test_fastapi"
+    assert data["editions_count"] == 3
+    assert len(data["manifest"]["editions"]) == 3
+
+    # 2. GET /api/kdp/download-multilang-bundle/bundle_test_fastapi (Global ZIP)
+    resp_global = client.get("/api/kdp/download-multilang-bundle/bundle_test_fastapi")
+    assert resp_global.status_code == 200
+    assert resp_global.headers["content-type"] == "application/zip"
+    assert len(resp_global.content) > 1000
+
+    # 3. GET /api/kdp/download-multilang-bundle/bundle_test_fastapi?lang=ar (Arabe ZIP)
+    resp_ar = client.get("/api/kdp/download-multilang-bundle/bundle_test_fastapi?lang=ar")
+    assert resp_ar.status_code == 200
+    assert resp_ar.headers["content-type"] == "application/zip"
+    assert len(resp_ar.content) > 1000
+
+    # 4. 404 sur bundle inexistant
+    resp_404 = client.get("/api/kdp/download-multilang-bundle/bundle_inexistant_999999")
+    assert resp_404.status_code == 404
+
+
+# ==============================================================================
+# TEST 20 : AGENT 5 — SEO AMAZON A9/A10, CATÉGORIES BISAC, HTML & ADS
+# ==============================================================================
+
+def test_20_seo_a9_agent_full_package_and_export():
+    import zipfile
+    from pathlib import Path
+    import kdp_extensions.seo_a9_agent as seo
+    import kdp_extensions.kdp_compliance_supervisor as kcs
+    import kdp_extensions.kdp_export_orchestrator as keo
+
+    # 1. Optimisation SEO complète A9/A10 via optimize_kdp_seo
+    seo_res = seo.optimize_kdp_seo(
+        book_title="L'Architecte Financier",
+        subtitle="Construire son indépendance financière sans spéculer",
+        niche="finances",
+        book_type="text",
+        target_audience="jeunes actifs et investisseurs débutants",
+        seed_keywords=["budget", "epargne de securite", "bourse passive etf"],
+        language="fr",
+    )
+    assert seo_res["status"] == "success"
+    assert seo_res["seo_package_ready"] is True
+
+    # Vérification des 8 clés explicites demandées pour l'Agent 5
+    assert "optimized_title" in seo_res
+    assert "optimized_subtitle" in seo_res
+    assert "backend_keywords_7" in seo_res
+    assert "categories_3" in seo_res
+    assert "amazon_description_html" in seo_res
+    assert "aplus_content_blueprint" in seo_res
+    assert "ppc_launch_keywords" in seo_res
+    assert "seo_audit" in seo_res
+    assert seo_res["seo_audit"]["score_a9_100"] >= 80
+
+    # Vérification des 7 slots backend (<= 50 octets UTF-8 chacun, cumul <= 250 octets)
+    slots = seo_res["backend_keywords"]
+    assert len(slots) == 7
+    total_bytes = sum(seo.calculate_utf8_bytes(s) for s in slots)
+    assert total_bytes <= 250, f"Le total des 7 slots dépasse 250 octets : {total_bytes}"
+    for idx, s in enumerate(slots, 1):
+        b_len = seo.calculate_utf8_bytes(s)
+        assert b_len <= 50, f"Slot {idx} dépasse 50 octets UTF-8 : '{s}' ({b_len} octets)"
+
+    # Vérification des catégories Amazon et codes BISAC
+    cats = seo_res["categories"]
+    assert "volume_category" in cats
+    assert "volume_bisac" in cats
+    assert cats["volume_bisac"] == "BUS027000"
+    assert len(cats["niche_categories"]) >= 2
+    assert len(cats["niche_bisac_codes"]) >= 2
+    assert "BUS006000" in cats["niche_bisac_codes"]
+
+    # Vérification de la description HTML (KDP strict, <= 4000 car., balises autorisées)
+    desc_html = seo_res["description_html"]
+    assert len(desc_html) <= 4000
+    assert "<h2>" in desc_html
+    assert "<h3>" in desc_html
+    assert "<ul>" in desc_html
+    assert "<li>" in desc_html
+    assert "<b>" in desc_html
+    # Aucune balise interdite
+    assert "<script" not in desc_html.lower()
+    assert "<div" not in desc_html.lower()
+    assert "<span" not in desc_html.lower()
+
+    # Vérification des campagnes Amazon Ads PPC
+    ads = seo_res["amazon_ads_campaigns"]
+    assert len(ads["campaigns"]) >= 4
+    c_names = [c["targeting_type"] for c in ads["campaigns"]]
+    assert any("Exact" in n for n in c_names)
+    assert any("Phrase" in n for n in c_names)
+    assert any("Broad" in n for n in c_names)
+    assert any("Product" in n for n in c_names)
+    assert "gratuit" in ads["negative_keywords"]
+    assert ads["recommended_daily_budget_total_eur"] > 0
+
+    # Vérification du blueprint A+
+    a_plus = seo_res["a_plus_blueprint"]
+    assert len(a_plus["modules"]) >= 3
+    assert any("image_header" in m.get("module_type", "") for m in a_plus["modules"])
+    assert any("three_image" in m.get("module_type", "") for m in a_plus["modules"])
+
+    # 2. Vérification de la connexion avec le Superviseur de Conformité (Zéro marque & Zéro keyword-stuffing)
+    crit_tm, warn_tm = kcs.check_a9_keywords_compliance(
+        keywords=["guide officiel lego star wars", "methode financiere"],
+        title="Mon Livre",
+        subtitle="Un guide",
+    )
+    assert any("marque notoire" in c.lower() for c in crit_tm), "Doit bloquer les marques notoires dans les mots-clés"
+
+    crit_forb, warn_forb = kcs.check_a9_keywords_compliance(
+        keywords=["livre bestseller n°1 gratuit", "methode financiere"],
+        title="Mon Livre",
+        subtitle="Un guide",
+    )
+    assert any("terme promotionnel prohibé" in c.lower() or "prohibé" in c.lower() for c in crit_forb), "Doit bloquer les termes interdits (bestseller/gratuit) dans les mots-clés"
+
+    # 3. Vérification de la production complète dans l'Orchestrateur Export
+    pkg = keo.build_kdp_export_package(
+        book_id="unit_test_seo_export_01",
+        title="L'Architecte Financier Pro",
+        subtitle="Méthode pas-à-pas pour maîtriser son patrimoine",
+        niche="finances",
+        project_type="text",
+        format_id="6x9",
+        initial_pages=12,
+        enforce_24_pages=True,
+    )
+    assert pkg["status"] == "success"
+    assert "seo_amazon_ready" in pkg
+    assert "description_amazon_html" in pkg
+    assert "seo_amazon_ready.json" in pkg["files_included"]
+    assert "description_amazon.html" in pkg["files_included"]
+
+    # Vérification physique dans l'archive ZIP
+    zip_path = Path(pkg["zip_path"])
+    assert zip_path.is_file()
+    with zipfile.ZipFile(zip_path, "r") as zf:
+        z_names = zf.namelist()
+        assert "seo_amazon_ready.json" in z_names
+        assert "description_amazon.html" in z_names
+        # Contrôle du contenu de seo_amazon_ready.json
+        raw_seo = zf.read("seo_amazon_ready.json").decode("utf-8")
+        parsed_seo = __import__("json").loads(raw_seo)
+        assert len(parsed_seo["backend_keywords"]) == 7
+        assert "categories" in parsed_seo
+        assert "description_html" in parsed_seo
+        assert "amazon_ads_campaigns" in parsed_seo
+
+
+# ==============================================================================
+# TEST 21 : ROUTE API SEO A9 & SANITISATION HTML KDP STRICTE
+# ==============================================================================
+
+def test_21_route_seo_optimize_a9_and_sanitization():
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+    from kdp_extensions.router import router
+    import kdp_extensions.seo_a9_agent as seo
+
+    # 1. Test unitaire de sanitisation HTML KDP stricte
+    dirty_html = (
+        "<h1>Mon Chef-d'Œuvre</h1>"
+        "<script>alert('xss');</script>"
+        "<div class='box'><p>Paragraphe dans div</p></div>"
+        "<span style='color:red;'>Texte rouge</span>"
+        "<a href='https://spam.com'>Visitez ce site</a>"
+        "<b>Important</b> <i>Clair</i>"
+        "<ul><li>Point 1</li><li>Point 2</li></ul>"
+    )
+    clean_html = seo.sanitize_kdp_html(dirty_html)
+    assert "<script" not in clean_html.lower()
+    assert "alert(" not in clean_html.lower()
+    assert "<div" not in clean_html.lower()
+    assert "<span" not in clean_html.lower()
+    assert "<a " not in clean_html.lower()
+    assert "<h1" not in clean_html.lower()
+    assert "<h2>" in clean_html
+    assert "<b>Important</b>" in clean_html
+    assert "<i>Clair</i>" in clean_html
+    assert "<ul>" in clean_html
+    assert "<li>Point 1</li>" in clean_html
+    assert len(clean_html) <= 4000
+
+    # 2. Test de l'endpoint FastAPI POST /api/seo/optimize-a9
+    app = FastAPI()
+    app.include_router(router)
+    client = TestClient(app)
+
+    payload = {
+        "book_title": "Gestion du Temps et Focus",
+        "subtitle": "La méthode concrète pour éliminer la procrastination",
+        "niche": "productivite",
+        "book_type": "text",
+        "target_audience": "professionnels et étudiants",
+        "seed_keywords": ["deep work", "organisation quotidienne", "blocs de temps"],
+        "language": "fr",
+    }
+    resp = client.post("/api/seo/optimize-a9", json=payload)
+    assert resp.status_code == 200, f"Erreur route /api/seo/optimize-a9 : {resp.text}"
+    data = resp.json()
+
+    # Vérification des 8 clés primaires Agent 5
+    assert "optimized_title" in data
+    assert "optimized_subtitle" in data
+    assert "backend_keywords_7" in data
+    assert "categories_3" in data
+    assert "amazon_description_html" in data
+    assert "aplus_content_blueprint" in data
+    assert "ppc_launch_keywords" in data
+    assert "seo_audit" in data
+
+    # Vérification des 7 slots backend (<= 50 octets UTF-8 et cumul <= 250 octets)
+    slots = data["backend_keywords_7"]
+    assert len(slots) == 7
+    total_b = sum(seo.calculate_utf8_bytes(s) for s in slots)
+    assert total_b <= 250
+    for s in slots:
+        assert seo.calculate_utf8_bytes(s) <= 50
+
+    # Vérification des catégories
+    assert len(data["categories_3"]) >= 3
+
+    # Vérification de l'audit
+    audit = data["seo_audit"]
+    assert audit["score_a9_100"] >= 80
+    assert audit["zero_forbidden_terms"] is True
+    assert audit["zero_trademarks"] is True
+    assert audit["html_valid"] is True
+
+
 def main():
     print("\n" + "=" * 65)
     print("🧪 SUITE DE TESTS — NOUVELLES EXTENSIONS KDP (MarkEddy)")
@@ -1017,6 +1478,15 @@ def main():
         ("Endpoints API Intelligence Éditoriale (router)", test_14_editorial_intelligence_routes),
         ("Agent 4 : Superviseur de Conformité KDP & Anti-Anonymat (kdp_compliance_supervisor)", test_15_kdp_compliance_supervisor),
         ("Blocage Export KDP si REJECTED & API Compliance (kdp_export_orchestrator)", test_16_export_blocked_on_rejection),
+        ("Gatekeeper Anti-Anonymat & API Supervise-Audit (kdp_compliance_supervisor)", test_17_supervise_kdp_book_gatekeeper),
+        ("Agent 6 : Transcréateur Multilingue 5 Langues & Bundle (multilingual_transcreator)", test_18_multilingual_transcreator_agent),
+        ("Endpoints API Transcréation & Téléchargement Bundle (router)", test_19_transcreate_book_and_download_routes),
+        ("Agent 5 : SEO A9/A10, Catégories, HTML & Ads (seo_a9_agent)", test_20_seo_a9_agent_full_package_and_export),
+        ("Route API SEO A9 & Sanitisation HTML (router)", test_21_route_seo_optimize_a9_and_sanitization),
+        ("Profils linguistiques 5 langues (i18n_config)", test_i18n_profiles_five_languages),
+        ("Validation UTF-8 50 octets A9 (seo_a9_agent)", test_seo_a9_utf8_byte_limit_and_optimize),
+        ("Superviseur Conformité KDP Reject/Approve (kdp_compliance_supervisor)", test_compliance_supervisor_reject_and_approve),
+        ("Mode RTL Arabe (i18n_config)", test_rtl_arabic_mode_profile),
     ]
 
     reussis = 0
@@ -1043,10 +1513,6 @@ def main():
     print("=" * 65)
     return 1
 
-
-if __name__ == "__main__":
-    import sys
-    sys.exit(main())
 
 # ==============================================================================
 # TEST N : EXTENSIONS i18n / SEO A9 / COMPLIANCE SUPERVISOR (Task 4)
@@ -1157,3 +1623,8 @@ def test_rtl_arabic_mode_profile():
     # editorial strings present
     assert isinstance(p.get("editorial_strings"), dict)
     assert len(p.get("editorial_strings", {})) > 0
+
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(main())

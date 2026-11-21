@@ -505,6 +505,7 @@ def build_kdp_export_package(
     export_dir: Optional[Path] = None,
     enforce_24_pages: bool = True,
     strict_gate: bool = True,
+    language: str = "fr",
 ) -> Dict[str, Any]:
     """
     Point d'entrée unique de production du Pack KDP 1-Clic.
@@ -613,10 +614,13 @@ def build_kdp_export_package(
     )
 
     # --- 4. Génération de la Couverture Calibrée (SVG Vectoriel 300 DPI) ---
+    is_ar_rtl = language.strip().lower() in ("ar", "arabic", "العربية")
     cover_specs = calculate_cover_dimensions(
         trim_id=fid,
         page_count=final_page_count,
         paper_type=paper_type,
+        language=language,
+        is_rtl=is_ar_rtl,
     )
     svg_cover = generate_cover_template_svg(
         specs_or_trim=cover_specs,
@@ -625,6 +629,8 @@ def build_kdp_export_package(
         book_title=title,
         author_name=author,
         subtitle=subtitle,
+        language=language,
+        is_rtl=is_ar_rtl,
     )
     svg_file = work_dir / "couverture_calibree.svg"
     svg_file.write_text(svg_cover, encoding="utf-8")
@@ -682,6 +688,7 @@ def build_kdp_export_package(
         "format_id": fid,
         "paper_type": paper_type,
         "niche": niche,
+        "language": language,
         "content": final_html,
         "has_copyright": has_copyright,
         "has_disclaimer": has_disclaimer,
@@ -730,8 +737,28 @@ def build_kdp_export_package(
     supervision_file = work_dir / "kdp_supervision_report.json"
     supervision_file.write_text(json.dumps(supervision_report, indent=2, ensure_ascii=False), encoding="utf-8")
 
+    # --- 5c. Agent 5 : SEO Amazon A9/A10, Catégories, HTML & Ads ---
+    from kdp_extensions.seo_a9_agent import build_seo_package
+
+    seo_pack = build_seo_package(
+        book_title=title,
+        subtitle=subtitle,
+        niche=niche,
+        book_type=ptype,
+        target_audience=target_audience,
+        seed_keywords=effective_keywords,
+        language=language,
+    )
+    seo_ready = seo_pack["seo_amazon_ready"]
+    seo_file = work_dir / "seo_amazon_ready.json"
+    seo_file.write_text(json.dumps(seo_ready, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    desc_amazon_html = seo_pack.get("description_amazon_html") or metadata.get("description_html") or ""
+    desc_amazon_file = work_dir / "description_amazon.html"
+    desc_amazon_file.write_text(desc_amazon_html, encoding="utf-8")
+
     # --- 6. Génération de manifest.json (Contrôle d'Intégrité) ---
-    files_to_hash = [pdf_file, svg_file, meta_file, html_file, supervision_file]
+    files_to_hash = [pdf_file, svg_file, meta_file, html_file, supervision_file, seo_file, desc_amazon_file]
     files_info = []
     for f in files_to_hash:
         if f.exists():
@@ -747,6 +774,7 @@ def build_kdp_export_package(
         "book_id": book_id,
         "title": title,
         "author": author,
+        "language": language,
         "project_type": ptype,
         "timestamp": datetime.now().isoformat(),
         "studio_version": "MarkEddy KDP Studio v2.0 - Unified Multi-Agent Engine",
@@ -770,6 +798,7 @@ def build_kdp_export_package(
         "compliance_audit": compliance_report,
         "supervision_report": supervision_report,
         "excellence_score": supervision_report.get("excellence_score"),
+        "seo_package": seo_ready,
         "files": files_info,
     }
     manifest_file = work_dir / "manifest.json"
@@ -785,6 +814,8 @@ def build_kdp_export_package(
         zf.write(manifest_file, arcname="manifest.json")
         zf.write(html_file, arcname="interieur_kdp.html")
         zf.write(supervision_file, arcname="kdp_supervision_report.json")
+        zf.write(seo_file, arcname="seo_amazon_ready.json")
+        zf.write(desc_amazon_file, arcname="description_amazon.html")
 
     return {
         "status": "success",
@@ -797,10 +828,13 @@ def build_kdp_export_package(
         "bonus_pages_injected": bonus_added,
         "spine_thickness_in": cover_specs["spine_spec"]["width_in"],
         "spine_thickness_mm": cover_specs["spine_spec"]["width_mm"],
-        "files_included": [f.name for f in [pdf_file, svg_file, meta_file, manifest_file, html_file, supervision_file]],
+        "files_included": [f.name for f in [pdf_file, svg_file, meta_file, manifest_file, html_file, supervision_file, seo_file, desc_amazon_file]],
         "manifest": manifest,
+        "language": language,
         "pdf_note": pdf_note,
         "compliance_report": compliance_report,
         "supervision_report": supervision_report,
         "excellence_score": supervision_report.get("excellence_score"),
+        "seo_amazon_ready": seo_ready,
+        "description_amazon_html": desc_amazon_html,
     }

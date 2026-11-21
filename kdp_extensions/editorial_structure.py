@@ -493,9 +493,9 @@ def generate_coloring_back_matter_html(meta: Dict[str, Any], language: str = "fr
     lang = normalize_language(meta.get("language") or language)
     labels = get_editorial_labels(lang)
     t = meta.get("title", "ce livre de coloriage")
-    diploma_title = labels.get("super_artist_diploma", "🏆 DIPLÔME OFFICIEL DU SUPER ARTISTE 🏆")
-    review_title = labels.get("review_request_title", "⭐️ Chers Parents, Votre Avis Est Précieux !")
-    review_text = labels.get("review_request_text", "Si cet album vous a plu, prenez une minute pour déposer un commentaire sur Amazon.")
+    diploma_title = labels.get("kids_diploma_title") or ("🏆 DIPLÔME OFFICIEL DU SUPER ARTISTE 🏆" if lang == "fr" else labels.get("super_artist_diploma", "🏆 DIPLÔME OFFICIEL DU SUPER ARTISTE 🏆"))
+    review_title = labels.get("kids_review_title") or ("⭐️ Chers Parents, Votre Avis Est Précieux !" if lang == "fr" else labels.get("review_request_title", "Votre Avis Est Précieux"))
+    review_text = labels.get("kids_review_text") or ("Si cet album vous a plu, prenez une minute pour déposer un commentaire sur Amazon." if lang == "fr" else labels.get("review_request_text", "Please take a minute to leave a review on Amazon."))
 
     return f"""
     <!-- COLORIAGE BACK-MATTER 1 : DIPLÔME DU SUPER ARTISTE -->

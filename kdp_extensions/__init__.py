@@ -20,6 +20,7 @@ Modules :
 - social_trend_hunter    : Agent 1 - Veille tendances sociales (Reddit, Trends, A9, TikTok).
 - deep_research_agent    : Agent 2 - Recherche académique, documentaire et presse (OpenAlex, CrossRef).
 - editorial_humanizer_agent : Agent 3 - Synthèse, fact-checking, élimination des tics IA & humanisation.
+- multilingual_transcreator : Agent 6 - Transcréateur multilingue idiomatique 5 langues (EN, FR, ES, DE, AR).
 
 Exécution obligatoire via : .\\.venv\\Scripts\\python.exe
 """
@@ -38,6 +39,7 @@ from . import kdp_export_orchestrator
 from . import social_trend_hunter
 from . import deep_research_agent
 from . import editorial_humanizer_agent
+from . import multilingual_transcreator
 
 __all__ = [
     "kdp_dimensions",
@@ -54,4 +56,5 @@ __all__ = [
     "social_trend_hunter",
     "deep_research_agent",
     "editorial_humanizer_agent",
+    "multilingual_transcreator",
 ]
