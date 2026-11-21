@@ -1305,6 +1305,8 @@ def transcreate_book_content_html(
 # ==============================================================================
 
 def produce_single_transcreated_edition(
+    # Sécurisation création dossiers de sortie avant écriture SVG/HTML/JSON
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
     master_book: Dict[str, Any],
     target_language: str,
     output_dir: Path,
