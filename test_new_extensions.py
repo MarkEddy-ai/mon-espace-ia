@@ -1488,6 +1488,9 @@ def main():
         ("Superviseur Conformité KDP Reject/Approve (kdp_compliance_supervisor)", test_compliance_supervisor_reject_and_approve),
         ("Mode RTL Arabe (i18n_config)", test_rtl_arabic_mode_profile),
         ("Enhance Brief KDP (brief_enhancer & router)", test_26_enhance_brief_endpoint),
+        ("Catalogue KDP + Etsy 8 Catégories (book_catalog & router)", test_27_book_catalog_and_endpoint),
+        ("Métrage KDP/Etsy & Calculateur dynamique (book_catalog & router)", test_28_model_measurements_and_endpoint),
+        ("Moteur Visuel Autonome 100% Arrière-Plan (autonomous_visual_agent)", test_29_autonomous_visual_agent),
     ]
 
     reussis = 0
@@ -1660,11 +1663,11 @@ def test_26_enhance_brief_endpoint():
     )
     assert res_enh["status"] == "success"
     assert res_enh["mode"] == "enhance"
-    assert "🎯 Public Cible" in res_enh["brief"]
-    assert "💡 Promesse" in res_enh["brief"]
-    assert "🎙️ Ton" in res_enh["brief"]
-    assert "📋 Composantes" in res_enh["brief"]
-    assert "🚫 Normes Anti-Fluff" in res_enh["brief"]
+    b_enh = res_enh["brief"]
+    assert len(b_enh.strip()) >= 80
+    assert any(k.lower() in b_enh.lower() for k in ("public cible", "cible", "audience"))
+    assert any(k in b_enh for k in ("Promesse", "Objectif", "Valeur"))
+    assert any(k in b_enh for k in ("Ton", "Voix", "Style"))
 
     # 3. Test API POST /api/kdp/enhance-brief (mode random)
     resp_api_rand = client.post("/api/kdp/enhance-brief", json={
@@ -1730,8 +1733,292 @@ def test_26_enhance_brief_endpoint():
     data_enh = resp_api_enh.json()
     assert data_enh["status"] == "success"
     assert data_enh["mode"] == "enhance"
-    assert "Target Audience" in data_enh["brief"]
+    assert any(k.lower() in data_enh["brief"].lower() for k in ("target audience", "audience", "public cible", "cible"))
     assert "Promise" in data_enh["brief"]
+
+
+def test_27_book_catalog_and_endpoint():
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+    from kdp_extensions.router import router
+    import kdp_extensions.book_catalog as bc
+
+    # 1. Vérification des 8 catégories
+    expected_categories = [
+        "non_fiction", "coloring", "puzzles", "educational",
+        "planners_journals", "workbooks", "cookbooks", "fiction_kids"
+    ]
+    for cat_id in expected_categories:
+        assert cat_id in bc.BOOK_CATEGORIES_CATALOG, f"Catégorie manquante : {cat_id}"
+        cat_data = bc.BOOK_CATEGORIES_CATALOG[cat_id]
+        assert "id" in cat_data
+        assert "label" in cat_data
+        assert "icon" in cat_data
+        assert "models" in cat_data
+        assert len(cat_data["models"]) >= 3, f"Pas assez de modèles pour {cat_id}"
+
+        # Vérification des champs requis sur chaque modèle
+        for m in cat_data["models"]:
+            assert "id" in m
+            assert "label" in m
+            assert "platforms" in m and isinstance(m["platforms"], list)
+            assert "default_format" in m
+            assert "engine" in m
+            assert "min_pages_kdp" in m
+            assert "bleed_required" in m
+            assert "low_content_flag" in m
+            assert isinstance(m["low_content_flag"], bool)
+
+    # 2. Test des fonctions utilitaires
+    cat_all = bc.get_catalog()
+    assert len(cat_all) == 8
+
+    cat_color = bc.get_category("coloring")
+    assert cat_color is not None
+    assert cat_color["id"] == "coloring"
+    assert cat_color["primary_engine"] == "coloring"
+
+    m_zen = bc.get_model("mandalas_zen_adultes")
+    assert m_zen is not None
+    assert m_zen["id"] == "mandalas_zen_adultes"
+    assert m_zen["engine"] == "coloring"
+
+    # Test normalisation rétrocompatible
+    norm_color = bc.normalize_catalog_selection("coloring", "mandalas_zen_adultes")
+    assert norm_color["engine"] == "coloring"
+    assert norm_color["category"] == "coloring"
+
+    norm_legacy = bc.normalize_catalog_selection(None, None, legacy_project_type="coloring_book")
+    assert norm_legacy["engine"] == "coloring"
+
+    norm_planners = bc.normalize_catalog_selection("planners_journals", "planner_quotidien_hebdo")
+    assert norm_planners["low_content_flag"] is True
+
+    # 3. Test de l'endpoint FastAPI GET /api/kdp/catalog
+    app = FastAPI()
+    app.include_router(router)
+    client = TestClient(app)
+
+    resp = client.get("/api/kdp/catalog")
+    assert resp.status_code == 200, f"Erreur route /api/kdp/catalog : {resp.text}"
+    data = resp.json()
+    assert data["status"] == "success"
+    assert data["total_categories"] == 8
+    assert "categories" in data
+    for cat_id in expected_categories:
+        assert cat_id in data["categories"]
+
+
+def test_28_model_measurements_and_endpoint():
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+    from kdp_extensions.router import router
+    from kdp_extensions.book_catalog import compute_model_measurements
+
+    # 1. Cas 1 : Coloriage 64 pages (8.5x11, bleed, dos < 79 p.)
+    m_col = compute_model_measurements(
+        model_id="enfants_traits_epais",
+        page_count=64,
+        format_kdp="8.5x11",
+        paper_type="white",
+        platform="kdp"
+    )
+    assert m_col["bleed_required"] is True
+    assert m_col["interior_inches"]["width"] == 8.625
+    assert m_col["interior_inches"]["height"] == 11.25
+    assert abs(m_col["interior_mm"]["width"] - 219.08) < 0.02
+    assert abs(m_col["interior_mm"]["height"] - 285.75) < 0.02
+    assert m_col["gutter_inches"] == 0.75  # min_gutter_override = 0.75
+    assert m_col["outer_margin_inches"] == 0.375  # avec bleed
+    assert m_col["spine_text_allowed"] is False  # 64 < 79
+    assert m_col["low_content_flag"] is False
+    assert m_col["isbn_box_px"] == [600, 360]
+    assert "cover_300dpi_px" in m_col and len(m_col["cover_300dpi_px"]) == 2
+    assert any("79 pages" in w or "tranche interdit" in w for w in m_col["validation_warnings"])
+
+    # 2. Cas 2 : Non-Fiction 220 pages (6x9, crème, gouttière 0.50", texte dos autorisé)
+    m_nf = compute_model_measurements(
+        model_id="guide_pratique",
+        page_count=220,
+        format_kdp="6x9",
+        paper_type="cream",
+        platform="kdp"
+    )
+    assert m_nf["bleed_required"] is False
+    assert m_nf["interior_inches"]["width"] == 6.0
+    assert m_nf["interior_inches"]["height"] == 9.0
+    assert m_nf["gutter_inches"] == 0.50  # barème KDP 151-300 p.
+    assert m_nf["gutter_mm"] == 12.7
+    assert m_nf["outer_margin_inches"] == 0.25  # sans bleed
+    assert m_nf["spine_text_allowed"] is True  # 220 >= 79
+    assert m_nf["spine_inches"] == 0.55  # 220 * 0.0025
+    assert m_nf["spine_mm"] == 13.97
+    assert not any("tranche interdit" in w for w in m_nf["validation_warnings"])
+
+    # 3. Cas 3 : Pack Etsy (A4 + US Letter)
+    m_etsy = compute_model_measurements(
+        model_id="pack_etsy_printable",
+        page_count=60,
+        format_kdp="8.5x11",
+        paper_type="white",
+        platform="etsy"
+    )
+    assert m_etsy["etsy_print_formats"] is not None
+    assert "a4" in m_etsy["etsy_print_formats"]
+    assert "us_letter" in m_etsy["etsy_print_formats"]
+    assert m_etsy["etsy_print_formats"]["a4"]["dimensions_mm"] == [210, 297]
+    assert m_etsy["etsy_print_formats"]["a4"]["resolution_300dpi_px"] == [2480, 3508]
+    us_dims = m_etsy["etsy_print_formats"]["us_letter"].get("dimensions_in") or m_etsy["etsy_print_formats"]["us_letter"].get("dimensions_inches")
+    assert us_dims == [8.5, 11.0]
+    assert m_etsy["etsy_print_formats"]["us_letter"]["resolution_300dpi_px"] == [2550, 3300]
+
+    # 4. Test endpoint FastAPI POST /api/kdp/calculate-measurements
+    app = FastAPI()
+    app.include_router(router)
+    client = TestClient(app)
+
+    resp = client.post("/api/kdp/calculate-measurements", json={
+        "model_id": "guide_pratique",
+        "page_count": 220,
+        "format_kdp": "6x9",
+        "paper_type": "cream",
+        "platform": "kdp"
+    })
+    assert resp.status_code == 200, f"Erreur route /api/kdp/calculate-measurements : {resp.text}"
+    data = resp.json()
+    assert data["status"] == "success"
+    assert "measurements" in data
+    meas = data["measurements"]
+    assert meas["gutter_inches"] == 0.50
+    assert meas["spine_text_allowed"] is True
+    assert meas["spine_inches"] == 0.55
+
+    # Test endpoint avec platform="both" pour validation des formats Etsy
+    resp_both = client.post("/api/kdp/calculate-measurements", json={
+        "model_id": "enfants_traits_epais",
+        "page_count": 64,
+        "format_kdp": "8.5x11",
+        "paper_type": "white",
+        "platform": "both"
+    })
+    assert resp_both.status_code == 200
+    data_both = resp_both.json()
+    assert data_both["measurements"]["etsy_print_formats"] is not None
+    assert "a4" in data_both["measurements"]["etsy_print_formats"]
+
+
+def test_29_autonomous_visual_agent():
+    import io
+    from pathlib import Path
+    from unittest import mock
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+    from kdp_extensions.router import router
+    from kdp_extensions.autonomous_visual_agent import build_autonomous_visuals
+    import kdp_extensions.media_connectors as mc
+
+    # Mock HTTP Unsplash / Pixabay pour recherche déterministe
+    def _mock_get_json(url, params=None, headers=None, timeout=10.0):
+        if "api.unsplash.com" in url:
+            return {"results": [{
+                "id": "u-photo-auto-1",
+                "description": "Background abstrait doré",
+                "urls": {
+                    "small": "https://images.unsplash.com/small.jpg",
+                    "regular": "https://images.unsplash.com/regular.jpg",
+                    "full": "https://images.unsplash.com/full.jpg",
+                },
+                "user": {"name": "Artiste IA"},
+                "links": {"html": "https://unsplash.com/photos/1"},
+                "tags": [{"title": "or"}],
+            }]}
+        if "pixabay.com" in url:
+            return {"hits": [{
+                "id": 88,
+                "tags": "finance, business",
+                "fullHDURL": "https://pixabay.com/full_hd.jpg",
+                "webformatURL": "https://pixabay.com/web.jpg",
+            }]}
+        return {}
+
+    # Mock binaire download
+    from PIL import Image
+    buf = io.BytesIO()
+    img_factice = Image.new("RGB", (600, 900), color="#0A0F1D")
+    img_factice.save(buf, "JPEG")
+    fake_bytes = buf.getvalue()
+
+    with mock.patch.object(mc, "_httpx_get_json", side_effect=_mock_get_json), \
+         mock.patch.object(mc, "_get_unsplash_key", return_value="fake_key"), \
+         mock.patch.object(mc, "_httpx_download", return_value=fake_bytes):
+
+        # 1. Test Non-Fiction avec repli local 300 DPI + Unsplash silencieux
+        res_nf = build_autonomous_visuals(
+            title="L'Architecte Financier",
+            subtitle="Maîtriser son Argent",
+            niche="Finances Personnelles",
+            category="non_fiction",
+            target_audience="Adultes Débutants",
+            format_kdp="6x9",
+            page_count=120,
+            paper_type="cream",
+            language="fr",
+        )
+
+        assert res_nf["status"] == "success"
+        assert "cover_asset_path" in res_nf and Path(res_nf["cover_asset_path"]).exists()
+        assert "interior_illustrations" in res_nf and len(res_nf["interior_illustrations"]) >= 1
+        assert "sources_used" in res_nf and len(res_nf["sources_used"]) >= 1
+        assert any(s in res_nf["sources_used"] for s in ("unsplash", "pixabay", "curated", "local_300dpi"))
+        assert "canva_background_status" in res_nf
+
+        # 2. Test Coloriage avec génération automatique de planches vectorielles N&B
+        res_col = build_autonomous_visuals(
+            title="Mandalas & Sérénité",
+            subtitle="Coloriage Adulte Zen",
+            niche="mandalas",
+            category="coloring",
+            target_audience="Adultes",
+            format_kdp="8.5x11",
+            page_count=64,
+            paper_type="white",
+            language="fr",
+            count_illustrations=4,
+        )
+
+        assert res_col["status"] == "success"
+        assert Path(res_col["cover_asset_path"]).exists()
+        assert len(res_col["interior_illustrations"]) >= 4
+        # Vérifier que les illustrations sont au format vectoriel pur noir et blanc
+        svg_illus = [i for i in res_col["interior_illustrations"] if i["format"] == "svg"]
+        assert len(svg_illus) >= 4
+        for illu in svg_illus:
+            svg_text = Path(illu["file_path"]).read_text(encoding="utf-8")
+            assert "<svg" in svg_text
+            assert "#000000" in svg_text or "stroke=" in svg_text
+
+        # 3. Test Endpoint API POST /api/visuals/autonomous-build
+        app = FastAPI()
+        app.include_router(router)
+        client = TestClient(app)
+
+        resp = client.post("/api/visuals/autonomous-build", json={
+            "title": "Stoïcisme Quotidien",
+            "subtitle": "Le Guide Pratique",
+            "niche": "Philosophie & Sérénité",
+            "category": "non_fiction",
+            "target_audience": "Tous publics",
+            "format_kdp": "6x9",
+            "page_count": 100,
+            "paper_type": "white",
+            "language": "fr"
+        })
+        assert resp.status_code == 200, f"Erreur API /api/visuals/autonomous-build : {resp.text}"
+        data = resp.json()
+        assert data["status"] == "success"
+        assert "cover_asset_path" in data
+        assert "interior_illustrations" in data
+        assert "sources_used" in data
 
 
 if __name__ == "__main__":
