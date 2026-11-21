@@ -31,6 +31,7 @@ Exécution obligatoire via : .\\.venv\\Scripts\\python.exe
 """
 
 from __future__ import annotations
+from fastapi import Body
 
 import base64
 import hashlib
