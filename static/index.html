@@ -428,8 +428,8 @@
           <span class="text-xs px-2 py-0.5 rounded bg-gold-500/20 text-gold-400 border border-gold-500/40 font-mono">1 Crédit</span>
         </div>
 
-        <!-- SÉLECTEUR DE TYPE DE LIVRE (MODE 1 vs MODE 2) -->
-        <div class="grid grid-cols-2 gap-1.5 mb-4 p-1 bg-obsidian-950 rounded-xl border border-obsidian-700/80">
+        <!-- SÉLECTEUR DE TYPE DE LIVRE (MODE 1 vs MODE 2 vs MODE 3) -->
+        <div class="grid grid-cols-3 gap-1.5 mb-4 p-1 bg-obsidian-950 rounded-xl border border-obsidian-700/80">
           <button 
             type="button" 
             id="tab-mode-nonfiction" 
@@ -446,7 +446,16 @@
             class="py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200"
           >
             <span>🎨</span>
-            <span>Livre Coloriage</span>
+            <span>Coloriage</span>
+          </button>
+          <button 
+            type="button" 
+            id="tab-mode-puzzles" 
+            onclick="switchProjectMode('puzzles')" 
+            class="py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200"
+          >
+            <span>🧩</span>
+            <span>Puzzles &amp; Jeux</span>
           </button>
         </div>
 
@@ -507,6 +516,42 @@
                 placeholder="Ex: La méthode pas-à-pas en 10 étapes..." 
                 class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition-colors"
               >
+            </div>
+
+            <!-- Cible / Audience -->
+            <div>
+              <div class="flex justify-between items-center mb-1.5">
+                <label for="book-target-audience" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                  Cible / Audience
+                </label>
+                <div id="badge-large-print" class="hidden text-[11px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/40 font-medium flex items-center space-x-1">
+                  <span>👓</span>
+                  <span>Grands Caractères Recommandé (14-16 pt)</span>
+                </div>
+              </div>
+              <select 
+                id="book-target-audience" 
+                onchange="handleTargetAudienceChange()" 
+                class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-gold-500 transition-colors"
+              >
+                <option value="Adultes Débutants" selected>Adultes Débutants (Par défaut)</option>
+                <option value="Adultes Confirmés / Professionnels">Adultes Confirmés / Professionnels</option>
+                <option value="Seniors 60+ (Grands Caractères / Large Print)">Seniors 60+ (Grands Caractères / Large Print)</option>
+                <option value="Adolescents 12–17 ans">Adolescents 12–17 ans</option>
+                <option value="Enfants 9–12 ans (Collège)">Enfants 9–12 ans (Collège)</option>
+                <option value="Enfants 6–8 ans (Primaire)">Enfants 6–8 ans (Primaire)</option>
+                <option value="Enfants 3–5 ans (Éveil / Maternelle)">Enfants 3–5 ans (Éveil / Maternelle)</option>
+                <option value="Parents & Éducateurs">Parents &amp; Éducateurs</option>
+                <option value="custom">✏️ Personnalisée (saisie libre)...</option>
+              </select>
+              <div id="wrapper-target-audience-custom" class="hidden mt-2">
+                <input 
+                  type="text" 
+                  id="book-target-audience-custom" 
+                  placeholder="Ex: Étudiants en médecine, Infirmières de nuit, Triathlètes..." 
+                  class="w-full bg-obsidian-900 border border-gold-500/50 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition-colors"
+                >
+              </div>
             </div>
 
             <!-- BRIEF ÉDITORIAL & INSTRUCTIONS LIBRES -->
@@ -2025,28 +2070,79 @@
     let selectedCoverBg = null;
     let currentStockSource = "all";
 
-    // Gestion du Mode de Projet (Non-Fiction 6x9 vs Coloriage 8.5x11)
+    // Gestion du Mode de Projet (Non-Fiction 6x9 vs Coloriage 8.5x11 vs Puzzles)
     function switchProjectMode(mode) {
       currentProjectMode = mode;
       const btnNonFiction = document.getElementById("tab-mode-nonfiction");
       const btnColoriage = document.getElementById("tab-mode-coloriage");
+      const btnPuzzles = document.getElementById("tab-mode-puzzles");
       const secNonFiction = document.getElementById("section-nonfiction");
       const secColoriage = document.getElementById("section-coloriage");
       const btnSubmitText = document.querySelector(".btn-submit-label");
 
-      if (mode === "coloriage") {
-        btnColoriage.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gradient-to-r from-fuchsia-600 to-amber-500 text-white shadow-sm";
-        btnNonFiction.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200";
-        secNonFiction.classList.add("hidden");
-        secColoriage.classList.remove("hidden");
-        btnSubmitText.textContent = "Générer l'Album Coloriage (1 Crédit)";
+      if (btnNonFiction) btnNonFiction.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200";
+      if (btnColoriage) btnColoriage.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200";
+      if (btnPuzzles) btnPuzzles.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200";
+
+      if (mode === "puzzles") {
+        if (btnPuzzles) btnPuzzles.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-sm";
+        switchMainTab("puzzles");
+      } else if (mode === "coloriage") {
+        if (btnColoriage) btnColoriage.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gradient-to-r from-fuchsia-600 to-amber-500 text-white shadow-sm";
+        if (secNonFiction) secNonFiction.classList.add("hidden");
+        if (secColoriage) secColoriage.classList.remove("hidden");
+        if (btnSubmitText) btnSubmitText.textContent = "Générer l'Album Coloriage (1 Crédit)";
         autoSuggestColoringTitle();
       } else {
-        btnNonFiction.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gold-500 text-obsidian-950 shadow-sm";
-        btnColoriage.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 text-slate-400 hover:text-slate-200";
-        secNonFiction.classList.remove("hidden");
-        secColoriage.classList.add("hidden");
-        btnSubmitText.textContent = "Lancer la Production (1 Crédit)";
+        if (btnNonFiction) btnNonFiction.className = "py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center space-x-1.5 bg-gold-500 text-obsidian-950 shadow-sm";
+        if (secNonFiction) secNonFiction.classList.remove("hidden");
+        if (secColoriage) secColoriage.classList.add("hidden");
+        if (btnSubmitText) btnSubmitText.textContent = "Lancer la Production (1 Crédit)";
+      }
+    }
+
+    function getEffectiveTargetAudience() {
+      const sel = document.getElementById("book-target-audience");
+      if (!sel) return "Adultes Débutants";
+      if (sel.value === "custom") {
+        const cust = document.getElementById("book-target-audience-custom")?.value?.trim();
+        return cust || "Adultes Débutants";
+      }
+      return sel.value || "Adultes Débutants";
+    }
+
+    function handleTargetAudienceChange() {
+      const sel = document.getElementById("book-target-audience");
+      const wrapperCustom = document.getElementById("wrapper-target-audience-custom");
+      const badgeLargePrint = document.getElementById("badge-large-print");
+      const val = sel?.value || "";
+
+      // Toggle saisie libre
+      if (wrapperCustom) {
+        if (val === "custom") {
+          wrapperCustom.classList.remove("hidden");
+          document.getElementById("book-target-audience-custom")?.focus();
+        } else {
+          wrapperCustom.classList.add("hidden");
+        }
+      }
+
+      // Toggle badge Large Print pour seniors
+      const isSenior = val.toLowerCase().includes("senior") || val.toLowerCase().includes("large print") || val.toLowerCase().includes("grands caractères");
+      if (badgeLargePrint) {
+        badgeLargePrint.classList.toggle("hidden", !isSenior);
+      }
+
+      // Synchronisation intelligente avec l'âge des puzzles si le champ existe
+      const pzAgeSelect = document.getElementById("pz-age");
+      if (pzAgeSelect) {
+        if (val.includes("3–5") || val.includes("3-5")) {
+          pzAgeSelect.value = "4-6";
+        } else if (val.includes("6–8") || val.includes("6-8")) {
+          pzAgeSelect.value = "6-9";
+        } else if (val.includes("9–12") || val.includes("12–17") || val.includes("Adulte") || val.includes("Senior")) {
+          pzAgeSelect.value = "10+";
+        }
       }
     }
 
@@ -2752,6 +2848,13 @@
         payload.description_detaillee = customBriefVal;
       }
 
+      const audienceVal = getEffectiveTargetAudience();
+      payload.target_audience = audienceVal;
+      payload.public_cible = audienceVal;
+      if (audienceVal.toLowerCase().includes("senior") || audienceVal.toLowerCase().includes("large print") || audienceVal.toLowerCase().includes("grands caractères")) {
+        payload.large_print = true;
+      }
+
       const btn = document.getElementById("btn-submit");
       btn.disabled = true;
       btn.innerHTML = `<span>⏳</span><span>Lancement du pipeline...</span>`;
@@ -3076,6 +3179,7 @@
           body: JSON.stringify({
             niche: nicheInput,
             book_type: bookType,
+            target_audience: getEffectiveTargetAudience(),
             current_brief: textarea?.value || "",
             mode: "random",
             language: lang
@@ -3087,6 +3191,10 @@
         if (textarea && data.brief) {
           textarea.value = data.brief;
           textarea.focus();
+        }
+        if (data.large_print_recommended) {
+          const badgeLargePrint = document.getElementById("badge-large-print");
+          if (badgeLargePrint) badgeLargePrint.classList.remove("hidden");
         }
         if (statusEl) {
           statusEl.textContent = `✅ Angle appliqué : ${data.suggested_angle || "Angle d'Élite"}`;
@@ -3143,6 +3251,7 @@
           body: JSON.stringify({
             niche: nicheInput,
             book_type: bookType,
+            target_audience: getEffectiveTargetAudience(),
             current_brief: rawBrief,
             mode: "enhance",
             language: lang
@@ -3154,6 +3263,10 @@
         if (textarea && data.brief) {
           textarea.value = data.brief;
           textarea.focus();
+        }
+        if (data.large_print_recommended) {
+          const badgeLargePrint = document.getElementById("badge-large-print");
+          if (badgeLargePrint) badgeLargePrint.classList.remove("hidden");
         }
         if (statusEl) {
           statusEl.textContent = `✅ Brief enrichi avec succès (${data.source || "moteur d'élite"})`;
@@ -3196,7 +3309,7 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             niche,
-            cible: document.getElementById("kdp-public")?.value || "Lecteurs exigeants",
+            cible: getEffectiveTargetAudience() || document.getElementById("kdp-public")?.value || "Lecteurs exigeants",
             marketplace: (document.getElementById("kdp-langue")?.value || "FR").toLowerCase() === "en" ? "com" : "fr",
             use_ai: true,
             custom_brief: document.getElementById("book-custom-brief")?.value?.trim() || ""
@@ -3831,6 +3944,7 @@
         initial_pages: parseInt(document.getElementById("exp-pages")?.value || "12", 10),
         enforce_24_pages: document.getElementById("exp-enforce-24")?.checked ?? true,
         language: document.getElementById("exp-language")?.value || currentGlobalLanguage || "fr",
+        target_audience: getEffectiveTargetAudience(),
         custom_brief: document.getElementById("book-custom-brief")?.value?.trim() || "",
       };
 

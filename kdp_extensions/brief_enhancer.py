@@ -237,6 +237,7 @@ def normalize_book_type(raw_type: Optional[str]) -> str:
 def enhance_kdp_brief(
     niche: str = "Finances Personnelles",
     book_type: str = "non-fiction",
+    target_audience: str = "Adultes Débutants",
     current_brief: str = "",
     mode: str = "random",
     language: str = "fr"
@@ -245,7 +246,7 @@ def enhance_kdp_brief(
     Génère un angle aléatoire ou enrichit un brief éditorial existant.
     
     Modes:
-      - 'random' : sélectionne un angle percutant adapté à la niche et au format.
+      - 'random' : sélectionne un angle percutant adapté à la niche, au format et à la cible.
       - 'enhance' : transforme le texte saisi en un brief structuré de prestige.
     
     Garantit 100% de résilience sans erreur même sans réseau.
@@ -254,15 +255,27 @@ def enhance_kdp_brief(
     btype = normalize_book_type(book_type)
     mode_clean = (mode or "random").strip().lower()
     niche_clean = (niche or "Finances Personnelles & Stratégie").strip()
+    target_aud = (target_audience or "Adultes Débutants").strip()
+
+    aud_lower = target_aud.lower()
+    large_print_recommended = any(
+        k in aud_lower for k in ("senior", "60+", "large print", "grands caractères", "grand caractère", "malvoyant")
+    )
 
     if mode_clean == "random":
-        return _generate_random_angle(niche_clean, btype, lang)
+        return _generate_random_angle(niche_clean, btype, lang, target_aud, large_print_recommended)
     else:
-        return _enrich_current_brief(niche_clean, btype, current_brief, lang)
+        return _enrich_current_brief(niche_clean, btype, current_brief, lang, target_aud, large_print_recommended)
 
 
-def _generate_random_angle(niche: str, btype: str, lang: str) -> Dict[str, Any]:
-    """Sélectionne et adapte un angle aléatoire concret pour la niche et le type de livre."""
+def _generate_random_angle(
+    niche: str,
+    btype: str,
+    lang: str,
+    target_audience: str = "Adultes Débutants",
+    large_print_recommended: bool = False
+) -> Dict[str, Any]:
+    """Sélectionne et adapte un angle aléatoire concret pour la niche, la cible et le type de livre."""
     if btype == "coloriage":
         catalog = ANGLES_COLORIAGE.get(lang) or ANGLES_COLORIAGE.get("fr") or ANGLES_COLORIAGE["fr"]
     elif btype == "puzzle":
@@ -278,20 +291,48 @@ def _generate_random_angle(niche: str, btype: str, lang: str) -> Dict[str, Any]:
         prefix = f"📌 Thématique Cible : {niche}\n"
         brief_text = prefix + brief_text
 
+    # Intégration de la cible spécifique si précisée
+    effective_target = target_audience if target_audience and target_audience != "Adultes Débutants" else chosen.get("target_audience", target_audience)
+
+    # Recommandations spécifiques Large Print pour seniors
+    if large_print_recommended:
+        brief_text += (
+            "\n👓 Recommandation Grands Caractères (Large Print KDP) : "
+            "Corps de texte 14-16 pt, interlignage 1.5, fort contraste noir pur, "
+            "marges généreuses et ergonomie visuelle sans fatigue."
+        )
+
+    # Recommandations spécifiques enfants si pertinent
+    aud_lower = target_audience.lower()
+    if any(k in aud_lower for k in ("enfant", "maternelle", "primaire", "3-5", "3–5", "6-8", "6–8", "9-12", "9–12", "collège", "ado", "kid", "child")):
+        brief_text += (
+            f"\n👶 Adaptation Pédagogique ({target_audience}) : "
+            "Consignes courtes et imagées, repères visuels clairs, progression graduée "
+            "et valorisation bienveillante de chaque étape franchie."
+        )
+
     return {
         "status": "success",
         "mode": "random",
         "brief": brief_text,
         "suggested_angle": chosen.get("suggested_angle", "Angle d'Élite KDP"),
-        "target_audience": chosen.get("target_audience", "Lecteurs ciblés"),
+        "target_audience": effective_target,
         "tone": chosen.get("tone", "Direct, pragmatique et humain"),
+        "large_print_recommended": large_print_recommended,
         "book_type": btype,
         "language": lang,
         "niche": niche
     }
 
 
-def _enrich_current_brief(niche: str, btype: str, current_brief: str, lang: str) -> Dict[str, Any]:
+def _enrich_current_brief(
+    niche: str,
+    btype: str,
+    current_brief: str,
+    lang: str,
+    target_audience: str = "Adultes Débutants",
+    large_print_recommended: bool = False
+) -> Dict[str, Any]:
     """
     Enrichit un brief utilisateur brut en un cahier des charges éditorial complet.
     Tente Gemini si configuré, avec repli immédiat et infaillible sur le moteur déterministe.
@@ -299,28 +340,41 @@ def _enrich_current_brief(niche: str, btype: str, current_brief: str, lang: str)
     raw_brief = (current_brief or "").strip()
     
     # 1. Tentative d'appel IA via Gemini si disponible
-    ai_enhanced = _try_gemini_enhance(niche, btype, raw_brief, lang)
+    ai_enhanced = _try_gemini_enhance(niche, btype, raw_brief, lang, target_audience)
     if ai_enhanced:
+        brief_final = ai_enhanced["brief"]
+        if large_print_recommended and "grands caractères" not in brief_final.lower() and "large print" not in brief_final.lower():
+            brief_final += "\n👓 Spécification Grands Caractères (Large Print KDP) : Typographie 14-16 pt, fort contraste et mise en page aérée."
+
         return {
             "status": "success",
             "mode": "enhance",
             "source": "ai_gemini",
-            "brief": ai_enhanced["brief"],
+            "brief": brief_final,
             "suggested_angle": ai_enhanced.get("suggested_angle", "Angle Personnalisé IA"),
-            "target_audience": ai_enhanced.get("target_audience", "Audience Cible Spécifiée"),
+            "target_audience": target_audience or ai_enhanced.get("target_audience", "Audience Cible Spécifiée"),
             "tone": ai_enhanced.get("tone", "Voix Humaine & Zéro-Fluff"),
+            "large_print_recommended": large_print_recommended,
             "book_type": btype,
             "language": lang,
             "niche": niche
         }
 
     # 2. Repli déterministe de haute qualité (structuré, zéro erreur)
-    return _deterministic_enhance(niche, btype, raw_brief, lang)
+    return _deterministic_enhance(niche, btype, raw_brief, lang, target_audience, large_print_recommended)
 
 
-def _deterministic_enhance(niche: str, btype: str, raw_brief: str, lang: str) -> Dict[str, Any]:
+def _deterministic_enhance(
+    niche: str,
+    btype: str,
+    raw_brief: str,
+    lang: str,
+    target_audience: str = "Adultes Débutants",
+    large_print_recommended: bool = False
+) -> Dict[str, Any]:
     """Construit un brief éditorial structuré et dense de niveau professionnel sans IA."""
     base_text = raw_brief if len(raw_brief) >= 15 else f"Ouvrage de référence pratique sur '{niche}'"
+    default_target = target_audience if target_audience else f"Lecteurs et praticiens dans la thématique '{niche}'"
     
     if lang == "en":
         target = f"Readers and practitioners in the '{niche}' space looking for actionable mastery"
@@ -382,21 +436,43 @@ def _deterministic_enhance(niche: str, btype: str, raw_brief: str, lang: str) ->
             f"Densité d'information maximale, ratios chiffrés et modèles directement applicables."
         )
 
+    if large_print_recommended:
+        structured_brief += (
+            "\n👓 Recommandation Grands Caractères (Large Print KDP) : "
+            "Corps de texte 14-16 pt, interlignage 1.5, fort contraste noir pur, "
+            "marges généreuses et ergonomie visuelle adaptée aux seniors."
+        )
+
+    aud_lower = target_audience.lower()
+    if any(k in aud_lower for k in ("enfant", "maternelle", "primaire", "3-5", "3–5", "6-8", "6–8", "9-12", "9–12", "collège", "ado", "kid", "child")):
+        structured_brief += (
+            f"\n👶 Adaptation Pédagogique ({target_audience}) : "
+            "Consignes courtes et imagées, repères visuels clairs, progression graduée "
+            "et valorisation bienveillante de chaque étape franchie."
+        )
+
     return {
         "status": "success",
         "mode": "enhance",
         "source": "deterministic_fallback",
         "brief": structured_brief,
         "suggested_angle": angle,
-        "target_audience": target,
+        "target_audience": target_audience or target,
         "tone": tone,
+        "large_print_recommended": large_print_recommended,
         "book_type": btype,
         "language": lang,
         "niche": niche
     }
 
 
-def _try_gemini_enhance(niche: str, btype: str, raw_brief: str, lang: str) -> Optional[Dict[str, str]]:
+def _try_gemini_enhance(
+    niche: str,
+    btype: str,
+    raw_brief: str,
+    lang: str,
+    target_audience: str = "Adultes Débutants"
+) -> Optional[Dict[str, str]]:
     """Tente un enrichissement IA via Gemini avec un délai d'attente court. Retourne None si indisponible."""
     try:
         from call_ai import generer_texte_gemini
@@ -411,6 +487,7 @@ def _try_gemini_enhance(niche: str, btype: str, raw_brief: str, lang: str) -> Op
         user_prompt = (
             f"Niche: {niche}\n"
             f"Type de livre: {btype}\n"
+            f"Cible / Audience visée: {target_audience}\n"
             f"Langue: {lang}\n"
             f"Brouillon ou idée de l'auteur: {raw_brief or 'Méthode pratique et accessible'}\n\n"
             "Génère un brief éditorial chirurgical avec 5 sections (Public cible, Promesse unique, Ton & Voix, "
@@ -438,7 +515,7 @@ def _try_gemini_enhance(niche: str, btype: str, raw_brief: str, lang: str) -> Op
             return {
                 "brief": str(data["brief"]),
                 "suggested_angle": str(data.get("suggested_angle", "Angle d'Élite")),
-                "target_audience": str(data.get("target_audience", "Lecteurs ciblés")),
+                "target_audience": str(data.get("target_audience", target_audience or "Lecteurs ciblés")),
                 "tone": str(data.get("tone", "Direct et pragmatique")),
             }
     except Exception:

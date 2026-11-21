@@ -671,6 +671,7 @@ class KdpExportPackageRequest(BaseModel):
 class EnhanceBriefRequest(BaseModel):
     niche: Optional[str] = Field("Finances Personnelles", description="Niche ou thématique du livre")
     book_type: Optional[str] = Field("non-fiction", description="Type de livre : non-fiction, coloriage, puzzle")
+    target_audience: Optional[str] = Field("Adultes Débutants", description="Cible ou audience visée")
     current_brief: Optional[str] = Field("", description="Brouillon ou texte actuel du brief de l'utilisateur")
     mode: Optional[str] = Field("random", description="Mode : 'random' (angle aléatoire) ou 'enhance' (enrichir les détails)")
     language: Optional[str] = Field("fr", description="Langue : fr, en, es, de, ar")
@@ -1885,6 +1886,7 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
             return enhance_kdp_brief(
                 niche=req.niche or "Finances Personnelles",
                 book_type=req.book_type or "non-fiction",
+                target_audience=req.target_audience or "Adultes Débutants",
                 current_brief=req.current_brief or "",
                 mode=req.mode or "random",
                 language=req.language or "fr"
