@@ -33,3 +33,16 @@ logs/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+exports/
+output_puzzles/
+output_kdp_packages/
+preview_puzzles.html
+t1.html
+t1.pdf
+t2.html
+t2.pdf
+test_page.html
+test_page.pdf
+test_alternating.pdf
+*.zip
+kdp_studio.db
