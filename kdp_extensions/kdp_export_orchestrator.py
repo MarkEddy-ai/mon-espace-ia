@@ -506,6 +506,7 @@ def build_kdp_export_package(
     enforce_24_pages: bool = True,
     strict_gate: bool = True,
     language: str = "fr",
+    custom_brief: Optional[str] = "",
 ) -> Dict[str, Any]:
     """
     Point d'entrée unique de production du Pack KDP 1-Clic.
@@ -700,6 +701,7 @@ def build_kdp_export_package(
         "project_type": ptype,
         "has_cover": True,
         "isbn": True,
+        "custom_brief": custom_brief or "",
     }
     supervision_report = supervise_kdp_book(book_payload_for_supervision)
 

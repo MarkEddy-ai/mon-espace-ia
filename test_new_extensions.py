@@ -1487,6 +1487,7 @@ def main():
         ("Validation UTF-8 50 octets A9 (seo_a9_agent)", test_seo_a9_utf8_byte_limit_and_optimize),
         ("Superviseur Conformité KDP Reject/Approve (kdp_compliance_supervisor)", test_compliance_supervisor_reject_and_approve),
         ("Mode RTL Arabe (i18n_config)", test_rtl_arabic_mode_profile),
+        ("Enhance Brief KDP (brief_enhancer & router)", test_26_enhance_brief_endpoint),
     ]
 
     reussis = 0
@@ -1623,6 +1624,76 @@ def test_rtl_arabic_mode_profile():
     # editorial strings present
     assert isinstance(p.get("editorial_strings"), dict)
     assert len(p.get("editorial_strings", {})) > 0
+
+
+def test_26_enhance_brief_endpoint():
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+    from kdp_extensions.router import router
+    from kdp_extensions.brief_enhancer import enhance_kdp_brief
+
+    app = FastAPI()
+    app.include_router(router)
+    client = TestClient(app)
+
+    # 1. Test unitaire direct mode 'random'
+    res_rand = enhance_kdp_brief(
+        niche="Immobilier Locatif",
+        book_type="non-fiction",
+        mode="random",
+        language="fr"
+    )
+    assert res_rand["status"] == "success"
+    assert res_rand["mode"] == "random"
+    assert len(res_rand["brief"]) >= 50
+    assert "suggested_angle" in res_rand and len(res_rand["suggested_angle"]) > 3
+    assert "target_audience" in res_rand
+    assert "tone" in res_rand
+
+    # 2. Test unitaire direct mode 'enhance'
+    res_enh = enhance_kdp_brief(
+        niche="Finances Personnelles",
+        book_type="non-fiction",
+        current_brief="guide pour débutants budget",
+        mode="enhance",
+        language="fr"
+    )
+    assert res_enh["status"] == "success"
+    assert res_enh["mode"] == "enhance"
+    assert "🎯 Public Cible" in res_enh["brief"]
+    assert "💡 Promesse" in res_enh["brief"]
+    assert "🎙️ Ton" in res_enh["brief"]
+    assert "📋 Composantes" in res_enh["brief"]
+    assert "🚫 Normes Anti-Fluff" in res_enh["brief"]
+
+    # 3. Test API POST /api/kdp/enhance-brief (mode random)
+    resp_api_rand = client.post("/api/kdp/enhance-brief", json={
+        "niche": "Stoïcisme & Sérénité",
+        "book_type": "non-fiction",
+        "current_brief": "",
+        "mode": "random",
+        "language": "fr"
+    })
+    assert resp_api_rand.status_code == 200
+    data_rand = resp_api_rand.json()
+    assert data_rand["status"] == "success"
+    assert data_rand["mode"] == "random"
+    assert len(data_rand["brief"]) > 50
+
+    # 4. Test API POST /api/kdp/enhance-brief (mode enhance en anglais)
+    resp_api_enh = client.post("/api/kdp/enhance-brief", json={
+        "niche": "Mindfulness & Sleep",
+        "book_type": "non-fiction",
+        "current_brief": "practical routine for better sleep without pills",
+        "mode": "enhance",
+        "language": "en"
+    })
+    assert resp_api_enh.status_code == 200
+    data_enh = resp_api_enh.json()
+    assert data_enh["status"] == "success"
+    assert data_enh["mode"] == "enhance"
+    assert "Target Audience" in data_enh["brief"]
+    assert "Promise" in data_enh["brief"]
 
 
 if __name__ == "__main__":

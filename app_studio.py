@@ -87,6 +87,7 @@ class CreateBookRequest(BaseModel):
     bleed_mode: Optional[str] = Field(None, description="bleed ou no_bleed")
     font_family: Optional[str] = Field(None, description="Police Google Fonts sélectionnée pour l'intérieur")
     description_detaillee: Optional[str] = Field(None, description="Prompt complet / description détaillée du projet")
+    custom_brief: Optional[str] = Field("", description="Brief éditorial personnalisé / prompt libre de l'auteur")
     kdp_definitions: Optional[Dict[str, Any]] = Field(None, description="Bloc de configuration KDP complet")
     agent0_report: Optional[Dict[str, Any]] = Field(None, description="Rapport concurrentiel Agent 0 à injecter au blueprint")
 
@@ -950,6 +951,15 @@ def api_creer_livre(
         cover_image_url=cover_image_url
     )
 
+    # Fusion propre du brief éditorial optionnel
+    brief_effectif = (req.custom_brief or "").strip()
+    desc_detaillee_finale = (req.description_detaillee or "").strip()
+    if brief_effectif:
+        if desc_detaillee_finale and brief_effectif not in desc_detaillee_finale:
+            desc_detaillee_finale = f"{desc_detaillee_finale}\n\n[BRIEF ÉDITORIAL & PROMPT LIBRE]:\n{brief_effectif}"
+        else:
+            desc_detaillee_finale = brief_effectif
+
     # Lancement de la production en tâche de fond avec remboursement automatique en cas d'échec
     bg_tasks.add_task(
         produire_livre_background,
@@ -968,7 +978,7 @@ def api_creer_livre(
         project_type=project_type,
         cover_image_url=cover_image_url,
         font_family=req.font_family,
-        description_detaillee=req.description_detaillee,
+        description_detaillee=desc_detaillee_finale or req.description_detaillee,
         kdp_definitions=req.kdp_definitions,
         agent0_report=req.agent0_report,
         public_cible=req.public_cible,

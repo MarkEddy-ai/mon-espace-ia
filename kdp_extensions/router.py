@@ -525,6 +525,7 @@ class AnalyzeBestsellersRequest(BaseModel):
     marketplace: str = Field("fr", description="fr | com | uk")
     use_ai: bool = Field(True, description="Utiliser Gemini si la clé est disponible")
     language: Optional[str] = Field("fr", description="Langue d'analyse (fr, en, es, de, ar)")
+    custom_brief: Optional[str] = Field("", description="Brief éditorial personnalisé / prompt libre")
 
 
 class EditorialFrontMatterRequest(BaseModel):
@@ -614,6 +615,7 @@ class SeoOptimizeA9Request(BaseModel):
     target_audience: str = Field(default="Tous publics", description="Public visé")
     seed_keywords: Optional[List[str]] = Field(default=None, description="Mots-clés initiaux / suggestions")
     language: str = Field(default="fr", description="Langue cible (en, fr, es, de, ar)")
+    custom_brief: Optional[str] = Field(default="", description="Brief éditorial personnalisé / prompt libre")
 
 
 class MultilingualComplianceRequest(BaseModel):
@@ -663,6 +665,15 @@ class KdpExportPackageRequest(BaseModel):
     enforce_24_pages: bool = True
     strict_gate: bool = True
     language: str = Field(default="fr", description="Langue de l'ouvrage (en, fr, es, de, ar)")
+    custom_brief: Optional[str] = Field(default="", description="Brief éditorial personnalisé / prompt libre")
+
+
+class EnhanceBriefRequest(BaseModel):
+    niche: Optional[str] = Field("Finances Personnelles", description="Niche ou thématique du livre")
+    book_type: Optional[str] = Field("non-fiction", description="Type de livre : non-fiction, coloriage, puzzle")
+    current_brief: Optional[str] = Field("", description="Brouillon ou texte actuel du brief de l'utilisateur")
+    mode: Optional[str] = Field("random", description="Mode : 'random' (angle aléatoire) ou 'enhance' (enrichir les détails)")
+    language: Optional[str] = Field("fr", description="Langue : fr, en, es, de, ar")
 
 
 class SocialTrendRequest(BaseModel):
@@ -1632,6 +1643,7 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
                 enforce_24_pages=req.enforce_24_pages,
                 strict_gate=req.strict_gate,
                 language=req.language,
+                custom_brief=req.custom_brief,
             )
             return res
         except Exception as exc:
@@ -1861,6 +1873,25 @@ def construire_router(auth_dependency: Optional[Callable[..., Dict[str, Any]]] =
         except Exception as exc:
             raise HTTPException(status_code=500, detail=f"Erreur de téléchargement du bundle : {exc}")
 
+    @router.post("/api/kdp/enhance-brief", summary="Génère un angle aléatoire ou enrichit un brief éditorial KDP")
+    def api_enhance_kdp_brief(req: EnhanceBriefRequest):
+        """
+        Endpoint d'assistance éditoriale KDP :
+        - mode 'random' : sélectionne un angle différenciant et percutant.
+        - mode 'enhance' : transforme une idée courte en brief structuré d'élite.
+        """
+        try:
+            from kdp_extensions.brief_enhancer import enhance_kdp_brief
+            return enhance_kdp_brief(
+                niche=req.niche or "Finances Personnelles",
+                book_type=req.book_type or "non-fiction",
+                current_brief=req.current_brief or "",
+                mode=req.mode or "random",
+                language=req.language or "fr"
+            )
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Erreur enrichissement brief KDP : {exc}")
+
     return router
 
 
@@ -1887,4 +1918,5 @@ __all__ = [
     "SeoOptimizeA9Request",
     "MultilingualComplianceRequest",
     "ComplianceAuditRequest",
+    "EnhanceBriefRequest",
 ]

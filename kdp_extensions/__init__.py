@@ -40,6 +40,7 @@ from . import social_trend_hunter
 from . import deep_research_agent
 from . import editorial_humanizer_agent
 from . import multilingual_transcreator
+from . import brief_enhancer
 
 __all__ = [
     "kdp_dimensions",
@@ -57,4 +58,5 @@ __all__ = [
     "deep_research_agent",
     "editorial_humanizer_agent",
     "multilingual_transcreator",
+    "brief_enhancer",
 ]

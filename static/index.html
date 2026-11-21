@@ -359,8 +359,11 @@
               <div>
                 <label class="block text-[11px] font-semibold text-slate-300 mb-1 uppercase">Langue</label>
                 <select id="select-recherche-lang" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-2.5 py-2 text-xs text-slate-100">
-                  <option value="fr" selected>Français (FR)</option>
-                  <option value="en">Anglais (US/UK)</option>
+                  <option value="fr" selected>🇫🇷 Français (FR)</option>
+                  <option value="en">🇬🇧 Anglais (US/UK)</option>
+                  <option value="es">🇪🇸 Espagnol (ES)</option>
+                  <option value="de">🇩🇪 Allemand (DE)</option>
+                  <option value="ar">🇸🇦 العربية (AR - RTL)</option>
                 </select>
               </div>
             </div>
@@ -504,6 +507,45 @@
                 placeholder="Ex: La méthode pas-à-pas en 10 étapes..." 
                 class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition-colors"
               >
+            </div>
+
+            <!-- BRIEF ÉDITORIAL & INSTRUCTIONS LIBRES -->
+            <div class="space-y-2 pt-1">
+              <div class="flex flex-wrap items-center justify-between gap-1.5">
+                <label for="book-custom-brief" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                  Brief Éditorial &amp; Prompt Libre
+                  <span class="text-[11px] text-gold-400 font-normal lowercase">(Optionnel — Renforce l'angle et les détails)</span>
+                </label>
+                <div class="flex items-center space-x-1.5">
+                  <button 
+                    type="button" 
+                    id="btn-random-angle" 
+                    onclick="genererAngleAleatoire()" 
+                    class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-obsidian-800 hover:bg-obsidian-750 text-gold-400 hover:text-gold-300 border border-gold-500/35 hover:border-gold-500 shadow-sm transition flex items-center space-x-1 cursor-pointer"
+                    title="Générer un angle éditorial concret, différenciant et percutant"
+                  >
+                    <span>🎲</span>
+                    <span>Angle Aléatoire</span>
+                  </button>
+                  <button 
+                    type="button" 
+                    id="btn-enhance-brief" 
+                    onclick="enrichirBriefEditorial()" 
+                    class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-gradient-to-r from-amber-500/20 via-gold-500/25 to-amber-600/20 hover:from-amber-500/30 hover:to-gold-500/35 text-gold-300 hover:text-gold-200 border border-gold-500/50 hover:border-gold-400 shadow-sm transition flex items-center space-x-1 cursor-pointer"
+                    title="Transformer votre texte en brief structuré (Cible, Promesse, Ton, Exercices)"
+                  >
+                    <span id="icon-enhance-brief">✨</span>
+                    <span id="text-enhance-brief">Enrichir les détails</span>
+                  </button>
+                </div>
+              </div>
+              <textarea 
+                id="book-custom-brief" 
+                rows="4" 
+                placeholder="Ex: Public débutant de 25-40 ans, ton direct et pragmatique sans jargon, inclure 1 étude de cas concrète et 1 plan d'action par chapitre, éviter les clichés génériques..." 
+                class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-gold-500 transition-colors leading-relaxed"
+              ></textarea>
+              <div id="brief-feedback-status" class="hidden text-[11px] text-slate-400 font-mono"></div>
             </div>
 
             <!-- Options : Format & Chapitres -->
@@ -783,6 +825,8 @@
             <select id="kdp-langue" style="width:74px;padding:7px 6px;border-radius:8px;background:#090d16;color:#f8fafc;border:1px solid #334155;">
               <option value="FR" selected>FR</option>
               <option value="EN">EN</option>
+              <option value="ES">ES</option>
+              <option value="DE">DE</option>
               <option value="AR">AR</option>
             </select>
           </div>
@@ -1029,6 +1073,16 @@
 
           <div class="grid grid-cols-2 gap-2">
             <div>
+              <label class="block text-[11px] font-semibold text-slate-300 mb-1 uppercase">Langue d'Édition KDP</label>
+              <select id="exp-language" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-2.5 py-2 text-xs text-slate-100">
+                <option value="fr" selected>🇫🇷 Français (amazon.fr)</option>
+                <option value="en">🇬🇧 English (amazon.com)</option>
+                <option value="es">🇪🇸 Español (amazon.es)</option>
+                <option value="de">🇩🇪 Deutsch (amazon.de)</option>
+                <option value="ar">🇸🇦 العربية (amazon.ae / RTL)</option>
+              </select>
+            </div>
+            <div>
               <label class="block text-[11px] font-semibold text-slate-300 mb-1 uppercase">Type de Projet</label>
               <select id="exp-project-type" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-2.5 py-2 text-xs text-slate-100">
                 <option value="text" selected>📖 Texte / Non-Fiction</option>
@@ -1036,6 +1090,9 @@
                 <option value="puzzle">🧩 Puzzles & Jeux</option>
               </select>
             </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="block text-[11px] font-semibold text-slate-300 mb-1 uppercase">Format de Coupe</label>
               <select id="exp-format" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-2.5 py-2 text-xs text-slate-100">
@@ -1046,9 +1103,6 @@
                 <option value="7x10">7" × 10"</option>
               </select>
             </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-2">
             <div>
               <label class="block text-[11px] font-semibold text-slate-300 mb-1 uppercase">Type de Papier</label>
               <select id="exp-paper" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-2.5 py-2 text-xs text-slate-100">
@@ -1058,10 +1112,11 @@
                 <option value="color_premium">Couleur Premium</option>
               </select>
             </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-300 mb-1 uppercase">Pages Initiales</label>
-              <input id="exp-pages" type="number" min="1" max="800" value="12" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-2.5 py-2 text-xs text-slate-100" />
-            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-300 mb-1 uppercase">Pages Initiales</label>
+            <input id="exp-pages" type="number" min="1" max="800" value="12" class="w-full bg-obsidian-900 border border-obsidian-700 rounded-xl px-2.5 py-2 text-xs text-slate-100" />
           </div>
 
           <div class="p-2.5 rounded-xl bg-obsidian-900 border border-obsidian-700/70 flex items-center space-x-2">
@@ -2691,6 +2746,12 @@
         };
       }
 
+      const customBriefVal = document.getElementById("book-custom-brief")?.value?.trim() || "";
+      if (customBriefVal) {
+        payload.custom_brief = customBriefVal;
+        payload.description_detaillee = customBriefVal;
+      }
+
       const btn = document.getElementById("btn-submit");
       btn.disabled = true;
       btn.innerHTML = `<span>⏳</span><span>Lancement du pipeline...</span>`;
@@ -2723,6 +2784,8 @@
             document.getElementById("input-titre").value = "";
             document.getElementById("input-sous-titre").value = "";
           }
+          const briefEl = document.getElementById("book-custom-brief");
+          if (briefEl) briefEl.value = "";
           retirerStockImage();
           await chargerLivres();
         } else {
@@ -2982,6 +3045,141 @@
       } catch (_) {}
     }
 
+    // ==============================================================================
+    // ASSISTANCE ÉDITORIALE & PROMPT LIBRE (ANGLE ALÉATOIRE & ENRICHISSEMENT)
+    // ==============================================================================
+    async function genererAngleAleatoire() {
+      const btn = document.getElementById("btn-random-angle");
+      const textarea = document.getElementById("book-custom-brief");
+      const statusEl = document.getElementById("brief-feedback-status");
+      
+      const nicheInput = (currentProjectMode === "coloriage")
+        ? (document.getElementById("select-coloriage-theme")?.value || "Coloriage")
+        : (document.getElementById("input-niche")?.value || "Finances Personnelles");
+      
+      const bookType = (currentProjectMode === "coloriage") ? "coloriage" : "non-fiction";
+      const lang = currentGlobalLanguage || "fr";
+
+      if (btn) {
+        btn.disabled = true;
+        btn.classList.add("opacity-60");
+      }
+      if (statusEl) {
+        statusEl.classList.remove("hidden");
+        statusEl.textContent = "🎲 Génération d'un angle éditorial percutant...";
+      }
+
+      try {
+        const resp = await fetch("/api/kdp/enhance-brief", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            niche: nicheInput,
+            book_type: bookType,
+            current_brief: textarea?.value || "",
+            mode: "random",
+            language: lang
+          })
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.detail || "Erreur de génération d'angle");
+
+        if (textarea && data.brief) {
+          textarea.value = data.brief;
+          textarea.focus();
+        }
+        if (statusEl) {
+          statusEl.textContent = `✅ Angle appliqué : ${data.suggested_angle || "Angle d'Élite"}`;
+          setTimeout(() => { statusEl.classList.add("hidden"); }, 3500);
+        }
+        showToast(`Angle généré : ${data.suggested_angle || "Angle KDP"}`, "🎲");
+      } catch (err) {
+        if (textarea) {
+          textarea.value = "🎯 Public Cible : Débutants motivés et actifs pressés.\n"
+            + "💡 Promesse Unique : Passer à l'action en 30 jours sans jargon théorique.\n"
+            + "🎙️ Ton & Voix : Direct, chaleureux et pragmatique.\n"
+            + "📋 Par Chapitre : 1 cas concret chiffré, 1 piège évité, 1 protocole 'Action 24h' en 3 étapes.\n"
+            + "🚫 Règle Anti-Fluff : Proscription des formules creuses, aller droit au but.";
+        }
+        if (statusEl) statusEl.classList.add("hidden");
+        showToast("Angle local appliqué", "🎲");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.remove("opacity-60");
+        }
+      }
+    }
+
+    async function enrichirBriefEditorial() {
+      const btn = document.getElementById("btn-enhance-brief");
+      const iconEl = document.getElementById("icon-enhance-brief");
+      const textEl = document.getElementById("text-enhance-brief");
+      const textarea = document.getElementById("book-custom-brief");
+      const statusEl = document.getElementById("brief-feedback-status");
+
+      const rawBrief = textarea?.value?.trim() || "";
+      const nicheInput = (currentProjectMode === "coloriage")
+        ? (document.getElementById("select-coloriage-theme")?.value || "Coloriage")
+        : (document.getElementById("input-niche")?.value || "Finances Personnelles");
+      
+      const bookType = (currentProjectMode === "coloriage") ? "coloriage" : "non-fiction";
+      const lang = currentGlobalLanguage || "fr";
+
+      if (btn) {
+        btn.disabled = true;
+        if (iconEl) iconEl.textContent = "⏳";
+        if (textEl) textEl.textContent = "Enrichissement...";
+      }
+      if (statusEl) {
+        statusEl.classList.remove("hidden");
+        statusEl.textContent = "✨ Structuration du brief (Cible, Promesse, Ton, Exercices)...";
+      }
+
+      try {
+        const resp = await fetch("/api/kdp/enhance-brief", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            niche: nicheInput,
+            book_type: bookType,
+            current_brief: rawBrief,
+            mode: "enhance",
+            language: lang
+          })
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.detail || "Erreur d'enrichissement");
+
+        if (textarea && data.brief) {
+          textarea.value = data.brief;
+          textarea.focus();
+        }
+        if (statusEl) {
+          statusEl.textContent = `✅ Brief enrichi avec succès (${data.source || "moteur d'élite"})`;
+          setTimeout(() => { statusEl.classList.add("hidden"); }, 3500);
+        }
+        showToast("Brief éditorial enrichi et structuré !", "✨");
+      } catch (err) {
+        if (textarea) {
+          const base = rawBrief || `Manuel pratique sur ${nicheInput}`;
+          textarea.value = `🎯 Public Cible Précis : Pratiquants et débutants dans la thématique '${nicheInput}'.\n`
+            + `💡 Promesse Unique & Transformation : Obtenir des résultats mesurables à partir de : "${base}".\n`
+            + `🎙️ Ton & Voix d'Auteur : Direct, bienveillant, humain et ultra-pragmatique.\n`
+            + `📋 Composantes Obligatoires par Chapitre : 1 étude de cas chiffrée réelle, 1 erreur critique évitée et 1 protocole d'action 24h en 3 étapes.\n`
+            + `🚫 Normes Anti-Fluff Amazon KDP : Interdiction formelle des formules de remplissage IA. Densité d'information maximale.`;
+        }
+        if (statusEl) statusEl.classList.add("hidden");
+        showToast("Brief enrichi (mode hors-ligne)", "✨");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          if (iconEl) iconEl.textContent = "✨";
+          if (textEl) textEl.textContent = "Enrichir les détails";
+        }
+      }
+    }
+
     async function lancerAgent0() {
       const niche = (document.getElementById("input-niche")?.value || document.getElementById("kdp-thematique-rapide")?.value || "").trim();
       const panel = document.getElementById("agent0-panel");
@@ -3000,7 +3198,8 @@
             niche,
             cible: document.getElementById("kdp-public")?.value || "Lecteurs exigeants",
             marketplace: (document.getElementById("kdp-langue")?.value || "FR").toLowerCase() === "en" ? "com" : "fr",
-            use_ai: true
+            use_ai: true,
+            custom_brief: document.getElementById("book-custom-brief")?.value?.trim() || ""
           })
         });
         const data = await res.json();
@@ -3268,7 +3467,7 @@
         const resp = await fetch('/api/research/social-trends', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ niche: niche, language: 'fr' })
+          body: JSON.stringify({ niche: niche, language: currentGlobalLanguage || 'fr' })
         });
         const data = await resp.json();
         if (!resp.ok) throw new Error(data.detail || 'Erreur extraction sociale');
@@ -3631,6 +3830,8 @@
         paper_type: document.getElementById("exp-paper")?.value || "white",
         initial_pages: parseInt(document.getElementById("exp-pages")?.value || "12", 10),
         enforce_24_pages: document.getElementById("exp-enforce-24")?.checked ?? true,
+        language: document.getElementById("exp-language")?.value || currentGlobalLanguage || "fr",
+        custom_brief: document.getElementById("book-custom-brief")?.value?.trim() || "",
       };
 
       if (btn) {
@@ -3948,6 +4149,7 @@
 
       const isRtl = code === 'ar';
       document.documentElement.lang = code;
+      document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
 
       const arabicBanner = document.getElementById('arabic-kdp-warning-banner');
       if (arabicBanner) {
@@ -3959,9 +4161,22 @@
       }
 
       // Synchronisation automatique des selects de langue présents dans l'interface
-      document.querySelectorAll("select[name='language'], select#social-lang, select#deep-lang").forEach(sel => {
-        if (sel) sel.value = code;
+      const targetSelectors = [
+        '#exp-language',
+        '#exp-multilang-source',
+        '#select-recherche-lang',
+        'select[name="language"]'
+      ];
+      targetSelectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(sel => {
+          if (sel) sel.value = code;
+        });
       });
+
+      const kdpLangSel = document.getElementById('kdp-langue');
+      if (kdpLangSel) {
+        kdpLangSel.value = code.toUpperCase();
+      }
 
       showToast(`Langue activée : ${code.toUpperCase()} (${isRtl ? 'RTL' : 'LTR'})`, '🌍');
     }
